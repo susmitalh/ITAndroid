@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item android:id="@+id/homeFragment"
+        android:title="Home"
+        android:orderInCategory="1"
+        android:icon="@drawable/ic_house"/>
+
+    <item android:id="@+id/rollsExoplayerActivity"
+        android:title="Rolls"
+        android:orderInCategory="2"
+        android:icon="@drawable/ic_film"/>
+
+    <item
+
+        android:enabled="true"
+        android:title=""
+        android:orderInCategory="3"
+        app:showAsAction="ifRoom"/>
+    <item
+        android:id="@+id/folloersActivity"
+        android:title="Followers"
+        android:orderInCategory="4"
+        android:icon="@drawable/ic_people"/>
+    <item
+        android:id="@+id/settingsFragment"
+        android:title="Settings"
+        android:orderInCategory="5"
+        android:icon="@drawable/ic_gear"/>
+</menu>

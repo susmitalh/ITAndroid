@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="SoundRangeBar">
+        <attr name="sr_max" format="integer" />
+        <attr name="sr_start" format="float" />
+        <attr name="sr_range" format="float" />
+        <attr name="sr_bgColor" format="reference" />
+        <attr name="sr_rangeColor" format="reference" />
+    </declare-styleable>
+</resources>

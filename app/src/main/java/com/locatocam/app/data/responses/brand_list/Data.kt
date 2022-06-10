@@ -1,0 +1,30 @@
+package com.locatocam.app.data.responses.brand_list
+
+data class Data(
+    val banner_image_url: String,
+    val brand_active: Int,
+    val brand_size_id: Any,
+    val brand_timings: String,
+    val closing_hours_time: String,
+    val cuisine: String,
+    val desc: String,
+    val distance: Double,
+    val hygiene: String,
+    val id: String,
+    val image_url: String,
+    val is_pure_veg: Any,
+    val latitude: String,
+    val longitude: String,
+    val name: String,
+    val next_starting: String,
+    val offer_perc: String,
+    val opening_hours: String,
+    val opening_hours_time: String,
+    val outlet_fullname: String,
+    val preperation_time: Any,
+    val price_for_two: Any,
+    val rating: Int,
+    val secondline: String,
+    val store_id: String,
+    val takeaway_app_status: String
+)

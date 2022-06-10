@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:title="@string/pending"
+        android:id="@+id/bottomNavigationPending"
+        />
+    <item android:title="@string/approved"
+        android:id="@+id/bottomNavigationApproved"/>
+<!--    <item-->
+<!--        android:id="@+id/placeholder"-->
+<!--        android:title="" />-->
+    <item android:title="@string/rejected"
+        android:id="@+id/bottomNavigationRejected"
+        />
+<!--    <item android:title="@string/my_account"-->
+
+<!--        android:id="@+id/bottomNavigationSAccountMenuId"-->
+<!--        android:icon="@drawable/my_account_selector"/>-->
+
+</menu>

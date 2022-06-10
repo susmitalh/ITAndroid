@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:padding="10dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+<LinearLayout
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <ImageView
+        android:layout_gravity="center_vertical"
+        android:src="@drawable/ic_geo_alt_black"
+        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"/>
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_marginLeft="10dp"
+        android:layout_weight="15"
+        android:layout_width="0dp"
+        android:layout_height="match_parent">
+        <android.widget.Button
+            android:text="Home"
+            android:textSize="12sp"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:background="@drawable/button_rnd_red_filled_oval"
+            android:layout_width="wrap_content"
+            android:id="@+id/address_label"
+            android:layout_height="20dp"/>
+        <TextView
+            android:id="@+id/name"
+            android:textSize="12sp"
+            android:textColor="@color/black"
+            android:text="16 main abc complex...."
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+    <ImageView
+        android:id="@+id/more"
+        android:src="@drawable/ic_baseline_more_vert_24"
+        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"/>
+</LinearLayout>
+</RelativeLayout>

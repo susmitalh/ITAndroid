@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "573827665337",
+    "project_id": "locatoca-d9d7f",
+    "storage_bucket": "locatoca-d9d7f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:573827665337:android:f4382fec2266aa8dc43a68",
+        "android_client_info": {
+          "package_name": "com.locatocam.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "573827665337-fs57l9mosc65e2meilrvetqgr43d09t3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.locatocam.app",
+            "certificate_hash": "fb0ccbb436b31d1436ffb4aec5ca0e121c525348"
+          }
+        },
+        {
+          "client_id": "573827665337-go56aer8n3cvvv8urec7beesca99k43g.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAVJwDyFprzy1rU8WSaB0M1Q1BnOwMSZLE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "573827665337-go56aer8n3cvvv8urec7beesca99k43g.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "573827665337-gjqng340ccd0h19d69q996s74q5bmge2.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.app.locatoca"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

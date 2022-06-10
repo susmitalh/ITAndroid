@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/corner_bg"
+    android:layout_gravity="center"
+    android:padding="@dimen/_10sdp"
+    tools:context=".reportpost.ReportPostActivity">
+
+
+
+        <TextView
+            android:id="@+id/ui9"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Report Post"
+            android:textColor="@color/black"
+            android:textSize="18sp" />
+
+        <RadioGroup
+            android:id="@+id/radiogrp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ui9"
+
+            android:layout_marginTop="@dimen/_15sdp"
+            android:orientation="vertical">
+
+        </RadioGroup>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/radiogrp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="80dp"
+                android:gravity="right"
+                android:orientation="horizontal">
+
+                <android.widget.Button
+                    android:id="@+id/cancel"
+                    android:layout_width="90dp"
+                    android:layout_height="28dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginRight="5dp"
+                    android:background="@null"
+                    android:text="Cancel"
+                    android:textColor="@color/black"
+                    android:textSize="12sp" />
+
+                <android.widget.Button
+                    android:id="@+id/report"
+                    android:layout_width="90dp"
+                    android:layout_height="28dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginRight="5dp"
+                    android:background="@drawable/button_rnd_red_oval"
+                    android:text="Report"
+                    android:textColor="@color/red"
+                    android:textSize="12sp" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+</RelativeLayout>

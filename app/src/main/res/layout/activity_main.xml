@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        tools:context=".views.MainActivity">
+
+          <fragment
+              android:id="@+id/nav_host_fragment"
+              android:name="androidx.navigation.fragment.NavHostFragment"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              app:defaultNavHost="true"
+              app:navGraph="@navigation/nav_graph" />
+
+
+        <com.locatocam.app.custom.CustomBottomNavigationView
+            android:id="@+id/bttm_nav"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:textSize="5sp"
+            android:visibility="visible"
+            app:itemIconSize="15dp"
+            app:itemIconTint="@drawable/selector_tabicon"
+            app:itemTextColor="@color/black"
+            app:labelVisibilityMode="labeled" />
+
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/order_online"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_above="@+id/bttm_nav"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="5dp"
+            app:cardCornerRadius="50dp"
+            app:cardElevation="10dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/red"
+                android:gravity="center"
+                android:text="Order online"
+                android:textAllCaps="true"
+                android:textColor="@color/white"
+                android:textSize="12sp" />
+        </androidx.cardview.widget.CardView>
+
+
+        <RelativeLayout
+            android:id="@+id/loader"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/transparent_black"
+            android:gravity="center"
+            android:visibility="visible">
+
+            <pl.droidsonroids.gif.GifImageView
+                android:layout_width="@dimen/_80sdp"
+                android:layout_height="@dimen/_80sdp"
+                android:src="@drawable/loader" />
+        </RelativeLayout>
+
+    </RelativeLayout>
+</layout>

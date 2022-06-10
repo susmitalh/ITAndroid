@@ -1,0 +1,609 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/editProfileLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp">
+
+        <LinearLayout
+            android:id="@+id/nameLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:orientation="horizontal"
+            android:weightSum="3">
+
+            <TextView
+                android:id="@+id/nameLabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:text="@string/full_name"
+
+                android:textColor="@color/black" />
+
+            <EditText
+                android:id="@+id/nameText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
+                android:layout_weight="1"
+                android:enabled="false"
+                android:padding="5dp"
+                android:singleLine="true"
+
+                android:textColor="@color/black"
+
+                android:textSize="15sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/phoneNumberLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/nameLayout"
+            android:layout_margin="5dp"
+            android:orientation="horizontal"
+
+            android:weightSum="3">
+
+            <TextView
+                android:id="@+id/phoneLabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:text="@string/phone_number"
+                android:textColor="@color/black" />
+
+            <EditText
+                android:id="@+id/phoneText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
+                android:layout_weight="1"
+                android:background="@drawable/button_rnd_red"
+                android:enabled="false"
+                android:padding="5dp"
+
+                android:singleLine="true"
+                android:textColor="@color/black"
+                android:textSize="15sp" />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/emailLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/phoneNumberLayout"
+            android:layout_margin="5dp"
+            android:orientation="horizontal"
+
+            android:weightSum="3"
+
+            >
+
+            <TextView
+                android:id="@+id/emailLabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:text="@string/email"
+                android:textColor="@color/black" />
+
+            <EditText
+                android:id="@+id/emailText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
+                android:layout_weight="1"
+                android:background="@drawable/button_rnd_red"
+                android:enabled="false"
+                android:padding="5dp"
+
+                android:singleLine="true"
+                android:textColor="@color/black"
+                android:textSize="15sp" />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/dobLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/emailLayout"
+            android:layout_margin="5dp"
+            android:orientation="horizontal"
+
+            android:weightSum="3">
+
+            <TextView
+                android:id="@+id/dobLabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:text="@string/date_of_birth"
+                android:textColor="@color/black"
+
+                />
+
+            <EditText
+                android:id="@+id/dobText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
+                android:layout_weight="1"
+                android:background="@drawable/button_rnd_red"
+                android:enabled="false"
+                android:padding="5dp"
+
+                android:singleLine="true"
+                android:textColor="@color/black"
+                android:textSize="15sp" />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/genderLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/dobLayout"
+            android:layout_margin="5dp"
+            android:orientation="horizontal"
+
+            android:weightSum="3">
+
+            <TextView
+                android:id="@+id/genderLabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="2"
+                android:text="@string/gender"
+                android:textColor="@color/black"
+
+                />
+
+            <RadioGroup
+                android:id="@+id/genderGroup"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
+                android:layout_weight="1"
+                android:enabled="false"
+                android:orientation="horizontal"
+                android:padding="5dp"
+                android:singleLine="true"
+
+                android:textColor="@color/black"
+                android:textSize="15sp">
+
+                <RadioButton
+                    android:id="@+id/male"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginEnd="5dp"
+                    android:buttonTint="@color/black"
+                    android:enabled="false"
+                    android:gravity="center"
+                    android:layoutDirection="rtl"
+                    android:text="@string/male"
+                    android:textColor="@color/black" />
+
+                <RadioButton
+                    android:id="@+id/female"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginEnd="5dp"
+                    android:buttonTint="@color/black"
+                    android:enabled="false"
+                    android:gravity="center"
+                    android:layoutDirection="rtl"
+                    android:text="@string/female"
+                    android:textColor="@color/black"
+
+                    />
+
+            </RadioGroup>
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/stateLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/genderLayout"
+            android:layout_margin="5dp"
+            android:orientation="horizontal"
+
+            android:weightSum="3">
+
+            <TextView
+                android:id="@+id/stateLabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:text="@string/state"
+                android:textColor="@color/black" />
+
+            <EditText
+                android:id="@+id/stateText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
+                android:layout_weight="1"
+                android:background="@drawable/button_rnd_red"
+                android:enabled="false"
+                android:padding="5dp"
+
+                android:singleLine="true"
+                android:textColor="@color/black"
+                android:textSize="15sp" />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/cityLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/stateLayout"
+            android:layout_margin="5dp"
+            android:orientation="horizontal"
+
+            android:weightSum="3">
+
+            <TextView
+                android:id="@+id/cityLabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:text="@string/city"
+                android:textColor="@color/black" />
+
+            <EditText
+                android:id="@+id/cityText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
+                android:layout_weight="1"
+                android:background="@drawable/button_rnd_red"
+                android:enabled="false"
+                android:padding="5dp"
+
+                android:singleLine="true"
+                android:textColor="@color/black"
+                android:textSize="15sp" />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/addressLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/cityLayout"
+            android:layout_margin="5dp"
+            android:orientation="horizontal"
+
+            android:weightSum="3">
+
+            <TextView
+                android:id="@+id/addressLabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:text="@string/address"
+                android:textColor="@color/black" />
+
+            <EditText
+                android:id="@+id/addressText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
+                android:layout_weight="1"
+                android:background="@drawable/button_rnd_red"
+                android:enabled="false"
+                android:padding="5dp"
+                android:singleLine="true"
+                android:textColor="@color/black"
+                android:textSize="15sp" />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/pinLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/addressLayout"
+            android:layout_margin="5dp"
+            android:orientation="horizontal"
+
+            android:weightSum="3">
+
+            <TextView
+                android:id="@+id/pinLabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:text="@string/pincode"
+                android:textColor="@color/black" />
+
+            <EditText
+                android:id="@+id/pinText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
+                android:layout_weight="1"
+                android:background="@drawable/button_rnd_red"
+                android:enabled="false"
+                android:padding="5dp"
+                android:singleLine="true"
+                android:textColor="@color/black"
+                android:textSize="15sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/adharLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/pinLayout"
+            android:layout_margin="5dp"
+            android:orientation="horizontal"
+
+            android:weightSum="3">
+
+            <TextView
+                android:id="@+id/adharLabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:text="@string/adhaar_card_no"
+                android:textColor="@color/black" />
+
+            <EditText
+                android:id="@+id/adharText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
+                android:layout_weight="1"
+                android:background="@drawable/button_rnd_red"
+                android:enabled="false"
+                android:padding="5dp"
+                android:singleLine="true"
+                android:textColor="@color/black"
+                android:textSize="15sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/panLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/adharLayout"
+            android:layout_margin="5dp"
+            android:orientation="horizontal"
+
+            android:weightSum="3">
+
+            <TextView
+                android:id="@+id/panLabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:text="@string/pancard_no"
+                android:textColor="@color/black" />
+
+            <EditText
+                android:id="@+id/panText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
+                android:layout_weight="1"
+                android:background="@drawable/button_rnd_red"
+                android:enabled="false"
+                android:padding="5dp"
+                android:singleLine="true"
+                android:textColor="@color/black"
+                android:textSize="15sp" />
+
+        </LinearLayout>
+
+
+
+        <LinearLayout
+            android:id="@+id/bankNameLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/panLayout"
+            android:layout_margin="5dp"
+            android:orientation="horizontal"
+
+            android:weightSum="3">
+
+            <TextView
+                android:id="@+id/bankNameLabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:text="@string/bank_name"
+                android:textColor="@color/black" />
+
+            <EditText
+                android:id="@+id/bankNameText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
+                android:layout_weight="1"
+                android:background="@drawable/button_rnd_red"
+                android:enabled="false"
+                android:padding="5dp"
+                android:singleLine="true"
+                android:textColor="@color/black"
+                android:textSize="15sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/bankAccLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/bankNameLayout"
+            android:layout_margin="5dp"
+            android:orientation="horizontal"
+
+            android:weightSum="3">
+
+            <TextView
+                android:id="@+id/bankAccLabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:text="@string/account_no"
+                android:textColor="@color/black" />
+
+            <EditText
+                android:id="@+id/bankAccText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
+                android:layout_weight="1"
+                android:background="@drawable/button_rnd_red"
+                android:enabled="false"
+                android:padding="5dp"
+                android:singleLine="true"
+                android:textColor="@color/black"
+                android:textSize="15sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/bankAccNameLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/bankAccLayout"
+            android:layout_margin="5dp"
+            android:orientation="horizontal"
+
+            android:weightSum="3">
+
+            <TextView
+                android:id="@+id/bankAccNameLabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:text="@string/account_name"
+                android:textColor="@color/black" />
+
+            <EditText
+                android:id="@+id/bankAccNameText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
+                android:layout_weight="1"
+                android:background="@drawable/button_rnd_red"
+                android:enabled="false"
+                android:padding="5dp"
+                android:singleLine="true"
+                android:textColor="@color/black"
+                android:textSize="15sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/bankAccIFSCLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/bankAccNameLayout"
+            android:layout_margin="5dp"
+            android:orientation="horizontal"
+
+            android:weightSum="3">
+
+            <TextView
+                android:id="@+id/bankAccNameIfscLabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:text="@string/bank_ifsc_code"
+                android:textColor="@color/black" />
+
+            <EditText
+                android:id="@+id/bankAccIfscText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
+                android:layout_weight="1"
+                android:background="@drawable/button_rnd_red"
+                android:enabled="false"
+                android:padding="5dp"
+                android:singleLine="true"
+                android:textColor="@color/black"
+                android:textSize="15sp" />
+
+        </LinearLayout>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/editButton"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_below="@id/bankAccIFSCLayout"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="60dp"
+            android:background="@drawable/oval_red_border"
+            android:text="@string/edit_profile"
+            android:textAllCaps="false"
+            android:textColor="@color/red" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/saveButton"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_below="@id/bankAccIFSCLayout"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="60dp"
+            android:background="@drawable/oval_red_border"
+            android:text="@string/save_changes"
+            android:textAllCaps="false"
+            android:textColor="@color/red"
+            android:visibility="gone" />
+
+
+    </RelativeLayout>
+
+
+</RelativeLayout>

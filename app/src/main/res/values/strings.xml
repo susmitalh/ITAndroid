@@ -1,0 +1,60 @@
+<resources>
+    <string name="app_name">LT_NATIVE</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="google">Login With Google</string>
+    <string name="facebook">facebook</string>
+    <string name="api_key">AIzaSyD5-MyENcRZHlFaCYAUvb0gsyrCv5wVaV4</string>
+    <string name="title_activity_maps">MapsActivity</string>
+    <string name="edit_profile"> Edit Profile / Account </string>
+    <string name="pincode">Pincode</string>
+    <string name="address">Address</string>
+    <string name="city">City</string>
+    <string name="state">State</string>
+    <string name="date_of_birth">Date Of Birth</string>
+    <string name="email">Email</string>
+    <string name="phone_number">Phone Number</string>
+    <string name="full_name">Full Name</string>
+    <string name="pending">Pending</string>
+    <string name="approved">Approved</string>
+    <string name="rejected">Rejected</string>
+    <string name="no_data">No Data</string>
+    <string name="posted_by">Posted By</string>
+    <string name="posted_on">Posted On</string>
+    <string name="post_file">Post File</string>
+    <string name="post_type">Post Type</string>
+    <string name="headline">Headline</string>
+    <string name="sub_header">Sub Header</string>
+    <string name="content">Content</string>
+    <string name="brand">Brand</string>
+    <string name="back">Back</string>
+    <string name="gender">Gender</string>
+    <string name="male">Male</string>
+    <string name="female">Female</string>
+    <string name="verify_mobile_number">Verify mobile number</string>
+    <string name="verify">Verify</string>
+    <string name="save_changes">Save Changes</string>
+    <string name="adhaar_card_no">Adhaar Card No</string>
+    <string name="pancard_no">Pancard No</string>
+    <string name="bank_name">Bank Name</string>
+    <string name="account_no">Account No</string>
+    <string name="account_name">Account Name</string>
+    <string name="bank_ifsc_code">Bank IFSC Code</string>
+    <string name="personal_details">Personal Details</string>
+    <string name="bank_details">Bank Details</string>
+    <string name="social_media">Social Media</string>
+    <string name="facebook_link">Facebook link</string>
+    <string name="followers">Followers</string>
+    <string name="instagram_link">Instagram link</string>
+    <string name="youtube_link">Youtube link</string>
+    <string name="twitter_link">Twitter link</string>
+    <string name="linkedin_link">linkedin link</string>
+    <string name="documents">Documents</string>
+
+
+    <string name="facebook_app_id">516105349468090</string>
+    <string name="fb_login_protocol_scheme">fb1234</string>
+    <string name="facebook_client_token">56789</string>
+</resources>
+
+

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:padding="2dp"
+    android:background="@color/white"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <LinearLayout
+        android:id="@+id/uji"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="30dp">
+        <ImageView
+            android:padding="5dp"
+            android:src="@drawable/ic_geo_alt_fill"
+            android:layout_width="30dp"
+            android:layout_height="match_parent"/>
+        <TextView
+            android:id="@+id/autocomplete_text"
+            android:textSize="12sp"
+            android:gravity="center_vertical"
+            android:textColor="@color/black"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+    </LinearLayout>
+    <View
+        android:layout_below="@+id/uji"
+        android:background="@color/grey"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"/>
+</RelativeLayout>

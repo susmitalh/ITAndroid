@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/homeFragment">
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.locatocam.app.views.home.HomeFragment"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_rollsFragment"
+            app:destination="@id/rollsFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_rollsExoplayerActivity"
+            app:destination="@id/rollsExoplayerActivity" />
+        <action
+            android:id="@+id/action_homeFragment_to_locationSearchFragment"
+            app:destination="@id/locationSearchFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_otherProfileWithFeedFragment"
+            app:destination="@id/otherProfileWithFeedFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_settingsFragment"
+            app:destination="@id/settingsFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_folloersActivity"
+            app:destination="@id/folloersActivity" />
+    </fragment>
+    <fragment
+        android:id="@+id/rollsFragment"
+        android:name="com.locatocam.app.views.rolls.RollsFragment"
+        android:label="fragment_rolls"
+        tools:layout="@layout/fragment_rolls" />
+    <activity
+        android:id="@+id/rollsExoplayerActivity"
+        android:name="com.locatocam.app.views.rollsexp.RollsExoplayerActivity"
+        android:label="RollsExoplayerActivity" />
+    <activity
+        android:id="@+id/folloersActivity"
+        android:name="com.locatocam.app.views.followers.FollowersActivity"
+        android:label="RollsExoplayerActivity" />
+    <fragment
+        android:id="@+id/locationSearchFragment"
+        android:name="com.locatocam.app.views.location.LocationSearchFragment"
+        android:label="fragment_location_search"
+        tools:layout="@layout/fragment_location_search" />
+    <fragment
+        android:id="@+id/otherProfileWithFeedFragment"
+        android:name="com.locatocam.app.views.home.OtherProfileWithFeedFragment"
+        android:label="OtherProfileWithFeedFragment" />
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.locatocam.app.views.settings.SettingsFragment"
+        android:label="SettingsFragment" />
+</navigation>

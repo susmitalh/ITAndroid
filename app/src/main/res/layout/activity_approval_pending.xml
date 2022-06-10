@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context=".views.register.ApprovalPendingActivity">
+
+    <ImageView
+        android:id="@+id/img_approval"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_250sdp"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="@dimen/_10sdp"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:layout_marginEnd="@dimen/_10sdp"
+        android:layout_marginBottom="@dimen/_10sdp"
+        android:src="@drawable/ic_approval_pending" />
+
+    <TextView
+        android:id="@+id/approval_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/img_approval"
+        android:layout_marginStart="@dimen/_10sdp"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:layout_marginEnd="@dimen/_10sdp"
+        android:layout_marginBottom="@dimen/_10sdp"
+        android:gravity="center"
+        android:text="Hi, Your Registration awaiting for approval. Once approved we will get back to you thanks." />
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/approvalGoBack"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="@dimen/_15sdp"
+        app:strokeWidth="1dp"
+        app:strokeColor="@color/red"
+        android:layout_alignTop="@id/approval_text"
+        android:layout_marginTop="@dimen/_40sdp"
+        android:layout_centerHorizontal="true">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Go Back"
+            android:textColor="@color/red"
+            android:layout_margin="@dimen/_3sdp"
+            android:paddingLeft="@dimen/_5sdp"
+            android:paddingRight="@dimen/_5sdp"
+            android:textSize="@dimen/_12sdp"
+            android:layout_marginTop="@dimen/_100sdp"/>
+
+    </com.google.android.material.card.MaterialCardView>
+
+</RelativeLayout>

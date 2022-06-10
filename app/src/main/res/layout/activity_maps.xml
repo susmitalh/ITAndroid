@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:map="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <fragment
+        android:id="@+id/map"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".views.location.MapsActivity" />
+
+    <LinearLayout
+        android:id="@+id/main_listing"
+        android:visibility="visible"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@color/white"
+        android:orientation="vertical"
+        android:padding="10dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Your location"
+                android:textColor="@color/black"
+                android:textSize="11sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:text="Select delivery location"
+                android:textColor="@color/red"
+                android:textSize="11sp" />
+
+        </RelativeLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Select delivery location"
+            android:textColor="@color/black"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="Your location"
+            android:textColor="@color/black"
+            android:textSize="12sp" />
+
+        <android.widget.Button
+            android:id="@+id/continue_save"
+            android:layout_width="200dp"
+            android:layout_height="35dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/button_rnd_red_filled_oval"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:text="Continue to save address"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="12sp" />
+
+        <android.widget.Button
+            android:id="@+id/just_explore_this"
+            android:layout_width="200dp"
+            android:layout_height="35dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/button_rnd_red_oval"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:text="Or just explore this location"
+            android:textAllCaps="false"
+            android:textColor="@color/red"
+            android:textSize="12sp" />
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/save_address"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@color/white"
+        android:orientation="vertical"
+        android:padding="10dp">
+
+        <RelativeLayout
+            android:gravity="center_vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp">
+
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:src="@drawable/ic_geo_alt_black" />
+
+            <TextView
+                android:id="@+id/change"
+                android:layout_centerVertical="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:text="Change"
+                android:textColor="@color/red"
+                android:textSize="11sp" />
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_marginTop="10dp"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <EditText
+                android:id="@+id/address"
+                android:background="@drawable/edt_rnd_search"
+                android:textColor="@color/black"
+                android:textSize="12sp"
+                android:paddingLeft="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"/>
+            <EditText
+                android:id="@+id/house_flat"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/edt_rnd_search"
+                android:textSize="12sp"
+                android:paddingLeft="10dp"
+                android:textColor="@color/black"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"/>
+            <EditText
+                android:id="@+id/landmark"
+                android:background="@drawable/edt_rnd_search"
+                android:textSize="12sp"
+                android:paddingLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:textColor="@color/black"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"/>
+            <TextView
+                android:layout_marginTop="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Save as"
+                android:textColor="@color/black"
+                android:textSize="12sp" />
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <RadioGroup
+                    android:id="@+id/saveas"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <RadioButton
+                        android:id="@+id/home"
+                        android:background="@drawable/rb_bg"
+                        android:checked="true"
+                        android:button="@null"
+                        android:tag="home"
+                        android:text="Home"
+                        android:textColor="@color/black"
+                        android:padding="5dp"
+                        android:gravity="center"
+                        android:layout_width="90dp"
+                        android:layout_height="30dp"/>
+                    <RadioButton
+                        android:id="@+id/office"
+                        android:button="@null"
+                        android:background="@drawable/rb_bg"
+                        android:tag="office"
+                        android:text="Office"
+                        android:textColor="@color/black"
+                        android:layout_marginLeft="5dp"
+                        android:padding="5dp"
+                        android:gravity="center"
+                        android:layout_width="90dp"
+                        android:layout_height="30dp"/>
+                    <RadioButton
+                        android:id="@+id/other"
+                        android:button="@null"
+                        android:background="@drawable/rb_bg"
+                        android:tag="other"
+                        android:textColor="@color/black"
+                        android:text="Other"
+                        android:layout_marginLeft="5dp"
+                        android:padding="5dp"
+                        android:gravity="center"
+                        android:layout_width="90dp"
+                        android:layout_height="30dp"/>
+                </RadioGroup>
+            </LinearLayout>
+        </LinearLayout>
+
+
+
+        <android.widget.Button
+            android:id="@+id/save_adress"
+            android:layout_width="200dp"
+            android:layout_height="35dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/button_rnd_red_filled_oval"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:text="Save &amp; Process "
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="12sp" />
+
+    </LinearLayout>
+</RelativeLayout>

@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+    <RelativeLayout
+        android:id="@+id/root_lay"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:context=".views.order_online.fragments.OffersForYou">
+        <LinearLayout
+    android:id="@+id/hading"
+    android:orientation="vertical"
+    android:padding="10dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <RelativeLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/item_name"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:textStyle="bold"
+            android:gravity="center_vertical"
+            android:text="Item name"
+            android:textColor="@color/black" />
+        <ImageView
+            android:id="@+id/close"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:padding="2dp"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/ic_baseline_close_red_24" />
+
+    </RelativeLayout>
+
+</LinearLayout>
+        <View
+            android:layout_below="@+id/hading"
+            android:background="@color/grey"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"/>
+        <TextView
+            android:id="@+id/varient_heading"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_below="@+id/hading"
+            android:layout_marginLeft="10dp"
+            android:gravity="center_vertical"
+            android:text="Varient name"
+            android:textColor="@color/red" />
+        <worker8.com.github.radiogroupplus.RadioGroupPlus
+            android:id="@+id/radio_varients"
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/varient_heading">
+
+        </worker8.com.github.radiogroupplus.RadioGroupPlus>
+        <RelativeLayout
+            android:id="@+id/btx"
+            android:layout_below="@+id/radio_varients"
+            android:padding="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:id="@+id/add_remove_container"
+                android:background="@drawable/button_rnd_grey_oval"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:visibility="visible">
+
+                <android.widget.Button
+                    android:id="@+id/decreese"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:gravity="center"
+                    android:text="-"
+                    android:textColor="@color/red" />
+
+                <TextView
+                    android:id="@+id/itemcount"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="1"
+                    android:background="@color/light_red"
+                    android:textColor="@color/black" />
+
+                <android.widget.Button
+                    android:id="@+id/increese"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:gravity="center"
+                    android:text="+"
+                    android:textColor="@color/red" />
+            </LinearLayout>
+
+            <android.widget.Button
+                android:id="@+id/add"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@+id/add_remove_container"
+                android:background="@drawable/button_rnd_red_filled"
+                android:text="ADD"
+                android:textColor="@color/white" />
+        </RelativeLayout>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/btx"
+            android:visibility="visible">
+
+        </androidx.recyclerview.widget.RecyclerView>
+    </RelativeLayout>
+</layout>

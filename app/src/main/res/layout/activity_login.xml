@@ -1,0 +1,559 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".views.login.ActivityLogin">
+
+    <data>
+
+        <variable
+            name="viewmodel"
+            type="com.locatocam.app.viewmodels.LoginViewModel" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white">
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true">
+
+            <RelativeLayout
+                android:id="@+id/linear"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="10dp"
+                android:padding="10dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp">
+
+                    <ImageView
+                        android:layout_width="200dp"
+                        android:layout_height="60dp"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginTop="10dp"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/logo_lt_new" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Enter Mobile No."
+                        android:textColor="@color/white"
+                        android:textSize="12sp"
+                        android:visibility="gone" />
+
+                    <EditText
+                        android:id="@+id/phone"
+                        android:layout_width="match_parent"
+                        android:layout_height="35dp"
+                        android:layout_marginTop="40dp"
+                        android:paddingLeft="@dimen/_10sdp"
+                        android:background="@drawable/edt_rnd_5"
+                        android:hint="Enter Mobile No."
+                        android:inputType="number"
+                        android:maxLength="10"
+                        android:maxLines="1"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/hintwhite1"
+                        android:textSize="12sp"
+                        android:textStyle="normal" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:text="Enter Otp"
+                        android:textColor="@color/white"
+                        android:textSize="12sp"
+                        android:visibility="gone" />
+
+                    <EditText
+                        android:id="@+id/password"
+                        android:layout_width="match_parent"
+                        android:layout_height="35dp"
+                        android:layout_marginTop="2dp"
+                        android:paddingLeft="@dimen/_10sdp"
+                        android:background="@drawable/edt_rnd_2"
+                        android:inputType="textPassword"
+                        android:maxLines="1"
+                        android:visibility="gone" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <android.widget.Button
+                            android:id="@+id/login"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/_30sdp"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginRight="8dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/edt_rnd_4"
+                            android:text="Login"
+                            android:textColor="@color/black"
+                            android:textSize="12sp" />
+
+                        <android.widget.Button
+                            android:id="@+id/signupwithFoodstagram"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/_30sdp"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginLeft="8dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/edt_rnd_4"
+                            android:text="SignUp"
+                            android:textColor="@color/black"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+
+
+                    <android.widget.Button
+                        android:id="@+id/logingoogle"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_30sdp"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="20dp"
+                        android:background="@drawable/google_bg"
+                        android:text="@string/google"
+                        android:textAllCaps="false"
+                        android:textColor="#fff"
+                        android:textSize="12sp"
+                        android:visibility="visible" />
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_30sdp"
+                        android:layout_marginTop="20dp">
+
+                        <com.facebook.login.widget.LoginButton
+                            android:id="@+id/facebookLogin"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/_30sdp"
+                            android:paddingTop="12dp"
+                            android:paddingBottom="12dp"
+                            android:visibility="gone"
+                             />
+                        <android.widget.Button
+                            android:id="@+id/fb"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/_30sdp"
+                            android:layout_gravity="center"
+                            android:background="@drawable/facebook_bg"
+                            android:text="Continue with Facebook"
+                            android:textAllCaps="false"
+                            android:textColor="#fff"
+                            android:textSize="12sp" />
+
+
+
+                    </FrameLayout>
+
+
+                    <com.google.android.gms.common.SignInButton
+                        android:id="@+id/sign_in_google"
+                        android:layout_width="170dp"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="10dp"
+                        android:visibility="gone"></com.google.android.gms.common.SignInButton>
+
+                    <android.widget.Button
+                        android:id="@+id/loginfacebbok"
+                        android:layout_width="match_parent"
+                        android:layout_height="35dp"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/facebbok_bg"
+                        android:drawableLeft="@drawable/ic_facebook"
+                        android:drawablePadding="5dp"
+                        android:text="@string/facebook"
+                        android:textAllCaps="false"
+                        android:textColor="#fff"
+                        android:textSize="12sp"
+                        android:visibility="gone" />
+
+
+                    <!--android:onClick="onClickFacebookButton"-->
+                    <TextView
+                        android:id="@+id/influencerLogin"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="10dp"
+                        android:gravity="center"
+                        android:text="Vlogger Login"
+                        android:textColor="@color/white"
+                        android:textSize="14sp"
+                        android:textStyle="bold"
+                        android:visibility="gone" />
+
+                </LinearLayout>
+            </RelativeLayout>
+
+        </androidx.core.widget.NestedScrollView>
+
+        <RelativeLayout
+            android:id="@+id/pb"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#95FFFFFF"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/otp_popup"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/transparent_black"
+            android:visibility="gone">
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_margin="15dp"
+                android:elevation="2dp"
+                app:cardCornerRadius="20dp">
+
+                <ScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scrollbars="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@color/backgoundColor1"
+                        android:orientation="vertical"
+                        android:padding="10dp">
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_margin="10dp"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center_vertical"
+                                    android:text="Verify mobile number"
+                                    android:textColor="@color/white"
+                                    android:textSize="16sp" />
+
+                            </LinearLayout>
+
+                            <ImageButton
+                                android:id="@+id/img_close"
+                                android:layout_width="40dp"
+                                android:layout_height="match_parent"
+                                android:layout_alignParentRight="true"
+                                android:layout_marginRight="10dp"
+                                android:background="@null"
+                                android:gravity="center"
+                                android:src="@drawable/ic_close_white_new_24dp" />
+                        </RelativeLayout>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="0.5dp"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginRight="5dp"
+                            android:background="@color/greylight1" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginTop="2dp"
+                            android:layout_marginRight="5dp"
+                            android:text="Enter Otp"
+                            android:textColor="@color/white"
+                            android:textSize="12sp" />
+
+                        <EditText
+                            android:id="@+id/edt_otp"
+                            android:layout_width="match_parent"
+                            android:layout_height="35dp"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginRight="5dp"
+                            android:paddingLeft="@dimen/_10sdp"
+                            android:background="@drawable/edt_rnd_2"
+                            android:inputType="number"
+                            android:maxLength="10"
+                            android:textColor="@color/white" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="60dp"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginTop="15dp"
+                            android:layout_marginRight="5dp"
+                            android:orientation="horizontal"
+                            android:padding="5dp">
+
+                            <Button
+                                android:id="@+id/verify"
+                                android:layout_width="wrap_content"
+                                android:layout_height="30dp"
+                                android:layout_gravity="end"
+                                android:background="@drawable/button_rnd_white_ovral_shape"
+                                android:text="Verify"
+                                android:textColor="@color/black_light_text"
+                                android:textSize="12sp" />
+
+                            <TextView
+                                android:id="@+id/resend_otp"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="right"
+                                android:layout_marginTop="5dp"
+                                android:gravity="right"
+                                android:text="Resend OTP"
+                                android:textColor="@color/white"
+                                android:textSize="12sp"
+                                android:visibility="visible" />
+                        </LinearLayout>
+                    </LinearLayout>
+                </ScrollView>
+
+            </androidx.cardview.widget.CardView>
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_alignParentBottom="true"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal"
+            android:padding="5dp">
+
+            <TextView
+                android:id="@+id/contactus"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="20dp"
+                android:text="ContactUs"
+                android:textColor="@color/dark_gray"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/about_us"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="20dp"
+                android:text="AboutUs"
+                android:textColor="@color/dark_gray"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/terms_andc"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="20dp"
+                android:text="T&amp;C"
+                android:textColor="@color/dark_gray"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/privacy_policy"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="20dp"
+                android:text="Privacy policy"
+                android:textColor="@color/dark_gray"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+
+
+
+        <RelativeLayout
+            android:id="@+id/number_popup"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/transparent_black"
+            android:visibility="gone">
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_margin="15dp"
+                app:cardCornerRadius="20dp"
+                android:elevation="2dp">
+
+                <ScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scrollbars="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@color/backgoundColor1"
+                        android:orientation="vertical"
+                        android:padding="10dp">
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_margin="10dp"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center_vertical"
+                                    android:text="Add mobile number"
+                                    android:textColor="@color/white"
+                                    android:textSize="16sp" />
+
+                            </LinearLayout>
+
+                            <ImageButton
+                                android:id="@+id/img_cancel"
+                                android:layout_width="40dp"
+                                android:layout_height="match_parent"
+                                android:layout_alignParentRight="true"
+                                android:layout_marginRight="10dp"
+                                android:background="@null"
+                                android:gravity="center"
+                                android:src="@drawable/ic_close_white_new_24dp" />
+                        </RelativeLayout>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="0.5dp"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginRight="5dp"
+                            android:background="@color/greylight1" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginTop="2dp"
+                            android:layout_marginRight="5dp"
+                            android:text="Enter Number"
+                            android:textColor="@color/white"
+                            android:textSize="12sp" />
+
+                        <EditText
+                            android:id="@+id/edt_phone"
+                            android:layout_width="match_parent"
+                            android:layout_height="35dp"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginRight="5dp"
+                            android:paddingLeft="@dimen/_10sdp"
+                            android:background="@drawable/edt_rnd_2"
+                            android:focusable="true"
+                            android:clickable="true"
+                            android:inputType="number"
+                            android:maxLength="10"
+                            android:textColor="@color/white" />
+
+                        <LinearLayout
+                            android:id="@+id/otp_layout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:layout_marginTop="@dimen/_5sdp"
+                            android:visibility="gone">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="5dp"
+                                android:layout_marginTop="2dp"
+                                android:layout_marginRight="5dp"
+                                android:text="Verify OTP"
+                                android:textColor="@color/white"
+                                android:textSize="12sp" />
+
+
+                        <EditText
+                            android:id="@+id/add_number_verify"
+                            android:layout_width="match_parent"
+                            android:layout_height="35dp"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginRight="5dp"
+                            android:paddingLeft="@dimen/_10sdp"
+                            android:background="@drawable/edt_rnd_2"
+                            android:inputType="number"
+                            android:maxLength="4"
+                            android:textColor="@color/white" />
+                        </LinearLayout>
+
+
+                        <RelativeLayout
+                            android:layout_width="@dimen/_100sdp"
+                            android:layout_height="60dp"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginTop="15dp"
+                            android:layout_marginRight="5dp"
+                            android:orientation="horizontal"
+                            android:gravity="right"
+                            android:layout_gravity="right"
+                            android:padding="5dp">
+
+                            <Button
+                                android:id="@+id/verify_number"
+                                android:layout_width="match_parent"
+                                android:layout_height="30dp"
+                                android:layout_gravity="end"
+                                android:background="@drawable/button_rnd_white_ovral_shape"
+                                android:text="@string/verify"
+                                android:textColor="@color/black_light_text"
+                                android:visibility="gone"
+                                android:textSize="12sp" />
+
+                            <Button
+                                android:id="@+id/add_number"
+                                android:layout_width="match_parent"
+                                android:layout_height="30dp"
+                                android:layout_gravity="end"
+                                android:background="@drawable/button_rnd_white_ovral_shape"
+                                android:text="Add Number"
+                                android:textColor="@color/black_light_text"
+                                android:textSize="12sp" />
+
+                        </RelativeLayout>
+                    </LinearLayout>
+                </ScrollView>
+
+            </androidx.cardview.widget.CardView>
+
+        </RelativeLayout>
+
+
+    </RelativeLayout>
+</layout>
+
