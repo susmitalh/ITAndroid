@@ -1,7 +1,10 @@
 package com.locatocam.app.views.home.header
 
+import android.app.Dialog
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,6 +14,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.locatocam.app.R
 import com.locatocam.app.databinding.FragmentHeaderOtherProfileBinding
 import com.locatocam.app.repositories.HeaderRepository
 import com.locatocam.app.security.SharedPrefEnc
@@ -19,6 +23,7 @@ import com.locatocam.app.views.MainActivity
 import com.locatocam.app.views.home.HomeFragment
 import com.locatocam.app.views.home.OtherProfileWithFeedFragment
 import com.locatocam.app.views.rollsexp.RollsExoplayerActivity
+import pl.droidsonroids.gif.GifImageView
 
 
 class HeaderFragmentOtherUser(val userid:String) : Fragment(),IHeaderEvents {
@@ -27,6 +32,7 @@ class HeaderFragmentOtherUser(val userid:String) : Fragment(),IHeaderEvents {
 
     lateinit var binding: FragmentHeaderOtherProfileBinding
     lateinit var viewModel: HeaderViewModel
+    lateinit var dialog:Dialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,6 +58,8 @@ class HeaderFragmentOtherUser(val userid:String) : Fragment(),IHeaderEvents {
         setObsevers()
         setClickListeners()
         refreshAll()
+        showLoader()
+
         return binding.root
     }
 
@@ -62,6 +70,10 @@ class HeaderFragmentOtherUser(val userid:String) : Fragment(),IHeaderEvents {
         })
 
         viewModel.userDetails.observe(viewLifecycleOwner,{
+
+            Handler().postDelayed({
+                hideLoader()
+            },2000)
             Glide.with(this)
                 .load(it.data?.logo?.get(0)?.logo)
                 .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
@@ -125,15 +137,19 @@ class HeaderFragmentOtherUser(val userid:String) : Fragment(),IHeaderEvents {
                     "Youtube"->{
                         binding.youtube.text=" "+ that.follower
                         binding.youtube.setOnClickListener {
-                            var intent=Intent(Intent.ACTION_VIEW,that.link?.toUri())
-                            startActivity(intent)
+                            val uri = Uri.parse(that.link)
+                            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("http://"+uri)))
                         }
                     }
                     "Twitter"->{
                         binding.twitter.text=" "+ that.follower
                         binding.twitter.setOnClickListener {
-                            var intent=Intent(Intent.ACTION_VIEW,that.link?.toUri())
-                            startActivity(intent)
+                            val uri = Uri.parse(that.link)
+                            startActivity(
+                                Intent(
+                                    Intent.ACTION_VIEW,
+                                    Uri.parse("http://"+uri)
+                                ))
                         }
                     }
                    /* "linkedin"->{
@@ -250,10 +266,11 @@ class HeaderFragmentOtherUser(val userid:String) : Fragment(),IHeaderEvents {
     }
 
     override fun onItemMostPopularVideos(user_id: String, inf_code: String) {
-       /* val bundle = bundleOf("user_id" to user_id,"inf_code" to inf_code)
-        Navigation
-            .findNavController(binding.root)
-            .navigate(R.id.action_homeFragment_to_otherProfileWithFeedFragment,bundle)*/
+
+        /* val bundle = bundleOf("user_id" to user_id,"inf_code" to inf_code)
+         Navigation
+             .findNavController(binding.root)
+             .navigate(R.id.action_homeFragment_to_otherProfileWithFeedFragment,bundle)*/
     }
 
 
@@ -263,6 +280,19 @@ class HeaderFragmentOtherUser(val userid:String) : Fragment(),IHeaderEvents {
         intent.putExtra("inf_code",OtherProfileWithFeedFragment.inf_code)
         startActivity(intent)
     }
+    fun showLoader() {
+        dialog = Dialog(requireContext(), R.style.AppTheme_Dialog)
+        val view = View.inflate(requireContext(), R.layout.progressdialog_item, null)
+        dialog?.setContentView(view)
+        dialog?.setCancelable(true)
+        val progressbar: GifImageView = dialog?.findViewById(R.id.img_loader)!!
+        dialog?.show()
+    }
 
+    fun hideLoader() {
+        if (dialog != null) {
+            dialog?.dismiss()
+        }
+    }
 
 }

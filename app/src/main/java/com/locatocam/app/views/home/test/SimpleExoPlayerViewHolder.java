@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Bundle;
 import android.text.Html;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
@@ -23,6 +24,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -50,9 +52,12 @@ import com.locatocam.app.di.module.NetworkModule;
 import com.locatocam.app.network.WebApi;
 import com.locatocam.app.reportpost.ReportPostActivity;
 import com.locatocam.app.security.SharedPrefEnc;
+import com.locatocam.app.views.MainActivity;
 import com.locatocam.app.views.comments.CommentsActivity;
 import com.locatocam.app.views.home.HomeFragment;
+import com.locatocam.app.views.home.OtherProfileWithFeedFragment;
 import com.locatocam.app.views.home.header.HeaderFragment;
+import com.locatocam.app.views.home.header.IHeaderEvents;
 import com.skyhope.showmoretextview.ShowMoreTextView;
 
 import net.minidev.json.JSONObject;
@@ -88,6 +93,8 @@ public class SimpleExoPlayerViewHolder extends RecyclerView.ViewHolder implement
     ImageButton volumebt;
     ImageButton options;
     String follow_process;
+
+    IHeaderEvents iHeaderEvents;
 
     CircleImageView profile_image;
     LinearLayout brandDetail;
@@ -211,6 +218,14 @@ public class SimpleExoPlayerViewHolder extends RecyclerView.ViewHolder implement
                     .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
                     .thumbnail(0.1f)
                     .into(profile_image);
+
+
+            profile_image.setOnClickListener(v->{
+                HeaderFragment.Companion.onItemClick(item.getUser_id(),item.getProfile_influencer_code());
+            });
+            name.setOnClickListener(v->{
+                HeaderFragment.Companion.onItemClick(item.getUser_id(),item.getProfile_influencer_code());
+            });
 
             Glide.with(thumbnile.getContext())
                     .load(item.getScreenshot())
@@ -726,12 +741,12 @@ public class SimpleExoPlayerViewHolder extends RecyclerView.ViewHolder implement
                         tv.setLayoutParams(tv.getLayoutParams());
                         tv.setText(tv.getTag().toString(), TextView.BufferType.SPANNABLE);
                         tv.invalidate();
-                        makeTextViewResizable(tv, -1, "See Less", false);
+                        makeTextViewResizable(tv, -1, "Read Less", false);
                     } else {
                         tv.setLayoutParams(tv.getLayoutParams());
                         tv.setText(tv.getTag().toString(), TextView.BufferType.SPANNABLE);
                         tv.invalidate();
-                        makeTextViewResizable(tv, 3, ".. See More", true);
+                        makeTextViewResizable(tv, 3, "... Read More", true);
                     }
                 }
             }, str.indexOf(spanableText), str.indexOf(spanableText) + spanableText.length(), 0);

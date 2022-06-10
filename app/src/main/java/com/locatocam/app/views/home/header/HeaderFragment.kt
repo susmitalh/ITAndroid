@@ -31,6 +31,7 @@ import com.locatocam.app.viewmodels.HeaderViewModel
 import com.locatocam.app.views.MainActivity
 import com.locatocam.app.views.createrolls.VideoRecorder
 import com.locatocam.app.views.home.HomeFragment
+import com.locatocam.app.views.home.HomeFragment.Companion.binding
 import com.locatocam.app.views.rollsexp.RollsExoplayerActivity
 
 
@@ -39,6 +40,16 @@ class HeaderFragment : Fragment(), IHeaderEvents {
 
         lateinit var loginType:String
         lateinit var userid:String
+
+        fun onItemClick(userid: String, inf_code: String) {
+            Log.i("kl99999", inf_code + "--" + userid)
+            val bundle = bundleOf("user_id" to userid, "inf_code" to inf_code)
+            Navigation
+                .findNavController(binding.root)
+                .navigate(R.id.action_homeFragment_to_otherProfileWithFeedFragment, bundle)
+            //Navigation.findNavController(binding.root).navigate(R.id.action_homeFragment_to_otherProfileWithFeedFragment)
+
+        }
 
     }
     lateinit var binding: FragmentHeaderBinding

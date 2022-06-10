@@ -646,5 +646,8 @@ public class HomeFragment : Fragment(), FeedEvents, ClickEvents, SimpleEvents {
     override fun addHeader() {
         viewModel._isheader_added = false
     }
+    fun openFragment(){
+
+    }
 
 }
