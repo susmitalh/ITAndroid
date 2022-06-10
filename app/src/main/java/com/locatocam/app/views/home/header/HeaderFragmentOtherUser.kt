@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -109,15 +110,31 @@ class HeaderFragmentOtherUser(val userid:String) : Fragment(),IHeaderEvents {
                 when(that.social_name){
                     "Facebook"->{
                         binding.facebook.text=" "+ that.follower
+                        binding.facebook.setOnClickListener {
+                            var intent=Intent(Intent.ACTION_VIEW,that.link?.toUri())
+                            startActivity(intent)
+                        }
                     }
                     "Instagram"->{
                         binding.instagram.text=" "+ that.follower
+                        binding.instagram.setOnClickListener {
+                            var intent=Intent(Intent.ACTION_VIEW,that.link?.toUri())
+                            startActivity(intent)
+                        }
                     }
                     "Youtube"->{
                         binding.youtube.text=" "+ that.follower
+                        binding.youtube.setOnClickListener {
+                            var intent=Intent(Intent.ACTION_VIEW,that.link?.toUri())
+                            startActivity(intent)
+                        }
                     }
                     "Twitter"->{
                         binding.twitter.text=" "+ that.follower
+                        binding.twitter.setOnClickListener {
+                            var intent=Intent(Intent.ACTION_VIEW,that.link?.toUri())
+                            startActivity(intent)
+                        }
                     }
                    /* "linkedin"->{
 
