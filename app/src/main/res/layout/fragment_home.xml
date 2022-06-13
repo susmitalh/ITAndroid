@@ -37,18 +37,18 @@
 
                     <TextView
                         android:id="@+id/approval_counts"
-                        android:layout_width="wrap_content"
-                        android:layout_height="20dp"
-                        android:layout_marginLeft="-10dp"
+                        android:layout_width="@dimen/_15sdp"
+                        android:layout_height="@dimen/_15sdp"
+                        android:layout_marginLeft="-18dp"
                         android:layout_marginTop="10dp"
                         android:layout_toRightOf="@+id/profile"
                         android:background="@drawable/btn_rnd_red_counts"
                         android:gravity="center"
-                        android:padding="4dp"
                         android:text="1"
                         android:textColor="@color/white"
                         android:textSize="10sp"
                         android:visibility="gone" />
+
 
                     <ImageView
                         android:id="@+id/createpost"
@@ -86,18 +86,20 @@
 
                     <TextView
                         android:id="@+id/message_counts"
-                        android:layout_width="wrap_content"
-                        android:layout_height="20dp"
+                        android:layout_width="@dimen/_15sdp"
+                        android:layout_height="@dimen/_15sdp"
                         android:layout_marginLeft="-18dp"
                         android:layout_marginTop="10dp"
                         android:layout_toRightOf="@+id/messages"
                         android:background="@drawable/btn_rnd_red_counts"
                         android:gravity="center"
-                        android:padding="4dp"
                         android:text="1"
                         android:textColor="@color/white"
                         android:textSize="10sp"
                         android:visibility="gone" />
+
+
+
 
 
                 </RelativeLayout>

@@ -144,38 +144,40 @@
                         android:textSize="12sp" />
                 </RelativeLayout>
 
-                <LinearLayout
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/order_list"
                     android:layout_width="match_parent"
-                    android:layout_height="75dp"
+                    android:layout_height="80dp"
                     android:layout_marginTop="10dp"
                     android:orientation="horizontal"
                     android:visibility="visible">
 
                     <RelativeLayout
-
+                        android:id="@+id/relativeLayout1"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_margin="5dp"
                         android:layout_weight="1"
-                        android:background="@drawable/tile_home">
-
-
-                        <ImageView
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:scaleType="centerCrop"
-                            android:src="@drawable/delivery" />
+                        android:background="@drawable/home_bg"
+                        android:paddingBottom="10dp"
+                        app:layout_constraintHorizontal_weight="1"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/relativeLayout2"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent">
 
                         <TextView
-                            android:layout_width="match_parent"
+                            android:id="@+id/text_delivery"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_alignParentBottom="true"
-                            android:background="@drawable/order_type_text_bg"
+                            android:layout_marginStart="@dimen/_3sdp"
+                            android:layout_marginTop="@dimen/_5sdp"
                             android:gravity="center"
                             android:text="Delivery"
-                            android:textColor="@color/white"
-                            android:textSize="10dp" />
+                            android:textColor="@color/black"
+                            android:textSize="10dp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
 
                         <RelativeLayout
                             android:id="@+id/order_delivery"
@@ -186,33 +188,48 @@
 
                     </RelativeLayout>
 
-                    <RelativeLayout
+                    <ImageView
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_alignParentBottom="true"
+                        android:scaleType="center"
+                        android:src="@drawable/delivery"
+                        android:layout_marginTop="@dimen/_15sdp"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/relativeLayout2"
+                        app:layout_constraintStart_toStartOf="@+id/relativeLayout1"
+                        app:layout_constraintTop_toTopOf="@+id/relativeLayout1" />
 
+
+                    <RelativeLayout
+                        android:id="@+id/relativeLayout2"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_margin="5dp"
                         android:layout_weight="1"
-                        android:background="@drawable/tile_home">
+                        android:background="@drawable/tile_home"
+                        app:layout_constraintHorizontal_weight="1"
+                        app:layout_constraintStart_toEndOf="@+id/relativeLayout1"
+                        app:layout_constraintEnd_toStartOf="@+id/relativeLayout3"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent">
 
-                        <ImageView
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_marginStart="2dp"
-                            android:layout_marginTop="2dp"
-                            android:layout_marginEnd="2dp"
-                            android:layout_marginBottom="2dp"
-                            android:scaleType="centerCrop"
-                            android:src="@drawable/dinein" />
 
                         <TextView
-                            android:layout_width="match_parent"
+                            android:id="@+id/text_dine_in"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_alignParentBottom="true"
-                            android:background="@drawable/order_type_text_bg"
+                            android:layout_marginStart="@dimen/_3sdp"
+                            android:layout_marginTop="@dimen/_5sdp"
                             android:gravity="center"
-                            android:text="Dine in"
-                            android:textColor="@color/white"
-                            android:textSize="10dp" />
+                            android:text="Dine In"
+                            android:textColor="@color/black"
+                            android:textSize="10dp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"/>
+
+
 
                         <RelativeLayout
                             android:id="@+id/order_dineIn"
@@ -223,34 +240,46 @@
 
 
                     </RelativeLayout>
+                    <ImageView
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_alignParentBottom="true"
+                        android:scaleType="center"
+                        android:src="@drawable/dinein"
+                        android:layout_marginTop="@dimen/_15sdp"
+                        android:layout_marginStart="@dimen/_8sdp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/relativeLayout3"
+                        app:layout_constraintStart_toStartOf="@+id/relativeLayout2"
+                        app:layout_constraintTop_toTopOf="@+id/relativeLayout1" />
 
                     <RelativeLayout
-
+                        android:id="@+id/relativeLayout3"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_margin="5dp"
                         android:layout_weight="1"
-                        android:background="@drawable/tile_home">
+                        app:layout_constraintHorizontal_weight="1"
+                        android:background="@drawable/tile_home"
+                        app:layout_constraintStart_toEndOf="@+id/relativeLayout2"
+                        app:layout_constraintEnd_toStartOf="@+id/relativeLayout4"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent">
 
-                        <ImageView
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_marginStart="2dp"
-                            android:layout_marginTop="2dp"
-                            android:layout_marginEnd="2dp"
-                            android:layout_marginBottom="2dp"
-                            android:scaleType="centerCrop"
-                            android:src="@drawable/pickup" />
+
 
                         <TextView
-                            android:layout_width="match_parent"
+                            android:id="@+id/pick_up"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_alignParentBottom="true"
-                            android:background="@drawable/order_type_text_bg"
+                            android:layout_marginStart="@dimen/_3sdp"
+                            android:layout_marginTop="@dimen/_5sdp"
                             android:gravity="center"
-                            android:text="Pickup"
-                            android:textColor="@color/white"
-                            android:textSize="10dp" />
+                            android:text="Pick Up"
+                            android:textColor="@color/black"
+                            android:textSize="10dp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"/>
 
                         <RelativeLayout
                             android:id="@+id/order_pickup"
@@ -261,54 +290,104 @@
 
                     </RelativeLayout>
 
+                    <ImageView
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_alignParentBottom="true"
+                        android:scaleType="center"
+                        android:src="@drawable/pickup"
+                        android:layout_marginTop="@dimen/_15sdp"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/relativeLayout4"
+                        app:layout_constraintStart_toStartOf="@+id/relativeLayout3"
+                        app:layout_constraintTop_toTopOf="@+id/relativeLayout2" />
+
                     <RelativeLayout
+                        android:id="@+id/relativeLayout4"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_margin="5dp"
                         android:layout_weight="1"
-                        android:background="@drawable/tile_home">
+                        android:background="@drawable/tile_home"
+                        app:layout_constraintHorizontal_weight="1"
+                        app:layout_constraintStart_toEndOf="@+id/relativeLayout3"
+                        app:layout_constraintEnd_toStartOf="@+id/relativeLayout5"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent">
 
-                        <ImageView
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:scaleType="centerCrop"
-                            android:src="@drawable/order_status" />
 
                         <TextView
-                            android:layout_width="match_parent"
+                            android:id="@+id/order_status"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_alignParentBottom="true"
-                            android:background="@drawable/order_type_text_bg"
+                            android:layout_marginStart="@dimen/_3sdp"
+                            android:layout_marginTop="@dimen/_5sdp"
                             android:gravity="center"
-                            android:text="Order status"
-                            android:textColor="@color/white"
-                            android:textSize="10dp" />
+                            android:text="Order Status"
+                            android:textColor="@color/black"
+                            android:textSize="10dp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"/>
                     </RelativeLayout>
+                    <ImageView
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_alignParentBottom="true"
+                        android:scaleType="center"
+                        android:src="@drawable/order_status"
+                        android:layout_marginTop="@dimen/_15sdp"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/relativeLayout5"
+                        app:layout_constraintStart_toStartOf="@+id/relativeLayout4"
+                        app:layout_constraintTop_toTopOf="@+id/relativeLayout3" />
 
                     <RelativeLayout
+                        android:id="@+id/relativeLayout5"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_margin="5dp"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:layout_marginBottom="@dimen/_5sdp"
                         android:layout_weight="1"
-                        android:background="@drawable/tile_home">
+                        android:layout_marginEnd="@dimen/_9sdp"
+                        android:background="@drawable/tile_home"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_weight="1"
+                        app:layout_constraintStart_toEndOf="@+id/relativeLayout4"
+                        app:layout_constraintTop_toTopOf="parent">
 
-                        <ImageView
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:scaleType="centerCrop"
-                            android:src="@drawable/order_history" />
 
                         <TextView
-                            android:layout_width="match_parent"
+                            android:id="@+id/order_history"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_alignParentBottom="true"
-                            android:background="@drawable/order_type_text_bg"
+                            android:layout_marginStart="@dimen/_3sdp"
+                            android:layout_marginTop="@dimen/_5sdp"
                             android:gravity="center"
-                            android:text="Order history"
-                            android:textColor="@color/white"
-                            android:textSize="10dp" />
+                            android:text="Order History"
+                            android:textColor="@color/black"
+                            android:textSize="8dp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
                     </RelativeLayout>
-                </LinearLayout>
+
+                    <ImageView
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_alignParentBottom="true"
+                        android:scaleType="center"
+                        android:src="@drawable/order_history"
+                        android:layout_marginTop="@dimen/_15sdp"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/relativeLayout5"
+                        app:layout_constraintTop_toTopOf="@+id/relativeLayout4" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
