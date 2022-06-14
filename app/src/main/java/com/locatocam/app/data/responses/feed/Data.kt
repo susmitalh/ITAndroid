@@ -46,7 +46,9 @@ data class Data(
     val top_brand_details: List<TopBrandDetail>?,
     val type: String?,
     val user_id: String?,
-    var views_count: String?
+    var views_count: String?,
+    var banner_brand_active:Int?,
+    var banner_next_starting:String?
 ){
     constructor() : this(
         "",
@@ -95,6 +97,8 @@ data class Data(
         "",
         "",
         "",
+        0,
+        ""
     )
 
 }

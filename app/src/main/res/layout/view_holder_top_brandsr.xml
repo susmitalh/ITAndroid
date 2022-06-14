@@ -1,17 +1,21 @@
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_height="wrap_content">
+
+
+<androidx.cardview.widget.CardView
     android:id="@+id/card"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginLeft="-10dp"
     android:layout_marginTop="@dimen/_5sdp"
-    android:layout_marginRight="-10dp"
     android:layout_marginBottom="5dp"
     app:cardBackgroundColor="@color/cardview_light_background"
     app:cardCornerRadius="0dp"
-    app:cardElevation="@dimen/_20sdp"
-    android:outlineSpotShadowColor="@color/black"
-    android:outlineAmbientShadowColor="@color/black">
+    app:cardElevation="@dimen/_20sdp">
+
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -19,6 +23,7 @@
         android:layout_marginTop="@dimen/_3sdp"
         android:layout_marginBottom="@dimen/_3sdp"
         android:layout_marginLeft="@dimen/_10sdp"
+        android:background="@color/cardview_light_background"
         android:layout_marginRight="@dimen/_10sdp">
 
     <TextView
@@ -26,6 +31,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:text="Top Brands"
+        android:background="@color/transparent"
         android:textColor="@color/black" />
 
 
@@ -52,12 +58,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:background="@color/cardview_light_background"
         android:padding="@dimen/_10sdp"
         android:layout_marginTop="@dimen/_20sdp">
 
 
 
         <HorizontalScrollView
+            android:id="@+id/brand_layout_scroll"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:scrollbars="none">
@@ -76,3 +84,4 @@
     </RelativeLayout>
 
 </androidx.cardview.widget.CardView>
+</LinearLayout>

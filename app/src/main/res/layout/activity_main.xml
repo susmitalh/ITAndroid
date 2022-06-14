@@ -3,11 +3,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/white"
         tools:context=".views.MainActivity">
+
+
 
           <fragment
               android:id="@+id/nav_host_fragment"
@@ -53,7 +56,6 @@
                 android:textSize="12sp" />
         </androidx.cardview.widget.CardView>
 
-
         <RelativeLayout
             android:id="@+id/loader"
             android:layout_width="match_parent"
@@ -67,6 +69,7 @@
                 android:layout_height="@dimen/_80sdp"
                 android:src="@drawable/loader" />
         </RelativeLayout>
+
 
     </RelativeLayout>
 </layout>

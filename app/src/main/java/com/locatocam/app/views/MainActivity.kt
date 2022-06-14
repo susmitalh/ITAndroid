@@ -1,8 +1,10 @@
 package com.locatocam.app.views
 
 import android.Manifest
+import android.R.attr.fragment
 import android.annotation.SuppressLint
 import android.app.Dialog
+import android.app.FragmentTransaction
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Address
@@ -13,16 +15,18 @@ import android.os.Bundle
 import android.os.Handler
 import android.util.Log
 import android.view.View
-import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.os.bundleOf
+import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.Navigation
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.NavHostFragment.findNavController
 import androidx.navigation.ui.NavigationUI
 import com.bumptech.glide.Glide
 import com.bumptech.glide.MemoryCategory
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
-import com.google.android.libraries.places.api.Places
 import com.locatocam.app.R
 import com.locatocam.app.databinding.ActivityMainBinding
 import com.locatocam.app.security.SharedPrefEnc
@@ -30,7 +34,6 @@ import com.locatocam.app.utils.Utils
 import com.locatocam.app.viewmodels.ActivityMainViewModel
 import com.locatocam.app.views.home.HomeFragment
 import com.locatocam.app.views.home.OtherProfileWithFeedFragment
-import com.locatocam.app.views.home.header.HeaderFragment
 import com.locatocam.app.views.home.test.SimpleExoPlayerViewHolder
 import com.locatocam.app.views.order_online.ActivityOrderOnline
 import dagger.hilt.android.AndroidEntryPoint
@@ -38,8 +41,8 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import pl.droidsonroids.gif.GifImageView
 import java.util.*
+
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -48,6 +51,7 @@ class MainActivity : AppCompatActivity() {
         var lat:Double = 0.0
         var lng:Double = 0.0
         var firstLoca:Boolean=true
+
     }
     lateinit var dialog:Dialog
     lateinit var viewModel: ActivityMainViewModel
@@ -201,9 +205,14 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        super.onBackPressed()
         SimpleExoPlayerViewHolder.volumeMute=false
+        val currentFragment = findNavController(navHostFragment)?.currentDestination
+
+      /*  Log.e("TAG", "onBackPressssed: "+currentFragment)
+        if (currentFragment is OtherProfileWithFeedFragment)*/
+        super.onBackPressed()
     }
+
 
 
 

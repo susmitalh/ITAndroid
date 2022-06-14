@@ -95,32 +95,35 @@ public class UploadPostmanual extends AppCompatActivity {
     Button submit;
     RelativeLayout progress;
 
-    String input_type="";
+    String input_type = "";
     Uri upload_uri;
     ImageView upload_thuimb;
     VideoView videoview;
-    boolean _istext=false;
+    boolean _istext = false;
     RelativeLayout videowrapper;
-    String link_open="";
+    String link_open = "";
     ImageButton back;
     EditText paste_link;
     Button choose_file;
-    int IMAGE_PICKER_SELECT=114;
+    int IMAGE_PICKER_SELECT = 114;
 
     ProgressBar og_loader;
-    String mandatory="0";
+    String mandatory = "0";
     TextView brand_optional_tag;
     ImageButton pause_play;
 
     LinearLayout admin_content;
+
+    boolean brandSelectionMandatory = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        String theme= "light";
-        if(!theme.equals("dark")){
+        String theme = "light";
+        if (!theme.equals("dark")) {
             setContentView(R.layout.activity_upload_post_manuel_light);
-        }else {
+        } else {
             setContentView(R.layout.activity_upload_post_manuel);
         }
 
@@ -135,18 +138,18 @@ public class UploadPostmanual extends AppCompatActivity {
         // Log.i("hbnntgnn1111",intent.getParcelableExtra(Intent.EXTRA_STREAM));
 
         if (Intent.ACTION_SEND.equals(action) && type != null) {
-            Log.i("hbnnnn1111",type);
+            Log.i("hbnnnn1111", type);
             if (type.startsWith("video/")) {
                 selected_type.setText("Video selected");
                 getmedia(intent); // Handle text being sent
-                input_type="video";
+                input_type = "video";
                 Uri imageUri = (Uri) intent.getParcelableExtra(Intent.EXTRA_STREAM);
-                if(imageUri==null){
-                    imageUri=(Uri) getIntent().getExtras().get(Intent.EXTRA_STREAM);
+                if (imageUri == null) {
+                    imageUri = (Uri) getIntent().getExtras().get(Intent.EXTRA_STREAM);
 
 
                 }
-                Log.i("ju78888",imageUri.toString());
+                Log.i("ju78888", imageUri.toString());
                 getThumb(imageUri);
                 upload_thuimb.setVisibility(View.GONE);
                 videoview.setVisibility(View.VISIBLE);
@@ -161,16 +164,16 @@ public class UploadPostmanual extends AppCompatActivity {
 
                 selected_type.setText("Image selected");
                 getmedia(intent); // Handle single image being sent
-                input_type="image";
+                input_type = "image";
                 upload_thuimb.setVisibility(View.VISIBLE);
                 videoview.setVisibility(View.GONE);
-            }else if (type.startsWith("text/")){
-                _istext=true;
+            } else if (type.startsWith("text/")) {
+                _istext = true;
                 String sharedText = intent.getStringExtra(Intent.EXTRA_TEXT);
                 description.setText(sharedText);
                 upload_thuimb.setVisibility(View.VISIBLE);
                 videoview.setVisibility(View.GONE);
-                link_open=sharedText;
+                link_open = sharedText;
 
 
                 new OgTagParser().execute(sharedText, new LinkViewCallback() {
@@ -181,19 +184,18 @@ public class UploadPostmanual extends AppCompatActivity {
 
                     @Override
                     public void onAfterLoading(@NotNull LinkSourceContent linkSourceContent) {
-                        Log.i("tgfff5555",linkSourceContent.getImages());
+                        Log.i("tgfff5555", linkSourceContent.getImages());
                         Glide.with(UploadPostmanual.this)
                                 .load(linkSourceContent.getImages())
                                 .error(R.drawable.ic_facebook)
                                 .into(upload_thuimb);
 
-                        Log.i("tgfff5555","desc"+linkSourceContent.getOgDescription());
-                        Log.i("tgfff5555","site"+linkSourceContent.getOgSiteName());
-                        Log.i("tgfff5555","title"+linkSourceContent.getOgTitle());
+                        Log.i("tgfff5555", "desc" + linkSourceContent.getOgDescription());
+                        Log.i("tgfff5555", "site" + linkSourceContent.getOgSiteName());
+                        Log.i("tgfff5555", "title" + linkSourceContent.getOgTitle());
                         sub_header.setText(linkSourceContent.getOgTitle());
                     }
                 });
-
 
 
             }
@@ -213,12 +215,12 @@ public class UploadPostmanual extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable editable) {
                 videowrapper.setVisibility(View.VISIBLE);
-                _istext=true;
-                String sharedText =paste_link.getText().toString();
+                _istext = true;
+                String sharedText = paste_link.getText().toString();
                 description.setText(sharedText);
                 upload_thuimb.setVisibility(View.GONE);
                 videoview.setVisibility(View.GONE);
-                link_open=sharedText;
+                link_open = sharedText;
                 og_loader.setVisibility(View.VISIBLE);
 
                 /*new OgTagParser().execute(paste_link.getText().toString(), new LinkViewCallback() {
@@ -251,8 +253,8 @@ public class UploadPostmanual extends AppCompatActivity {
                         OgMapper ogMapper = new JsoupOgMapperFactory().build();
                         String urlForTheRockOnIMDB = sharedText;
                         try {
-                            OgTags ogTags= ogMapper.process(new URL(urlForTheRockOnIMDB));
-                            Log.i("ottttt5555",ogTags.getTitle().toString());
+                            OgTags ogTags = ogMapper.process(new URL(urlForTheRockOnIMDB));
+                            Log.i("ottttt5555", ogTags.getTitle().toString());
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
@@ -297,11 +299,11 @@ public class UploadPostmanual extends AppCompatActivity {
         select_items.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(select_brand.getTag().toString().equals("")){
-                    Toast.makeText(getApplicationContext(),"Select brand first",Toast.LENGTH_LONG).show();
-                }else {
+                if (select_brand.getTag().toString().equals("")) {
+                    Toast.makeText(getApplicationContext(), "Select brand first", Toast.LENGTH_LONG).show();
+                } else {
                     populateDish(select_brand.getTag().toString());
-                    Log.i("rf44444",select_brand.getTag().toString());
+                    Log.i("rf44444", select_brand.getTag().toString());
                 }
 
             }
@@ -327,41 +329,62 @@ public class UploadPostmanual extends AppCompatActivity {
                 //startActivityForResult(intent, IMAGE_PICKER_SELECT);
 
 
-                Intent intent1=new Intent(UploadPostmanual.this, ListGalleryImVdoActivity.class);
+                Intent intent1 = new Intent(UploadPostmanual.this, ListGalleryImVdoActivity.class);
                 startActivityForResult(intent1, IMAGE_PICKER_SELECT);
             }
         });
 
-        if(theme.equals("dark")){
+        if (theme.equals("dark")) {
             pause_play.setImageResource(R.drawable.ic_pause_black_24dp);
-        }else {
+        } else {
             pause_play.setImageResource(R.drawable.ic_pause_dark_24dp);
         }
 
         pause_play.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String theme="light";
+                String theme = "light";
 
-                if(videoview.isPlaying()){
+                if (videoview.isPlaying()) {
                     videoview.pause();
-                    if(theme.equals("dark")){
+                    if (theme.equals("dark")) {
                         pause_play.setImageResource(R.drawable.ic_play_arrow_white_24dp);
-                    }else {
+                    } else {
                         pause_play.setImageResource(R.drawable.ic_play_arrow_dark_24dp);
                     }
 
-                }else {
+                } else {
                     videoview.start();
 
-                    if(theme.equals("dark")){
+                    if (theme.equals("dark")) {
                         pause_play.setImageResource(R.drawable.ic_pause_black_24dp);
-                    }else {
+                    } else {
                         pause_play.setImageResource(R.drawable.ic_pause_dark_24dp);
                     }
                 }
             }
         });
+
+        condition();
+    }
+
+    private void condition() {
+        String isAdmin = SharedPrefEnc.getPref(this, "is_admin");
+        String loginType = SharedPrefEnc.getPref(this, "user_type");
+        Log.e("TAG", "condition: " + isAdmin + "," + loginType);
+
+        if (isAdmin.equals("1")) {
+            if (loginType.equals("company")) {
+                brand_optional_tag.setVisibility(View.GONE);
+                brandSelectionMandatory = true;
+            } else {
+                brand_optional_tag.setVisibility(View.VISIBLE);
+                brandSelectionMandatory = false;
+            }
+            admin_content.setVisibility(View.VISIBLE);
+        } else {
+            admin_content.setVisibility(View.GONE);
+        }
     }
 
     /*private String getRealPathFromURI(Uri contentUri) {
@@ -379,41 +402,48 @@ public class UploadPostmanual extends AppCompatActivity {
         }
         return result;
     }*/
-    private void getmedia(Intent intent){
+    private void getmedia(Intent intent) {
         Uri imageUri = (Uri) intent.getParcelableExtra(Intent.EXTRA_STREAM);
 
         if (imageUri != null) {
-            Log.i("hbnntgnncv1111",imageUri.toString());
+            Log.i("hbnntgnncv1111", imageUri.toString());
             // Update UI to reflect image being shared
-            upload_uri=imageUri;
-        }else if(getIntent().getExtras().get(Intent.EXTRA_STREAM)!=null) {
-            upload_uri=(Uri) getIntent().getExtras().get(Intent.EXTRA_STREAM);
+            upload_uri = imageUri;
+        } else if (getIntent().getExtras().get(Intent.EXTRA_STREAM) != null) {
+            upload_uri = (Uri) getIntent().getExtras().get(Intent.EXTRA_STREAM);
         }
-
 
 
     }
 
-    private void init(){
-        admin_content=findViewById(R.id.admin_content);
-        selected_type=findViewById(R.id.selected_type);
-        headline=findViewById(R.id.headline);
-        sub_header=findViewById(R.id.sub_header);
-        description=findViewById(R.id.description);
-        select_brand=findViewById(R.id.select_brand);
-        select_items=findViewById(R.id.select_items);
-        choose_button=findViewById(R.id.choose_button);
-        brand_optional_tag=findViewById(R.id.brand_optional_tag);
-        videowrapper=findViewById(R.id.videowrapper);
-        submit=findViewById(R.id.submit);
-        progress=findViewById(R.id.progress);;
-        upload_thuimb=findViewById(R.id.upload_thuimb);;
-        videoview=findViewById(R.id.videoview);;
-        back=findViewById(R.id.back);;
-        paste_link=findViewById(R.id.paste_link);;
-        choose_file=findViewById(R.id.choose_file);;
-        og_loader=findViewById(R.id.og_loader);;
-        pause_play=findViewById(R.id.pause_play);;
+    private void init() {
+        admin_content = findViewById(R.id.admin_content);
+        selected_type = findViewById(R.id.selected_type);
+        headline = findViewById(R.id.headline);
+        sub_header = findViewById(R.id.sub_header);
+        description = findViewById(R.id.description);
+        select_brand = findViewById(R.id.select_brand);
+        select_items = findViewById(R.id.select_items);
+        choose_button = findViewById(R.id.choose_button);
+        brand_optional_tag = findViewById(R.id.brand_optional_tag);
+        videowrapper = findViewById(R.id.videowrapper);
+        submit = findViewById(R.id.submit);
+        progress = findViewById(R.id.progress);
+        ;
+        upload_thuimb = findViewById(R.id.upload_thuimb);
+        ;
+        videoview = findViewById(R.id.videoview);
+        ;
+        back = findViewById(R.id.back);
+        ;
+        paste_link = findViewById(R.id.paste_link);
+        ;
+        choose_file = findViewById(R.id.choose_file);
+        ;
+        og_loader = findViewById(R.id.og_loader);
+        ;
+        pause_play = findViewById(R.id.pause_play);
+        ;
 
         back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -423,33 +453,35 @@ public class UploadPostmanual extends AppCompatActivity {
         });
     }
 
-    private void validateAll(){
+    private void validateAll() {
         // postFile();
-        if(headline.getText().toString().equals("")){
+        if (headline.getText().toString().equals("")) {
             headline.setError("Input value ");
-        }else if(sub_header.getText().toString().equals("")){
+        } else if (sub_header.getText().toString().equals("")) {
             sub_header.setError("Input value ");
-        }
-        else if(description.getText().toString().equals("")){
+        } else if (description.getText().toString().equals("")) {
             description.setError("Input value ");
+        } else if (brandSelectionMandatory == true) {
+            if (select_brand.getText().toString().equals("")) {
+                select_brand.setError("Input value ");
+            }
         }
        /* else if(select_items.getText().toString().equals("")){
             select_items.setError("Input value ");
         }*/
-        else if(choose_button.getText().toString().equals("")){
+        /*else if (choose_button.getText().toString().equals("")) {
             choose_button.setError("Input value ");
-        }else {
+        }*/ else {
 
-            if(mandatory.equals("1")){
-                if(select_brand.getTag().toString().equals("")){
+            if (mandatory.equals("1")) {
+                if (select_brand.getTag().toString().equals("")) {
                     select_brand.setError("Input value ");
-                }else {
+                } else {
                     confirmUpload();
                 }
-            }else {
+            } else {
                 confirmUpload();
             }
-
 
 
         }
@@ -468,8 +500,8 @@ public class UploadPostmanual extends AppCompatActivity {
                 String resultResponse = new String(response.data);
                 progress.setVisibility(View.GONE);
                 Log.i("errrrrrr", resultResponse);
-                Toast.makeText(getApplicationContext(),"Posted succesfully, will be live after approval",Toast.LENGTH_LONG).show();
-                Intent intent=new Intent(UploadPostmanual.this,UploadPostmanual.class);
+                Toast.makeText(getApplicationContext(), "Posted succesfully, will be live after approval", Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(UploadPostmanual.this, UploadPostmanual.class);
                 startActivity(intent);
                 finish();
                 try {
@@ -519,8 +551,8 @@ public class UploadPostmanual extends AppCompatActivity {
                     }
                 }
                 Log.i("errrrrrr", errorMessage);
-                Toast.makeText(getApplicationContext(),"Posted succesfully, will be live after approval",Toast.LENGTH_LONG).show();
-                Intent intent=new Intent(UploadPostmanual.this,UploadPostmanual.class);
+                Toast.makeText(getApplicationContext(), "Posted succesfully, will be live after approval", Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(UploadPostmanual.this, UploadPostmanual.class);
                 startActivity(intent);
                 finish();
                 progress.setVisibility(View.GONE);
@@ -531,7 +563,7 @@ public class UploadPostmanual extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
-                String mobile= SharedPrefEnc.getPref(UploadPostmanual.this,"mobile");
+                String mobile = SharedPrefEnc.getPref(UploadPostmanual.this, "mobile");
                 params.put("phone", mobile);
                 params.put("screenshot", getBase64());
                 params.put("brand_id", select_brand.getTag().toString());
@@ -541,9 +573,9 @@ public class UploadPostmanual extends AppCompatActivity {
                 params.put("sub_header", sub_header.getText().toString());
                 params.put("description", description.getText().toString());
                 params.put("button", choose_button.getTag().toString());
-                params.put("social", _istext?"1":"0");
-                params.put("link",link_open );
-                Log.i("paramsxxxc",params.toString());
+                params.put("social", _istext ? "1" : "0");
+                params.put("link", link_open);
+                Log.i("paramsxxxc", params.toString());
                 //params.put("id", q_id);
 
                 return params;
@@ -554,24 +586,24 @@ public class UploadPostmanual extends AppCompatActivity {
                 Map<String, DataPart> params = new HashMap<>();
 
                 try {
-                    if(upload_uri!=null){
+                    if (upload_uri != null) {
                         //InputStream iStream =   getContentResolver().openInputStream(upload_uri);
 
                         File myFile = new File(upload_uri.getPath());
                         FileInputStream inStream = new FileInputStream(myFile);
 
                         byte[] inputData = getBytes(inStream);
-                        Random random=new Random();
-                        int nm=random.nextInt(100000);
-                        if(input_type.equals("video")){
-                            params.put("file", new DataPart("video"+String.valueOf(nm)+".mp4", inputData, "video/mp4"));
-                        }else {
-                            if(_istext){
+                        Random random = new Random();
+                        int nm = random.nextInt(100000);
+                        if (input_type.equals("video")) {
+                            params.put("file", new DataPart("video" + String.valueOf(nm) + ".mp4", inputData, "video/mp4"));
+                        } else {
+                            if (_istext) {
 
-                                params.put("file", new DataPart("image"+String.valueOf(nm)+".jpeg",  AppHelper.getFileDataFromDrawable(getBaseContext(), upload_thuimb.getDrawable()), "image/jpeg"));
+                                params.put("file", new DataPart("image" + String.valueOf(nm) + ".jpeg", AppHelper.getFileDataFromDrawable(getBaseContext(), upload_thuimb.getDrawable()), "image/jpeg"));
 
-                            }else {
-                                params.put("file", new DataPart("image"+String.valueOf(nm)+".jpeg", inputData, "image/jpeg"));
+                            } else {
+                                params.put("file", new DataPart("image" + String.valueOf(nm) + ".jpeg", inputData, "image/jpeg"));
                             }
                         }
                     }
@@ -602,8 +634,7 @@ public class UploadPostmanual extends AppCompatActivity {
         return byteBuffer.toByteArray();
     }
 
-    private void populateBrands()
-    {
+    private void populateBrands() {
 
         String url = "https://loca-toca.com/Api/get_brands";
         StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
@@ -613,22 +644,22 @@ public class UploadPostmanual extends AppCompatActivity {
 
                 final ArrayList<ItemData> list = new ArrayList<>();
                 try {
-                    JSONObject jsonObject=new JSONObject(response);
+                    JSONObject jsonObject = new JSONObject(response);
                     JSONArray jsonArray = jsonObject.getJSONArray("brands");
                     for (int i = 0; i < jsonArray.length(); i++) {
                         JSONObject obj = jsonArray.getJSONObject(i);
                         list.add(new ItemData(obj.getString("id"), obj.getString("name")));
                     }
 
-                    if(!mandatory.equals("1")){
-                        list.add(0,new ItemData("none","None"));
+                    if (!mandatory.equals("1")) {
+                        list.add(0, new ItemData("none", "None"));
                     }
 
-                    Intent intent=new Intent(UploadPostmanual.this, CustomSearchSpinner.class);
-                    intent.putExtra("data_list",list);
-                    intent.putExtra("req_code",14);
-                    intent.putExtra("desc_text","Brand");
-                    startActivityForResult(intent,14);
+                    Intent intent = new Intent(UploadPostmanual.this, CustomSearchSpinner.class);
+                    intent.putExtra("data_list", list);
+                    intent.putExtra("req_code", 14);
+                    intent.putExtra("desc_text", "Brand");
+                    startActivityForResult(intent, 14);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -643,7 +674,7 @@ public class UploadPostmanual extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
-                String mobile=SharedPrefEnc.getPref(UploadPostmanual.this,"mobile");
+                String mobile = SharedPrefEnc.getPref(UploadPostmanual.this, "mobile");
                 params.put("phone", mobile);
                 return params;
             }
@@ -651,22 +682,22 @@ public class UploadPostmanual extends AppCompatActivity {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 //return super.getHeaders();
-                Map<String,String> params=new HashMap<>();
-                params.put("x-fm-api-key","toca@loca");
-                params.put("signature","loca-toca@123");
-                return  params;
+                Map<String, String> params = new HashMap<>();
+                params.put("x-fm-api-key", "toca@loca");
+                params.put("signature", "loca-toca@123");
+                return params;
             }
 
             @Override
             protected Response<String> parseNetworkResponse(NetworkResponse response) {
                 // System.out.println(response.headers.get("Set-Cookie"));
-                Log.i("res6666645",response.headers.toString());
+                Log.i("res6666645", response.headers.toString());
                 Log.i("res6666645", new String(response.data));
 
-                boolean res= generateHashWithHmac256(new String(response.data),"loca-toca@123",response.headers.get("signature"));
-                if(!res){
+                boolean res = generateHashWithHmac256(new String(response.data), "loca-toca@123", response.headers.get("signature"));
+                if (!res) {
                     return Response.error(new VolleyError("UnAuthorised response"));
-                }else {
+                } else {
                     return super.parseNetworkResponse(response);
                 }
             }
@@ -676,8 +707,7 @@ public class UploadPostmanual extends AppCompatActivity {
 
     }
 
-    private void populateDish(String brand)
-    {
+    private void populateDish(String brand) {
 
         String url = "https://loca-toca.com/Api/get_dish";
         StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
@@ -693,11 +723,11 @@ public class UploadPostmanual extends AppCompatActivity {
                         list.add(new ItemData(obj.getString("dish_id"), obj.getString("dish_name")));
                     }
                     list.add(new ItemData("0", "No particalar item"));
-                    Intent intent=new Intent(UploadPostmanual.this, CustomSearchSpinner.class);
-                    intent.putExtra("data_list",list);
-                    intent.putExtra("req_code",15);
-                    intent.putExtra("desc_text","item");
-                    startActivityForResult(intent,15);
+                    Intent intent = new Intent(UploadPostmanual.this, CustomSearchSpinner.class);
+                    intent.putExtra("data_list", list);
+                    intent.putExtra("req_code", 15);
+                    intent.putExtra("desc_text", "item");
+                    startActivityForResult(intent, 15);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -720,21 +750,22 @@ public class UploadPostmanual extends AppCompatActivity {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 //return super.getHeaders();
-                Map<String,String> params=new HashMap<>();
-                params.put("x-fm-api-key","toca@loca");
-                params.put("signature","loca-toca@123");
-                return  params;
+                Map<String, String> params = new HashMap<>();
+                params.put("x-fm-api-key", "toca@loca");
+                params.put("signature", "loca-toca@123");
+                return params;
             }
+
             @Override
             protected Response<String> parseNetworkResponse(NetworkResponse response) {
                 // System.out.println(response.headers.get("Set-Cookie"));
-                Log.i("res6666645",response.headers.toString());
+                Log.i("res6666645", response.headers.toString());
                 Log.i("res6666645", new String(response.data));
 
-                boolean res= generateHashWithHmac256(new String(response.data),"loca-toca@123",response.headers.get("signature"));
-                if(!res){
+                boolean res = generateHashWithHmac256(new String(response.data), "loca-toca@123", response.headers.get("signature"));
+                if (!res) {
                     return Response.error(new VolleyError("UnAuthorised response"));
-                }else {
+                } else {
                     return super.parseNetworkResponse(response);
                 }
             }
@@ -744,8 +775,7 @@ public class UploadPostmanual extends AppCompatActivity {
 
     }
 
-    private void populateButton()
-    {
+    private void populateButton() {
 
         String url = "https://loca-toca.com/Api/get_order_type";
         StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
@@ -762,11 +792,11 @@ public class UploadPostmanual extends AppCompatActivity {
                         list.add(new ItemData(obj.getString("id"), obj.getString("name")));
                     }
 
-                    Intent intent=new Intent(UploadPostmanual.this, CustomSearchSpinner.class);
-                    intent.putExtra("data_list",list);
-                    intent.putExtra("req_code",16);
-                    intent.putExtra("desc_text","Button");
-                    startActivityForResult(intent,16);
+                    Intent intent = new Intent(UploadPostmanual.this, CustomSearchSpinner.class);
+                    intent.putExtra("data_list", list);
+                    intent.putExtra("req_code", 16);
+                    intent.putExtra("desc_text", "Button");
+                    startActivityForResult(intent, 16);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -789,22 +819,22 @@ public class UploadPostmanual extends AppCompatActivity {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 //return super.getHeaders();
-                Map<String,String> params=new HashMap<>();
-                params.put("x-fm-api-key","toca@loca");
-                params.put("signature","loca-toca@123");
-                return  params;
+                Map<String, String> params = new HashMap<>();
+                params.put("x-fm-api-key", "toca@loca");
+                params.put("signature", "loca-toca@123");
+                return params;
             }
 
             @Override
             protected Response<String> parseNetworkResponse(NetworkResponse response) {
                 // System.out.println(response.headers.get("Set-Cookie"));
-                Log.i("res6666645",response.headers.toString());
+                Log.i("res6666645", response.headers.toString());
                 Log.i("res6666645", new String(response.data));
 
-                boolean res= generateHashWithHmac256(new String(response.data),"loca-toca@123",response.headers.get("signature"));
-                if(!res){
+                boolean res = generateHashWithHmac256(new String(response.data), "loca-toca@123", response.headers.get("signature"));
+                if (!res) {
                     return Response.error(new VolleyError("UnAuthorised response"));
-                }else {
+                } else {
                     return super.parseNetworkResponse(response);
                 }
             }
@@ -815,8 +845,7 @@ public class UploadPostmanual extends AppCompatActivity {
     }
 
 
-    private void checkBrandMandatory()
-    {
+    private void checkBrandMandatory() {
 
         String url = "https://loca-toca.com/Api/get_brand_filter_mandatory";
         StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
@@ -824,17 +853,17 @@ public class UploadPostmanual extends AppCompatActivity {
             public void onResponse(String response) {
                 Log.i("final_redcsponse3", response.toString());
                 try {
-                    JSONObject jsonObject=new JSONObject(response);
-                    mandatory=jsonObject.getString("status");
+                    JSONObject jsonObject = new JSONObject(response);
+                    mandatory = jsonObject.getString("status");
 
-                    if(jsonObject.getString("is_admin").equals("0")){
-                        admin_content.setVisibility(View.GONE);
-                    }else {
-                        admin_content.setVisibility(View.VISIBLE);
+                    if (jsonObject.getString("is_admin").equals("0")) {
+//                        admin_content.setVisibility(View.GONE);
+                    } else {
+//                        admin_content.setVisibility(View.VISIBLE);
                     }
 
-                    if(mandatory.equals("1")){
-                        brand_optional_tag.setVisibility(View.GONE);
+                    if (mandatory.equals("1")) {
+//                        brand_optional_tag.setVisibility(View.GONE);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -850,7 +879,7 @@ public class UploadPostmanual extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
-                String mobile=SharedPrefEnc.getPref(UploadPostmanual.this,"mobile");
+                String mobile = SharedPrefEnc.getPref(UploadPostmanual.this, "mobile");
                 params.put("phone", mobile);
                 //9945888855
                 return params;
@@ -859,22 +888,22 @@ public class UploadPostmanual extends AppCompatActivity {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 //return super.getHeaders();
-                Map<String,String> params=new HashMap<>();
-                params.put("x-fm-api-key","toca@loca");
-                params.put("signature","loca-toca@123");
-                return  params;
+                Map<String, String> params = new HashMap<>();
+                params.put("x-fm-api-key", "toca@loca");
+                params.put("signature", "loca-toca@123");
+                return params;
             }
 
             @Override
             protected Response<String> parseNetworkResponse(NetworkResponse response) {
                 // System.out.println(response.headers.get("Set-Cookie"));
-                Log.i("res6666645",response.headers.toString());
+                Log.i("res6666645", response.headers.toString());
                 Log.i("res6666645", new String(response.data));
 
-                boolean res= generateHashWithHmac256(new String(response.data),"loca-toca@123",response.headers.get("signature"));
-                if(!res){
+                boolean res = generateHashWithHmac256(new String(response.data), "loca-toca@123", response.headers.get("signature"));
+                if (!res) {
                     return Response.error(new VolleyError("UnAuthorised response"));
-                }else {
+                } else {
                     return super.parseNetworkResponse(response);
                 }
             }
@@ -884,7 +913,7 @@ public class UploadPostmanual extends AppCompatActivity {
 
     }
 
-    private String getBase64(){
+    private String getBase64() {
         BitmapDrawable drawable = (BitmapDrawable) upload_thuimb.getDrawable();
         Bitmap bitmap = drawable.getBitmap();
         //Bitmap bm = BitmapFactory.decodeFile("/path/to/image.jpg");
@@ -893,17 +922,19 @@ public class UploadPostmanual extends AppCompatActivity {
         byte[] b = baos.toByteArray();
         String encodedImage = Base64.encodeToString(b, Base64.DEFAULT);
 
-        Log.i("jhikkkk99",encodedImage);
+        Log.i("jhikkkk99", encodedImage);
         return encodedImage;
 
     }
-    private Bitmap getBase64Video(){
-        Bitmap b = Bitmap.createBitmap( videowrapper.getWidth(), videowrapper.getHeight(), Bitmap.Config.ARGB_8888);
+
+    private Bitmap getBase64Video() {
+        Bitmap b = Bitmap.createBitmap(videowrapper.getWidth(), videowrapper.getHeight(), Bitmap.Config.ARGB_8888);
         Canvas c = new Canvas(b);
         videowrapper.layout(videowrapper.getLeft(), videowrapper.getTop(), videowrapper.getRight(), videowrapper.getBottom());
         videowrapper.draw(c);
         return b;
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -912,36 +943,38 @@ public class UploadPostmanual extends AppCompatActivity {
             if (resultCode == 14) {
                 select_brand.setTag(data.getStringExtra("result_id").toString());
                 select_brand.setText(data.getStringExtra("result_value").toString());
+                select_brand.setError(null);
+                brandSelectionMandatory=false;
 
             }
-        }else  if (requestCode == 15) {
+        } else if (requestCode == 15) {
             if (resultCode == 15) {
                 select_items.setTag(data.getStringExtra("result_id").toString());
                 select_items.setText(data.getStringExtra("result_value").toString());
-
             }
-        }else  if (requestCode == 16) {
+        } else if (requestCode == 16) {
             if (resultCode == 16) {
                 choose_button.setTag(data.getStringExtra("result_id").toString());
                 choose_button.setText(data.getStringExtra("result_value").toString());
+//                choose_button.setError(null);
 
             }
         }
 
-        if (resultCode == RESULT_OK && requestCode==IMAGE_PICKER_SELECT) {
-            Uri selectedMediaUri =Uri.parse(data.getStringExtra("uri"));
-            String tp=data.getStringExtra("type");
+        if (resultCode == RESULT_OK && requestCode == IMAGE_PICKER_SELECT) {
+            Uri selectedMediaUri = Uri.parse(data.getStringExtra("uri"));
+            String tp = data.getStringExtra("type");
 
             if (tp.contains("video")) {
                 selected_type.setText("Video selected");
                 if (selectedMediaUri != null) {
-                    Log.i("hbnntgnncv1111",selectedMediaUri.toString());
+                    Log.i("hbnntgnncv1111", selectedMediaUri.toString());
                     // Update UI to reflect image being shared
-                    upload_uri=selectedMediaUri;
+                    upload_uri = selectedMediaUri;
                 }
-                input_type="video";
-                Uri imageUri =selectedMediaUri;
-                Log.i("ju78888",imageUri.toString());
+                input_type = "video";
+                Uri imageUri = selectedMediaUri;
+                Log.i("ju78888", imageUri.toString());
                 getThumb(imageUri);
                 upload_thuimb.setVisibility(View.GONE);
                 videoview.setVisibility(View.VISIBLE);
@@ -955,11 +988,11 @@ public class UploadPostmanual extends AppCompatActivity {
 
                 selected_type.setText("Image selected");
                 if (selectedMediaUri != null) {
-                    Log.i("hbnntgnncv1111",selectedMediaUri.toString());
+                    Log.i("hbnntgnncv1111", selectedMediaUri.toString());
                     // Update UI to reflect image being shared
-                    upload_uri=selectedMediaUri;
+                    upload_uri = selectedMediaUri;
                 }
-                input_type="image";
+                input_type = "image";
                 upload_thuimb.setVisibility(View.VISIBLE);
                 videoview.setVisibility(View.GONE);
             }
@@ -967,28 +1000,28 @@ public class UploadPostmanual extends AppCompatActivity {
     }
 
 
-    private void getThumb(Uri uric){
+    private void getThumb(Uri uric) {
 
         try {
             MediaMetadataRetriever mediaMetadataRetriever = new MediaMetadataRetriever();
 
-            mediaMetadataRetriever .setDataSource(this,uric);
+            mediaMetadataRetriever.setDataSource(this, uric);
             Bitmap bmFrame = mediaMetadataRetriever.getFrameAtTime(1000); //unit in microsecond
             upload_thuimb.setImageBitmap(bmFrame);
-        }catch (IllegalArgumentException e){
+        } catch (IllegalArgumentException e) {
             e.printStackTrace();
         }
 
 
     }
 
-    public Uri myUri(Uri originalUri){
+    public Uri myUri(Uri originalUri) {
         Uri returnedUri = null;
-        if (originalUri.getScheme() == null){
+        if (originalUri.getScheme() == null) {
             returnedUri = Uri.fromFile(new File(originalUri.getPath()));
             // or you can just do -->
             // returnedUri = Uri.parse("file://"+camUri.getPath());
-        }else{
+        } else {
             returnedUri = originalUri;
         }
         return returnedUri;
@@ -997,9 +1030,10 @@ public class UploadPostmanual extends AppCompatActivity {
 
     public String getRealPathFromURI(Uri contentUri) {
         String res = null;
-        String[] proj = { MediaStore.Images.Media.DATA };
+        String[] proj = {MediaStore.Images.Media.DATA};
         Cursor cursor = getContentResolver().query(contentUri, proj, null, null, null);
-        if(cursor.moveToFirst()){;
+        if (cursor.moveToFirst()) {
+            ;
             int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
             res = cursor.getString(column_index);
         }
@@ -1035,18 +1069,18 @@ public class UploadPostmanual extends AppCompatActivity {
         dialog.show();
     }
 
-    public static Uri getContentUri(Context context, String absPath,String type) {
+    public static Uri getContentUri(Context context, String absPath, String type) {
 
-        if(type.equals("image")){
+        if (type.equals("image")) {
             Cursor cursor = context.getContentResolver().query(
                     MediaStore.Images.Media.EXTERNAL_CONTENT_URI
-                    , new String[] { MediaStore.Images.Media._ID }
+                    , new String[]{MediaStore.Images.Media._ID}
                     , MediaStore.Images.Media.DATA + "=? "
-                    , new String[] { absPath }, null);
+                    , new String[]{absPath}, null);
 
             if (cursor != null && cursor.moveToFirst()) {
                 @SuppressLint("Range") int id = cursor.getInt(cursor.getColumnIndex(MediaStore.MediaColumns._ID));
-                return Uri.withAppendedPath(MediaStore.Images.Media.EXTERNAL_CONTENT_URI , Integer.toString(id));
+                return Uri.withAppendedPath(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, Integer.toString(id));
 
             } else if (!absPath.isEmpty()) {
                 ContentValues values = new ContentValues();
@@ -1056,16 +1090,16 @@ public class UploadPostmanual extends AppCompatActivity {
             } else {
                 return null;
             }
-        }else {
+        } else {
             Cursor cursor = context.getContentResolver().query(
                     MediaStore.Images.Media.EXTERNAL_CONTENT_URI
-                    , new String[] { MediaStore.Video.Media._ID }
+                    , new String[]{MediaStore.Video.Media._ID}
                     , MediaStore.Images.Media.DATA + "=? "
-                    , new String[] { absPath }, null);
+                    , new String[]{absPath}, null);
 
             if (cursor != null && cursor.moveToFirst()) {
                 @SuppressLint("Range") int id = cursor.getInt(cursor.getColumnIndex(MediaStore.MediaColumns._ID));
-                return Uri.withAppendedPath(MediaStore.Video.Media.EXTERNAL_CONTENT_URI , Integer.toString(id));
+                return Uri.withAppendedPath(MediaStore.Video.Media.EXTERNAL_CONTENT_URI, Integer.toString(id));
 
             } else if (!absPath.isEmpty()) {
                 ContentValues values = new ContentValues();

@@ -52,7 +52,7 @@ class HeaderViewModel(
 
         //repository.getAdress(request)
 
-        Log.i("tghbbb",repository.userid)
+        Log.i("tghbbb",repository.userid.toString()+", "+repository.getUserID().toString())
         viewModelScope.launch {
             repository.getUserDetails(request)
                 .catch {

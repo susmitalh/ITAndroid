@@ -144,250 +144,216 @@
                         android:textSize="12sp" />
                 </RelativeLayout>
 
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/order_list"
+
+                <HorizontalScrollView
                     android:layout_width="match_parent"
-                    android:layout_height="80dp"
-                    android:layout_marginTop="10dp"
-                    android:orientation="horizontal"
-                    android:visibility="visible">
+                    android:layout_height="wrap_content">
 
-                    <RelativeLayout
-                        android:id="@+id/relativeLayout1"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_margin="5dp"
-                        android:layout_weight="1"
-                        android:background="@drawable/home_bg"
-                        android:paddingBottom="10dp"
-                        app:layout_constraintHorizontal_weight="1"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toStartOf="@+id/relativeLayout2"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent">
 
-                        <TextView
-                            android:id="@+id/text_delivery"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/_3sdp"
-                            android:layout_marginTop="@dimen/_5sdp"
-                            android:gravity="center"
-                            android:text="Delivery"
-                            android:textColor="@color/black"
-                            android:textSize="10dp"
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/order_list"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="@dimen/_10sdp"
+                        android:visibility="visible">
+
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/delivery_layout"
+                            android:layout_width="@dimen/_55sdp"
+                            android:layout_height="@dimen/_60sdp"
+                            android:background="@drawable/home_bg"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
+                            app:layout_constraintTop_toTopOf="parent">
 
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/_5sdp"
+                                android:layout_marginTop="@dimen/_5sdp"
+                                android:text="Delivery"
+                                android:textSize="@dimen/_9ssp"
+                                android:textColor="@color/white"
+                                app:layout_constraintStart_toStartOf="@+id/delivery_layout"
+                                app:layout_constraintTop_toTopOf="@+id/delivery_layout" />
+
+
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                        <ImageView
+                            android:layout_width="@dimen/_50sdp"
+                            android:layout_height="@dimen/_45sdp"
+                            android:layout_marginStart="@dimen/_9sdp"
+                            android:layout_marginTop="@dimen/_19sdp"
+                            android:src="@drawable/delivery"
+                            app:layout_constraintStart_toStartOf="@+id/delivery_layout"
+                            app:layout_constraintTop_toTopOf="@+id/delivery_layout" />
                         <RelativeLayout
                             android:id="@+id/order_delivery"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
                             android:background="@drawable/order_fill"
-                            android:visibility="gone" />
-
-                    </RelativeLayout>
-
-                    <ImageView
-                        android:layout_width="0dp"
-                        android:layout_height="0dp"
-                        android:layout_alignParentBottom="true"
-                        android:scaleType="center"
-                        android:src="@drawable/delivery"
-                        android:layout_marginTop="@dimen/_15sdp"
-                        android:layout_marginStart="@dimen/_10sdp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toStartOf="@+id/relativeLayout2"
-                        app:layout_constraintStart_toStartOf="@+id/relativeLayout1"
-                        app:layout_constraintTop_toTopOf="@+id/relativeLayout1" />
+                            android:visibility="gone"
+                            app:layout_constraintStart_toStartOf="@+id/delivery_layout"
+                            app:layout_constraintTop_toTopOf="@+id/delivery_layout"
+                            app:layout_constraintEnd_toEndOf="@+id/delivery_layout"
+                            app:layout_constraintBottom_toBottomOf="@+id/delivery_layout"/>
 
 
-                    <RelativeLayout
-                        android:id="@+id/relativeLayout2"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_margin="5dp"
-                        android:layout_weight="1"
-                        android:background="@drawable/tile_home"
-                        app:layout_constraintHorizontal_weight="1"
-                        app:layout_constraintStart_toEndOf="@+id/relativeLayout1"
-                        app:layout_constraintEnd_toStartOf="@+id/relativeLayout3"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent">
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/dineIn_layout"
+                            android:layout_width="@dimen/_55sdp"
+                            android:layout_height="@dimen/_60sdp"
+                            android:layout_marginStart="@dimen/_6sdp"
+                            android:background="@drawable/tile_home"
+                            app:layout_constraintStart_toEndOf="@id/delivery_layout"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/_5sdp"
+                                android:layout_marginTop="@dimen/_5sdp"
+                                android:text="Dine In"
+                                android:textSize="@dimen/_9ssp"
+                                android:textColor="@color/black"
+                                app:layout_constraintStart_toStartOf="@+id/dineIn_layout"
+                                app:layout_constraintTop_toTopOf="@+id/dineIn_layout" />
 
 
-                        <TextView
-                            android:id="@+id/text_dine_in"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/_3sdp"
-                            android:layout_marginTop="@dimen/_5sdp"
-                            android:gravity="center"
-                            android:text="Dine In"
-                            android:textColor="@color/black"
-                            android:textSize="10dp"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"/>
+                        </androidx.constraintlayout.widget.ConstraintLayout>
 
-
-
+                        <ImageView
+                            android:layout_width="@dimen/_45sdp"
+                            android:layout_height="@dimen/_50sdp"
+                            android:layout_marginStart="@dimen/_13sdp"
+                            android:layout_marginTop="@dimen/_17sdp"
+                            android:src="@drawable/dinein"
+                            app:layout_constraintStart_toStartOf="@+id/dineIn_layout"
+                            app:layout_constraintTop_toTopOf="@+id/dineIn_layout" />
                         <RelativeLayout
                             android:id="@+id/order_dineIn"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
                             android:background="@drawable/order_fill"
-                            android:visibility="gone" />
+                            android:elevation="@dimen/_5sdp"
+                            android:visibility="gone"
+                            app:layout_constraintStart_toStartOf="@+id/dineIn_layout"
+                            app:layout_constraintTop_toTopOf="@+id/dineIn_layout"
+                            app:layout_constraintEnd_toEndOf="@+id/dineIn_layout"
+                            app:layout_constraintBottom_toBottomOf="@+id/dineIn_layout"/>
 
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/pick_up_layout"
+                            android:layout_width="@dimen/_55sdp"
+                            android:layout_height="@dimen/_60sdp"
+                            android:layout_marginStart="@dimen/_6sdp"
+                            android:background="@drawable/tile_home"
+                            app:layout_constraintStart_toEndOf="@id/dineIn_layout"
+                            app:layout_constraintTop_toTopOf="parent">
 
-                    </RelativeLayout>
-                    <ImageView
-                        android:layout_width="0dp"
-                        android:layout_height="0dp"
-                        android:layout_alignParentBottom="true"
-                        android:scaleType="center"
-                        android:src="@drawable/dinein"
-                        android:layout_marginTop="@dimen/_15sdp"
-                        android:layout_marginStart="@dimen/_8sdp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toStartOf="@+id/relativeLayout3"
-                        app:layout_constraintStart_toStartOf="@+id/relativeLayout2"
-                        app:layout_constraintTop_toTopOf="@+id/relativeLayout1" />
-
-                    <RelativeLayout
-                        android:id="@+id/relativeLayout3"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_margin="5dp"
-                        android:layout_weight="1"
-                        app:layout_constraintHorizontal_weight="1"
-                        android:background="@drawable/tile_home"
-                        app:layout_constraintStart_toEndOf="@+id/relativeLayout2"
-                        app:layout_constraintEnd_toStartOf="@+id/relativeLayout4"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/_5sdp"
+                                android:layout_marginTop="@dimen/_5sdp"
+                                android:text="Pick Up"
+                                android:textSize="@dimen/_9ssp"
+                                android:textColor="@color/black"
+                                app:layout_constraintStart_toStartOf="@+id/pick_up_layout"
+                                app:layout_constraintTop_toTopOf="@+id/pick_up_layout" />
 
 
 
-                        <TextView
-                            android:id="@+id/pick_up"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/_3sdp"
-                            android:layout_marginTop="@dimen/_5sdp"
-                            android:gravity="center"
-                            android:text="Pick Up"
-                            android:textColor="@color/black"
-                            android:textSize="10dp"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"/>
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                        <ImageView
+                            android:layout_width="@dimen/_50sdp"
+                            android:layout_height="@dimen/_43sdp"
+                            android:layout_marginStart="@dimen/_11sdp"
+                            android:layout_marginTop="@dimen/_20sdp"
+                            android:src="@drawable/pickup"
+                            app:layout_constraintStart_toStartOf="@+id/pick_up_layout"
+                            app:layout_constraintTop_toTopOf="@+id/pick_up_layout" />
 
                         <RelativeLayout
                             android:id="@+id/order_pickup"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
                             android:background="@drawable/order_fill"
-                            android:visibility="gone" />
+                            android:visibility="gone"
+                            app:layout_constraintStart_toStartOf="@+id/pick_up_layout"
+                            app:layout_constraintTop_toTopOf="@+id/pick_up_layout"
+                            app:layout_constraintEnd_toEndOf="@id/pick_up_layout"
+                            app:layout_constraintBottom_toBottomOf="@id/pick_up_layout"/>
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/order_status_layout"
+                            android:layout_width="@dimen/_55sdp"
+                            android:layout_height="@dimen/_60sdp"
+                            android:layout_marginStart="@dimen/_6sdp"
+                            android:background="@drawable/tile_home"
+                            app:layout_constraintStart_toEndOf="@id/pick_up_layout"
+                            app:layout_constraintTop_toTopOf="parent">
 
-                    </RelativeLayout>
-
-                    <ImageView
-                        android:layout_width="0dp"
-                        android:layout_height="0dp"
-                        android:layout_alignParentBottom="true"
-                        android:scaleType="center"
-                        android:src="@drawable/pickup"
-                        android:layout_marginTop="@dimen/_15sdp"
-                        android:layout_marginStart="@dimen/_10sdp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toStartOf="@+id/relativeLayout4"
-                        app:layout_constraintStart_toStartOf="@+id/relativeLayout3"
-                        app:layout_constraintTop_toTopOf="@+id/relativeLayout2" />
-
-                    <RelativeLayout
-                        android:id="@+id/relativeLayout4"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_margin="5dp"
-                        android:layout_weight="1"
-                        android:background="@drawable/tile_home"
-                        app:layout_constraintHorizontal_weight="1"
-                        app:layout_constraintStart_toEndOf="@+id/relativeLayout3"
-                        app:layout_constraintEnd_toStartOf="@+id/relativeLayout5"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/_5sdp"
+                                android:text="Order\nStatus"
+                                android:textSize="@dimen/_9ssp"
+                                android:textColor="@color/black"
+                                app:layout_constraintStart_toStartOf="@+id/order_status_layout"
+                                app:layout_constraintTop_toTopOf="@+id/order_status_layout" />
 
 
-                        <TextView
-                            android:id="@+id/order_status"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/_3sdp"
-                            android:layout_marginTop="@dimen/_5sdp"
-                            android:gravity="center"
-                            android:text="Order Status"
-                            android:textColor="@color/black"
-                            android:textSize="10dp"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"/>
-                    </RelativeLayout>
-                    <ImageView
-                        android:layout_width="0dp"
-                        android:layout_height="0dp"
-                        android:layout_alignParentBottom="true"
-                        android:scaleType="center"
-                        android:src="@drawable/order_status"
-                        android:layout_marginTop="@dimen/_15sdp"
-                        android:layout_marginStart="@dimen/_10sdp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toStartOf="@+id/relativeLayout5"
-                        app:layout_constraintStart_toStartOf="@+id/relativeLayout4"
-                        app:layout_constraintTop_toTopOf="@+id/relativeLayout3" />
+                        </androidx.constraintlayout.widget.ConstraintLayout>
 
-                    <RelativeLayout
-                        android:id="@+id/relativeLayout5"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_marginStart="5dp"
-                        android:layout_marginTop="@dimen/_5sdp"
-                        android:layout_marginBottom="@dimen/_5sdp"
-                        android:layout_weight="1"
-                        android:layout_marginEnd="@dimen/_9sdp"
-                        android:background="@drawable/tile_home"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_weight="1"
-                        app:layout_constraintStart_toEndOf="@+id/relativeLayout4"
-                        app:layout_constraintTop_toTopOf="parent">
+                        <ImageView
+                            android:layout_width="@dimen/_50sdp"
+                            android:layout_height="@dimen/_42sdp"
+                            android:layout_marginStart="@dimen/_12sdp"
+                            android:layout_marginTop="@dimen/_22sdp"
+                            android:src="@drawable/order_status"
+                            app:layout_constraintStart_toStartOf="@+id/order_status_layout"
+                            app:layout_constraintTop_toTopOf="@+id/order_status_layout" />
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/order_history_layout"
+                            android:layout_width="@dimen/_55sdp"
+                            android:layout_height="@dimen/_60sdp"
+                            android:layout_marginStart="@dimen/_6sdp"
+                            android:background="@drawable/tile_home"
+                            app:layout_constraintStart_toEndOf="@id/order_status_layout"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/_5sdp"
+                                android:text="Order\nHistory"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/_9ssp"
+                                app:layout_constraintStart_toStartOf="@+id/order_history_layout"
+                                app:layout_constraintTop_toTopOf="@+id/order_history_layout" />
 
 
-                        <TextView
-                            android:id="@+id/order_history"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/_3sdp"
-                            android:layout_marginTop="@dimen/_5sdp"
-                            android:gravity="center"
-                            android:text="Order History"
-                            android:textColor="@color/black"
-                            android:textSize="8dp"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
-                    </RelativeLayout>
+                        </androidx.constraintlayout.widget.ConstraintLayout>
 
-                    <ImageView
-                        android:layout_width="0dp"
-                        android:layout_height="0dp"
-                        android:layout_alignParentBottom="true"
-                        android:scaleType="center"
-                        android:src="@drawable/order_history"
-                        android:layout_marginTop="@dimen/_15sdp"
-                        android:layout_marginStart="@dimen/_10sdp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="@+id/relativeLayout5"
-                        app:layout_constraintTop_toTopOf="@+id/relativeLayout4" />
+                        <ImageView
+                            android:layout_width="@dimen/_50sdp"
+                            android:layout_height="@dimen/_42sdp"
+                            android:layout_marginStart="@dimen/_13sdp"
+                            android:layout_marginTop="@dimen/_21sdp"
+                            android:src="@drawable/order_history"
+                            app:layout_constraintStart_toStartOf="@+id/order_history_layout"
+                            app:layout_constraintTop_toTopOf="@+id/order_history_layout" />
 
-                </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </HorizontalScrollView>
 
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"

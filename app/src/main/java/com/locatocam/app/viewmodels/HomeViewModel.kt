@@ -65,6 +65,7 @@ class HomeViewModel(
             repository.getUserID().toInt(),
             lastid.toString()
         )
+        Log.e("TAG", "getAllFeeds: "+"inside"+","+infcode+","+lat+","+lng+","+ offset+","+"influencer"+","+repository.getUserID().toInt()+","+lastid)
         repository.getAllFeeds(request)
 
         viewModelScope.launch {
@@ -79,10 +80,13 @@ class HomeViewModel(
                     Log.i("tghbbb", it.message.toString())
                 }
                 .collect {
-                    feed_items.value = it
-                    offset++
+                    try {
+                        feed_items.value = it
+                        offset++
 
-                    lastid = getLastID(it).toInt()
+                        lastid = getLastID(it).toInt()
+                    } catch (e: Exception) {
+                    }
                 }
         }
     }

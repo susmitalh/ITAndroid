@@ -104,14 +104,8 @@ public class HomeFragment : Fragment(), FeedEvents, ClickEvents, SimpleEvents {
 
 
 
-        if (SharedPrefEnc.getPref(
-                requireActivity().application,
-                "user_type"
-            ) == "poc" || SharedPrefEnc.getPref(
-                requireActivity().application,
-                "user_type"
-            ) == "customer"
-        ) {
+        if (SharedPrefEnc.getPref(requireActivity().application, "user_type") == "poc" ||
+            SharedPrefEnc.getPref(requireActivity().application, "user_type") == "customer") {
             binding.createpost.visibility = View.GONE
             binding.shareHeader.visibility = View.GONE
         } else {

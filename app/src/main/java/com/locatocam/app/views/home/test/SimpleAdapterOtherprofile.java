@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -42,7 +43,7 @@ public class SimpleAdapterOtherprofile extends RecyclerView.Adapter<RecyclerView
     public List<Data> mediaList;
     SimpleEvents simpleEvents;
     Context context;
-    public static String viewCount;
+
     PostCountData postCountData;
     Follow follow;
 
@@ -92,6 +93,7 @@ public class SimpleAdapterOtherprofile extends RecyclerView.Adapter<RecyclerView
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof SimpleExoPlayerViewHolder) {
+            SimpleAdapter.userClick=false;
             ((SimpleExoPlayerViewHolder) holder).bind(mediaList.get(position), simpleEvents, position, postCountData, follow);
         } else if (holder instanceof VHBanner) {
             Data item = mediaList.get(position);
@@ -100,6 +102,18 @@ public class SimpleAdapterOtherprofile extends RecyclerView.Adapter<RecyclerView
                     .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
                     .thumbnail(0.1f)
                     .into(((VHBanner) holder).thumbnile);
+
+            if (item.getBanner_brand_active()==0){
+                ((VHBanner) holder).bannerHide.setVisibility(View.VISIBLE);
+                if (item.getBanner_next_starting().equals("")){
+                    ((VHBanner) holder).hide_text_banner.setText("Currently not accepting orders");
+
+                }else {
+                    ((VHBanner) holder).hide_text_banner.setText(item.getBanner_next_starting());
+                }
+            }else {
+                ((VHBanner) holder).bannerHide.setVisibility(View.GONE);
+            }
 
             ((VHBanner) holder).brand_name.setText(item.getBanner_brand_name());
             ((VHBanner) holder).location_name.setText(item.getBanner_location());
@@ -164,6 +178,20 @@ public class SimpleAdapterOtherprofile extends RecyclerView.Adapter<RecyclerView
                 TextView offer_min_order = layout.findViewById(R.id.offer_min_order);
                 TextView offerName = layout.findViewById(R.id.offer_name);
                 TextView offerDiscount = layout.findViewById(R.id.offer_discount2);
+                TextView hide_text_banner_offers = layout.findViewById(R.id.hide_text_banner_offers);
+                RelativeLayout banner_offers_hide = layout.findViewById(R.id.banner_offers_hide);
+
+                if (offersDetail.getOffers_brand_active()==0){
+                    banner_offers_hide.setVisibility(View.VISIBLE);
+                    if (offersDetail.getOffers_next_starting().equals("")){
+                        hide_text_banner_offers.setText("Currently not accepting orders");
+
+                    }else {
+                        hide_text_banner_offers.setText(item.getBanner_next_starting());
+                    }
+                }else {
+                    banner_offers_hide.setVisibility(View.GONE);
+                }
 
                 Glide.with(offerSmallImage.getContext())
                         .load(offersDetail.getOffers_image())
@@ -268,7 +296,8 @@ public class SimpleAdapterOtherprofile extends RecyclerView.Adapter<RecyclerView
         TextView cusine;
         TextView distance;
         TextView open_hours;
-        TextView ratings;
+        TextView ratings,hide_text_banner;
+        RelativeLayout bannerHide;
 
         public VHBanner(@NonNull View itView) {
             super(itView);
@@ -280,6 +309,8 @@ public class SimpleAdapterOtherprofile extends RecyclerView.Adapter<RecyclerView
             distance = itView.findViewById(R.id.distance);
             open_hours = itView.findViewById(R.id.open_hours);
             ratings = itView.findViewById(R.id.ratings);
+            bannerHide = itView.findViewById(R.id.banner_hide);
+            hide_text_banner = itView.findViewById(R.id.hide_text_banner);
         }
     }
 

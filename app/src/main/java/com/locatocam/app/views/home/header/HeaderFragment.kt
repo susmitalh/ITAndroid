@@ -45,7 +45,7 @@ class HeaderFragment : Fragment(), IHeaderEvents {
             Log.i("kl99999", inf_code + "--" + userid)
             val bundle = bundleOf("user_id" to userid, "inf_code" to inf_code)
             Navigation
-                .findNavController(binding.root)
+                .findNavController(HomeFragment.binding.root)
                 .navigate(R.id.action_homeFragment_to_otherProfileWithFeedFragment, bundle)
             //Navigation.findNavController(binding.root).navigate(R.id.action_homeFragment_to_otherProfileWithFeedFragment)
 

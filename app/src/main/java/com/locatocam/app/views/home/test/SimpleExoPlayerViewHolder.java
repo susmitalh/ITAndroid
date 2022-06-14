@@ -91,7 +91,7 @@ public class SimpleExoPlayerViewHolder extends RecyclerView.ViewHolder implement
     WebApi apiInterface;
     PlayerView playerView;
     ImageButton volumebt;
-    ImageButton options;
+    ImageButton options,msg_img;
     String follow_process;
 
     IHeaderEvents iHeaderEvents;
@@ -135,6 +135,7 @@ public class SimpleExoPlayerViewHolder extends RecyclerView.ViewHolder implement
         comment = itemView.findViewById(R.id.comment);
         views = itemView.findViewById(R.id.views);
         shares = itemView.findViewById(R.id.shares);
+        msg_img = itemView.findViewById(R.id.msg_img);
 
 
 
@@ -209,9 +210,18 @@ public class SimpleExoPlayerViewHolder extends RecyclerView.ViewHolder implement
 
             mediaUri = Uri.parse(item.getFile());
             // val uri = Uri.parse(linkUrl)
-
             userId = SharedPrefEnc.getPref(app, "user_id");
             apiInterface = NetworkModule.Companion.getClient().create(WebApi.class);
+
+            Log.e("TAG", "binddd: "+item.getUser_id());
+
+            if (userId.equals(item.getUser_id())){
+                profile_follow_layout.setVisibility(View.GONE);
+                msg_img.setVisibility(View.GONE);
+            }else{
+                profile_follow_layout.setVisibility(View.VISIBLE);
+                msg_img.setVisibility(View.VISIBLE);
+            }
 
             Glide.with(profile_image.getContext())
                     .load(item.getProfile_pic())
@@ -221,10 +231,14 @@ public class SimpleExoPlayerViewHolder extends RecyclerView.ViewHolder implement
 
 
             profile_image.setOnClickListener(v->{
-                HeaderFragment.Companion.onItemClick(item.getUser_id(),item.getProfile_influencer_code());
+                if (SimpleAdapter.userClick==true) {
+                    HeaderFragment.Companion.onItemClick(item.getUser_id(), item.getProfile_influencer_code());
+                }
             });
             name.setOnClickListener(v->{
-                HeaderFragment.Companion.onItemClick(item.getUser_id(),item.getProfile_influencer_code());
+                if (SimpleAdapter.userClick==true) {
+                    HeaderFragment.Companion.onItemClick(item.getUser_id(), item.getProfile_influencer_code());
+                }
             });
 
             Glide.with(thumbnile.getContext())
@@ -244,7 +258,8 @@ public class SimpleExoPlayerViewHolder extends RecyclerView.ViewHolder implement
 
             Log.e("TAG", "bindfffffff: " + description);
             if (a >= 3) {
-                makeTextViewResizable(feed_description, 3, "See More", true);
+                makeTextViewResizable(feed_description, 3, "Read More" +
+                        "", true);
             }
             Log.e("TAG", "bindd: " + a);
 
@@ -392,14 +407,22 @@ public class SimpleExoPlayerViewHolder extends RecyclerView.ViewHolder implement
                 public void onClick(View view) {
                     if (item.getLiked().equals("0")) {
                         item.setLiked("1");
-                        item.setLikes_count(String.valueOf(Integer.parseInt(item.getLikes_count()) + 1));
+                        try {
+                            item.setLikes_count(String.valueOf(Integer.parseInt(item.getLikes_count()) + 1));
+                        } catch (NumberFormatException e) {
+                            e.printStackTrace();
+                        }
                         like.setText(" " + item.getLikes_count());
                         like.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_like_liked, 0, 0, 0);
                         //cal like api
                         simpleEvents.like("like", item.getPost_id());
                     } else {
                         item.setLiked("0");
-                        item.setLikes_count(String.valueOf(Integer.parseInt(item.getLikes_count()) - 1));
+                        try {
+                            item.setLikes_count(String.valueOf(Integer.parseInt(item.getLikes_count()) - 1));
+                        } catch (NumberFormatException e) {
+                            e.printStackTrace();
+                        }
                         like.setText(" " + item.getLikes_count());
                         like.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_like, 0, 0, 0);
                         //cal unlike like api

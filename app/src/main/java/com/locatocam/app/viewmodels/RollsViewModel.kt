@@ -64,6 +64,7 @@ class RollsViewModel(
             repository.like(request)
                 .catch {
 
+
                 }
                 .collect {
                     Log.i("hnm777",it.message.toString())

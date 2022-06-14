@@ -3,6 +3,7 @@ package com.locatocam.app.views.home
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.app.Dialog
 import android.content.Intent
 import android.location.Address
 import android.location.Location
@@ -57,6 +58,7 @@ import com.locatocam.app.network.WebApi
 import com.locatocam.app.security.SharedPrefEnc
 import com.locatocam.app.views.home.test.*
 import net.minidev.json.JSONObject
+import pl.droidsonroids.gif.GifImageView
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -64,16 +66,18 @@ import retrofit2.Response
 
 class OtherProfileWithFeedFragment() : Fragment(), FeedEvents, ClickEvents, SimpleEvents {
 
-    lateinit var binding: FragmentOtherUserFeedBinding
+
     lateinit var viewModel: HomeViewModel
     var lastCount: Int = -1
     lateinit var placesClient: PlacesClient
     private lateinit var fusedLocationClient: FusedLocationProviderClient
+    lateinit var dialog: Dialog
 
     companion object {
         var postCountData: PostCountData? = null
         var follow: Follow? = null
         lateinit var inf_code: String
+        lateinit var binding: FragmentOtherUserFeedBinding
     }
 
     lateinit var userid: String
@@ -84,7 +88,7 @@ class OtherProfileWithFeedFragment() : Fragment(), FeedEvents, ClickEvents, Simp
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
+        showLoader()
         binding = FragmentOtherUserFeedBinding.inflate(layoutInflater)
         var repository = HomeRepository(requireActivity().application, "")
         var factory = HomeViewModelFactory(repository)
@@ -202,6 +206,9 @@ class OtherProfileWithFeedFragment() : Fragment(), FeedEvents, ClickEvents, Simp
             startPreCaching(it)
             preloadImages(it)
                 (activity as MainActivity).hideLoader()
+            Handler().postDelayed({
+                hideLoader()
+            },2000)
         })
         //viewModel.getAllFeeds(inf_code,0.00,0.00)
 
@@ -277,6 +284,7 @@ class OtherProfileWithFeedFragment() : Fragment(), FeedEvents, ClickEvents, Simp
         observe()
         return binding.root
     }
+
 
     fun observe() {
         viewModel.approvalCounts.observe(viewLifecycleOwner, {
@@ -592,5 +600,19 @@ class OtherProfileWithFeedFragment() : Fragment(), FeedEvents, ClickEvents, Simp
         _isheader_added = false
     }
 
+    fun showLoader() {
+        dialog = Dialog(requireContext(), R.style.AppTheme_Dialog)
+        val view = View.inflate(requireContext(), R.layout.progressdialog_item, null)
+        dialog?.setContentView(view)
+        dialog?.setCancelable(true)
+        val progressbar: GifImageView = dialog?.findViewById(R.id.img_loader)!!
+        dialog?.show()
+    }
+
+    fun hideLoader() {
+        if (dialog != null) {
+            dialog?.dismiss()
+        }
+    }
 
 }
