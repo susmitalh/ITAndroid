@@ -46,9 +46,12 @@ class TopInfViewModel(
         topInfluencers.showLoader()
         viewModelScope.launch {
             repository.getTopInfluencersFlow(userid,type).collect {
-                topInfluencers.hideLoader()
-                topInfluencer.value=it
-                tmp.addAll(it!!)
+                try {
+                    topInfluencers.hideLoader()
+                    topInfluencer.value=it
+                    tmp.addAll(it!!)
+                } catch (e: Exception) {
+                }
             }
         }
     }

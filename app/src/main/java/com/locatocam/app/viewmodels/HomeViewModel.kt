@@ -4,6 +4,7 @@ import android.os.Handler
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.core.provider.FontsContractCompat.Columns.RESULT_CODE
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -72,15 +73,20 @@ class HomeViewModel(
 
             repository.getAllFeeds(request)
                 .catch {
-                    val res = ArrayList<Data>()
 
-                    res.add(Data());
-                    feed_items.value = res
+                    try {
+                        val res = ArrayList<Data>()
+                        res.add(Data());
+                        feed_items.value = res
+                    } catch (e: Exception) {
+
+                    }
 
                     Log.i("tghbbb", it.message.toString())
                 }
                 .collect {
                     try {
+
                         feed_items.value = it
                         offset++
 
@@ -112,7 +118,10 @@ class HomeViewModel(
                     Log.e("address", it.message.toString())
                 }
                 .collect {
-                    addressresp.value = it
+                    try {
+                        addressresp.value = it
+                    } catch (e: Exception) {
+                    }
                 }
         }
     }
@@ -140,10 +149,13 @@ class HomeViewModel(
 
                 }
                 .collect {
-                    Log.i("hnm777", it.message.toString())
+                    try {
+                        Log.i("hnm777", it.message.toString())
 
-                    Log.e("TAG", "getApprovalCountsget: " + it.data.message_count)
-                    approvalCounts.value = it
+                        Log.e("TAG", "getApprovalCountsget: " + it.data.message_count)
+                        approvalCounts.value = it
+                    } catch (e: Exception) {
+                    }
                 }
         }
     }

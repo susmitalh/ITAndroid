@@ -20,107 +20,131 @@ import net.minidev.json.JSONObject
 
 class HeaderViewModel(
     val repository: HeaderRepository
-): ViewModel() {
-    var topInfluencer= MutableLiveData<List<Data>>()
-    var mostPopularVideos= MutableLiveData<List<com.locatocam.app.data.responses.popular_videos.Data>>()
-    var rollsAndShortvdos= MutableLiveData<List<com.locatocam.app.data.responses.rolls_and_short_videos.Data>>()
-    var userDetails=MutableLiveData<RespUserDetails>()
+) : ViewModel() {
+    var topInfluencer = MutableLiveData<List<Data>>()
+    var mostPopularVideos =
+        MutableLiveData<List<com.locatocam.app.data.responses.popular_videos.Data>>()
+    var rollsAndShortvdos =
+        MutableLiveData<List<com.locatocam.app.data.responses.rolls_and_short_videos.Data>>()
+    var userDetails = MutableLiveData<RespUserDetails>()
     lateinit var filter: String
 
-    fun getTopInfluencersV(userid: String,type:String) {
+    fun getTopInfluencersV(userid: String, type: String) {
         viewModelScope.launch {
-            repository.getTopInfluencersFlow(userid,type).catch {
+            repository.getTopInfluencersFlow(userid, type).catch {
 
             }.collect {
-                topInfluencer.value=it
-                Log.e("TAG", "getTopInfluencersV: "+it?.get(0)?.inf_name )
+                try {
+                    topInfluencer.value = it
+                    Log.e("TAG", "getTopInfluencersV: " + it?.get(0)?.inf_name)
+                } catch (e: Exception) {
+                }
             }
         }
     }
 
-    fun getMostPopularVideos(infcode:String){
-        var request=ReqMostPopularVideos(infcode,0,repository.getUserID(),"influencer")
+    fun getMostPopularVideos(infcode: String) {
+        var request = ReqMostPopularVideos(infcode, 0, repository.getUserID(), "influencer")
         viewModelScope.launch {
-            repository.getTopMostPopularVideos(request).collect {
-                mostPopularVideos.value=it
+            repository.getTopMostPopularVideos(request).catch {
+
             }
+                .collect {
+                    try {
+                        mostPopularVideos.value = it
+                    } catch (e: Exception) {
+                    }
+                }
         }
     }
 
-    fun getUserDetails(){
-        var request= ReqUserDetails(repository.userid.toString(),repository.getUserID().toString())
+    fun getUserDetails() {
+        var request =
+            ReqUserDetails(repository.userid.toString(), repository.getUserID().toString())
 
         //repository.getAdress(request)
 
-        Log.i("tghbbb",repository.userid.toString()+", "+repository.getUserID().toString())
+        Log.i("tghbbb", repository.userid.toString() + ", " + repository.getUserID().toString())
         viewModelScope.launch {
             repository.getUserDetails(request)
                 .catch {
-                    Log.e("TAG", "tghbbb: "+it.message.toString())
+                    Log.e("TAG", "tghbbb: " + it.message.toString())
                 }
                 .collect {
-                    Log.e("TAG", "tghbbb: "+it.data?.name )
-                    userDetails.value=it
+                    Log.e("TAG", "tghbbb: " + it.data?.name)
+                    userDetails.value = it
                 }
         }
     }
 
-    fun follow(){
-        var request= ReqUserDetails(repository.userid,repository.getUserID())
+    fun follow() {
+        var request = ReqUserDetails(repository.userid, repository.getUserID())
         //repository.getAdress(request)
 
-        Log.i("tghbbb",repository.userid)
+        Log.i("tghbbb", repository.userid)
         viewModelScope.launch {
             repository.getUserDetails(request)
                 .catch {
-                    Log.i("tghbbb",it.message.toString())
+                    Log.i("tghbbb", it.message.toString())
                 }
                 .collect {
-                    userDetails.value=it
+                    userDetails.value = it
                 }
         }
     }
+
     fun getRollsAndShortVideos(infCode: String) {
-        var userid=repository.getUserID()
+        var userid = repository.getUserID()
 
-        var request=ReqRollsAndShortVideos(userid,"influencer",infCode)
+        var request = ReqRollsAndShortVideos(userid, "influencer", infCode)
         viewModelScope.launch {
-            repository.getRollsAndShortVideos(request).collect {
-                rollsAndShortvdos.value=it
+            repository.getRollsAndShortVideos(request).catch {
+
+            }.collect {
+                try {
+                    rollsAndShortvdos.value = it
+                } catch (e: Exception) {
+                }
             }
         }
     }
 
-    fun follow(followerid:Int,followtype: String){
-        Log.i("hnm777",followtype)
-        var request= ReqFollow(followtype,"influencer",followerid,repository.getUserID().toInt())
+    fun follow(followerid: Int, followtype: String) {
+        Log.i("hnm777", followtype)
+        var request =
+            ReqFollow(followtype, "influencer", followerid, repository.getUserID().toInt())
         viewModelScope.launch {
             repository.follow(request)
                 .catch {
 
                 }
                 .collect {
-                    Log.i("hnm777",it.message.toString())
+                    Log.i("hnm777", it.message.toString())
                 }
         }
     }
-    fun searchApi(userId: String, dataList: ArrayList<DataSeach>?){
+
+    fun searchApi(userId: String, dataList: ArrayList<DataSeach>?) {
 
         val jsonObject = JSONObject()
         jsonObject.put("user_id", userId.toInt())
         viewModelScope.launch {
             repository.search(jsonObject).catch {
-                Log.e("TAG", "searchApisearch1: "+it.message )
+                Log.e("TAG", "searchApisearch1: " + it.message)
             }.collect {
 
-                Log.e("TAG", "searchApisearch: "+it.data?.get(0)?.name )
-                        dataList?.addAll(it.data!!)
-                        Log.e("TAG", "searchApigr: "+dataList?.get(0)?.name )
+                try {
+                    Log.e("TAG", "searchApisearch: " + it.data?.get(0)?.name)
+                    dataList?.addAll(it.data!!)
+                    Log.e("TAG", "searchApigr: " + dataList?.get(0)?.name)
+                } catch (e: Exception) {
+                }
 
 
             }
         }
     }
+
     fun filter(searchDatalist: ArrayList<DataSeach>): ArrayList<DataSeach>? {
 
         if (filter == null || filter!!.isEmpty()) {
@@ -130,8 +154,8 @@ class HeaderViewModel(
         for (t in searchDatalist) {
             if ((t.name != null && t.name!!.toLowerCase()
                     .contains(filter.toLowerCase())) || (t.userType != null && t.userType!!.toLowerCase()
-                    .contains(filter.toLowerCase())) )
-            {
+                    .contains(filter.toLowerCase()))
+            ) {
                 searchDataList.add(t)
             }
 

@@ -109,7 +109,7 @@ public class SimpleAdapterOtherprofile extends RecyclerView.Adapter<RecyclerView
                     ((VHBanner) holder).hide_text_banner.setText("Currently not accepting orders");
 
                 }else {
-                    ((VHBanner) holder).hide_text_banner.setText(item.getBanner_next_starting());
+                    ((VHBanner) holder).hide_text_banner.setText("Next opens at "+item.getBanner_next_starting());
                 }
             }else {
                 ((VHBanner) holder).bannerHide.setVisibility(View.GONE);
@@ -187,7 +187,7 @@ public class SimpleAdapterOtherprofile extends RecyclerView.Adapter<RecyclerView
                         hide_text_banner_offers.setText("Currently not accepting orders");
 
                     }else {
-                        hide_text_banner_offers.setText(item.getBanner_next_starting());
+                        hide_text_banner_offers.setText("Next opens at "+offersDetail.getOffers_next_starting());
                     }
                 }else {
                     banner_offers_hide.setVisibility(View.GONE);
