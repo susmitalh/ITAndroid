@@ -1,10 +1,8 @@
 package com.locatocam.app.views.home.test;
 
+import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.net.Uri;
-import android.os.Build;
-import android.os.Bundle;
 import android.text.Html;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
@@ -23,8 +21,6 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
-import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -42,6 +38,7 @@ import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory;
 import com.google.android.exoplayer2.upstream.cache.Cache;
 import com.google.android.exoplayer2.upstream.cache.CacheDataSourceFactory;
 import com.google.android.exoplayer2.util.Util;
+import com.locatocam.app.Activity.OtherProfileWithFeedActivity;
 import com.locatocam.app.Activity.PlayPostActivity;
 import com.locatocam.app.ModalClass.AddShare;
 import com.locatocam.app.ModalClass.Follow;
@@ -55,10 +52,8 @@ import com.locatocam.app.security.SharedPrefEnc;
 import com.locatocam.app.views.MainActivity;
 import com.locatocam.app.views.comments.CommentsActivity;
 import com.locatocam.app.views.home.HomeFragment;
-import com.locatocam.app.views.home.OtherProfileWithFeedFragment;
 import com.locatocam.app.views.home.header.HeaderFragment;
 import com.locatocam.app.views.home.header.IHeaderEvents;
-import com.skyhope.showmoretextview.ShowMoreTextView;
 
 import net.minidev.json.JSONObject;
 
@@ -202,7 +197,7 @@ public class SimpleExoPlayerViewHolder extends RecyclerView.ViewHolder implement
 
 
     // called from Adapter to setup the media
-    void bind(Data item, SimpleEvents simpleEvents, int position, PostCountData postCountData, com.locatocam.app.views.home.test.Follow follow) {
+    void bind(Data item, SimpleEvents simpleEvents, int position, PostCountData postCountData, com.locatocam.app.views.home.test.Follow follow, Context context) {
 
 
         if (item != null) {
@@ -217,7 +212,7 @@ public class SimpleExoPlayerViewHolder extends RecyclerView.ViewHolder implement
 
             if (userId.equals(item.getUser_id())){
                 profile_follow_layout.setVisibility(View.GONE);
-                msg_img.setVisibility(View.GONE);
+                msg_img.setVisibility(View.INVISIBLE);
             }else{
                 profile_follow_layout.setVisibility(View.VISIBLE);
                 msg_img.setVisibility(View.VISIBLE);
@@ -232,12 +227,23 @@ public class SimpleExoPlayerViewHolder extends RecyclerView.ViewHolder implement
 
             profile_image.setOnClickListener(v->{
                 if (SimpleAdapter.userClick==true) {
-                    HeaderFragment.Companion.onItemClick(item.getUser_id(), item.getProfile_influencer_code());
+//                    MainActivity.Companion.onItemClick(item.getUser_id(), item.getProfile_influencer_code(),context);
+                    Intent intent=new Intent(context, OtherProfileWithFeedActivity.class);
+                    intent.putExtra("user_id",item.getUser_id());
+                    intent.putExtra("inf_code",item.getProfile_influencer_code());
+                    context.startActivity(intent);
+                    SimpleAdapter.userClick=true;
                 }
             });
             name.setOnClickListener(v->{
                 if (SimpleAdapter.userClick==true) {
-                    HeaderFragment.Companion.onItemClick(item.getUser_id(), item.getProfile_influencer_code());
+//                    MainActivity.Companion.onItemClick(item.getUser_id(), item.getProfile_influencer_code(),context);
+                    Intent intent=new Intent(context, OtherProfileWithFeedActivity.class);
+                    intent.putExtra("user_id",item.getUser_id());
+                    intent.putExtra("inf_code",item.getProfile_influencer_code());
+                    context.startActivity(intent);
+                    SimpleAdapter.userClick=true;
+
                 }
             });
 

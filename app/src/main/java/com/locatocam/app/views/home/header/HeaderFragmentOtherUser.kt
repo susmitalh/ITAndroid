@@ -10,6 +10,11 @@ import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import coil.request.ImageRequest
+import com.android.volley.toolbox.ImageLoader
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.locatocam.app.Activity.OtherProfileWithFeedActivity
 import com.locatocam.app.adapter.InfluencerProfileBannerAdapter
 import com.locatocam.app.adapter.OtherUserTitleAdapter
 import com.locatocam.app.databinding.FragmentHeaderOtherProfileBinding
@@ -18,7 +23,6 @@ import com.locatocam.app.security.SharedPrefEnc
 import com.locatocam.app.utility.OnViewPagerListener
 import com.locatocam.app.utility.ViewPagerLayoutManager
 import com.locatocam.app.viewmodels.HeaderViewModel
-import com.locatocam.app.views.MainActivity
 import com.locatocam.app.views.home.HomeFragment
 import com.locatocam.app.views.home.OtherProfileWithFeedFragment
 import com.locatocam.app.views.rollsexp.RollsExoplayerActivity
@@ -26,8 +30,9 @@ import com.locatocam.app.views.rollsexp.RollsExoplayerActivity
 
 class HeaderFragmentOtherUser(val userid: String) : Fragment(), IHeaderEvents {
 
-
+companion object {
     lateinit var binding: FragmentHeaderOtherProfileBinding
+}
     lateinit var viewModel: HeaderViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -149,10 +154,20 @@ class HeaderFragmentOtherUser(val userid: String) : Fragment(), IHeaderEvents {
                 binding.orderDelivery.visibility = View.VISIBLE
                 binding.orderDineIn.visibility = View.VISIBLE
                 binding.orderPickup.visibility = View.VISIBLE
+
+                HeaderFragment.binding.orderDelivery.visibility = View.VISIBLE
+                HeaderFragment.binding.orderDineIn.visibility = View.VISIBLE
+                HeaderFragment.binding.orderPickup.visibility = View.VISIBLE
+
+
             } else {
                 binding.orderDelivery.visibility = View.GONE
                 binding.orderDineIn.visibility = View.GONE
                 binding.orderPickup.visibility = View.GONE
+
+                HeaderFragment.binding.orderDelivery.visibility = View.GONE
+                HeaderFragment.binding.orderDineIn.visibility = View.GONE
+                HeaderFragment.binding.orderPickup.visibility = View.GONE
             }
 
             if (it.data.user_id.equals(SharedPrefEnc.getPref(context, "user_id"))) {
@@ -165,6 +180,7 @@ class HeaderFragmentOtherUser(val userid: String) : Fragment(), IHeaderEvents {
             it.data.social_details?.forEach { that ->
                 when (that.social_name) {
                     "Facebook" -> {
+
                         binding.facebook.text = " " + that.follower
                         binding.facebook.setOnClickListener {
                             var intent = Intent(Intent.ACTION_VIEW, that.link?.toUri())
@@ -255,6 +271,7 @@ class HeaderFragmentOtherUser(val userid: String) : Fragment(), IHeaderEvents {
         })
     }
 
+
     fun refreshAll() {
         viewModel.getTopInfluencersV(userid, "top")
         //viewModel.getMostPopularVideos()
@@ -263,12 +280,13 @@ class HeaderFragmentOtherUser(val userid: String) : Fragment(), IHeaderEvents {
 
 
     fun setClickListeners() {
-
+        binding.myLocation.text = HomeFragment.add.toString()
         binding.myLocation.setOnClickListener {
 //            Navigation.findNavController(binding.myLocation).navigate(R.id.action_homeFragment_to_locationSearchFragment
 
-            var parnt = requireActivity() as MainActivity
-            parnt.showLocationPopup()
+//            var parnt = requireActivity() as OtherProfileWithFeedFragment
+//            parnt.showLocation()
+            OtherProfileWithFeedFragment.binding.locationView.visibility = View.VISIBLE
 
 
         }
@@ -303,10 +321,11 @@ class HeaderFragmentOtherUser(val userid: String) : Fragment(), IHeaderEvents {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        if (activity is MainActivity) {
-            var act = activity as MainActivity
+        if (activity is OtherProfileWithFeedActivity) {
+            var act = activity as OtherProfileWithFeedActivity
             act.viewModel.address_text.observe(requireActivity(), {
-                binding.myLocation.text = it
+                binding.myLocation.text = HomeFragment.add.toString()
+                HeaderFragment.binding.myLocation.text=it
             })
         }
 

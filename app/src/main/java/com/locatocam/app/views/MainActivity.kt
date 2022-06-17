@@ -5,6 +5,7 @@ import android.R.attr.fragment
 import android.annotation.SuppressLint
 import android.app.Dialog
 import android.app.FragmentTransaction
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Address
@@ -51,6 +52,28 @@ class MainActivity : AppCompatActivity() {
         var lat:Double = 0.0
         var lng:Double = 0.0
         var firstLoca:Boolean=true
+        var isLoaded: Boolean = false
+
+        fun onItemClick(userid: String, inf_code: String,context: Context) {
+            Log.i("kl99999", inf_code + "--" + userid)
+            val bundle = bundleOf("user_id" to userid, "inf_code" to inf_code)
+            isLoaded = true;
+            Navigation
+                .findNavController(HomeFragment.binding.root)
+                .navigate(R.id.action_homeFragment_to_otherProfileWithFeedFragment, bundle)
+            //Navigation.findNavController(binding.root).navigate(R.id.action_homeFragment_to_otherProfileWithFeedFragment)
+
+
+          /*  val fragment = OtherProfileWithFeedFragment()
+            fragment.arguments = bundle;
+            val fm = (context as AppCompatActivity).supportFragmentManager
+            val ft = fm.beginTransaction()
+            val name = OtherProfileWithFeedFragment.javaClass.name;
+            ft.add(R.id.nav_host_fragment, fragment, name)
+            ft.addToBackStack(null)
+            ft.commit()*/
+
+        }
 
     }
     lateinit var dialog:Dialog
@@ -109,12 +132,17 @@ class MainActivity : AppCompatActivity() {
             delay(1000)
              Handler().postDelayed({
                  binding.loader.visibility= View.GONE
+                 binding.bttmNav.visibility=View.VISIBLE
+//                 binding.orderOnline.visibility=View.VISIBLE
        },3000)
-
-            binding.bttmNav.visibility=View.VISIBLE
-//            binding.orderOnline.visibility=View.VISIBLE
         }
+    }
 
+    public fun showLoader(){
+
+        binding.loader.visibility= View.VISIBLE
+       /* binding.bttmNav.visibility=View.GONE
+        binding.orderOnline.visibility=View.GONE*/
     }
    /* public fun showLoader(){
         binding.loader.visibility= View.VISIBLE
@@ -124,8 +152,6 @@ class MainActivity : AppCompatActivity() {
         val childFragments = navHostFragment.childFragmentManager.fragments
         childFragments.forEach { fragment ->
             if(fragment is HomeFragment ){
-                fragment.showLocation()
-            }else if(fragment is OtherProfileWithFeedFragment ){
                 fragment.showLocation()
             }
         }
@@ -186,8 +212,8 @@ class MainActivity : AppCompatActivity() {
 
 
                         viewModel.address_text.value = address
-                        viewModel.lat = location.altitude
-                        viewModel.lng = location.latitude
+                        viewModel.lat = location.latitude
+                    viewModel.lng = location.altitude
 
                     Log.e("TAG", "initLocationff: "+location.altitude )
 
@@ -205,11 +231,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        SimpleExoPlayerViewHolder.volumeMute=false
-        val currentFragment = findNavController(navHostFragment)?.currentDestination
+//        SimpleExoPlayerViewHolder.volumeMute=false
+//        val currentFragment = findNavController(navHostFragment)?.currentDestination
 
       /*  Log.e("TAG", "onBackPressssed: "+currentFragment)
         if (currentFragment is OtherProfileWithFeedFragment)*/
+
         super.onBackPressed()
     }
 

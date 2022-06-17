@@ -72,6 +72,22 @@ public class SimpleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     }
 
+    public List<Data> getList() {
+        return this.mediaList;
+    }
+
+    public void addAgain() {
+        List<Data> old = mediaList;
+        this.mediaList.clear();
+        this.mediaList.addAll(old);
+        notifyDataSetChanged();
+    }
+
+    public void addAtZero(Data newitems) {
+        this.mediaList.add(0, newitems);
+        notifyDataSetChanged();
+    }
+
     public void addAll(List<Data> newitems) {
         this.mediaList.addAll(newitems);
         notifyDataSetChanged();
@@ -113,8 +129,8 @@ public class SimpleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
 
         if (holder instanceof SimpleExoPlayerViewHolder) {
-            userClick=true;
-            ((SimpleExoPlayerViewHolder) holder).bind(mediaList.get(position), simpleEvents, position, postCountData, follow);
+            userClick = true;
+            ((SimpleExoPlayerViewHolder) holder).bind(mediaList.get(position), simpleEvents, position, postCountData, follow, context);
 
 
             String userid = SharedPrefEnc.getPref(context, "user_id");
@@ -154,17 +170,17 @@ public class SimpleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
                     .thumbnail(0.1f)
                     .into(((VHBanner) holder).thumbnile);
-            Log.e("TAG", "onBindViewHoldecffr: "+item.getBanner_brand_active() );
+            Log.e("TAG", "onBindViewHoldecffr: " + item.getBanner_brand_active());
 
-            if (item.getBanner_brand_active()==0){
+            if (item.getBanner_brand_active() == 0) {
                 ((VHBanner) holder).bannerHide.setVisibility(View.VISIBLE);
-                if (item.getBanner_next_starting().equals("")){
+                if (item.getBanner_next_starting().equals("")) {
                     ((VHBanner) holder).hide_text_banner.setText("Currently not accepting orders");
 
-                }else {
-                    ((VHBanner) holder).hide_text_banner.setText("Next opens at "+item.getBanner_next_starting());
+                } else {
+                    ((VHBanner) holder).hide_text_banner.setText("Next opens at " + item.getBanner_next_starting());
                 }
-            }else {
+            } else {
                 ((VHBanner) holder).bannerHide.setVisibility(View.GONE);
             }
 
@@ -180,7 +196,7 @@ public class SimpleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             ViewGroup mLinearLayout = (ViewGroup) ((VHTopbrands) holder).item_holder;
             ViewGroup mScroll = (ViewGroup) ((VHTopbrands) holder).brand_layout_scroll;
             mLinearLayout.removeAllViews();
-            mScroll.scrollTo(0,0);
+            mScroll.scrollTo(0, 0);
             for (TopBrandDetail td : item.getTop_brand_details()) {
                 View layout2 = LayoutInflater.from(((VHTopbrands) holder).item_holder.getContext()).inflate(R.layout.row_layout_top_brands, mLinearLayout, false);
                 TextView name = (TextView) layout2.findViewById(R.id.name);
@@ -208,6 +224,21 @@ public class SimpleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 TextView sellerPercent = layout.findViewById(R.id.seller_percent);
                 TextView sellerBrandName = layout.findViewById(R.id.seller_brand_name);
                 TextView sellerItemName = layout.findViewById(R.id.seller_item_name);
+                TextView hide_best_seller_txt = layout.findViewById(R.id.hide_best_seller_txt);
+                RelativeLayout hide_best_seller_layout = layout.findViewById(R.id.hide_best_seller_layout);
+
+
+                if (bestSeller.getBrand_active() == 0) {
+                    hide_best_seller_layout.setVisibility(View.VISIBLE);
+                    if (bestSeller.getNext_starting().equals("")) {
+                        hide_best_seller_txt.setText("Currently not accepting orders");
+
+                    } else {
+                        hide_best_seller_txt.setText("Next opens at " + bestSeller.getNext_starting());
+                    }
+                } else {
+                    hide_best_seller_layout.setVisibility(View.GONE);
+                }
 
                 Glide.with(sellerImage.getContext())
                         .load(bestSeller.getImage())
@@ -237,15 +268,15 @@ public class SimpleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 TextView hide_text_banner_offers = layout.findViewById(R.id.hide_text_banner_offers);
                 RelativeLayout banner_offers_hide = layout.findViewById(R.id.banner_offers_hide);
 
-                if (offersDetail.getOffers_brand_active()==0){
+                if (offersDetail.getOffers_brand_active() == 0) {
                     banner_offers_hide.setVisibility(View.VISIBLE);
-                    if (offersDetail.getOffers_next_starting().equals("")){
+                    if (offersDetail.getOffers_next_starting().equals("")) {
                         hide_text_banner_offers.setText("Currently not accepting orders");
 
-                    }else {
-                        hide_text_banner_offers.setText("Next opens at "+offersDetail.getOffers_next_starting());
+                    } else {
+                        hide_text_banner_offers.setText("Next opens at " + offersDetail.getOffers_next_starting());
                     }
-                }else {
+                } else {
                     banner_offers_hide.setVisibility(View.GONE);
                 }
 
@@ -357,7 +388,7 @@ public class SimpleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         TextView cusine;
         TextView distance;
         TextView open_hours;
-        TextView ratings,hide_text_banner;
+        TextView ratings, hide_text_banner;
         RelativeLayout bannerHide;
 
         public VHBanner(@NonNull View itView) {

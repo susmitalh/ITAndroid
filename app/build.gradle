@@ -173,7 +173,7 @@ dependencies {
     //Json object
     implementation 'net.minidev:json-smart:2.4.7'
     //reead More
-//    implementation 'kr.co.prnd:readmore-textview:1.0.0'
+    // implementation 'kr.co.prnd:readmore-textview:1.0.0'
     implementation 'com.github.mahimrocky:ShowMoreText:1.0.2'
 
 

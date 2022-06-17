@@ -88,24 +88,30 @@ public class HomeFragment : Fragment(), FeedEvents, ClickEvents, SimpleEvents {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
-
+        var layoutManager = LinearLayoutManager(requireActivity())
+//        if (!MainActivity.isLoaded) {
         binding = FragmentHomeBinding.inflate(layoutInflater)
         var repository = HomeRepository(requireActivity().application, "")
         var factory = HomeViewModelFactory(repository)
         instance = HomeFragment()
         viewModel = ViewModelProvider(this, factory).get(HomeViewModel::class.java)
 
-        var layoutManager = LinearLayoutManager(requireActivity())
         binding.recyclerviewSearch.layoutManager = LinearLayoutManager(requireActivity())
         binding.savedAddress.layoutManager = LinearLayoutManager(requireActivity())
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
 
 
+       /* var it = arrayListOf<com.locatocam.app.data.responses.feed.Data>();
+        it.add(com.locatocam.app.data.responses.feed.Data())
+        if (!MainActivity.isLoaded || binding.playerContainer.adapter == null) {
+            var adapter = SimpleAdapter(context, it, this, commet, follow)
+            binding.playerContainer.setAdapter(adapter)
+        }*/
 
         if (SharedPrefEnc.getPref(requireActivity().application, "user_type") == "poc" ||
-            SharedPrefEnc.getPref(requireActivity().application, "user_type") == "customer") {
+            SharedPrefEnc.getPref(requireActivity().application, "user_type") == "customer"
+        ) {
             binding.createpost.visibility = View.GONE
             binding.shareHeader.visibility = View.GONE
         } else {
@@ -128,10 +134,12 @@ public class HomeFragment : Fragment(), FeedEvents, ClickEvents, SimpleEvents {
 
 
                     if (followStatus.equals("1")) {
-                        var count: Int = (it.get(position).profile_follow_count?.toInt()) as Int + 1
+                        var count: Int =
+                            (it.get(position).profile_follow_count?.toInt()) as Int + 1
                         it.get(position).profile_follow_count = count.toString()
                     } else {
-                        var count: Int = (it.get(position).profile_follow_count?.toInt()) as Int - 1
+                        var count: Int =
+                            (it.get(position).profile_follow_count?.toInt()) as Int - 1
                         it.get(position).profile_follow_count = count.toString()
                     }
                     (binding.playerContainer.adapter as SimpleAdapter)!!.notifyDataSetChanged()
@@ -144,6 +152,7 @@ public class HomeFragment : Fragment(), FeedEvents, ClickEvents, SimpleEvents {
 
             }
 
+//            if (viewModel.offset == 0 && binding.playerContainer.adapter == null) {
             if (viewModel.offset == 0) {
 
                 var adapter = SimpleAdapter(context, it, this, commet, follow)
@@ -237,7 +246,7 @@ public class HomeFragment : Fragment(), FeedEvents, ClickEvents, SimpleEvents {
 
         viewModel.approvalCounts.observe(viewLifecycleOwner, {
             Glide.with(this).load(it.data.profile_pic).into(binding.profile)
-            MainActivity.binding.orderOnline.visibility = View.VISIBLE
+//            MainActivity.binding.orderOnline.visibility = View.VISIBLE
 
             if (it.data.approval_count.toInt() > 0) {
                 binding.approvalCounts.visibility = View.VISIBLE
@@ -279,13 +288,19 @@ public class HomeFragment : Fragment(), FeedEvents, ClickEvents, SimpleEvents {
 
         })
 
-        Log.e("TAG", "onCreatedddView: "+ SharedPrefEnc.getPref(context,"selected_lng") )
-        Log.e("TAG", "onCreatedddView: "+ MainActivity.lat )
+        Log.e("TAG", "onCreatedddView: " + SharedPrefEnc.getPref(context, "selected_lng"))
+        Log.e("TAG", "onCreatedddView: " + MainActivity.lat)
 
-        if (MainActivity.firstLoca==true){
-            viewModel.getApprovalCounts(MainActivity.lat.toString(), MainActivity.lng.toString())
-        }else{
-            viewModel.getApprovalCounts(SharedPrefEnc.getPref(context,"selected_lat"),  SharedPrefEnc.getPref(context,"selected_lng"))
+        if (MainActivity.firstLoca == true) {
+            viewModel.getApprovalCounts(
+                MainActivity.lat.toString(),
+                MainActivity.lng.toString()
+            )
+        } else {
+            viewModel.getApprovalCounts(
+                SharedPrefEnc.getPref(context, "selected_lat"),
+                SharedPrefEnc.getPref(context, "selected_lng")
+            )
         }
 
         binding.messages.setOnClickListener {
@@ -301,6 +316,9 @@ public class HomeFragment : Fragment(), FeedEvents, ClickEvents, SimpleEvents {
                     var totalItemCount = layoutManager.getItemCount()
                     var pastVisiblesItems = layoutManager.findFirstVisibleItemPosition()
                     if (!viewModel.loading) {
+                        Log.e("paggination", "onScrolled: counts "+visibleItemCount+","+ totalItemCount+","+pastVisiblesItems)
+                        Log.e("paggination", "onScrolled: sum "+(visibleItemCount + pastVisiblesItems) )
+                        Log.e("paggination", "onScrolled: total "+totalItemCount.minus(2) )
                         if (visibleItemCount + pastVisiblesItems >= totalItemCount - 2) {
                             Log.v("gt66666", "Last Item Wow !")
                             var act = (requireActivity() as MainActivity)
@@ -308,6 +326,8 @@ public class HomeFragment : Fragment(), FeedEvents, ClickEvents, SimpleEvents {
                                 "TAG location",
                                 "onScrolled: " + act.viewModel.lat + "," + act.viewModel.lng
                             )
+                            Log.e("TAG", "onClickAddressNewLaat: "+SharedPrefEnc.getPref(context,"selected_lat")+" lng "+SharedPrefEnc.getPref(context,"selected_lng") )
+
                             viewModel.getAllFeeds("", act.viewModel.lat, act.viewModel.lng)
 
                         }
@@ -358,6 +378,16 @@ public class HomeFragment : Fragment(), FeedEvents, ClickEvents, SimpleEvents {
             startActivity(intent)
         }
         initAutoComplete()
+//        }
+        /*else {
+                Handler().postDelayed(Runnable {
+                    if (binding.playerContainer.adapter != null) {
+                        (binding.playerContainer.adapter as SimpleAdapter).addAgain()
+                    }
+                    MainActivity.isLoaded = false
+                }, 800);
+
+            }*/
         return binding.root
     }
 
@@ -390,8 +420,8 @@ public class HomeFragment : Fragment(), FeedEvents, ClickEvents, SimpleEvents {
                     if (activity is MainActivity) {
                         var act = activity as MainActivity
                         act.viewModel.address_text.value = address
-                        act.viewModel.lat = location.altitude
-                        act.viewModel.lng = location.latitude
+                        act.viewModel.lat = location.latitude
+                        act.viewModel.lng =  location.altitude
                         binding.locationView.visibility = View.GONE
 
 
@@ -532,8 +562,7 @@ public class HomeFragment : Fragment(), FeedEvents, ClickEvents, SimpleEvents {
             add = data.customer_address.toString()
             viewModel.getAllFeeds("", act.viewModel.lat, act.viewModel.lng)
             firstCall = true
-            MainActivity.firstLoca=false
-
+            MainActivity.firstLoca = false
 
 
         }
@@ -572,6 +601,9 @@ public class HomeFragment : Fragment(), FeedEvents, ClickEvents, SimpleEvents {
             var act = activity as MainActivity
             act.viewModel.address_text.observe(requireActivity(), {
                 binding.myLocation.text = it
+                add=it
+
+
                 try {
                     SharedPrefEnc.setPref("selected_address", it, context)
 
@@ -582,10 +614,9 @@ public class HomeFragment : Fragment(), FeedEvents, ClickEvents, SimpleEvents {
                 binding.locationView.visibility = View.GONE
                 viewModel.offset = 0
                 viewModel._isheader_added = false
-                if (firstCall)
+                if (firstCall) {
                         viewModel.getAllFeeds("", act.viewModel.lat, act.viewModel.lng)
-
-
+                }
             })
 
 
@@ -595,6 +626,14 @@ public class HomeFragment : Fragment(), FeedEvents, ClickEvents, SimpleEvents {
 
     override fun onResume() {
         Log.e("TAG", "onResume: ")
+
+//        viewModel._isheader_added = false
+        /* Handler().postDelayed(Runnable {
+             if (binding.playerContainer.adapter != null) {
+                 (binding.playerContainer.adapter as SimpleAdapter).addAgain()
+             }
+         }, 1000);*/
+
         super.onResume()
     }
 
@@ -635,12 +674,15 @@ public class HomeFragment : Fragment(), FeedEvents, ClickEvents, SimpleEvents {
 
     override fun isHeaderAdded(): Boolean {
         return viewModel._isheader_added
+
     }
 
     override fun addHeader() {
         viewModel._isheader_added = false
+        Log.e("TAG", "isHeaderAddedc: ")
     }
-    fun openFragment(){
+
+    fun openFragment() {
 
     }
 

@@ -52,10 +52,11 @@ class HomeViewModel(
 
     fun getAllFeeds(infcode: String, lat: Double, lng: Double) {
         Log.e("TAG", "getAllFeedsdd : " + lat + "  " + lng + " " + lastid.toString()+","+offset)
+        Log.e("paggination", "getAllFeeds: " )
         loading = true
         Log.i("rtgbbb", offset.toString())
         Log.i("rtgbbb", lastid.toString())
-        Log.e("TAG", "getAllhhFeeds: " + lat + " " + lng)
+        Log.e("paggination", "getAllhhFeeds: " + lat + " " + lng)
         var request = ReqFeed(
             "inside",
             infcode,
@@ -66,7 +67,7 @@ class HomeViewModel(
             repository.getUserID().toInt(),
             lastid.toString()
         )
-        Log.e("TAG", "getAllFeeds: "+"inside"+","+infcode+","+lat+","+lng+","+ offset+","+"influencer"+","+repository.getUserID().toInt()+","+lastid)
+        Log.e("paggination", "getAllFeedsss: "+"inside"+","+infcode+","+lat+","+lng+","+ offset+","+"influencer"+","+repository.getUserID().toInt()+","+lastid)
         repository.getAllFeeds(request)
 
         viewModelScope.launch {
@@ -79,19 +80,20 @@ class HomeViewModel(
                         res.add(Data());
                         feed_items.value = res
                     } catch (e: Exception) {
-
+                        Log.e("paggination", "getAllFeeds: catch catch" )
                     }
 
-                    Log.i("tghbbb", it.message.toString())
+                    Log.e("paggination", it.message.toString())
                 }
                 .collect {
                     try {
-
+                        Log.e("paggination", "getAllFeeds: collect" )
                         feed_items.value = it
                         offset++
 
                         lastid = getLastID(it).toInt()
                     } catch (e: Exception) {
+                        Log.e("paggination", "getAllFeeds: catch" )
                     }
                 }
         }
@@ -141,6 +143,7 @@ class HomeViewModel(
 
     fun getApprovalCounts(lat: String, lng: String) {
         //var request= ReqLike(process,"post",postid,repository.getUserID().toInt())
+        Log.e("TAG", "getApprovalCounts: "+lat+","+lng )
         var request = ReqGetCounts(lat.toString(), lng.toString(), repository.getUserID())
 
         viewModelScope.launch {

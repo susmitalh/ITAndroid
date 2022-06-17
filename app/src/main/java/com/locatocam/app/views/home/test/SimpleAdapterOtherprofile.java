@@ -94,7 +94,7 @@ public class SimpleAdapterOtherprofile extends RecyclerView.Adapter<RecyclerView
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof SimpleExoPlayerViewHolder) {
             SimpleAdapter.userClick=false;
-            ((SimpleExoPlayerViewHolder) holder).bind(mediaList.get(position), simpleEvents, position, postCountData, follow);
+            ((SimpleExoPlayerViewHolder) holder).bind(mediaList.get(position), simpleEvents, position, postCountData, follow, context);
         } else if (holder instanceof VHBanner) {
             Data item = mediaList.get(position);
             Glide.with(((VHBanner) holder).thumbnile.getContext())

@@ -34,6 +34,11 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="m">
         <activity
+            android:name=".Activity.OtherProfileWithFeedActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/ThemeNoActionBar" />
+        <activity
             android:name=".Activity.ViewMyPostActivity"
             android:exported="false"
             android:screenOrientation="portrait"

@@ -3,6 +3,7 @@ package com.locatocam.app.views.home.header
 import android.Manifest
 import android.app.Activity
 import android.app.Dialog
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
@@ -32,6 +33,7 @@ import com.locatocam.app.views.MainActivity
 import com.locatocam.app.views.createrolls.VideoRecorder
 import com.locatocam.app.views.home.HomeFragment
 import com.locatocam.app.views.home.HomeFragment.Companion.binding
+import com.locatocam.app.views.home.test.SimpleAdapter
 import com.locatocam.app.views.rollsexp.RollsExoplayerActivity
 
 
@@ -40,24 +42,16 @@ class HeaderFragment : Fragment(), IHeaderEvents {
 
         lateinit var loginType:String
         lateinit var userid:String
+        lateinit var binding: FragmentHeaderBinding
 
-        fun onItemClick(userid: String, inf_code: String) {
-            Log.i("kl99999", inf_code + "--" + userid)
-            val bundle = bundleOf("user_id" to userid, "inf_code" to inf_code)
-            Navigation
-                .findNavController(HomeFragment.binding.root)
-                .navigate(R.id.action_homeFragment_to_otherProfileWithFeedFragment, bundle)
-            //Navigation.findNavController(binding.root).navigate(R.id.action_homeFragment_to_otherProfileWithFeedFragment)
-
-        }
 
     }
-    lateinit var binding: FragmentHeaderBinding
+
 
     lateinit var viewModel: HeaderViewModel
     lateinit var dialog: Dialog
 
-    lateinit var searchAdapter: SearchAdapter
+    var searchAdapter: SearchAdapter? =null
 
 
     var dataList: ArrayList<DataSeach>? = ArrayList()
@@ -195,8 +189,13 @@ class HeaderFragment : Fragment(), IHeaderEvents {
                 viewModel.filter = binding.searchBrand.getText().toString()
 
                 searchBrandList = viewModel.filter(dataList!!)
-                searchAdapter.updateList(searchBrandList as ArrayList<DataSeach>?)
-                searchAdapter.notifyDataSetChanged()
+                if (searchAdapter != null) {
+                    searchAdapter!!.updateList(searchBrandList as ArrayList<DataSeach>?)
+                    searchAdapter!!.notifyDataSetChanged()
+                }
+//                (HomeFragment.binding.searchRecyclerView.adapter as SearchAdapter).updateList(searchBrandList as ArrayList<DataSeach>?)
+//                (HomeFragment.binding.searchRecyclerView.adapter as SearchAdapter).notifyDataSetChanged()
+
 
             }
 
@@ -216,8 +215,9 @@ class HeaderFragment : Fragment(), IHeaderEvents {
 
             HomeFragment.binding.searchRecyclerView.layoutManager =
                 LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-            searchAdapter = SearchAdapter(dataList)
+             searchAdapter = SearchAdapter(dataList)
             HomeFragment.binding.searchRecyclerView.adapter = searchAdapter
+
 
 
         }
@@ -295,19 +295,19 @@ class HeaderFragment : Fragment(), IHeaderEvents {
 
     override fun onItemClick(userid: String, inf_code: String) {
         Log.i("kl99999", inf_code + "--" + userid)
-        val bundle = bundleOf("user_id" to userid, "inf_code" to inf_code)
+      /*  val bundle = bundleOf("user_id" to userid, "inf_code" to inf_code)
         Navigation
             .findNavController(binding.root)
-            .navigate(R.id.action_homeFragment_to_otherProfileWithFeedFragment, bundle)
+            .navigate(R.id.action_homeFragment_to_otherProfileWithFeedFragment, bundle)*/
      //Navigation.findNavController(binding.root).navigate(R.id.action_homeFragment_to_otherProfileWithFeedFragment)
 
     }
 
     override fun onItemMostPopularVideos(user_id: String, inf_code: String) {
-        val bundle = bundleOf("user_id" to user_id, "inf_code" to inf_code)
+      /*  val bundle = bundleOf("user_id" to user_id, "inf_code" to inf_code)
         Navigation
             .findNavController(binding.root)
-            .navigate(R.id.action_homeFragment_to_otherProfileWithFeedFragment, bundle)
+            .navigate(R.id.action_homeFragment_to_otherProfileWithFeedFragment, bundle)*/
     }
 
     override fun onItemRollsAndShortVideos(firstid: String) {
@@ -324,6 +324,7 @@ class HeaderFragment : Fragment(), IHeaderEvents {
             var act = activity as MainActivity
             act.viewModel.address_text.observe(requireActivity(), {
                 binding.myLocation.text = it
+
             })
         }
 

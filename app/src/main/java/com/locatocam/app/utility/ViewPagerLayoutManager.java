@@ -48,6 +48,7 @@ public class ViewPagerLayoutManager extends LinearLayoutManager {
 
     public void onAttachedToWindow(RecyclerView recyclerView) {
         super.onAttachedToWindow(recyclerView);
+        recyclerView.setOnFlingListener(null);
         this.mPagerSnapHelper.attachToRecyclerView(recyclerView);
         this.mRecyclerView = recyclerView;
         this.mRecyclerView.addOnChildAttachStateChangeListener(this.mChildAttachStateChangeListener);

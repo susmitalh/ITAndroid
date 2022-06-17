@@ -12,4 +12,6 @@ class BestSeller {
     var item_name: String? = null
     var image: String? = null
     var percentage: String? = null
+    var brand_active: Int? = null
+    var next_starting: String? = null
 }
