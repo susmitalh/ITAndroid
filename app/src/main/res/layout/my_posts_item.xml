@@ -48,12 +48,12 @@
         android:id="@+id/options_mypost"
         android:layout_width="@dimen/_25sdp"
         android:layout_height="@dimen/_25sdp"
+        android:layout_marginBottom="@dimen/_8sdp"
         android:background="@null"
-        android:visibility="gone"
         android:src="@drawable/ic_baseline_more_vert_24"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@+id/post_image"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginBottom="@dimen/_8sdp"
         app:tint="#7C7B7B" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

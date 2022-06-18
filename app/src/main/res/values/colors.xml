@@ -30,5 +30,7 @@
     <color name="vb">#000000</color>
     <color name="light_red">#F4D1D1</color>
     <color name="black_transperent">#94000000</color>
+    <color name="msg_count">#BA0F02</color>
+    <color name="msg_count_stroke">#F44336</color>
 
 </resources>

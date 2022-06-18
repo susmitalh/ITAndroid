@@ -226,7 +226,7 @@ public class SimpleExoPlayerViewHolder extends RecyclerView.ViewHolder implement
 
 
             profile_image.setOnClickListener(v->{
-                if (SimpleAdapter.userClick==true) {
+                if (SimpleAdapter.userClick) {
 //                    MainActivity.Companion.onItemClick(item.getUser_id(), item.getProfile_influencer_code(),context);
                     Intent intent=new Intent(context, OtherProfileWithFeedActivity.class);
                     intent.putExtra("user_id",item.getUser_id());
@@ -236,7 +236,7 @@ public class SimpleExoPlayerViewHolder extends RecyclerView.ViewHolder implement
                 }
             });
             name.setOnClickListener(v->{
-                if (SimpleAdapter.userClick==true) {
+                if (SimpleAdapter.userClick) {
 //                    MainActivity.Companion.onItemClick(item.getUser_id(), item.getProfile_influencer_code(),context);
                     Intent intent=new Intent(context, OtherProfileWithFeedActivity.class);
                     intent.putExtra("user_id",item.getUser_id());

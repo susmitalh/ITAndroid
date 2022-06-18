@@ -1,22 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
     <RelativeLayout
-        android:layout_marginBottom="80dp"
-        android:background="@color/white"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginBottom="80dp"
+        android:background="@color/white"
         tools:context=".views.followers.FollowersFragment">
+
         <androidx.cardview.widget.CardView
             android:id="@+id/cardView"
-            app:cardElevation="5dp"
             android:layout_width="match_parent"
-            android:layout_height="50dp">
+            android:layout_height="50dp"
+            app:cardElevation="5dp">
+
             <RelativeLayout
-                android:background="@color/white"
                 android:layout_width="match_parent"
-                android:layout_height="50dp">
+                android:layout_height="50dp"
+                android:background="@color/white">
 
                 <Button
                     android:layout_width="65dp"
@@ -54,8 +57,9 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_below="@+id/cardView">
+            android:layout_below="@+id/cardView"
+            android:orientation="vertical">
+
             <androidx.core.widget.NestedScrollView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -65,17 +69,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
+
                         <com.google.android.material.tabs.TabLayout
 
-                            app:tabIndicatorColor="@color/black"
-                            app:tabTextColor="@color/black"
-                            app:tabSelectedTextColor="@color/black"
-                            app:tabIconTint="@color/grey"
-                            app:tabInlineLabel="true"
                             android:id="@+id/tabLayout"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -84,15 +85,19 @@
                             app:layout_constraintBottom_toTopOf="@+id/viewPager"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" >
-                        </com.google.android.material.tabs.TabLayout>
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:tabIconTint="@color/grey"
+                            app:tabIndicatorColor="@color/black"
+                            app:tabInlineLabel="true"
+                            app:tabSelectedTextColor="@color/black"
+                            app:tabTextColor="@color/black"></com.google.android.material.tabs.TabLayout>
 
 
                         <androidx.viewpager.widget.ViewPager
-                            android:layout_margin="7dp"
                             android:id="@+id/viewPager"
                             android:layout_width="0dp"
                             android:layout_height="0dp"
+                            android:layout_margin="7dp"
                             android:layout_marginStart="1dp"
                             android:layout_marginEnd="1dp"
                             android:layout_marginBottom="1dp"
@@ -100,28 +105,28 @@
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/tabLayout" />
-                       <!-- <com.google.android.material.tabs.TabLayout
-                            android:id="@+id/tab_layout"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content" />
+                        <!-- <com.google.android.material.tabs.TabLayout
+                             android:id="@+id/tab_layout"
+                             android:layout_width="match_parent"
+                             android:layout_height="wrap_content" />
 
-                        <androidx.viewpager2.widget.ViewPager2
-                            android:id="@+id/pager"
-                            android:layout_width="match_parent"
-                            android:layout_height="0dp"
-                            android:layout_weight="1" />-->
+                         <androidx.viewpager2.widget.ViewPager2
+                             android:id="@+id/pager"
+                             android:layout_width="match_parent"
+                             android:layout_height="0dp"
+                             android:layout_weight="1" />-->
                         <EditText
-                            android:visibility="gone"
+                            android:layout_width="match_parent"
+                            android:layout_height="35dp"
                             android:layout_margin="7dp"
-                            android:textSize="12sp"
+                            android:layout_marginRight="10dp"
+                            android:layout_weight="2"
                             android:background="@drawable/edt_rnd_search"
                             android:hint="Search followers"
-                            android:layout_weight="2"
-                            android:textColorHint="@color/grey"
                             android:paddingLeft="10dp"
-                            android:layout_marginRight="10dp"
-                            android:layout_width="match_parent"
-                            android:layout_height="35dp"/>
+                            android:textColorHint="@color/grey"
+                            android:textSize="12sp"
+                            android:visibility="gone" />
                     </LinearLayout>
 
 

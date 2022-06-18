@@ -1,42 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:rsb="http://schemas.android.com/tools"
-    android:orientation="vertical"
-    android:background="@color/black"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/black"
+    android:orientation="vertical">
+
     <ImageButton
         android:id="@+id/trim_all"
-        android:src="@drawable/ic_check_black_24dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
         android:layout_margin="10dp"
         android:background="@null"
-        android:layout_alignParentRight="true"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:src="@drawable/ic_check_black_24dp" />
+
     <VideoView
         android:id="@+id/videoview"
-        android:layout_centerVertical="true"
         android:layout_width="match_parent"
-        android:layout_height="300dp" />
+        android:layout_height="300dp"
+        android:layout_centerVertical="true" />
+
     <com.yahoo.mobile.client.android.util.rangeseekbar.RangeSeekBar
         android:id="@+id/rangeSeekbar"
-        android:layout_alignParentBottom="true"
-        android:background="@color/black"
-        android:saveEnabled="true"
-        android:focusedByDefault="true"
-        android:layout_marginBottom="50dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="50dp"
+        android:background="@color/black"
+        android:focusedByDefault="true"
+        android:saveEnabled="true"
         rsb:absoluteMaxValue="100"
         rsb:absoluteMinValue="0" />
+
     <TextView
         android:id="@+id/time_total"
-        android:textColor="@color/white"
-        android:text=""
-        android:gravity="center_horizontal"
-        android:layout_marginBottom="20dp"
-        android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="20dp"
+        android:gravity="center_horizontal"
+        android:text=""
+        android:textColor="@color/white" />
 </RelativeLayout>

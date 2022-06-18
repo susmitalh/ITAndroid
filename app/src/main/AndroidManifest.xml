@@ -31,8 +31,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.LT_MVVM"
-        android:usesCleartextTraffic="true"
-        tools:targetApi="m">
+        android:usesCleartextTraffic="true">
         <activity
             android:name=".Activity.OtherProfileWithFeedActivity"
             android:exported="false"
@@ -57,7 +56,7 @@
             android:name=".views.SplashScreenActivity"
             android:exported="true"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.Design.NoActionBar">
+            android:theme="@style/Theme.LT_MVVM_NoactionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -241,7 +240,7 @@
             android:name=".views.MainActivity"
             android:exported="true"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.Design.NoActionBar" />
+            android:theme="@style/Theme.LT_MVVM_NoactionBar" />
 
         <meta-data
             android:name="com.google.android.gms.version"

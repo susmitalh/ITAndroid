@@ -1,135 +1,147 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
+
     <RelativeLayout
-        android:background="@color/white"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/white"
         tools:context=".views.order_online.ActivityOrderOnline">
+
         <LinearLayout
             android:id="@+id/header"
-            android:layout_margin="5dp"
             android:layout_width="match_parent"
-            android:visibility="gone"
-            android:layout_height="35dp">
+            android:layout_height="35dp"
+            android:layout_margin="5dp"
+            android:visibility="gone">
+
             <TextView
                 android:id="@+id/my_location"
-                android:layout_weight="8"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
+                android:layout_weight="8"
                 android:drawableLeft="@drawable/ic_geo_alt_black"
                 android:drawableRight="@drawable/ic_baseline_arrow_drop_down_24"
                 android:gravity="center_vertical"
+                android:singleLine="true"
                 android:text="  Delivery at-"
                 android:textColor="@color/black"
                 android:textSize="12sp"
-                android:singleLine="true"
                 android:textStyle="bold" />
+
             <ImageView
-                android:src="@drawable/ic_house"
-                android:padding="5dp"
-                android:layout_weight="1"
                 android:layout_width="0dp"
-                android:layout_height="match_parent"/>
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:padding="5dp"
+                android:src="@drawable/ic_house" />
         </LinearLayout>
 
 
         <androidx.core.widget.NestedScrollView
-            android:layout_below="@+id/header"
-            android:scrollbars="none"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_below="@+id/header"
+            android:scrollbars="none">
+
             <LinearLayout
-                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
                 <LinearLayout
                     android:id="@+id/fltr"
-                    android:orientation="horizontal"
                     android:layout_width="match_parent"
-                    android:layout_height="100dp">
+                    android:layout_height="100dp"
+                    android:orientation="horizontal">
+
                     <LinearLayout
-                        android:visibility="visible"
+                        android:layout_width="match_parent"
+                        android:layout_height="80dp"
                         android:layout_marginTop="10dp"
                         android:orientation="horizontal"
-                        android:layout_width="match_parent"
-                        android:layout_height="80dp">
+                        android:visibility="visible">
+
                         <RelativeLayout
-                            android:background="@drawable/tile_home"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
                             android:layout_margin="5dp"
                             android:layout_weight="1"
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent">
+                            android:background="@drawable/tile_home">
 
                             <ImageView
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:scaleType="centerCrop"
                                 android:src="@drawable/delivery" />
+
                             <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentBottom="true"
+                                android:background="@color/transparent_black"
                                 android:gravity="center"
                                 android:text="Delivery"
-                                android:textSize="10dp"
                                 android:textColor="@color/white"
-                                android:background="@color/transparent_black"
-                                android:layout_alignParentBottom="true"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"/>
+                                android:textSize="10dp" />
                         </RelativeLayout>
+
                         <RelativeLayout
-                            android:background="@drawable/tile_home"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
                             android:layout_margin="5dp"
                             android:layout_weight="1"
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent">
+                            android:background="@drawable/tile_home">
 
                             <ImageView
-                                android:layout_margin="2dp"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
+                                android:layout_margin="2dp"
                                 android:scaleType="centerCrop"
                                 android:src="@drawable/dinein" />
+
                             <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentBottom="true"
+                                android:background="@color/transparent_black"
                                 android:gravity="center"
                                 android:text="Dine in"
-                                android:textSize="10dp"
                                 android:textColor="@color/white"
-                                android:background="@color/transparent_black"
-                                android:layout_alignParentBottom="true"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"/>
+                                android:textSize="10dp" />
                         </RelativeLayout>
+
                         <RelativeLayout
-                            android:background="@drawable/tile_home"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
                             android:layout_margin="5dp"
                             android:layout_weight="1"
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent">
+                            android:background="@drawable/tile_home">
 
                             <ImageView
-                                android:layout_margin="2dp"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
+                                android:layout_margin="2dp"
                                 android:scaleType="centerCrop"
                                 android:src="@drawable/pickup" />
+
                             <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentBottom="true"
+                                android:background="@color/transparent_black"
                                 android:gravity="center"
                                 android:text="Pickup"
-                                android:textSize="10dp"
                                 android:textColor="@color/white"
-                                android:background="@color/transparent_black"
-                                android:layout_alignParentBottom="true"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"/>
+                                android:textSize="10dp" />
                         </RelativeLayout>
+
                         <RelativeLayout
-                            android:background="@drawable/tile_home"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
                             android:layout_margin="5dp"
                             android:layout_weight="1"
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent">
+                            android:background="@drawable/tile_home">
 
                             <ImageView
                                 android:layout_width="match_parent"
@@ -147,146 +159,161 @@
                                 android:textColor="@color/white"
                                 android:textSize="10dp" />
                         </RelativeLayout>
+
                         <RelativeLayout
-                            android:background="@drawable/tile_home"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
                             android:layout_margin="5dp"
                             android:layout_weight="1"
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent">
+                            android:background="@drawable/tile_home">
+
                             <ImageView
-                                android:src="@drawable/order_history"
-                                android:scaleType="centerCrop"
                                 android:layout_width="match_parent"
-                                android:layout_height="match_parent"/>
+                                android:layout_height="match_parent"
+                                android:scaleType="centerCrop"
+                                android:src="@drawable/order_history" />
+
                             <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentBottom="true"
+                                android:background="@color/transparent_black"
                                 android:gravity="center"
                                 android:text="Order history"
-                                android:textSize="10dp"
                                 android:textColor="@color/white"
-                                android:background="@color/transparent_black"
-                                android:layout_alignParentBottom="true"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"/>
+                                android:textSize="10dp" />
                         </RelativeLayout>
                     </LinearLayout>
                 </LinearLayout>
+
                 <EditText
                     android:id="@+id/search"
-                    android:textSize="12sp"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
                     android:layout_margin="5dp"
                     android:background="@drawable/edt_rnd_search"
-                    android:hint=" Restaurants and cuisines"
                     android:drawableLeft="@drawable/ic_search"
-                    android:textColorHint="@color/grey"
+                    android:hint=" Restaurants and cuisines"
                     android:paddingLeft="10dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="30dp"/>
+                    android:textColorHint="@color/grey"
+                    android:textSize="12sp" />
+
                 <LinearLayout
                     android:id="@+id/filters"
-                    android:orientation="horizontal"
-                    android:paddingRight="5dp"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingRight="5dp">
+
                     <TextView
                         android:id="@+id/outdor_catering"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
                         android:layout_below="@+id/universal_search"
-                        android:tag="outdoor_catering"
                         android:layout_marginLeft="5dp"
                         android:layout_marginTop="5dp"
-                        android:textSize="12sp"
-                        android:gravity="center_horizontal"
-                        android:button="@null"
-                        android:padding="5dp"
-                        android:background="@drawable/oval_black_border"
-                        android:textColor="@color/black"
-                        android:text="Homely"
                         android:layout_weight="1"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content" />
+                        android:background="@drawable/oval_black_border"
+                        android:button="@null"
+                        android:gravity="center_horizontal"
+                        android:padding="5dp"
+                        android:tag="outdoor_catering"
+                        android:text="Homely"
+                        android:textColor="@color/black"
+                        android:textSize="12sp" />
+
                     <TextView
                         android:id="@+id/veg_dishes"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
                         android:layout_below="@+id/universal_search"
-                        android:tag="outdoor_catering"
                         android:layout_marginLeft="5dp"
                         android:layout_marginTop="5dp"
-                        android:textSize="12sp"
-                        android:gravity="center_horizontal"
-                        android:button="@null"
-                        android:padding="5dp"
-                        android:background="@drawable/oval_black_border"
-                        android:textColor="@color/black"
-                        android:text="Veg Dishes"
                         android:layout_weight="1"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content" />
+                        android:background="@drawable/oval_black_border"
+                        android:button="@null"
+                        android:gravity="center_horizontal"
+                        android:padding="5dp"
+                        android:tag="outdoor_catering"
+                        android:text="Veg Dishes"
+                        android:textColor="@color/black"
+                        android:textSize="12sp" />
+
                     <TextView
                         android:id="@+id/cuisines"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
                         android:layout_below="@+id/universal_search"
-                        android:tag="outdoor_catering"
                         android:layout_marginLeft="5dp"
                         android:layout_marginTop="5dp"
-                        android:textSize="12sp"
-                        android:gravity="center_horizontal"
-                        android:button="@null"
-                        android:padding="5dp"
-                        android:background="@drawable/oval_black_border"
-                        android:textColor="@color/black"
-                        android:text="Cuisines"
                         android:layout_weight="1"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content" />
+                        android:background="@drawable/oval_black_border"
+                        android:button="@null"
+                        android:gravity="center_horizontal"
+                        android:padding="5dp"
+                        android:tag="outdoor_catering"
+                        android:text="Cuisines"
+                        android:textColor="@color/black"
+                        android:textSize="12sp" />
+
                     <TextView
                         android:id="@+id/rating"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
                         android:layout_below="@+id/universal_search"
-                        android:tag="outdoor_catering"
                         android:layout_marginLeft="5dp"
                         android:layout_marginTop="5dp"
-                        android:textSize="12sp"
-                        android:gravity="center_horizontal"
-                        android:button="@null"
-                        android:padding="5dp"
-                        android:background="@drawable/oval_black_border"
-                        android:textColor="@color/black"
-                        android:text="Rating 3.5+"
                         android:layout_weight="1"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content" />
+                        android:background="@drawable/oval_black_border"
+                        android:button="@null"
+                        android:gravity="center_horizontal"
+                        android:padding="5dp"
+                        android:tag="outdoor_catering"
+                        android:text="Rating 3.5+"
+                        android:textColor="@color/black"
+                        android:textSize="12sp" />
                 </LinearLayout>
+
                 <LinearLayout
-                    android:layout_below="@+id/filters"
-                    android:orientation="vertical"
-                    android:layout_marginTop="10dp"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/filters"
+                    android:layout_marginTop="10dp"
+                    android:orientation="vertical">
+
                     <fragment
                         android:id="@+id/f_selected_brands"
                         android:name="com.locatocam.app.views.order_online.fragments.SelectedBrandsFragment"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content" />
+
                     <fragment
                         android:id="@+id/offers"
-                        android:layout_marginTop="5dp"
                         android:name="com.locatocam.app.views.order_online.fragments.OffersForYouFragment"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp" />
+
                     <fragment
                         android:id="@+id/tdc"
-                        android:layout_marginTop="5dp"
                         android:name="com.locatocam.app.views.order_online.fragments.TopBrandsFragment"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp" />
+
                     <fragment
                         android:id="@+id/tpopics"
-                        android:layout_marginTop="5dp"
                         android:name="com.locatocam.app.views.order_online.fragments.TopPicsFragment"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp" />
+
                     <fragment
                         android:id="@+id/popbrands"
-                        android:layout_marginTop="5dp"
                         android:name="com.locatocam.app.views.order_online.fragments.PopularBrandsFragment"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp" />
                 </LinearLayout>
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
@@ -316,6 +343,7 @@
                     android:layout_marginTop="5dp"
                     android:layout_marginRight="10dp"
                     android:background="@color/grey" />
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -345,29 +373,33 @@
                 </LinearLayout>
 
             </LinearLayout>
+
             <LinearLayout
                 android:id="@+id/tyu"
-                android:padding="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_below="@+id/sbar"
                 android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:padding="10dp">
+
                 <TextView
                     android:id="@+id/use_current_location"
-                    android:textSize="12dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:drawableLeft="@drawable/ic_baseline_gps_fixed_24"
-                    android:textColor="@color/red"
                     android:text="  Use current location"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:textColor="@color/red"
+                    android:textSize="12dp" />
+
                 <TextView
-                    android:textSize="14dp"
-                    android:layout_marginTop="10dp"
-                    android:textColor="@color/black"
-                    android:text="Saved Addresses"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="Saved Addresses"
+                    android:textColor="@color/black"
+                    android:textSize="14dp" />
             </LinearLayout>
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/savedAddress"
                 android:layout_width="match_parent"
@@ -376,14 +408,15 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:visibility="visible" />
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerview_search"
-                android:visibility="gone"
                 android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_below="@+id/sbar"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:layout_height="200dp"
-                android:layout_below="@+id/sbar" />
+                android:visibility="gone" />
         </RelativeLayout>
 
     </RelativeLayout>

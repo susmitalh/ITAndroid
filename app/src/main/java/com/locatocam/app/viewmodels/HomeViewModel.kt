@@ -38,11 +38,8 @@ class HomeViewModel(
 
     var offset: Int
     var lastid: Int
-    var lastposition = 0
     var loading = true
     var user_id = ""
-
-    var user_phone = ""
     var _isheader_added = false
 
     init {

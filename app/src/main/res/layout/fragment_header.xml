@@ -102,8 +102,11 @@
                             android:textSize="12sp" />
 
                         <Switch
+                            android:id="@+id/dark_mode"
                             android:layout_width="wrap_content"
-                            android:layout_height="match_parent" />
+                            android:layout_height="match_parent"
+                            android:thumbTint="@color/white"
+                            android:trackTint="@color/black" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -173,11 +176,10 @@
                                 android:layout_marginStart="@dimen/_5sdp"
                                 android:layout_marginTop="@dimen/_5sdp"
                                 android:text="Delivery"
-                                android:textSize="@dimen/_9ssp"
                                 android:textColor="@color/white"
+                                android:textSize="@dimen/_9ssp"
                                 app:layout_constraintStart_toStartOf="@+id/delivery_layout"
                                 app:layout_constraintTop_toTopOf="@+id/delivery_layout" />
-
 
 
                         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -190,16 +192,17 @@
                             android:src="@drawable/delivery"
                             app:layout_constraintStart_toStartOf="@+id/delivery_layout"
                             app:layout_constraintTop_toTopOf="@+id/delivery_layout" />
+
                         <RelativeLayout
                             android:id="@+id/order_delivery"
                             android:layout_width="0dp"
                             android:layout_height="0dp"
                             android:background="@drawable/order_fill"
                             android:visibility="gone"
-                            app:layout_constraintStart_toStartOf="@+id/delivery_layout"
-                            app:layout_constraintTop_toTopOf="@+id/delivery_layout"
+                            app:layout_constraintBottom_toBottomOf="@+id/delivery_layout"
                             app:layout_constraintEnd_toEndOf="@+id/delivery_layout"
-                            app:layout_constraintBottom_toBottomOf="@+id/delivery_layout"/>
+                            app:layout_constraintStart_toStartOf="@+id/delivery_layout"
+                            app:layout_constraintTop_toTopOf="@+id/delivery_layout" />
 
 
                         <androidx.constraintlayout.widget.ConstraintLayout
@@ -217,8 +220,8 @@
                                 android:layout_marginStart="@dimen/_5sdp"
                                 android:layout_marginTop="@dimen/_5sdp"
                                 android:text="Dine In"
-                                android:textSize="@dimen/_9ssp"
                                 android:textColor="@color/black"
+                                android:textSize="@dimen/_9ssp"
                                 app:layout_constraintStart_toStartOf="@+id/dineIn_layout"
                                 app:layout_constraintTop_toTopOf="@+id/dineIn_layout" />
 
@@ -233,6 +236,7 @@
                             android:src="@drawable/dinein"
                             app:layout_constraintStart_toStartOf="@+id/dineIn_layout"
                             app:layout_constraintTop_toTopOf="@+id/dineIn_layout" />
+
                         <RelativeLayout
                             android:id="@+id/order_dineIn"
                             android:layout_width="0dp"
@@ -240,10 +244,10 @@
                             android:background="@drawable/order_fill"
                             android:elevation="@dimen/_5sdp"
                             android:visibility="gone"
-                            app:layout_constraintStart_toStartOf="@+id/dineIn_layout"
-                            app:layout_constraintTop_toTopOf="@+id/dineIn_layout"
+                            app:layout_constraintBottom_toBottomOf="@+id/dineIn_layout"
                             app:layout_constraintEnd_toEndOf="@+id/dineIn_layout"
-                            app:layout_constraintBottom_toBottomOf="@+id/dineIn_layout"/>
+                            app:layout_constraintStart_toStartOf="@+id/dineIn_layout"
+                            app:layout_constraintTop_toTopOf="@+id/dineIn_layout" />
 
                         <androidx.constraintlayout.widget.ConstraintLayout
                             android:id="@+id/pick_up_layout"
@@ -260,11 +264,10 @@
                                 android:layout_marginStart="@dimen/_5sdp"
                                 android:layout_marginTop="@dimen/_5sdp"
                                 android:text="Pick Up"
-                                android:textSize="@dimen/_9ssp"
                                 android:textColor="@color/black"
+                                android:textSize="@dimen/_9ssp"
                                 app:layout_constraintStart_toStartOf="@+id/pick_up_layout"
                                 app:layout_constraintTop_toTopOf="@+id/pick_up_layout" />
-
 
 
                         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -284,10 +287,11 @@
                             android:layout_height="0dp"
                             android:background="@drawable/order_fill"
                             android:visibility="gone"
-                            app:layout_constraintStart_toStartOf="@+id/pick_up_layout"
-                            app:layout_constraintTop_toTopOf="@+id/pick_up_layout"
+                            app:layout_constraintBottom_toBottomOf="@id/pick_up_layout"
                             app:layout_constraintEnd_toEndOf="@id/pick_up_layout"
-                            app:layout_constraintBottom_toBottomOf="@id/pick_up_layout"/>
+                            app:layout_constraintStart_toStartOf="@+id/pick_up_layout"
+                            app:layout_constraintTop_toTopOf="@+id/pick_up_layout" />
+
                         <androidx.constraintlayout.widget.ConstraintLayout
                             android:id="@+id/order_status_layout"
                             android:layout_width="@dimen/_55sdp"
@@ -302,8 +306,8 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="@dimen/_5sdp"
                                 android:text="Order\nStatus"
-                                android:textSize="@dimen/_9ssp"
                                 android:textColor="@color/black"
+                                android:textSize="@dimen/_9ssp"
                                 app:layout_constraintStart_toStartOf="@+id/order_status_layout"
                                 app:layout_constraintTop_toTopOf="@+id/order_status_layout" />
 
@@ -349,7 +353,6 @@
                             android:src="@drawable/order_history"
                             app:layout_constraintStart_toStartOf="@+id/order_history_layout"
                             app:layout_constraintTop_toTopOf="@+id/order_history_layout" />
-
 
 
                     </androidx.constraintlayout.widget.ConstraintLayout>

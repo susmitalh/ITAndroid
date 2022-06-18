@@ -15,7 +15,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
+import android.widget.CompoundButton
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -164,6 +167,19 @@ class HeaderFragment : Fragment(), IHeaderEvents {
 
     fun setClickListeners() {
         viewModel.searchApi(userid, dataList)
+
+
+        binding.darkMode.setOnCheckedChangeListener(CompoundButton.OnCheckedChangeListener { compoundButton, b ->
+            if (b==true){
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+                Toast.makeText(context, "yes", Toast.LENGTH_SHORT).show()
+
+            }else{
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+                Toast.makeText(context, "no", Toast.LENGTH_SHORT).show()
+
+            }
+        })
 
         binding.allShortVideo.setOnClickListener {
             var intent=Intent(context,RollsExoplayerActivity::class.java)

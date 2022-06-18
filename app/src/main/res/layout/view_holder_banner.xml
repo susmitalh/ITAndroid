@@ -127,16 +127,17 @@
             android:id="@+id/banner_hide"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility="gone"
-            android:background="#C1000000">
+            android:background="#C1000000"
+            android:visibility="gone">
+
             <TextView
                 android:id="@+id/hide_text_banner"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/white"
-                android:text="Currently not accepting orders"
+                android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
-                android:layout_centerHorizontal="true"/>
+                android:text="Currently not accepting orders"
+                android:textColor="@color/white" />
         </RelativeLayout>
 
     </androidx.cardview.widget.CardView>

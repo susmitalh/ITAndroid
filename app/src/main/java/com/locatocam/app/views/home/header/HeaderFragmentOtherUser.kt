@@ -10,10 +10,6 @@ import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import coil.request.ImageRequest
-import com.android.volley.toolbox.ImageLoader
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.locatocam.app.Activity.OtherProfileWithFeedActivity
 import com.locatocam.app.adapter.InfluencerProfileBannerAdapter
 import com.locatocam.app.adapter.OtherUserTitleAdapter

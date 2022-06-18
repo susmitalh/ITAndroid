@@ -9,9 +9,9 @@
         android:id="@+id/main_banner"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/_10sdp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginLeft="@dimen/_10sdp">
+        app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
             android:id="@+id/offer_image"
@@ -126,12 +126,12 @@
         android:id="@+id/banner_offers_hide"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintStart_toStartOf="@+id/main_banner"
-        app:layout_constraintEnd_toEndOf="@id/main_banner"
-        app:layout_constraintTop_toTopOf="@id/main_banner"
-        app:layout_constraintBottom_toBottomOf="@id/main_banner"
         android:background="#C1000000"
-        android:visibility="visible">
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="@id/main_banner"
+        app:layout_constraintEnd_toEndOf="@id/main_banner"
+        app:layout_constraintStart_toStartOf="@+id/main_banner"
+        app:layout_constraintTop_toTopOf="@id/main_banner">
 
         <TextView
             android:id="@+id/hide_text_banner_offers"
@@ -139,8 +139,8 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
-            android:textSize="@dimen/_10ssp"
             android:text="Currently not accepting orders"
-            android:textColor="@color/white" />
+            android:textColor="@color/white"
+            android:textSize="@dimen/_10ssp" />
     </RelativeLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
