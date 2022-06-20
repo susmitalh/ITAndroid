@@ -211,11 +211,12 @@ public class HomeFragment : Fragment(), FeedEvents, ClickEvents, SimpleEvents {
                                     response.body()!!.data!!.viewsCount,
                                     index
                                 )*/
-
-                                        (binding.playerContainer.adapter as SimpleAdapter).mediaList.get(
-                                            index
-                                        ).views_count = response.body()?.data?.viewsCount
-                                        (binding.playerContainer.adapter as SimpleAdapter).notifyDataChanged()
+                                        if (binding.playerContainer.adapter!=null) {
+                                            (binding.playerContainer.adapter as SimpleAdapter).mediaList.get(
+                                                index
+                                            ).views_count = response.body()?.data?.viewsCount
+                                            (binding.playerContainer.adapter as SimpleAdapter).notifyDataChanged()
+                                        }
                                     }
 
 

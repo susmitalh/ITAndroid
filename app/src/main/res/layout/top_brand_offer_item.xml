@@ -23,7 +23,7 @@
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:background="#656464"
+            android:background="@color/top_brand_bg"
             android:padding="@dimen/_3sdp"
             app:layout_constraintBottom_toBottomOf="@+id/offer_image"
             app:layout_constraintEnd_toEndOf="@+id/offer_image"
@@ -33,7 +33,7 @@
                 android:id="@+id/offer_image_small"
                 android:layout_width="@dimen/_25sdp"
                 android:layout_height="@dimen/_25sdp"
-                android:background="@color/white"
+                android:background="#FFF"
                 android:src="@drawable/ic_location" />
 
             <LinearLayout
@@ -48,7 +48,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="dfgf"
-                    android:textColor="@color/white"
+                    android:textColor="#FFF"
                     android:textSize="@dimen/_10ssp"
                     android:textStyle="bold" />
 
@@ -140,7 +140,7 @@
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:text="Currently not accepting orders"
-            android:textColor="@color/white"
+            android:textColor="#FFF"
             android:textSize="@dimen/_10ssp" />
     </RelativeLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

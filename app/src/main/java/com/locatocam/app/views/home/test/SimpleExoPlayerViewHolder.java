@@ -59,6 +59,7 @@ import net.minidev.json.JSONObject;
 
 
 import java.util.List;
+import java.util.Locale;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import im.ene.toro.ToroPlayer;
@@ -88,9 +89,6 @@ public class SimpleExoPlayerViewHolder extends RecyclerView.ViewHolder implement
     ImageButton volumebt;
     ImageButton options,msg_img;
     String follow_process;
-
-    IHeaderEvents iHeaderEvents;
-
     CircleImageView profile_image;
     LinearLayout brandDetail;
     TextView name, datetime, profile_follow_count;
@@ -101,7 +99,7 @@ public class SimpleExoPlayerViewHolder extends RecyclerView.ViewHolder implement
     TextView comment;
     TextView views, postShareText;
     TextView shares, brandName, brandUnfollow, profileUnfollow, fileSizeText;
-    ImageView thumbnile, brandFollow, profileFollow;
+    ImageView thumbnile, brandFollow, profileFollow,imgBrandLocation;
     RelativeLayout profile_follow_layout, brand_follow_layout;
     CacheDataSourceFactory cacheDataSourceFactory;
     Cache simpleCache = MyApp.Companion.getSimpleCache();
@@ -155,6 +153,7 @@ public class SimpleExoPlayerViewHolder extends RecyclerView.ViewHolder implement
         postShareText = itemView.findViewById(R.id.post_share_text);
         profile_follow_layout = itemView.findViewById(R.id.profile_follow_layout);
         brand_follow_layout = itemView.findViewById(R.id.brand_follow_layout);
+        imgBrandLocation = itemView.findViewById(R.id.imgBrandLocation);
 
 
         Log.e("TAGfgg", "SimpleExoPlayerViewHolder: ");
@@ -167,10 +166,9 @@ public class SimpleExoPlayerViewHolder extends RecyclerView.ViewHolder implement
         }
 
         cacheDataSourceFactory = new CacheDataSourceFactory(simpleCache,
-                new DefaultHttpDataSourceFactory(
-                        Util.getUserAgent(shares.getContext(),
-                                "exo"))
-        );
+                new DefaultHttpDataSourceFactory(Util.getUserAgent(shares.getContext(), "exo")));
+
+
 
 
         volumebt.setOnClickListener(new View.OnClickListener() {
@@ -245,6 +243,15 @@ public class SimpleExoPlayerViewHolder extends RecyclerView.ViewHolder implement
                     SimpleAdapter.userClick=true;
 
                 }
+            });
+
+            imgBrandLocation.setOnClickListener(v->{
+                Log.e("TAG", "bindLocation: "+item.getBrand_lat() +" , "+ item.getBrand_long());
+
+                String strUri = "http://maps.google.com/maps?q=loc:" + item.getBrand_lat() + "," + item.getBrand_long() + " (" + "Label which you want" + ")";
+                Intent intent = new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(strUri));
+                intent.setClassName("com.google.android.apps.maps", "com.google.android.maps.MapsActivity");
+                context.startActivity(intent);
             });
 
             Glide.with(thumbnile.getContext())

@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:elevation="20dp"
-        app:cardBackgroundColor="@color/cardview_light_background"
+        app:cardBackgroundColor="@color/white"
         app:cardCornerRadius="0dp"
         app:cardElevation="20dp">
 
@@ -137,11 +137,12 @@
                         </RelativeLayout>
 
                         <ImageView
+                            android:id="@+id/imgBrandLocation"
                             android:layout_width="@dimen/_15sdp"
                             android:layout_height="@dimen/_15sdp"
                             android:layout_marginLeft="@dimen/_10sdp"
                             android:src="@drawable/ic_location"
-                            app:tint="@color/red" />
+                            app:tint="@color/red_main_change" />
                     </LinearLayout>
 
                     <TextView
@@ -160,6 +161,7 @@
                         android:layout_marginTop="5dp"
                         android:drawableLeft="@drawable/ic_people_fill"
                         android:text="  99"
+                        android:drawableTint="@color/black"
                         android:textColor="@color/black"
                         android:textSize="10sp" />
                 </LinearLayout>
@@ -184,7 +186,8 @@
                         android:layout_width="30dp"
                         android:layout_height="30dp"
                         android:background="@null"
-                        android:src="@drawable/ic_baseline_more_vert_24" />
+                        android:src="@drawable/ic_baseline_more_vert_24"
+                        app:tint="@color/black" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -220,7 +223,7 @@
                 android:paddingRight="@dimen/_10sdp"
                 android:paddingBottom="@dimen/_3sdp"
                 android:text="hhjh"
-                android:textColor="@color/white"
+                android:textColor="@color/black"
                 android:textSize="@dimen/_10ssp" />
 
             <ImageButton
@@ -231,7 +234,8 @@
                 android:layout_alignParentRight="true"
                 android:layout_marginTop="-50dp"
                 android:background="@null"
-                android:src="@drawable/ic_volume_up_grey_24dp" />
+                android:src="@drawable/ic_volume_up_grey_24dp"
+                app:tint="#ADE8E6E6" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -279,7 +283,7 @@
                                 android:paddingRight="@dimen/_10sdp"
                                 android:paddingBottom="@dimen/_3sdp"
                                 android:text="Share Post"
-                                android:textColor="@color/red"
+                                android:textColor="@color/red_main_change"
                                 android:textSize="10sp" />
 
                             <TextView
@@ -371,6 +375,7 @@
                             android:drawableLeft="@drawable/ic_chat_left_text"
                             android:gravity="center_vertical"
                             android:text=" 0"
+                            android:drawableTint="@color/black"
                             android:textColor="@color/black" />
                     </LinearLayout>
 
@@ -388,6 +393,7 @@
                             android:drawableLeft="@drawable/ic_eye"
                             android:gravity="center_vertical"
                             android:text=" 70"
+                            android:drawableTint="@color/black"
                             android:textColor="@color/black" />
                     </LinearLayout>
                     <!-- <TextView
@@ -414,6 +420,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
                             android:drawableLeft="@drawable/ic_share"
+                            android:drawableTint="@color/black"
                             android:textColor="@color/black" />
                     </LinearLayout>
                 </LinearLayout>

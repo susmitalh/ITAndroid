@@ -11,7 +11,9 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/_5sdp"
         android:layout_marginBottom="5dp"
-        app:cardBackgroundColor="@color/cardview_light_background"
+        app:cardBackgroundColor="@color/white"
+        android:outlineSpotShadowColor="@color/black"
+        android:outlineAmbientShadowColor="@color/black"
         app:cardCornerRadius="0dp"
         app:cardElevation="@dimen/_20sdp">
 
@@ -20,10 +22,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/_10sdp"
-            android:layout_marginTop="@dimen/_3sdp"
+            android:layout_marginTop="@dimen/_8sdp"
             android:layout_marginRight="@dimen/_10sdp"
             android:layout_marginBottom="@dimen/_3sdp"
-            android:background="@color/cardview_light_background">
+            android:background="@color/white">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -48,7 +50,7 @@
                 android:paddingRight="@dimen/_12sdp"
                 android:paddingBottom="@dimen/_2sdp"
                 android:text="View all"
-                android:textColor="@color/red"
+                android:textColor="@color/red_main_change"
                 android:textSize="10sp" />
 
         </LinearLayout>
@@ -56,8 +58,8 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_20sdp"
-            android:background="@color/cardview_light_background"
+            android:layout_marginTop="@dimen/_25sdp"
+            android:background="@color/white"
             android:orientation="vertical"
             android:padding="@dimen/_10sdp">
 

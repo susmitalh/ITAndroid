@@ -53,7 +53,7 @@ class HeaderFragment : Fragment(), IHeaderEvents {
 
     lateinit var viewModel: HeaderViewModel
     lateinit var dialog: Dialog
-
+    var darkMode=false
     var searchAdapter: SearchAdapter? =null
 
 
@@ -168,16 +168,22 @@ class HeaderFragment : Fragment(), IHeaderEvents {
     fun setClickListeners() {
         viewModel.searchApi(userid, dataList)
 
+//        Toast.makeText(context, ""+SharedPrefEnc.getPref(context?.applicationContext,"darkMode"), Toast.LENGTH_SHORT).show()
+
+        if (SharedPrefEnc.getPref(context?.applicationContext,"darkMode").equals("on")){
+            binding.darkMode.isChecked=true
+        }else{
+            binding.darkMode.isChecked=false
+        }
+
 
         binding.darkMode.setOnCheckedChangeListener(CompoundButton.OnCheckedChangeListener { compoundButton, b ->
             if (b==true){
+                SharedPrefEnc.setPref("darkMode", "on", context?.applicationContext)
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-                Toast.makeText(context, "yes", Toast.LENGTH_SHORT).show()
-
             }else{
+                SharedPrefEnc.setPref("darkMode", "off", context?.applicationContext)
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-                Toast.makeText(context, "no", Toast.LENGTH_SHORT).show()
-
             }
         })
 

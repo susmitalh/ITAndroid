@@ -8,7 +8,9 @@
     android:layout_marginTop="@dimen/_10sdp"
     android:layout_marginRight="-10dp"
     android:elevation="@dimen/_20sdp"
-    app:cardBackgroundColor="@color/cardview_light_background"
+    android:outlineAmbientShadowColor="@color/black"
+    android:outlineSpotShadowColor="@color/black"
+    app:cardBackgroundColor="@color/white"
     app:cardCornerRadius="0dp"
     app:cardElevation="20dp">
 
@@ -27,7 +29,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/_20sdp"
-        android:background="@color/cardview_light_background"
+        android:background="@color/white"
         android:orientation="vertical"
         android:padding="10dp">
 

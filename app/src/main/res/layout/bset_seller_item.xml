@@ -47,7 +47,7 @@
                 android:layout_marginRight="@dimen/_5sdp"
                 android:gravity="center"
                 android:text="Currently not accepting orders"
-                android:textColor="@color/white"
+                android:textColor="#FFF"
                 android:textSize="@dimen/_8ssp" />
 
 

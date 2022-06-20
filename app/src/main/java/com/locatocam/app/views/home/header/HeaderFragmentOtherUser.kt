@@ -238,8 +238,10 @@ companion object {
                 LinearLayoutManager(requireActivity(), LinearLayoutManager.HORIZONTAL, false)
             binding.topBrands.setLayoutManager(layoutManager)
 
-            var adapter = TopBrandsAdapter(it.data.top_or_our_brands?.brand_details!!, this)
-            binding.topBrands.setAdapter(adapter)
+                var adapter = TopBrandsAdapter(it.data.top_or_our_brands?.brand_details!!, this, it.data.logo)
+                binding.topBrands.setAdapter(adapter)
+
+
 
         })
         viewModel.getUserDetails()

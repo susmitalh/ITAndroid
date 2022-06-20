@@ -38,7 +38,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Brand"
-                android:textColor="@color/red" />
+                android:textColor="@color/red_main_change" />
         </LinearLayout>
     </LinearLayout>
 

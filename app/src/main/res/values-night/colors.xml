@@ -5,7 +5,7 @@
     <color name="purple_700">#FF3700B3</color>
     <color name="teal_200">#FF03DAC5</color>
     <color name="teal_700">#FF018786</color>
-    <color name="black">#FFF</color>
+    <color name="black">#ECECEC</color>
     <color name="blue">#23369F</color>
     <color name="transparent_black">#B4000000</color>
     <color name="white">#000</color>
@@ -15,13 +15,13 @@
     <color name="greylight">#E1E1E1</color>
     <color name="green">#268F2A</color>
     <color name="greylt">#DDDDDD</color>
-    <color name="grey1">#E7E6E6</color>
+    <color name="grey1">#000</color>
     <color name="hintwhite">#E6E2E2</color>
     <color name="hintwhite1">#CFCFCF</color>
     <color name="dark_gray">#757575</color>
     <color name="facebook_color">#1A79F3</color>
     <color name="google_color">#3568D5</color>
-    <color name="backgoundColor1">#414040</color>
+    <color name="backgoundColor1">#BDBCBC</color>
     <color name="greylight1">#E2DFDF</color>
     <color name="inputColor">#303030</color>
     <color name="black_light_text">#413E3E</color>
@@ -31,7 +31,15 @@
     <color name="light_red">#F4D1D1</color>
     <color name="black_transperent">#94000000</color>
 
-    <color name="msg_count">#0CEA28</color>
+    <color name="red_main_change">#09BD20</color>
     <color name="msg_count_stroke">#5FFD65</color>
+    <color name="choice_stroke">#5FFD65</color>
+    <color name="search_border">#ACABAB</color>
+    <color name="search_icon">#E2E1E1</color>
+    <color name="feed_shadow">#3E3D3D</color>
+    <color name="file_size_bg">#9E000000</color>
+    <color name="view_background">#605F5F</color>
+    <color name="top_brand_bg">#373737</color>
+
 
 </resources>
