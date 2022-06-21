@@ -42,11 +42,11 @@
             android:textColor="@color/black"
             android:textSize="12sp" />
     </LinearLayout>
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:layout_toRightOf="@+id/linearDetalis"
         android:id="@+id/unblock"
         android:layout_width="0dp"
-        android:layout_weight="0.7"
+        android:layout_weight="0.6"
         android:layout_height="25dp"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="10dp"
@@ -55,6 +55,6 @@
         android:text="UnBlock"
         android:textColor="@color/red"
         android:textSize="8sp"
-        app:backgroundTint="@null" />
+        app:backgroundTint="@null"/>
     </LinearLayout>
 </RelativeLayout>

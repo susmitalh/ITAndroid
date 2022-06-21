@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.widget.AppCompatButton
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.locatocam.app.R
@@ -47,7 +48,7 @@ class ViewBlockedUserAdapter(val data:List<ViewBlockUserData>,private val contex
         var name:TextView=view.findViewById(R.id.name)
         var type:TextView=view.findViewById(R.id.type)
         var image:ImageView=view.findViewById(R.id.imageView)
-        var unblock:Button=view.findViewById(R.id.unblock)
+        var unblock:AppCompatButton=view.findViewById(R.id.unblock)
 
     }
 
