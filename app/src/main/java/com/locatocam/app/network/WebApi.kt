@@ -2,7 +2,13 @@ package com.locatocam.app.network
 
 import com.locatocam.app.ModalClass.*
 import com.locatocam.app.data.requests.*
+import com.locatocam.app.data.requests.reqUserProfile.ReqBlockedUser
 import com.locatocam.app.data.requests.reqUserProfile.ReqProfileData
+import com.locatocam.app.data.requests.reqUserProfile.ReqViewApproval
+import com.locatocam.app.data.requests.viewApproval.ReqApprove
+import com.locatocam.app.data.requests.viewApproval.ReqCompanyApprove
+import com.locatocam.app.data.requests.viewApproval.ReqCompanyReject
+import com.locatocam.app.data.requests.viewApproval.ReqReject
 import com.locatocam.app.data.responses.*
 import com.locatocam.app.data.responses.SearchModal.RespSearch
 import com.locatocam.app.data.responses.add_comments.RespComments
@@ -24,7 +30,13 @@ import com.locatocam.app.data.responses.resp_products_new.RespProductsNew
 import com.locatocam.app.data.responses.rolls_and_short_videos.RollsAndShortVideos
 import com.locatocam.app.data.responses.saveaddress.RespSaveAddress
 import com.locatocam.app.data.responses.selected_brands.RespSelectedBrand
-import com.locatocam.app.data.responses.settings.RespSettings
+import com.locatocam.app.data.responses.settings.*
+import com.locatocam.app.data.responses.settings.Approved.ApprovedPost
+import com.locatocam.app.data.responses.settings.companyApproved.companyApproved
+import com.locatocam.app.data.responses.settings.companyPending.CompanyPending
+import com.locatocam.app.data.responses.settings.companyRejected.companyRejected
+import com.locatocam.app.data.responses.settings.pendingPost.RespViewApproval
+import com.locatocam.app.data.responses.settings.rejectedPost.ResRejected
 import com.locatocam.app.data.responses.social_login.SocialLogin
 import com.locatocam.app.data.responses.top_brands.RespTopBrands
 import com.locatocam.app.data.responses.top_influencers.TopInfluencer
@@ -197,19 +209,19 @@ interface WebApi {
     ): RespSettings
 
     @Headers("Accept: application/json")
-    @POST("Android/settings")
+    @POST("App/settings")
     suspend fun settingsData(
         @Body reqSettings: ReqSettings
     ): User
 
     @Headers("Accept: application/json")
-    @POST("Android/settings")
+    @POST("App/settings")
     suspend fun companySettingsData(
         @Body reqSettings: ReqSettings
     ): com.locatocam.app.data.responses.company.Company
 
     @Headers("Accept: application/json")
-    @POST("Android/settings")
+    @POST("App/settings")
     suspend fun customerSettingsData(
         @Body reqSettings: ReqSettings
     ): Customer
@@ -336,5 +348,99 @@ interface WebApi {
 
     @POST("App/my_short_videos")
     suspend fun myshort(@Body jsonObject: JSONObject): MyPosts
+
+    @Headers("Accept: application/json")
+    @GET("App/influencer_sop")
+    suspend fun getInfluencerSop(): InfluencerSop
+
+    @Headers("Accept: application/json")
+    @GET("App/poc_sop")
+    suspend fun getPocSop(): InfluencerSop
+
+    @Headers("Accept: application/json")
+    @POST("App/view_unblock_user")
+    suspend fun getViewBlock(
+        @Body reqSettings: ReqSettings
+    ): ViewBlockUser
+    @Headers("Accept: application/json")
+    @POST("App/unblock_user")
+    suspend fun postBlockedUser(
+        @Body reqBlockedUser: ReqBlockedUser
+    ): ResBlockedUser
+
+    @Headers("Accept: application/json")
+    @POST("App/admin_post_rolls_approval_list")
+    suspend fun getViewApproval(
+        @Body reqViewApproval: ReqViewApproval
+    ): RespViewApproval
+
+    @Headers("Accept: application/json")
+    @POST("App/admin_post_rolls_approval_list")
+    suspend fun getViewApproved(
+        @Body reqViewApproval: ReqViewApproval
+    ): ApprovedPost
+
+    @Headers("Accept: application/json")
+    @POST("App/admin_post_rolls_approval_list")
+    suspend fun getViewRejected(
+        @Body reqViewApproval: ReqViewApproval
+    ): ResRejected
+
+
+    @Headers("Accept: application/json")
+    @POST("App/brand_post_rolls_approval_list")
+    suspend fun getCompanyPending(
+        @Body reqViewApproval: ReqViewApproval
+    ): CompanyPending
+
+    @Headers("Accept: application/json")
+    @POST("App/brand_post_rolls_approval_list")
+    suspend fun getCompanyApproved(
+        @Body reqViewApproval: ReqViewApproval
+    ): companyApproved
+
+    @Headers("Accept: application/json")
+    @POST("App/brand_post_rolls_approval_list")
+    suspend fun getCompanyeRejected(
+        @Body reqViewApproval: ReqViewApproval
+    ): companyRejected
+
+    @Headers("Accept: application/json")
+    @POST("App/admin_post_rolls_rejected")
+    suspend fun postReject(
+        @Body reqReject: ReqReject
+    ): StatusApproved
+    @Headers("Accept: application/json")
+    @POST("App/admin_post_rolls_approve")
+    suspend fun postApprove(
+        @Body reqApprove: ReqApprove
+    ): StatusApproved
+
+    @Headers("Accept: application/json")
+    @POST("App/admin_post_rolls_repost")
+    suspend fun postRepost(
+        @Body reqApprove: ReqApprove
+    ): StatusApproved
+
+
+
+
+    @Headers("Accept: application/json")
+    @POST("App/brand_post_rolls_reject")
+    suspend fun postCompanyReject(
+        @Body reqCompanyReject: ReqCompanyReject
+    ): StatusApproved
+    @Headers("Accept: application/json")
+    @POST("App/brand_post_rolls_approve")
+    suspend fun postCompanyApprove(
+        @Body reqCompanyApprove: ReqCompanyApprove
+    ): StatusApproved
+
+    @Headers("Accept: application/json")
+    @POST("App/brand_post_rolls_repost")
+    suspend fun postCompanyRepost(
+        @Body reqCompanyApprove: ReqCompanyApprove
+    ): StatusApproved
+
 
 }

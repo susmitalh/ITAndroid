@@ -13,6 +13,13 @@ import com.locatocam.app.R
 import com.locatocam.app.data.responses.company.MenuDetail
 
 class CustomerMenuAdapter (private val list: List<com.locatocam.app.data.responses.customer_model.MenuDetail>, private val context: Context) : RecyclerView.Adapter<CustomerMenuAdapter.viewHolder>(){
+    private lateinit var customerDetails : com.locatocam.app.data.responses.customer_model.UserDetails
+    constructor(list: List<com.locatocam.app.data.responses.customer_model.MenuDetail>,
+                context: Context,
+                customerDetails : com.locatocam.app.data.responses.customer_model.UserDetails):
+            this(list,context){
+        this.customerDetails = customerDetails;
+    }
     class viewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)  {
 
         val title = itemView.findViewById<TextView>(R.id.menu_title)
@@ -38,7 +45,7 @@ class CustomerMenuAdapter (private val list: List<com.locatocam.app.data.respons
             Log.e("MenuAdapter",list[position].Title)
             holder.sublist.layoutManager = LinearLayoutManager(context)
             holder.sublist.itemAnimator = DefaultItemAnimator()
-            val menuAdapter =  CustomerSubItemAdapter(list[position].Sub_items,context)
+            val menuAdapter =  CustomerSubItemAdapter(list[position].Sub_items,context,customerDetails)
             holder.sublist.adapter = menuAdapter
         }else{
             holder.title.visibility = View.GONE

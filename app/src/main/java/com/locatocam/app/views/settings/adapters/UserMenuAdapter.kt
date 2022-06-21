@@ -12,6 +12,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.locatocam.app.R
 
 class UserMenuAdapter (private val list: List<com.locatocam.app.data.responses.user_model.MenuDetail>, private val context: Context) : RecyclerView.Adapter<UserMenuAdapter.viewHolder>(){
+    private lateinit var userDetails : com.locatocam.app.data.responses.user_model.UserDetails;
+    constructor(list: List<com.locatocam.app.data.responses.user_model.MenuDetail>,
+                context: Context,
+                userDetails : com.locatocam.app.data.responses.user_model.UserDetails):
+            this(list,context){
+        this.userDetails = userDetails;
+    }
     class viewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)  {
 
         val title = itemView.findViewById<TextView>(R.id.menu_title)
@@ -37,7 +44,7 @@ class UserMenuAdapter (private val list: List<com.locatocam.app.data.responses.u
             Log.e("MenuAdapter",list[position].Title)
             holder.sublist.layoutManager = LinearLayoutManager(context)
             holder.sublist.itemAnimator = DefaultItemAnimator()
-            val menuAdapter =  UserMenuSubItemAdapter(list[position].Sub_items,context)
+            val menuAdapter =  UserMenuSubItemAdapter(list[position].Sub_items,context,userDetails)
             holder.sublist.adapter = menuAdapter
         }else{
             holder.title.visibility = View.GONE

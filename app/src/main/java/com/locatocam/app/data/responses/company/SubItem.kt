@@ -1,7 +1,7 @@
 package com.locatocam.app.data.responses.company
 
 data class SubItem(
-    val Count: Any,
+    val Count: Int,
     val Countable: Boolean,
     val Title: String
 )

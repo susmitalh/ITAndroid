@@ -6,11 +6,23 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.locatocam.app.data.requests.*
+import com.locatocam.app.data.requests.reqUserProfile.ReqBlockedUser
 import com.locatocam.app.data.requests.reqUserProfile.ReqProfileData
+import com.locatocam.app.data.requests.reqUserProfile.ReqViewApproval
 import com.locatocam.app.data.requests.reqUserProfile.SocialDetail
+import com.locatocam.app.data.requests.viewApproval.ReqApprove
+import com.locatocam.app.data.requests.viewApproval.ReqCompanyApprove
+import com.locatocam.app.data.requests.viewApproval.ReqCompanyReject
+import com.locatocam.app.data.requests.viewApproval.ReqReject
 import com.locatocam.app.data.responses.*
 import com.locatocam.app.data.responses.customer_model.Customer
-import com.locatocam.app.data.responses.settings.RespSettings
+import com.locatocam.app.data.responses.settings.*
+import com.locatocam.app.data.responses.settings.Approved.ApprovedPost
+import com.locatocam.app.data.responses.settings.companyApproved.companyApproved
+import com.locatocam.app.data.responses.settings.companyPending.CompanyPending
+import com.locatocam.app.data.responses.settings.companyRejected.companyRejected
+import com.locatocam.app.data.responses.settings.pendingPost.RespViewApproval
+import com.locatocam.app.data.responses.settings.rejectedPost.ResRejected
 import com.locatocam.app.data.responses.user_model.Document
 import com.locatocam.app.data.responses.user_model.User
 import com.locatocam.app.network.Resource
@@ -53,6 +65,20 @@ class SettingsViewModel@Inject constructor(private val mainRepository: MainRepos
         launchDocPicker.value = DocLauncher(document,documentView)
 
     }
+
+    var respInfluencerSop=MutableLiveData<InfluencerSop>()
+    var respViewBlockUSerList=MutableStateFlow<Resource<ViewBlockUser>>(Resource.loading(null))
+    var respBlockedUser=MutableStateFlow<Resource<ResBlockedUser>>(Resource.loading(null))
+    var respViewApprovalList=MutableStateFlow<Resource<RespViewApproval>>(Resource.loading(null))
+    var respApprovedlList=MutableStateFlow<Resource<ApprovedPost>>(Resource.loading(null))
+    var respRejectedlList=MutableStateFlow<Resource<ResRejected>>(Resource.loading(null))
+
+    var respViewCompanyPendingList=MutableStateFlow<Resource<CompanyPending>>(Resource.loading(null))
+    var respCompanyApprovedlList=MutableStateFlow<Resource<companyApproved>>(Resource.loading(null))
+    var respComapnyRejectedlList=MutableStateFlow<Resource<companyRejected>>(Resource.loading(null))
+    var respRejectApprovStatus=MutableStateFlow<Resource<StatusApproved>>(Resource.loading(null))
+    var respApprovedStatus=MutableStateFlow<Resource<StatusApproved>>(Resource.loading(null))
+
 
     fun getSettings(){
         var reqSettings=ReqSettings(settingsRepository.getUserID())
@@ -217,6 +243,236 @@ class SettingsViewModel@Inject constructor(private val mainRepository: MainRepos
         so.id = socialDetail.id
         socialDetailsList[position] = so
         socialDetails.value = (socialDetailsList)
+
+    }
+
+    fun getInfluencerSop(){
+        viewModelScope.launch {
+            settingsRepository.getInfluencerSop()
+                .catch {
+                    Log.i("uname",it.message.toString())
+                }
+                .collect {
+                    respInfluencerSop.value=it
+                    Log.i("uname",it.status.toString())
+                }
+        }
+    }
+    fun getPocSop(){
+        viewModelScope.launch {
+            settingsRepository.getPocSop()
+                .catch {
+                    Log.i("uname",it.message.toString())
+                }
+                .collect {
+                    respInfluencerSop.value=it
+                    Log.i("uname",it.status.toString())
+                }
+        }
+    }
+    fun getViewBlockUser(): MutableStateFlow<Resource<ViewBlockUser>>{
+        val reqSettings=ReqSettings(settingsRepository.getUserID())
+        viewModelScope.launch {
+            settingsRepository.getViewBlockUserData(reqSettings)
+                .catch {
+                    Log.i("uname",it.message.toString())
+                }
+                .collect {
+                    respViewBlockUSerList.value=/*it*/Resource.success(it)
+                    Log.i("uname",it.status.toString())
+                }
+        }
+        return respViewBlockUSerList
+    }
+    fun postBlokedUser(reqBlockedUser: ReqBlockedUser) : MutableStateFlow<Resource<ResBlockedUser>>{
+
+        viewModelScope.launch {
+            settingsRepository.getBlockedUser(reqBlockedUser)
+                .catch {
+                    Log.i("Error",it.message.toString())
+
+                }
+                .collect {
+                    respBlockedUser.value = Resource.success(it)
+                }
+        }
+        return respBlockedUser
+
+    }
+
+    fun getViewPendingUser(reqViewApproval: ReqViewApproval): MutableStateFlow<Resource<RespViewApproval>>{
+        val reqSettings=ReqSettings(settingsRepository.getUserID())
+        viewModelScope.launch {
+            settingsRepository.getViewApprovalList(reqViewApproval)
+                .catch {
+                    Log.i("uname",it.message.toString())
+                }
+                .collect {
+                    respViewApprovalList.value=/*it*/Resource.success(it)
+                    Log.i("uname",it.status.toString())
+                }
+        }
+        return respViewApprovalList
+    }
+    fun getViewApprovedList(reqViewApproval: ReqViewApproval): MutableStateFlow<Resource<ApprovedPost>>{
+        viewModelScope.launch {
+            settingsRepository.getViewApprovedList(reqViewApproval)
+                .catch {
+                    Log.i("uname",it.message.toString())
+                }
+                .collect {
+                    respApprovedlList.value=/*it*/Resource.success(it)
+                    Log.i("uname",it.status.toString())
+                }
+        }
+        return respApprovedlList
+    }
+
+    fun getViewRejectedList(reqViewApproval: ReqViewApproval): MutableStateFlow<Resource<ResRejected>>{
+        val reqSettings=ReqSettings(settingsRepository.getUserID())
+        viewModelScope.launch {
+            settingsRepository.getViewRejectedList(reqViewApproval)
+                .catch {
+                    Log.i("uname",it.message.toString())
+                }
+                .collect {
+                    respRejectedlList.value=/*it*/Resource.success(it)
+                    Log.i("uname",it.status.toString())
+                }
+        }
+        return respRejectedlList
+    }
+
+    fun getCompanyPendingUser(reqViewApproval: ReqViewApproval): MutableStateFlow<Resource<CompanyPending>>{
+        viewModelScope.launch {
+            settingsRepository.getCompanyPendindList(reqViewApproval)
+                .catch {
+                    Log.i("uname",it.message.toString())
+                }
+                .collect {
+                    respViewCompanyPendingList.value=/*it*/Resource.success(it)
+                    Log.i("uname",it.status.toString())
+                }
+        }
+        return respViewCompanyPendingList
+    }
+    fun getCompanyApprovedList(reqViewApproval: ReqViewApproval): MutableStateFlow<Resource<companyApproved>>{
+        viewModelScope.launch {
+            settingsRepository.getCompanyApprovedList(reqViewApproval)
+                .catch {
+                    Log.i("uname",it.message.toString())
+                }
+                .collect {
+                    respCompanyApprovedlList.value=/*it*/Resource.success(it)
+                    Log.i("uname",it.status.toString())
+                }
+        }
+        return respCompanyApprovedlList
+    }
+    fun getComapnyRejectedList(reqViewApproval: ReqViewApproval): MutableStateFlow<Resource<companyRejected>>{
+        viewModelScope.launch {
+            settingsRepository.getCompanyRejectedList(reqViewApproval)
+                .catch {
+                    Log.i("uname",it.message.toString())
+                }
+                .collect {
+                    respComapnyRejectedlList.value=/*it*/Resource.success(it)
+                    Log.i("uname",it.status.toString())
+                }
+        }
+        return respComapnyRejectedlList
+    }
+
+    fun postReject(reqReject: ReqReject) : MutableStateFlow<Resource<StatusApproved>>{
+
+        viewModelScope.launch {
+            settingsRepository.postReject(reqReject)
+                .catch {
+                    Log.i("Error",it.message.toString())
+
+                }
+                .collect {
+                    respRejectApprovStatus.value = Resource.success(it)
+                }
+        }
+        return respRejectApprovStatus
+
+    }
+    fun postApprove(reqApprove: ReqApprove) : MutableStateFlow<Resource<StatusApproved>>{
+
+        viewModelScope.launch {
+            settingsRepository.postApprove(reqApprove)
+                .catch {
+                    Log.i("Error",it.message.toString())
+
+                }
+                .collect {
+                    respApprovedStatus.value = Resource.success(it)
+                }
+        }
+        return respApprovedStatus
+
+    }
+    fun postrepost(reqApprove: ReqApprove) : MutableStateFlow<Resource<StatusApproved>>{
+
+        viewModelScope.launch {
+            settingsRepository.repost(reqApprove)
+                .catch {
+                    Log.i("Error",it.message.toString())
+
+                }
+                .collect {
+                    respApprovedStatus.value = Resource.success(it)
+                }
+        }
+        return respApprovedStatus
+
+    }
+
+
+    fun postCompanyReject(reqCompanyReject: ReqCompanyReject) : MutableStateFlow<Resource<StatusApproved>>{
+
+        viewModelScope.launch {
+            settingsRepository.companyReject(reqCompanyReject)
+                .catch {
+                    Log.i("Error",it.message.toString())
+
+                }
+                .collect {
+                    respRejectApprovStatus.value = Resource.success(it)
+                }
+        }
+        return respRejectApprovStatus
+
+    }
+    fun postCompanyApprove(reqCompanyApprove: ReqCompanyApprove) : MutableStateFlow<Resource<StatusApproved>>{
+
+        viewModelScope.launch {
+            settingsRepository.companyApprove(reqCompanyApprove)
+                .catch {
+                    Log.i("Error",it.message.toString())
+
+                }
+                .collect {
+                    respApprovedStatus.value = Resource.success(it)
+                }
+        }
+        return respApprovedStatus
+
+    }
+    fun postCompanyRepost(reqCompanyApprove: ReqCompanyApprove) : MutableStateFlow<Resource<StatusApproved>>{
+
+        viewModelScope.launch {
+            settingsRepository.companyrepost(reqCompanyApprove)
+                .catch {
+                    Log.i("Error",it.message.toString())
+
+                }
+                .collect {
+                    respApprovedStatus.value = Resource.success(it)
+                }
+        }
+        return respApprovedStatus
 
     }
 

@@ -5,6 +5,7 @@ import android.app.Activity
 import android.app.AlertDialog
 import android.app.Dialog
 import android.content.DialogInterface
+import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
@@ -40,6 +41,7 @@ import com.locatocam.app.security.SharedPrefEnc
 import com.locatocam.app.utils.Constant
 import com.locatocam.app.utils.Utils
 import com.locatocam.app.viewmodels.SettingsViewModel
+import com.locatocam.app.views.MainActivity
 import com.locatocam.app.views.settings.adapters.DocumentAdapter
 import com.locatocam.app.views.settings.adapters.SocialDetailsAdapter
 import dagger.hilt.android.AndroidEntryPoint
@@ -239,6 +241,14 @@ class EditProfileActivity : AppCompatActivity() {
                 uploadDocument(it.document,it.documentAdapter)
 
         })
+        binding.back.setOnClickListener {
+            var intent= Intent(applicationContext, SettingsFragment::class.java)
+            startActivity(intent)
+        }
+        binding.home.setOnClickListener {
+            var intent=Intent(applicationContext,MainActivity::class.java)
+            startActivity(intent)
+        }
 
     }
 

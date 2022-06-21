@@ -7,6 +7,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -14,9 +15,11 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
@@ -36,13 +39,18 @@ import com.locatocam.app.security.SharedPrefEnc
 import com.locatocam.app.utils.Constant
 import com.locatocam.app.utils.Utils
 import com.locatocam.app.viewmodels.SettingsViewModel
+import com.locatocam.app.views.MainActivity
 import com.locatocam.app.views.approvals.ApprovalBaseActivity
+import com.locatocam.app.views.home.header.IHeaderEvents
 import com.locatocam.app.views.notifications.ActivityNotifications
 import com.locatocam.app.views.settings.adapters.CompanyMenuAdapter
 import com.locatocam.app.views.settings.adapters.CustomerMenuAdapter
 import com.locatocam.app.views.settings.adapters.UserMenuAdapter
 import com.locatocam.app.views.view_activity.ViewActivity
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import java.io.File
@@ -50,7 +58,7 @@ import javax.inject.Inject
 
 
 @AndroidEntryPoint
-class SettingsFragment : Fragment() {
+class SettingsFragment : Fragment(){
 
     lateinit var  binding:SettingsFragmentBinding
     lateinit var viewmodel:SettingsViewModel
@@ -96,17 +104,20 @@ class SettingsFragment : Fragment() {
 
                     Status.SUCCESS -> {
 
-                        showProgress(false, "")
+                      //  showProgress(false, "")
+                        MainActivity.binding.loader.visibility= View.GONE
                         Glide.with(requireActivity())
                             .load(Uri.parse(it.data!!.data))
                             .into(binding.image)
 
                     }
                     Status.LOADING -> {
-                        showProgress(true, "Uploading Image...")
+                       // showProgress(true, "Uploading Image...")
+                        MainActivity.binding.loader.visibility= View.VISIBLE
                     }
                     Status.ERROR -> {
-                        showProgress(false, "")
+                       // showProgress(false, "")
+                        MainActivity.binding.loader.visibility= View.GONE
 
                     }
 
@@ -143,7 +154,14 @@ class SettingsFragment : Fragment() {
 
 //        setObservers()
         setOnclickListeners()
+        binding.editProfile.setOnClickListener {
+
+            sendOtp()
+
+        }
+
         return binding.root
+      //  hideLoader()
     }
 
     override fun onResume() {
@@ -207,22 +225,24 @@ class SettingsFragment : Fragment() {
                         binding.email.text = it.data!!.data.user_details.email
                         customerDetails = it.data.data.user_details
                         Log.e("userData", it.data.data.menu_details.toString())
-                        val menuAdapter =  CustomerMenuAdapter(it.data.data.menu_details,requireContext())
+                        val menuAdapter =  CustomerMenuAdapter(it.data.data.menu_details,requireContext(),customerDetails)
 
                         binding.menuItemList.adapter = menuAdapter
 
 
                         setProfileData(userDetailsMapper.mapToEntity(it.data.data.user_details))
 
-                        showProgress(false,"")
-
+                        //showProgress(false,"")
+                        MainActivity.binding.loader.visibility= View.GONE
 
                     }
                     Status.LOADING -> {
-                        showProgress(true,"Fetching Profile Data...")
+                        //showProgress(true,"Fetching Profile Data...")
+                        MainActivity.binding.loader.visibility= View.VISIBLE
                     }
                     Status.ERROR -> {
-                        showProgress(false,"")
+                        //showProgress(false,"")
+                        MainActivity.binding.loader.visibility= View.GONE
 
                     }
 
@@ -247,22 +267,25 @@ class SettingsFragment : Fragment() {
                         binding.email.text = it.data!!.data.user_details.email
                         companyDetails = it.data.data.user_details
                         Log.e("userData", it.data.data.menu_details.toString())
-                        val menuAdapter =  CompanyMenuAdapter(it.data.data.menu_details,requireContext())
+                        val menuAdapter =  CompanyMenuAdapter(it.data.data.menu_details,requireContext(),companyDetails)
 
                         binding.menuItemList.adapter = menuAdapter
 
-                        setProfileData(it.data.data.user_details)
-                        showProgress(false,"")
+                        setProfileCompanyData(it.data.data.user_details)
+                     //   showProgress(false,"")
+                        MainActivity.binding.loader.visibility= View.GONE
 
                     }
                     Status.LOADING -> {
-                        showProgress(true,"Fetching Profile Data...")
+                      //  showProgress(true,"Fetching Profile Data...")
+                        MainActivity.binding.loader.visibility= View.VISIBLE
 
                         Log.i("editButton", "Loading")
 
                     }
                     Status.ERROR -> {
-                        showProgress(false,"")
+                        MainActivity.binding.loader.visibility= View.GONE
+                        //showProgress(false,"")
 
                         Log.i("editButton", it.message.toString())
                     }
@@ -289,22 +312,26 @@ class SettingsFragment : Fragment() {
                         binding.userName.text = it.data!!.data.user_details.name
                         binding.email.text = it.data!!.data.user_details.email
                         userDetails = it.data.data.user_details
-                        val menuAdapter =  UserMenuAdapter(it.data!!.data.menu_details,requireContext())
+                        val menuAdapter =  UserMenuAdapter(it.data!!.data.menu_details,requireContext(),userDetails)
 
                         binding.menuItemList.adapter = menuAdapter
 
                         setUserProfileData(it.data.data.user_details)
-                        showProgress(false,"")
+                        //showProgress(false,"")
+                        MainActivity.binding.loader.visibility= View.GONE
 
                     }
                     Status.LOADING -> {
                         Log.i("editButton", "Loading")
-                        showProgress(true,"Fetching Profile Data...")
+                        MainActivity.binding.loader.visibility= View.VISIBLE
+
+                       // showProgress(true,"Fetching Profile Data...")
 
                     }
                     Status.ERROR -> {
                         Log.i("editButton", it.message.toString())
-                        showProgress(false,"")
+                      //  showProgress(false,"")
+                        MainActivity.binding.loader.visibility= View.GONE
 
                     }
 
@@ -367,8 +394,10 @@ class SettingsFragment : Fragment() {
         }
 
         binding.back.setOnClickListener {
-
+            var intent=Intent(requireContext(),MainActivity::class.java)
+            startActivity(intent)
         }
+
 
         binding.myPostReelsApprovalpnding.setOnClickListener(View.OnClickListener {
 
@@ -376,7 +405,10 @@ class SettingsFragment : Fragment() {
             startActivity(intent)
 
         })
-
+        binding.home.setOnClickListener {
+            var intent=Intent(requireContext(),MainActivity::class.java)
+            startActivity(intent)
+        }
 
 
     }
@@ -456,19 +488,22 @@ class SettingsFragment : Fragment() {
                             dialog.show()
 
                         }
-                        showProgress(false,"")
+                        //showProgress(false,"")
+                        MainActivity.binding.loader.visibility= View.GONE
 
 //                        Log.e("Message", it.data!!.message)
                     }
                     Status.LOADING -> {
-                        showProgress(true,"Sending OTP....")
+                        //showProgress(true,"Sending OTP....")
+                        MainActivity.binding.loader.visibility= View.VISIBLE
 
                         Log.i("editButton", "Loading")
                     }
                     Status.ERROR -> {
 
                         Log.i("editButton", it.message.toString())
-                        showProgress(false,"")
+                       // showProgress(false,"")
+                        MainActivity.binding.loader.visibility= View.GONE
 
                     }
 
@@ -515,6 +550,8 @@ class SettingsFragment : Fragment() {
     private fun setUserProfileData(ud: com.locatocam.app.data.responses.user_model.UserDetails) {
 
         binding.userProfileLayout.editProfileLayout.visibility = View.VISIBLE
+        binding.linearShareLink.visibility=View.VISIBLE
+        binding.linearMyPage.visibility=View.VISIBLE
 
         val docs = ud.documents
         if (!docs.isNullOrEmpty()){
@@ -532,8 +569,19 @@ class SettingsFragment : Fragment() {
                 }
 
         }
-
-
+        if(ud.is_admin==="1" && ud.user_type==="user" ){
+            binding.userType.text="Admin"
+        }
+        else if (ud.is_admin==="0" && ud.user_type==="user" ){
+            binding.userType.text="Influncer"
+        }
+        binding.shareLink.setOnClickListener {
+            val message: String = "https://loca-toca.com/Login/index?si="+ud.influencer_code
+            val share = Intent(Intent.ACTION_SEND)
+            share.type = "text/plain"
+            share.putExtra(Intent.EXTRA_TEXT, message)
+            startActivity(Intent.createChooser(share, "Share"))
+        }
         if (!ud.name.isNullOrEmpty()){
 
             binding.userProfileLayout.nameText.text = Utils.toEditable(ud.name)
@@ -653,10 +701,13 @@ class SettingsFragment : Fragment() {
         }
 
     }
-
-    private fun setProfileData(ud: com.locatocam.app.data.responses.company.UserDetails) {
+    private fun setProfileCompanyData(ud: com.locatocam.app.data.responses.company.UserDetails) {
 
         binding.profileLayout.editProfileLayout.visibility = View.VISIBLE
+        binding.linearShareLink.visibility=View.VISIBLE
+        binding.linearMyPage.visibility=View.VISIBLE
+        binding.image.visibility=View.GONE
+        binding.editProfile.visibility=View.GONE
 
         val docs = ud.documents
         if (!docs.isNullOrEmpty()){
@@ -674,7 +725,127 @@ class SettingsFragment : Fragment() {
                 }
 
         }
+        if(ud.is_admin==="1" && ud.user_type==="company" ){
+            binding.userType.text="Admin"
+        }
+        else if (ud.is_admin==="0" && ud.user_type==="company" ){
+            binding.userType.text="Influncer"
+        }
 
+        binding.shareLink.setOnClickListener {
+            val message: String = "https://loca-toca.com/Login/index?si="+ud.influencer_code
+            val share = Intent(Intent.ACTION_SEND)
+            share.type = "text/plain"
+            share.putExtra(Intent.EXTRA_TEXT, message)
+            startActivity(Intent.createChooser(share, "Share"))
+        }
+        if (!ud.name.isNullOrEmpty()){
+
+            binding.profileLayout.nameText.text = Utils.toEditable(ud.name)
+            changeBackground(binding.profileLayout.nameText)
+        }
+
+        if (!ud.phone.isNullOrEmpty()){
+
+            binding.profileLayout.phoneText.text = Utils.toEditable(ud.phone)
+            changeBackground(binding.profileLayout.phoneText)
+
+        }
+
+        if (!ud.email.isNullOrEmpty()){
+
+            binding.profileLayout.emailText.text = Utils.toEditable(ud.email)
+            changeBackground(binding.profileLayout.emailText)
+
+        }
+
+        if (!ud.dob.isNullOrEmpty()){
+
+            binding.profileLayout.dobText.text = Utils.toEditable(ud.dob)
+            changeBackground(binding.profileLayout.dobText)
+
+        }
+
+        if (!ud.gender.isNullOrEmpty()){
+
+            Log.e("gender",ud.gender)
+            if (ud.gender == "male"){
+                Log.e("male",ud.gender)
+
+                binding.profileLayout.genderGroup.check(R.id.male)
+            }else{
+                binding.profileLayout.genderGroup.check(R.id.female)
+
+
+            }
+
+        }
+
+        if (!ud.state_name.isNullOrEmpty()){
+
+            binding.profileLayout.stateText.text = Utils.toEditable(ud.state_name)
+            changeBackground(binding.profileLayout.stateText)
+
+        }
+
+        if (!ud.city_name.isNullOrEmpty()){
+
+            binding.profileLayout.cityText.text = Utils.toEditable(ud.city_name)
+            changeBackground(binding.profileLayout.cityText)
+
+        }
+
+        if (!ud.address.isNullOrEmpty()){
+
+            binding.profileLayout.addressText.text = Utils.toEditable(ud.address)
+            changeBackground(binding.profileLayout.addressText)
+
+        }
+
+        if (!ud.pincode.isNullOrEmpty()){
+
+            binding.profileLayout.pinText.text = Utils.toEditable(ud.pincode)
+            changeBackground(binding.profileLayout.pinText)
+
+        }
+        binding.profileLayout.editButton.setOnClickListener {
+
+            sendOtp()
+
+        }
+
+    }
+
+    private fun setProfileData(ud: com.locatocam.app.data.responses.company.UserDetails) {
+
+        binding.profileLayout.editProfileLayout.visibility = View.VISIBLE
+        binding.userType.visibility=View.GONE
+        binding.linearMyPage.visibility=View.GONE
+        binding.linearShareLink.visibility=View.GONE
+
+        val docs = ud.documents
+        if (!docs.isNullOrEmpty()){
+
+            for (fl in docs)
+                if ( fl.doc_name.equals("photo")) {
+
+                    if (!fl.doc_location.isNullOrBlank() && !fl.doc_location.isNullOrEmpty()){
+
+                        Glide.with(this)
+                            .load(fl.doc_location)
+                            .into(binding.image)
+                    }
+
+                }
+
+        }
+        binding.shareLink.setOnClickListener {
+            val message: String = "https://loca-toca.com/Login/index?si="+ud.influencer_code
+            val share = Intent(Intent.ACTION_SEND)
+            share.type = "text/plain"
+            share.putExtra(Intent.EXTRA_TEXT, message)
+            startActivity(Intent.createChooser(share, "Share"))
+        }
 
         if (!ud.name.isNullOrEmpty()){
 
@@ -826,4 +997,16 @@ class SettingsFragment : Fragment() {
         manageSettingsData()
     }
 
+    public fun hideLoader(){
+        CoroutineScope(Dispatchers.Main).launch {
+            delay(1000)
+            Handler().postDelayed({
+                MainActivity.binding.loader.visibility= View.GONE
+            },3000)
+
+            MainActivity.binding.bttmNav.visibility=View.VISIBLE
+//            binding.orderOnline.visibility=View.VISIBLE
+        }
+
+    }
 }

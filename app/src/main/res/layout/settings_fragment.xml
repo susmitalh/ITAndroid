@@ -60,11 +60,34 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 >
-                <de.hdodenhof.circleimageview.CircleImageView
+                <!--<de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/image"
                     android:layout_width="100dp"
                     android:layout_height="100dp"
-                    android:src="@drawable/user"/>
+                    android:src="@drawable/user"/>-->
+                <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="10dp">
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        xmlns:app="http://schemas.android.com/apk/res-auto"
+                        android:id="@+id/image"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/user"
+                        app:civ_border_color="@color/black"
+                        app:civ_border_width="2dp" />
+
+                    <ImageView
+                        android:id="@+id/img_edit"
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:layout_gravity="bottom|end"
+                        android:layout_marginTop="30dp"
+                        android:background="@drawable/circle" />
+                </FrameLayout>
                 <TextView
                     android:id="@+id/user_name"
                     android:textColor="@color/black"
@@ -79,6 +102,14 @@
                     android:gravity="center_horizontal"
                     android:text="email"
                     android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+                <TextView
+                    android:textSize="10sp"
+                    android:id="@+id/userType"
+                    android:textColor="@color/red"
+                    android:gravity="center_horizontal"
+                    android:text="(Admin)"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
                 <TextView
                     android:id="@+id/view_activity"
@@ -122,6 +153,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content">
                         <ImageView
+                            android:id="@+id/editProfile"
                             android:padding="7dp"
                             android:background="@drawable/button_rnd_red_oval"
                             android:src="@drawable/ic_pencil_square"
@@ -136,6 +168,56 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"/>
                     </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/linearMyPage"
+                        android:orientation="vertical"
+                        android:layout_weight="1"
+                        android:gravity="center_horizontal"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:id="@+id/myPage"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:background="@drawable/button_rnd_red_oval"
+                            android:padding="7dp"
+                            android:src="@drawable/ic_person" />
+                        <TextView
+                            android:layout_marginTop="5dp"
+                            android:text="MyPage"
+                            android:textColor="@color/black"
+                            android:gravity="center_horizontal"
+                            android:textSize="12sp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"/>
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:id="@+id/linearShareLink"
+                        android:orientation="vertical"
+                        android:layout_weight="1"
+                        android:gravity="center_horizontal"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content">
+                        <ImageView
+                            android:id="@+id/shareLink"
+                            android:padding="7dp"
+                            android:background="@drawable/button_rnd_red_oval"
+                            android:src="@drawable/ic_link"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"/>
+                        <TextView
+                            android:layout_marginTop="5dp"
+                            android:text="Share Link"
+                            android:textColor="@color/black"
+                            android:gravity="center_horizontal"                            android:textSize="12sp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"/>
+                    </LinearLayout>
+
 
                 </LinearLayout>
 
@@ -406,5 +488,19 @@
 
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
+        <RelativeLayout
+            android:id="@+id/loader"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/transparent_black"
+            android:gravity="center"
+            android:visibility="gone">
+
+            <pl.droidsonroids.gif.GifImageView
+                android:layout_width="@dimen/_80sdp"
+                android:layout_height="@dimen/_80sdp"
+                android:src="@drawable/loader" />
+        </RelativeLayout>
+
     </RelativeLayout>
 </layout>

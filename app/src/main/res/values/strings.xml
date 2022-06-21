@@ -50,7 +50,13 @@
     <string name="twitter_link">Twitter link</string>
     <string name="linkedin_link">linkedin link</string>
     <string name="documents">Documents</string>
-
+    <string name="description">Description</string>
+    <string name="approvedBy">Approved By</string>
+    <string name="approvedTime">Approved Time</string>
+    <string name="brandApprove">Brand Approve Status</string>
+    <string name="rejectBy">Reject By</string>
+    <string name="rejectTime">Reject Time</string>
+    <string name="rejectStaus">Reject Reason</string>
 
     <string name="facebook_app_id">516105349468090</string>
     <string name="fb_login_protocol_scheme">fb1234</string>
