@@ -36,7 +36,7 @@
             android:name=".Activity.OtherProfileWithFeedActivity"
             android:exported="false"
             android:screenOrientation="portrait"
-            android:theme="@style/ThemeNoActionBar" />
+            android:theme="@style/Theme.LT_MVVM_NoactionBar" />
         <activity
             android:name=".Activity.ViewMyPostActivity"
             android:exported="false"
@@ -46,12 +46,12 @@
             android:name=".Activity.PlayPostActivity"
             android:exported="false"
             android:screenOrientation="portrait"
-            android:theme="@style/ThemeNoActionBar" />
+            android:theme="@style/Theme.LT_MVVM_NoactionBar" />
         <activity
             android:name=".views.register.ApprovalPendingActivity"
             android:exported="false"
             android:screenOrientation="portrait"
-            android:theme="@style/ThemeNoActionBar" />
+            android:theme="@style/Theme.LT_MVVM_NoactionBar" />
         <activity
             android:name=".views.SplashScreenActivity"
             android:exported="true"

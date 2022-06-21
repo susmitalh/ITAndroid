@@ -26,7 +26,6 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:textSize="5sp"
-            android:visibility="gone"
             app:itemIconSize="15dp"
             app:itemIconTint="@drawable/selector_tabicon"
             app:itemTextColor="@color/black"
@@ -82,7 +81,7 @@
             android:layout_height="match_parent"
             android:background="@color/transparent_black"
             android:gravity="center"
-            android:visibility="visible">
+            android:visibility="gone">
 
             <pl.droidsonroids.gif.GifImageView
                 android:layout_width="@dimen/_80sdp"

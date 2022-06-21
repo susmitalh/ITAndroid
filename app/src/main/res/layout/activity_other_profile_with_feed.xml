@@ -43,28 +43,4 @@
             android:visibility="visible" />
     </RelativeLayout>
 
-
-    <!-- <androidx.cardview.widget.CardView
-         android:id="@+id/order_online_other_user"
-         android:layout_width="60dp"
-         android:layout_height="60dp"
-         android:layout_above="@+id/bttm_nav_other_user"
-         android:layout_alignParentBottom="true"
-         android:layout_centerHorizontal="true"
-         android:layout_marginBottom="5dp"
-         app:cardCornerRadius="50dp"
-         app:cardBackgroundColor="@color/red"
-         android:visibility="visible"
-         app:cardElevation="10dp">
-
-         <TextView
-             android:layout_width="match_parent"
-             android:layout_height="match_parent"
-             android:gravity="center"
-             android:text="Order online"
-             android:textAllCaps="true"
-             android:textColor="@color/white"
-             android:textSize="12sp" />
-     </androidx.cardview.widget.CardView>-->
-
 </RelativeLayout>

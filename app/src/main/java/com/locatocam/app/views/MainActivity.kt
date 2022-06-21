@@ -131,22 +131,16 @@ class MainActivity : AppCompatActivity() {
         CoroutineScope(Dispatchers.Main).launch {
             delay(1000)
              Handler().postDelayed({
-                 binding.loader.visibility= View.GONE
-                 binding.bttmNav.visibility=View.VISIBLE
+//                 binding.loader.visibility= View.GONE
+//                 binding.bttmNav.visibility=View.VISIBLE
 //                 binding.orderOnline.visibility=View.VISIBLE
        },3000)
         }
     }
 
-    public fun showLoader(){
-
-        binding.loader.visibility= View.VISIBLE
-       /* binding.bttmNav.visibility=View.GONE
-        binding.orderOnline.visibility=View.GONE*/
+    public fun hideOrderBtn(){
+        binding.orderOnline.visibility=View.GONE
     }
-   /* public fun showLoader(){
-        binding.loader.visibility= View.VISIBLE
-    }*/
 
     fun showLocationPopup(){
         val childFragments = navHostFragment.childFragmentManager.fragments
@@ -181,8 +175,10 @@ class MainActivity : AppCompatActivity() {
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == 2) {
-            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                initLocation()
+            if(grantResults!=null) {
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    initLocation()
+                }
             }
         }
     }
@@ -231,12 +227,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-//        SimpleExoPlayerViewHolder.volumeMute=false
-//        val currentFragment = findNavController(navHostFragment)?.currentDestination
-
-      /*  Log.e("TAG", "onBackPressssed: "+currentFragment)
-        if (currentFragment is OtherProfileWithFeedFragment)*/
-
         super.onBackPressed()
     }
 

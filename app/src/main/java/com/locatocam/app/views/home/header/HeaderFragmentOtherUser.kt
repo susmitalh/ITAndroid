@@ -1,8 +1,10 @@
 package com.locatocam.app.views.home.header
 
 import android.content.Intent
+import android.graphics.drawable.PictureDrawable
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,7 +12,10 @@ import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
+import com.caverock.androidsvg.SVG
 import com.locatocam.app.Activity.OtherProfileWithFeedActivity
+import com.locatocam.app.R
 import com.locatocam.app.adapter.InfluencerProfileBannerAdapter
 import com.locatocam.app.adapter.OtherUserTitleAdapter
 import com.locatocam.app.databinding.FragmentHeaderOtherProfileBinding
@@ -22,6 +27,9 @@ import com.locatocam.app.viewmodels.HeaderViewModel
 import com.locatocam.app.views.home.HomeFragment
 import com.locatocam.app.views.home.OtherProfileWithFeedFragment
 import com.locatocam.app.views.rollsexp.RollsExoplayerActivity
+import java.io.ByteArrayInputStream
+import java.io.InputStream
+import java.nio.charset.StandardCharsets
 
 
 class HeaderFragmentOtherUser(val userid: String) : Fragment(), IHeaderEvents {
@@ -170,53 +178,88 @@ companion object {
                 binding.follow.visibility = View.GONE
                 binding.message.visibility = View.GONE
             }
-
+            if (it.data.social_details!!.isEmpty()){
+                binding.socialLayout.visibility=View.GONE
+            }
 
 
             it.data.social_details?.forEach { that ->
+
                 when (that.social_name) {
                     "Facebook" -> {
+                        val svg = SVG.getFromString(that.icon)
+                        val drawable = PictureDrawable(svg.renderToPicture())
+                        Glide.with(this).load(drawable).into(binding.imgFacebook)
+
 
                         binding.facebook.text = " " + that.follower
-                        binding.facebook.setOnClickListener {
+                        binding.layoutFacebook.setOnClickListener {
                             var intent = Intent(Intent.ACTION_VIEW, that.link?.toUri())
                             startActivity(intent)
                         }
                     }
                     "Instagram" -> {
+
+                        val svg = SVG.getFromString(that.icon)
+                        val drawable = PictureDrawable(svg.renderToPicture())
+                        Glide.with(this).load(drawable).into(binding.imgInstagram)
+
                         binding.instagram.text = " " + that.follower
-                        binding.instagram.setOnClickListener {
+                        binding.layoutInstagram.setOnClickListener {
                             var intent = Intent(Intent.ACTION_VIEW, that.link?.toUri())
                             startActivity(intent)
                         }
                     }
                     "Youtube" -> {
+                        val svg = SVG.getFromString(that.icon)
+                        val drawable = PictureDrawable(svg.renderToPicture())
+                        Glide.with(this).load(drawable).into(binding.imgYoutube)
+
                         binding.youtube.text = " " + that.follower
-                        binding.youtube.setOnClickListener {
+                        binding.layoutYoutube.setOnClickListener {
                             val uri = Uri.parse(that.link)
                             startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("http://" + uri)))
                         }
                     }
                     "Twitter" -> {
+
+
+                        val svg = SVG.getFromString(that.icon)
+                        val drawable = PictureDrawable(svg.renderToPicture())
+                        Glide.with(this).load(drawable).into(binding.imgtwitter)
+
                         binding.twitter.text = " " + that.follower
-                        binding.twitter.setOnClickListener {
+
+                        binding.layoutTwitter.setOnClickListener {
                             val uri = Uri.parse(that.link)
-                            startActivity(
-                                Intent(
-                                    Intent.ACTION_VIEW,
-                                    Uri.parse("http://" + uri)
-                                )
-                            )
+                            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("http://" + uri)))
                         }
+
                     }
-                    /* "linkedin"->{
-
-                         if (that.follower.isNullOrEmpty()){
-                             binding.linkedin.visibility=View.GONE
+                     "linkedin"->{
+                         if (that.icon!=null) {
+                             val svg = SVG.getFromString(that.icon)
+                             val drawable = PictureDrawable(svg.renderToPicture())
+                             Glide.with(this).load(drawable).into(binding.imglinkedin)
                          }
-                         binding.linkedin.text=" "+ that.follower
 
-                     }*/
+                         if (that.follower.equals("")||that.follower.equals(null)){
+                             binding.layoutLinkedin.visibility=View.GONE
+                         }else {
+                             binding.layoutLinkedin.visibility=View.VISIBLE
+                             binding.linkedin.text = " " + that.follower
+                             binding.layoutLinkedin.setOnClickListener {
+                                 val uri = Uri.parse(that.link)
+                                 startActivity(
+                                     Intent(
+                                         Intent.ACTION_VIEW,
+                                         Uri.parse("http://" + uri)
+                                     )
+                                 )
+                             }
+                         }
+
+                     }
                 }
             }
 
@@ -278,7 +321,7 @@ companion object {
 
 
     fun setClickListeners() {
-        binding.myLocation.text = HomeFragment.add.toString()
+        binding.myLocation.text = " "+HomeFragment.add.toString()
         binding.myLocation.setOnClickListener {
 //            Navigation.findNavController(binding.myLocation).navigate(R.id.action_homeFragment_to_locationSearchFragment
 
@@ -322,8 +365,8 @@ companion object {
         if (activity is OtherProfileWithFeedActivity) {
             var act = activity as OtherProfileWithFeedActivity
             act.viewModel.address_text.observe(requireActivity(), {
-                binding.myLocation.text = HomeFragment.add.toString()
-                HeaderFragment.binding.myLocation.text=it
+                binding.myLocation.text = " "+HomeFragment.add.toString()
+                HeaderFragment.binding.myLocation.text= " "+it
             })
         }
 

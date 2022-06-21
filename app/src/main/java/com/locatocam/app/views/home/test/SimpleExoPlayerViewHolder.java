@@ -225,7 +225,6 @@ public class SimpleExoPlayerViewHolder extends RecyclerView.ViewHolder implement
 
             profile_image.setOnClickListener(v->{
                 if (SimpleAdapter.userClick) {
-//                    MainActivity.Companion.onItemClick(item.getUser_id(), item.getProfile_influencer_code(),context);
                     Intent intent=new Intent(context, OtherProfileWithFeedActivity.class);
                     intent.putExtra("user_id",item.getUser_id());
                     intent.putExtra("inf_code",item.getProfile_influencer_code());
@@ -235,7 +234,6 @@ public class SimpleExoPlayerViewHolder extends RecyclerView.ViewHolder implement
             });
             name.setOnClickListener(v->{
                 if (SimpleAdapter.userClick) {
-//                    MainActivity.Companion.onItemClick(item.getUser_id(), item.getProfile_influencer_code(),context);
                     Intent intent=new Intent(context, OtherProfileWithFeedActivity.class);
                     intent.putExtra("user_id",item.getUser_id());
                     intent.putExtra("inf_code",item.getProfile_influencer_code());
@@ -372,9 +370,6 @@ public class SimpleExoPlayerViewHolder extends RecyclerView.ViewHolder implement
             } else {
                 like.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_like, 0, 0, 0);
             }
-           /* if (CommentsActivity.Companion.getCommentNo()==true){
-                comment.setText(String.valueOf(Integer.parseInt(item.getComments_count()) + 1));
-            }*/
             comment.setText(" " + item.getComments_count());
 
 
@@ -659,16 +654,6 @@ public class SimpleExoPlayerViewHolder extends RecyclerView.ViewHolder implement
                 }
             });
 
-//            if(helper!= null){
-//
-//                try{
-//                    helper.setVolume(0.0f);
-//                }catch (NullPointerException exception){
-//                    exception.printStackTrace();
-//                }
-//
-//
-//            }
         }
         helper.initialize(container, playbackInfo);
     }

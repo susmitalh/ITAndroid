@@ -95,7 +95,7 @@ class OtherProfileWithFeedFragment() : Fragment(), FeedEvents, ClickEvents, Simp
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-//        showLoader()
+        showLoader()
         binding = FragmentOtherUserFeedBinding.inflate(layoutInflater)
         var repository = HomeRepository(requireActivity().application, "")
         var factory = HomeViewModelFactory(repository)
@@ -118,7 +118,13 @@ class OtherProfileWithFeedFragment() : Fragment(), FeedEvents, ClickEvents, Simp
             Log.e("paggination", "onCreateView: ")
             viewModel.loading = false
 
-
+            CoroutineScope(Dispatchers.Main).launch {
+                delay(2500)
+                try {
+                    hideLoader()
+                } catch (e: Exception) {
+                }
+            }
 
             binding.playerContainer.setLayoutManager(layoutManager)
 
@@ -217,13 +223,7 @@ class OtherProfileWithFeedFragment() : Fragment(), FeedEvents, ClickEvents, Simp
             preloadImages(it)
 
 
-            CoroutineScope(Dispatchers.Main).launch {
-                delay(3000)
-                try {
-                    (activity as OtherProfileWithFeedActivity).hideLoader()
-                } catch (e: Exception) {
-                }
-            }
+
         })
         //viewModel.getAllFeeds(inf_code,0.00,0.00)
 
@@ -237,9 +237,10 @@ class OtherProfileWithFeedFragment() : Fragment(), FeedEvents, ClickEvents, Simp
 
         binding.home.setOnClickListener {
 
-            Navigation
+           /* Navigation
                 .findNavController(binding.root)
-                .navigate(R.id.homeFragment)
+                .navigate(R.id.homeFragment)*/
+            activity?.finish()
 
         }
         if (MainActivity.firstLoca==true){
@@ -247,25 +248,6 @@ class OtherProfileWithFeedFragment() : Fragment(), FeedEvents, ClickEvents, Simp
         }else{
             viewModel.getApprovalCounts(SharedPrefEnc.getPref(context,"selected_lat"),  SharedPrefEnc.getPref(context,"selected_lng"))
         }
-
-     /*   binding.playerContainer.addOnScrollListener(object :
-            RecyclerView.OnScrollListener() {
-            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                if (dy > 0) { //check for scroll down
-                    var visibleItemCount = layoutManager.getChildCount()
-                    var totalItemCount = layoutManager.getItemCount()
-                    var pastVisiblesItems = layoutManager.findFirstVisibleItemPosition()
-                    if (!viewModel.loading) {
-                        if (visibleItemCount + pastVisiblesItems >= totalItemCount - 2) {
-                            Log.v("gt66666", "Last Item Wow !")
-                            var act = (requireActivity() as OtherProfileWithFeedActivity)
-                            viewModel.getAllFeeds(inf_code, act.viewModel.lat, act.viewModel.lng)
-                            // rfvcc435
-                        }
-                    }
-                }
-            }
-        })*/
 
         binding.playerContainer.addOnScrollListener(object :
             RecyclerView.OnScrollListener() {
@@ -520,17 +502,15 @@ class OtherProfileWithFeedFragment() : Fragment(), FeedEvents, ClickEvents, Simp
 
         firstCall = false
         if (activity is OtherProfileWithFeedActivity) {
+            showLoader()
             var act = activity as OtherProfileWithFeedActivity
+
             act.viewModel.address_text.value = data.customer_address
             act.viewModel.lat = data.latitude!!.toDouble()
             act.viewModel.lng = data.longitude!!.toDouble()
             Log.e("TAG", "onClickAddress: "+data.customer_address )
 
             binding.locationView.visibility = View.GONE
-//            Log.e(
-//                "TAG location",
-//                "getAllFeedsdd: data setted" + act.viewModel.lat + "," + act.viewModel.lng
-//            )
 
             SharedPrefEnc.setPref("selected_lat", data.latitude, context)
             SharedPrefEnc.setPref("selected_lng", data.longitude, context)
@@ -540,7 +520,6 @@ class OtherProfileWithFeedFragment() : Fragment(), FeedEvents, ClickEvents, Simp
             HomeFragment.add = data.customer_address.toString()
             Log.e("TAG", "onClickAddressNewLat: "+SharedPrefEnc.getPref(context,"selected_lat")+" lng "+SharedPrefEnc.getPref(context,"selected_lng") )
             viewModel.getAllFeeds(inf_code, act.viewModel.lat, act.viewModel.lng)
-//            HeaderFragmentOtherUser.binding.myLocation.text=data.customer_address
             firstCall = true
             MainActivity.firstLoca=false
 
@@ -571,7 +550,8 @@ class OtherProfileWithFeedFragment() : Fragment(), FeedEvents, ClickEvents, Simp
         if (activity is OtherProfileWithFeedActivity) {
             var act = activity as OtherProfileWithFeedActivity
             act.viewModel.address_text.observe(requireActivity(), {
-                binding.myLocation.text = it
+
+                binding.myLocation.text = " "+it
 
                 binding.locationView.visibility = View.GONE
                 viewModel.offset = 0
@@ -584,7 +564,7 @@ class OtherProfileWithFeedFragment() : Fragment(), FeedEvents, ClickEvents, Simp
         if (activity is OtherProfileWithFeedActivity) {
             var act = activity as OtherProfileWithFeedActivity
             act.viewModel.address_text.observe(requireActivity(), {
-                binding.myLocation.text = it
+                binding.myLocation.text = " "+it
                 try {
                     SharedPrefEnc.setPref("selected_address", it, context)
 

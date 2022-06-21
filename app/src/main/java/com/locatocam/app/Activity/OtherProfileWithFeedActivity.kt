@@ -1,10 +1,8 @@
 package com.locatocam.app.Activity
 
 import android.Manifest
-import android.R.attr.fragment
 import android.annotation.SuppressLint
 import android.app.Dialog
-import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Address
@@ -15,39 +13,28 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.RelativeLayout
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.cardview.widget.CardView
 import androidx.core.os.bundleOf
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.Navigation
-import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.ui.NavigationUI
 import com.bumptech.glide.Glide
 import com.bumptech.glide.MemoryCategory
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.locatocam.app.R
-import com.locatocam.app.databinding.ActivityMainBinding
-import com.locatocam.app.security.SharedPrefEnc
 import com.locatocam.app.utils.Utils
 import com.locatocam.app.viewmodels.ActivityMainViewModel
-import com.locatocam.app.viewmodels.OtherProfileWithFeedViewModel
-import com.locatocam.app.views.MainActivity
 import com.locatocam.app.views.followers.FollowersActivity
-import com.locatocam.app.views.home.HomeFragment
 import com.locatocam.app.views.home.OtherProfileWithFeedFragment
-import com.locatocam.app.views.rolls.RollsActivity
+import com.locatocam.app.views.home.header.HeaderFragment
+import com.locatocam.app.views.home.test.SimpleAdapter
 import com.locatocam.app.views.rollsexp.RollsExoplayerActivity
-import de.hdodenhof.circleimageview.CircleImageView
+import com.locatocam.app.views.settings.SettingsFragment
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_other_profile_with_feed.*
-import pl.droidsonroids.gif.GifImageView
 import java.util.*
 
-
+@AndroidEntryPoint
 class OtherProfileWithFeedActivity : AppCompatActivity() {
     lateinit var userid:String
     lateinit var inf_code:String
@@ -73,8 +60,7 @@ class OtherProfileWithFeedActivity : AppCompatActivity() {
         bttm_nav_other_user.inflateMenu(com.locatocam.app.R.menu.nav_manu)
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
         Glide.get(this).setMemoryCategory(MemoryCategory.HIGH)
-
-        showLoader()
+        SimpleAdapter.userClick=false
 
 
         check_permissions()
@@ -170,7 +156,11 @@ class OtherProfileWithFeedActivity : AppCompatActivity() {
                     finish()
                 }
                 R.id.settingsFragment -> {
-
+                    val fragment = SettingsFragment()
+                    val fm = supportFragmentManager
+                    val ft = fm.beginTransaction()
+                    ft.replace(R.id.other_user_fragment, fragment)
+                    ft.commit()
                 }
             }
             true
@@ -186,20 +176,6 @@ class OtherProfileWithFeedActivity : AppCompatActivity() {
         val name = OtherProfileWithFeedFragment.javaClass.name;
         ft.add(R.id.other_user_fragment, fragment, name)
         ft.commit()
-    }
-    fun showLoader() {
-        dialog = Dialog(this, R.style.AppTheme_Dialog)
-        val view = View.inflate(this, R.layout.progressdialog_item, null)
-        dialog?.setContentView(view)
-        dialog?.setCancelable(true)
-        val progressbar: GifImageView = dialog?.findViewById(R.id.img_loader)!!
-        dialog?.show()
-    }
-
-    fun hideLoader() {
-        if (dialog != null) {
-            dialog?.dismiss()
-        }
     }
 
 }

@@ -87,17 +87,17 @@
                         android:id="@+id/messages"
                         android:layout_width="30dp"
                         android:layout_height="match_parent"
-                        android:layout_alignParentRight="true"
-                        android:layout_marginRight="1dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginEnd="5dp"
                         android:src="@drawable/lt_logo_icon" />
 
 
                     <TextView
                         android:id="@+id/message_counts"
                         android:layout_width="@dimen/_15sdp"
-                        android:layout_height="@dimen/_15sdp"
-                        android:layout_marginLeft="-18dp"
-                        android:layout_marginTop="10dp"
+                        android:layout_height="@dimen/_13sdp"
+                        android:layout_marginLeft="-15dp"
+                        android:layout_marginTop="12dp"
                         android:layout_toRightOf="@+id/messages"
                         android:background="@drawable/btn_rnd_red_counts"
                         android:gravity="center"
@@ -105,6 +105,9 @@
                         android:textColor="@color/white"
                         android:textSize="10sp"
                         android:visibility="gone" />
+
+
+
 
                 </RelativeLayout>
             </androidx.cardview.widget.CardView>

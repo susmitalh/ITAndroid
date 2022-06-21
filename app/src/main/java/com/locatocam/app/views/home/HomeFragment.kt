@@ -3,6 +3,7 @@ package com.locatocam.app.views.home
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.app.Dialog
 import android.content.Intent
 import android.location.Address
 import android.location.Geocoder
@@ -13,12 +14,10 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import android.view.*
-import android.widget.FrameLayout
 import android.widget.PopupMenu
 import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -37,7 +36,6 @@ import com.google.android.libraries.places.api.model.AutocompleteSessionToken
 import com.google.android.libraries.places.api.net.FindAutocompletePredictionsRequest
 import com.google.android.libraries.places.api.net.FindAutocompletePredictionsResponse
 import com.google.android.libraries.places.api.net.PlacesClient
-import com.locatocam.app.Activity.PlayPostActivity
 import com.locatocam.app.ModalClass.AddView
 import com.locatocam.app.R
 import com.locatocam.app.databinding.FragmentHomeBinding
@@ -51,14 +49,21 @@ import com.locatocam.app.viewmodels.HomeViewModel
 import com.locatocam.app.views.MainActivity
 import com.locatocam.app.views.ceratepost.UploadPostmanual
 import com.locatocam.app.views.chat.ChatActivity
-import com.locatocam.app.views.home.header.HeaderFragment
-import com.locatocam.app.views.home.test.*
+import com.locatocam.app.views.home.test.Follow
+import com.locatocam.app.views.home.test.PostCountData
+import com.locatocam.app.views.home.test.SimpleAdapter
+import com.locatocam.app.views.home.test.SimpleEvents
 import com.locatocam.app.views.location.MapsActivity
 import com.locatocam.app.views.search.AdddressAdapter
 import com.locatocam.app.views.search.AutoCompleteAdapter
 import com.locatocam.app.views.search.ClickEvents
 import com.locatocam.app.views.search.Locationitem
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import net.minidev.json.JSONObject
+import pl.droidsonroids.gif.GifImageView
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -78,7 +83,7 @@ public class HomeFragment : Fragment(), FeedEvents, ClickEvents, SimpleEvents {
         var firstCall: Boolean = true
     }
 
-
+    lateinit var dialog: Dialog
     lateinit var viewModel: HomeViewModel
     var lastCount: Int = -1
     lateinit var placesClient: PlacesClient
@@ -88,6 +93,10 @@ public class HomeFragment : Fragment(), FeedEvents, ClickEvents, SimpleEvents {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        showLoader()
+
+
+
         var layoutManager = LinearLayoutManager(requireActivity())
 //        if (!MainActivity.isLoaded) {
         binding = FragmentHomeBinding.inflate(layoutInflater)
@@ -123,9 +132,10 @@ public class HomeFragment : Fragment(), FeedEvents, ClickEvents, SimpleEvents {
 
         viewModel.feed_items.observe(viewLifecycleOwner, {
             viewModel.loading = false
-            /*   Handler().postDelayed(Runnable {
-                   (activity as MainActivity).hideLoaderimg()
-               }, 2500)*/
+            CoroutineScope(Dispatchers.Main).launch {
+                delay(2500)
+                hideLoader()
+            }
 
             binding.playerContainer.setLayoutManager(layoutManager)
             follow = object : Follow {
@@ -158,10 +168,10 @@ public class HomeFragment : Fragment(), FeedEvents, ClickEvents, SimpleEvents {
                 var adapter = SimpleAdapter(context, it, this, commet, follow)
                 binding.playerContainer.setAdapter(adapter)
             } else {
-                    if(binding.playerContainer.adapter!=null) {
-                        (binding.playerContainer.adapter as SimpleAdapter).addAll(it)
-                        (binding.playerContainer.adapter as SimpleAdapter)!!.notifyDataSetChanged()
-                    }
+                if (binding.playerContainer.adapter != null) {
+                    (binding.playerContainer.adapter as SimpleAdapter).addAll(it)
+                    (binding.playerContainer.adapter as SimpleAdapter)!!.notifyDataSetChanged()
+                }
             }
             commet = object : PostCountData {
                 override fun commentCount(commentCount: String, position: Int) {
@@ -180,6 +190,7 @@ public class HomeFragment : Fragment(), FeedEvents, ClickEvents, SimpleEvents {
 
             binding.playerContainer.addOnScrollListener(object : RecyclerViewScrollListener() {
                 override fun onItemIsFirstVisibleItem(index: Int) {
+
                     val apiInterface = getClient()!!.create(
                         WebApi::class.java
                     )
@@ -211,7 +222,7 @@ public class HomeFragment : Fragment(), FeedEvents, ClickEvents, SimpleEvents {
                                     response.body()!!.data!!.viewsCount,
                                     index
                                 )*/
-                                        if (binding.playerContainer.adapter!=null) {
+                                        if (binding.playerContainer.adapter != null) {
                                             (binding.playerContainer.adapter as SimpleAdapter).mediaList.get(
                                                 index
                                             ).views_count = response.body()?.data?.viewsCount
@@ -263,12 +274,8 @@ public class HomeFragment : Fragment(), FeedEvents, ClickEvents, SimpleEvents {
             }
 
             if (it.data.order_status == "off") {
-
                 order_visiblity = true
-                Handler().postDelayed(Runnable {
-                    MainActivity.binding.orderOnline.visibility = View.GONE
-
-                }, 3000)
+                (activity as MainActivity).hideOrderBtn()
             } else {
                 order_visiblity = false
             }
@@ -393,16 +400,7 @@ public class HomeFragment : Fragment(), FeedEvents, ClickEvents, SimpleEvents {
             startActivity(intent)
         }
         initAutoComplete()
-//        }
-        /*else {
-                Handler().postDelayed(Runnable {
-                    if (binding.playerContainer.adapter != null) {
-                        (binding.playerContainer.adapter as SimpleAdapter).addAgain()
-                    }
-                    MainActivity.isLoaded = false
-                }, 800);
 
-            }*/
         return binding.root
     }
 
@@ -454,7 +452,6 @@ public class HomeFragment : Fragment(), FeedEvents, ClickEvents, SimpleEvents {
             Places.initialize(requireActivity(), apiKey)
         }
         // Create a new Places client instance.
-        // Create a new Places client instance.
         placesClient = Places.createClient(requireActivity())
 
     }
@@ -463,7 +460,6 @@ public class HomeFragment : Fragment(), FeedEvents, ClickEvents, SimpleEvents {
         val token = AutocompleteSessionToken.newInstance()
         val request = FindAutocompletePredictionsRequest.builder()
             .setCountry("IND")
-            //.setTypeFilter(TypeFilter.ADDRESS,TypeFilter.)
             .setSessionToken(token)
             .setQuery(query)
             .build()
@@ -548,27 +544,17 @@ public class HomeFragment : Fragment(), FeedEvents, ClickEvents, SimpleEvents {
         intent.putExtra("address_text", locationitem.name)
         intent.putExtra("place_id", locationitem.placeid)
         startForResult.launch(intent)
-        // startActivity(intent)
     }
 
     override fun onClickAddress(data: com.locatocam.app.data.responses.address.Data) {
 
-//        (activity as MainActivity).showLoader()
         firstCall = false
-//        Log.e("TAG location", "getAllFeedsdd: data setted")
         if (activity is MainActivity) {
             var act = activity as MainActivity
-//            Log.e(
-//                "TAG location",
-//                "getAllFeedsdd: data setted" + act.viewModel.lat + "," + act.viewModel.lng
-//            )
+            showLoader()
             act.viewModel.address_text.value = data.customer_address
             act.viewModel.lat = data.latitude!!.toDouble()
             act.viewModel.lng = data.longitude!!.toDouble()
-//            Log.e(
-//                "TAG location",
-//                "getAllFeedsdd: data setted" + act.viewModel.lat + "," + act.viewModel.lng
-//            )
             SharedPrefEnc.setPref("selected_lat", data.latitude, context)
             SharedPrefEnc.setPref("selected_lng", data.longitude, context)
             viewModel.getApprovalCounts(data.latitude, data.longitude)
@@ -634,7 +620,6 @@ public class HomeFragment : Fragment(), FeedEvents, ClickEvents, SimpleEvents {
                 }
             })
 
-
         }
 
     }
@@ -642,14 +627,9 @@ public class HomeFragment : Fragment(), FeedEvents, ClickEvents, SimpleEvents {
     override fun onResume() {
         Log.e("TAG", "onResume: ")
 
-//        viewModel._isheader_added = false
-        /* Handler().postDelayed(Runnable {
-             if (binding.playerContainer.adapter != null) {
-                 (binding.playerContainer.adapter as SimpleAdapter).addAgain()
-             }
-         }, 1000);*/
 
         super.onResume()
+        SimpleAdapter.userClick = true
     }
 
     override
@@ -697,8 +677,19 @@ public class HomeFragment : Fragment(), FeedEvents, ClickEvents, SimpleEvents {
         Log.e("TAG", "isHeaderAddedc: ")
     }
 
-    fun openFragment() {
+    fun showLoader() {
+        dialog = Dialog(requireContext(), R.style.AppTheme_Dialog)
+        val view = View.inflate(requireContext(), R.layout.progressdialog_item, null)
+        dialog?.setContentView(view)
+        dialog?.setCancelable(true)
+        val progressbar: GifImageView = dialog?.findViewById(R.id.img_loader)!!
+        dialog?.show()
+    }
 
+    fun hideLoader() {
+        if (dialog != null) {
+            dialog?.dismiss()
+        }
     }
 
 }
