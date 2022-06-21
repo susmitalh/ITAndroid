@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:map="http://schemas.android.com/apk/res-auto"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -15,13 +13,13 @@
 
     <LinearLayout
         android:id="@+id/main_listing"
-        android:visibility="visible"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:background="@color/white"
         android:orientation="vertical"
-        android:padding="10dp">
+        android:padding="10dp"
+        android:visibility="visible">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -90,21 +88,22 @@
             android:textColor="@color/red"
             android:textSize="12sp" />
     </LinearLayout>
+
     <LinearLayout
         android:id="@+id/save_address"
-        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:background="@color/white"
         android:orientation="vertical"
-        android:padding="10dp">
+        android:padding="10dp"
+        android:visibility="gone">
 
         <RelativeLayout
-            android:gravity="center_vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp">
+            android:layout_marginTop="10dp"
+            android:gravity="center_vertical">
 
             <ImageView
                 android:layout_width="25dp"
@@ -113,10 +112,10 @@
 
             <TextView
                 android:id="@+id/change"
-                android:layout_centerVertical="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
                 android:text="Change"
                 android:textColor="@color/red"
                 android:textSize="11sp" />
@@ -124,92 +123,100 @@
         </RelativeLayout>
 
         <LinearLayout
-            android:layout_marginTop="10dp"
-            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="vertical">
+
             <EditText
                 android:id="@+id/address"
-                android:background="@drawable/edt_rnd_search"
-                android:textColor="@color/black"
-                android:textSize="12sp"
-                android:paddingLeft="10dp"
                 android:layout_width="match_parent"
-                android:layout_height="35dp"/>
+                android:layout_height="35dp"
+                android:background="@drawable/edt_rnd_search"
+                android:paddingLeft="10dp"
+                android:textColor="@color/black"
+                android:textSize="12sp" />
+
             <EditText
                 android:id="@+id/house_flat"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/edt_rnd_search"
-                android:textSize="12sp"
                 android:paddingLeft="10dp"
                 android:textColor="@color/black"
-                android:layout_width="match_parent"
-                android:layout_height="35dp"/>
+                android:textSize="12sp" />
+
             <EditText
                 android:id="@+id/landmark"
-                android:background="@drawable/edt_rnd_search"
-                android:textSize="12sp"
-                android:paddingLeft="10dp"
-                android:layout_marginTop="10dp"
-                android:textColor="@color/black"
                 android:layout_width="match_parent"
-                android:layout_height="35dp"/>
-            <TextView
+                android:layout_height="35dp"
                 android:layout_marginTop="10dp"
+                android:background="@drawable/edt_rnd_search"
+                android:paddingLeft="10dp"
+                android:textColor="@color/black"
+                android:textSize="12sp" />
+
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
                 android:text="Save as"
                 android:textColor="@color/black"
                 android:textSize="12sp" />
+
             <LinearLayout
-                android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
                 <RadioGroup
                     android:id="@+id/saveas"
-                    android:orientation="horizontal"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
                     <RadioButton
                         android:id="@+id/home"
+                        android:layout_width="90dp"
+                        android:layout_height="30dp"
                         android:background="@drawable/rb_bg"
-                        android:checked="true"
                         android:button="@null"
+                        android:checked="true"
+                        android:gravity="center"
+                        android:padding="5dp"
                         android:tag="home"
                         android:text="Home"
-                        android:textColor="@color/black"
-                        android:padding="5dp"
-                        android:gravity="center"
-                        android:layout_width="90dp"
-                        android:layout_height="30dp"/>
+                        android:textColor="@color/black" />
+
                     <RadioButton
                         android:id="@+id/office"
-                        android:button="@null"
+                        android:layout_width="90dp"
+                        android:layout_height="30dp"
+                        android:layout_marginLeft="5dp"
                         android:background="@drawable/rb_bg"
+                        android:button="@null"
+                        android:gravity="center"
+                        android:padding="5dp"
                         android:tag="office"
                         android:text="Office"
-                        android:textColor="@color/black"
-                        android:layout_marginLeft="5dp"
-                        android:padding="5dp"
-                        android:gravity="center"
-                        android:layout_width="90dp"
-                        android:layout_height="30dp"/>
+                        android:textColor="@color/black" />
+
                     <RadioButton
                         android:id="@+id/other"
-                        android:button="@null"
-                        android:background="@drawable/rb_bg"
-                        android:tag="other"
-                        android:textColor="@color/black"
-                        android:text="Other"
-                        android:layout_marginLeft="5dp"
-                        android:padding="5dp"
-                        android:gravity="center"
                         android:layout_width="90dp"
-                        android:layout_height="30dp"/>
+                        android:layout_height="30dp"
+                        android:layout_marginLeft="5dp"
+                        android:background="@drawable/rb_bg"
+                        android:button="@null"
+                        android:gravity="center"
+                        android:padding="5dp"
+                        android:tag="other"
+                        android:text="Other"
+                        android:textColor="@color/black" />
                 </RadioGroup>
             </LinearLayout>
         </LinearLayout>
-
 
 
         <android.widget.Button

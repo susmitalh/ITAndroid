@@ -8,1064 +8,1058 @@
         android:layout_height="wrap_content">
 
 
-    <RelativeLayout
-        android:id="@+id/editProfileLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginBottom="10dp">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/personal_details"
-            android:id="@+id/label_personal"
-            android:textColor="@color/black"
-            android:textSize="12sp"/>
-
-        <LinearLayout
-            android:id="@+id/nameLayout"
+        <RelativeLayout
+            android:id="@+id/editProfileLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:orientation="horizontal"
-            android:layout_below="@+id/label_personal"
-            android:weightSum="3">
+            android:layout_marginStart="10dp"
+
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="10dp"
+            android:visibility="gone">
 
             <TextView
-                android:id="@+id/nameLabel"
-                android:layout_width="match_parent"
+                android:id="@+id/label_personal"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:text="@string/full_name"
-
-                android:textColor="@color/black" />
-
-            <EditText
-                android:id="@+id/nameText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:layout_marginEnd="5dp"
-                android:layout_weight="1"
-                android:padding="5dp"
-                android:singleLine="true"
-                android:background="@drawable/button_rnd_red"
-
+                android:text="@string/personal_details"
                 android:textColor="@color/black"
+                android:textSize="12sp" />
 
-                android:textSize="15sp" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/phoneNumberLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/nameLayout"
-            android:layout_margin="5dp"
-            android:orientation="horizontal"
-
-            android:weightSum="3">
-
-            <TextView
-                android:id="@+id/phoneLabel"
+            <LinearLayout
+                android:id="@+id/nameLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:text="@string/phone_number"
-                android:textColor="@color/black" />
-
-            <EditText
-                android:id="@+id/phoneText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:layout_marginEnd="5dp"
-                android:layout_weight="1"
-                android:background="@drawable/button_rnd_red"
-                android:padding="5dp"
-
-                android:singleLine="true"
-                android:textColor="@color/black"
-                android:textSize="15sp" />
-
-        </LinearLayout>
-
-
-        <LinearLayout
-            android:id="@+id/emailLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/phoneNumberLayout"
-            android:layout_margin="5dp"
-            android:orientation="horizontal"
-
-            android:weightSum="3"
-
-            >
-
-            <TextView
-                android:id="@+id/emailLabel"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:text="@string/email"
-                android:textColor="@color/black" />
-
-            <EditText
-                android:id="@+id/emailText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:layout_marginEnd="5dp"
-                android:layout_weight="1"
-                android:background="@drawable/button_rnd_red"
-                android:enabled="true"
-                android:padding="5dp"
-
-                android:singleLine="true"
-                android:textColor="@color/black"
-                android:textSize="15sp" />
-
-        </LinearLayout>
-
-
-        <LinearLayout
-            android:id="@+id/dobLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/emailLayout"
-            android:layout_margin="5dp"
-            android:orientation="horizontal"
-
-            android:weightSum="3">
-
-            <TextView
-                android:id="@+id/dobLabel"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:text="@string/date_of_birth"
-                android:textColor="@color/black"
-
-                />
-
-            <EditText
-                android:id="@+id/dobText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:layout_marginEnd="5dp"
-                android:layout_weight="1"
-                android:background="@drawable/button_rnd_red"
-                android:enabled="true"
-                android:padding="5dp"
-
-                android:singleLine="true"
-                android:textColor="@color/black"
-                android:textSize="15sp" />
-
-        </LinearLayout>
-
-
-        <LinearLayout
-            android:id="@+id/genderLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/dobLayout"
-            android:layout_margin="5dp"
-            android:orientation="horizontal"
-
-            android:weightSum="3">
-
-            <TextView
-                android:id="@+id/genderLabel"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_weight="2"
-                android:text="@string/gender"
-                android:textColor="@color/black"
-
-                />
-
-            <RadioGroup
-                android:id="@+id/genderGroup"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:layout_marginEnd="5dp"
-                android:layout_weight="1"
-                android:enabled="true"
+                android:layout_below="@+id/label_personal"
+                android:layout_margin="5dp"
                 android:orientation="horizontal"
-                android:padding="5dp"
-                android:singleLine="true"
+                android:weightSum="3">
 
-                android:textColor="@color/black"
-                android:textSize="15sp">
-
-                <RadioButton
-                    android:id="@+id/male"
-                    android:layout_width="wrap_content"
+                <TextView
+                    android:id="@+id/nameLabel"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginEnd="5dp"
-                    android:buttonTint="@color/black"
-                    android:enabled="true"
-                    android:gravity="center"
-                    android:layoutDirection="rtl"
-                    android:text="@string/male"
+                    android:layout_weight="2"
+                    android:text="@string/full_name"
+
                     android:textColor="@color/black" />
 
-                <RadioButton
-                    android:id="@+id/female"
-                    android:layout_width="wrap_content"
+                <EditText
+                    android:id="@+id/nameText"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="5dp"
                     android:layout_marginEnd="5dp"
-                    android:buttonTint="@color/black"
+                    android:layout_weight="1"
+                    android:background="@drawable/button_rnd_red"
+                    android:padding="5dp"
+                    android:singleLine="true"
+
+                    android:textColor="@color/black"
+
+                    android:textSize="15sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/phoneNumberLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/nameLayout"
+                android:layout_margin="5dp"
+                android:orientation="horizontal"
+
+                android:weightSum="3">
+
+                <TextView
+                    android:id="@+id/phoneLabel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:text="@string/phone_number"
+                    android:textColor="@color/black" />
+
+                <EditText
+                    android:id="@+id/phoneText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/button_rnd_red"
+                    android:padding="5dp"
+
+                    android:singleLine="true"
+                    android:textColor="@color/black"
+                    android:textSize="15sp" />
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/emailLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/phoneNumberLayout"
+                android:layout_margin="5dp"
+                android:orientation="horizontal"
+
+                android:weightSum="3"
+
+                >
+
+                <TextView
+                    android:id="@+id/emailLabel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:text="@string/email"
+                    android:textColor="@color/black" />
+
+                <EditText
+                    android:id="@+id/emailText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/button_rnd_red"
                     android:enabled="true"
-                    android:gravity="center"
-                    android:layoutDirection="rtl"
-                    android:text="@string/female"
+                    android:padding="5dp"
+
+                    android:singleLine="true"
                     android:textColor="@color/black"
+                    android:textSize="15sp" />
 
-                    />
-
-            </RadioGroup>
-
-        </LinearLayout>
+            </LinearLayout>
 
 
-        <LinearLayout
-            android:id="@+id/stateLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/genderLayout"
-            android:layout_margin="5dp"
-            android:orientation="horizontal"
-
-            android:weightSum="3">
-
-            <TextView
-                android:id="@+id/stateLabel"
+            <LinearLayout
+                android:id="@+id/dobLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:text="@string/state"
-                android:textColor="@color/black" />
+                android:layout_below="@id/emailLayout"
+                android:layout_margin="5dp"
+                android:orientation="horizontal"
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/state_text_input"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:layout_marginEnd="5dp"
-                android:layout_weight="1"
-                android:enabled="true"
-                android:padding="5dp"
-                android:textColor="@color/black"
+                android:weightSum="3">
 
-                >
-
-                <AutoCompleteTextView
+                <TextView
+                    android:id="@+id/dobLabel"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/stateText"
+                    android:layout_weight="2"
+                    android:text="@string/date_of_birth"
                     android:textColor="@color/black"
-                    android:background="@drawable/button_rnd_red"
+
                     />
 
-            </com.google.android.material.textfield.TextInputLayout>
-
-        </LinearLayout>
-
-
-        <LinearLayout
-            android:id="@+id/cityLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/stateLayout"
-            android:layout_margin="5dp"
-            android:orientation="horizontal"
-
-            android:weightSum="3">
-
-            <TextView
-                android:id="@+id/cityLabel"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:text="@string/city"
-                android:textColor="@color/black" />
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/city_text_input"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:layout_marginEnd="5dp"
-                android:layout_weight="1"
-                android:enabled="true"
-                android:padding="5dp"
-                android:textColor="@color/black"
-
-                >
-
-                <AutoCompleteTextView
+                <EditText
+                    android:id="@+id/dobText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/cityText"
-                    android:textColor="@color/black"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_weight="1"
                     android:background="@drawable/button_rnd_red"
+                    android:enabled="true"
+                    android:padding="5dp"
+
+                    android:singleLine="true"
+                    android:textColor="@color/black"
+                    android:textSize="15sp" />
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/genderLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/dobLayout"
+                android:layout_margin="5dp"
+                android:orientation="horizontal"
+
+                android:weightSum="3">
+
+                <TextView
+                    android:id="@+id/genderLabel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="2"
+                    android:text="@string/gender"
+                    android:textColor="@color/black"
+
                     />
 
-            </com.google.android.material.textfield.TextInputLayout>
+                <RadioGroup
+                    android:id="@+id/genderGroup"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_weight="1"
+                    android:enabled="true"
+                    android:orientation="horizontal"
+                    android:padding="5dp"
+                    android:singleLine="true"
 
-        </LinearLayout>
+                    android:textColor="@color/black"
+                    android:textSize="15sp">
+
+                    <RadioButton
+                        android:id="@+id/male"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginEnd="5dp"
+                        android:buttonTint="@color/black"
+                        android:enabled="true"
+                        android:gravity="center"
+                        android:layoutDirection="rtl"
+                        android:text="@string/male"
+                        android:textColor="@color/black" />
+
+                    <RadioButton
+                        android:id="@+id/female"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginEnd="5dp"
+                        android:buttonTint="@color/black"
+                        android:enabled="true"
+                        android:gravity="center"
+                        android:layoutDirection="rtl"
+                        android:text="@string/female"
+                        android:textColor="@color/black"
+
+                        />
+
+                </RadioGroup>
+
+            </LinearLayout>
 
 
-        <LinearLayout
-            android:id="@+id/addressLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/cityLayout"
-            android:layout_margin="5dp"
-            android:orientation="horizontal"
+            <LinearLayout
+                android:id="@+id/stateLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/genderLayout"
+                android:layout_margin="5dp"
+                android:orientation="horizontal"
 
-            android:weightSum="3">
+                android:weightSum="3">
+
+                <TextView
+                    android:id="@+id/stateLabel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:text="@string/state"
+                    android:textColor="@color/black" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/state_text_input"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_weight="1"
+                    android:enabled="true"
+                    android:padding="5dp"
+                    android:textColor="@color/black"
+
+                    >
+
+                    <AutoCompleteTextView
+                        android:id="@+id/stateText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/button_rnd_red"
+                        android:textColor="@color/black" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/cityLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/stateLayout"
+                android:layout_margin="5dp"
+                android:orientation="horizontal"
+
+                android:weightSum="3">
+
+                <TextView
+                    android:id="@+id/cityLabel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:text="@string/city"
+                    android:textColor="@color/black" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/city_text_input"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_weight="1"
+                    android:enabled="true"
+                    android:padding="5dp"
+                    android:textColor="@color/black"
+
+                    >
+
+                    <AutoCompleteTextView
+                        android:id="@+id/cityText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/button_rnd_red"
+                        android:textColor="@color/black" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/addressLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/cityLayout"
+                android:layout_margin="5dp"
+                android:orientation="horizontal"
+
+                android:weightSum="3">
+
+                <TextView
+                    android:id="@+id/addressLabel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:text="@string/address"
+                    android:textColor="@color/black" />
+
+                <EditText
+                    android:id="@+id/addressText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/button_rnd_red"
+                    android:enabled="true"
+                    android:padding="5dp"
+                    android:singleLine="true"
+                    android:textColor="@color/black"
+                    android:textSize="15sp" />
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/pinLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/addressLayout"
+                android:layout_margin="5dp"
+                android:orientation="horizontal"
+
+                android:weightSum="3">
+
+                <TextView
+                    android:id="@+id/pinLabel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:text="@string/pincode"
+                    android:textColor="@color/black" />
+
+                <EditText
+                    android:id="@+id/pinText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/button_rnd_red"
+                    android:enabled="true"
+                    android:padding="5dp"
+                    android:singleLine="true"
+                    android:textColor="@color/black"
+                    android:textSize="15sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/adharLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/pinLayout"
+                android:layout_margin="5dp"
+                android:orientation="horizontal"
+
+                android:weightSum="3">
+
+                <TextView
+                    android:id="@+id/adharLabel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:text="@string/adhaar_card_no"
+                    android:textColor="@color/black" />
+
+                <EditText
+                    android:id="@+id/adharText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/button_rnd_red"
+                    android:enabled="true"
+                    android:padding="5dp"
+                    android:singleLine="true"
+                    android:textColor="@color/black"
+                    android:textSize="15sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/panLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/adharLayout"
+                android:layout_margin="5dp"
+                android:orientation="horizontal"
+
+                android:weightSum="3">
+
+                <TextView
+                    android:id="@+id/panLabel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:text="@string/pancard_no"
+                    android:textColor="@color/black" />
+
+                <EditText
+                    android:id="@+id/panText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/button_rnd_red"
+                    android:enabled="true"
+                    android:padding="5dp"
+                    android:singleLine="true"
+                    android:textColor="@color/black"
+                    android:textSize="15sp" />
+
+            </LinearLayout>
 
             <TextView
-                android:id="@+id/addressLabel"
-                android:layout_width="match_parent"
+                android:id="@+id/label_bank"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:text="@string/address"
-                android:textColor="@color/black" />
-
-            <EditText
-                android:id="@+id/addressText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:layout_marginEnd="5dp"
-                android:layout_weight="1"
-                android:background="@drawable/button_rnd_red"
-                android:enabled="true"
-                android:padding="5dp"
-                android:singleLine="true"
+                android:layout_below="@id/panLayout"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="5dp"
+                android:text="@string/bank_details"
                 android:textColor="@color/black"
-                android:textSize="15sp" />
-
-        </LinearLayout>
+                android:textSize="12sp" />
 
 
-        <LinearLayout
-            android:id="@+id/pinLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/addressLayout"
-            android:layout_margin="5dp"
-            android:orientation="horizontal"
+            <LinearLayout
+                android:id="@+id/bankNameLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/label_bank"
+                android:layout_margin="5dp"
+                android:orientation="horizontal"
+                android:weightSum="3">
 
-            android:weightSum="3">
+                <TextView
+                    android:id="@+id/bankNameLabel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:text="@string/bank_name"
+                    android:textColor="@color/black" />
+
+                <EditText
+                    android:id="@+id/bankNameText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/button_rnd_red"
+                    android:enabled="true"
+                    android:padding="5dp"
+                    android:singleLine="true"
+                    android:textColor="@color/black"
+                    android:textSize="15sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/bankAccLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/bankNameLayout"
+                android:layout_margin="5dp"
+                android:orientation="horizontal"
+
+                android:weightSum="3">
+
+                <TextView
+                    android:id="@+id/bankAccLabel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:text="@string/account_no"
+                    android:textColor="@color/black" />
+
+                <EditText
+                    android:id="@+id/bankAccText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/button_rnd_red"
+                    android:enabled="true"
+                    android:padding="5dp"
+                    android:singleLine="true"
+                    android:textColor="@color/black"
+                    android:textSize="15sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/bankAccNameLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/bankAccLayout"
+                android:layout_margin="5dp"
+                android:orientation="horizontal"
+
+                android:weightSum="3">
+
+                <TextView
+                    android:id="@+id/bankAccNameLabel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:text="@string/account_name"
+                    android:textColor="@color/black" />
+
+                <EditText
+                    android:id="@+id/bankAccNameText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/button_rnd_red"
+                    android:enabled="true"
+                    android:padding="5dp"
+                    android:singleLine="true"
+                    android:textColor="@color/black"
+                    android:textSize="15sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/bankAccIFSCLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/bankAccNameLayout"
+                android:layout_margin="5dp"
+                android:orientation="horizontal"
+
+                android:weightSum="3">
+
+                <TextView
+                    android:id="@+id/bankAccNameIfscLabel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:text="@string/bank_ifsc_code"
+                    android:textColor="@color/black" />
+
+                <EditText
+                    android:id="@+id/bankAccIfscText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/button_rnd_red"
+                    android:enabled="true"
+                    android:padding="5dp"
+                    android:singleLine="true"
+                    android:textColor="@color/black"
+                    android:textSize="15sp" />
+
+            </LinearLayout>
 
             <TextView
-                android:id="@+id/pinLabel"
-                android:layout_width="match_parent"
+                android:id="@+id/label_social"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:text="@string/pincode"
-                android:textColor="@color/black" />
-
-            <EditText
-                android:id="@+id/pinText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:layout_marginEnd="5dp"
-                android:layout_weight="1"
-                android:background="@drawable/button_rnd_red"
-                android:enabled="true"
-                android:padding="5dp"
-                android:singleLine="true"
+                android:layout_below="@id/bankAccIFSCLayout"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="5dp"
+                android:text="@string/social_media"
                 android:textColor="@color/black"
-                android:textSize="15sp" />
+                android:textSize="12sp" />
 
-        </LinearLayout>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/social_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/label_social"
+                android:layout_marginTop="5dp">
 
-        <LinearLayout
-            android:id="@+id/adharLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/pinLayout"
-            android:layout_margin="5dp"
-            android:orientation="horizontal"
+            </androidx.recyclerview.widget.RecyclerView>
 
-            android:weightSum="3">
+            <!--        <LinearLayout-->
+            <!--            android:id="@+id/fbLayout"-->
+            <!--            android:layout_width="match_parent"-->
+            <!--            android:layout_height="wrap_content"-->
+            <!--            android:layout_below="@id/label_social"-->
+            <!--            android:layout_margin="5dp"-->
+            <!--            android:orientation="horizontal"-->
+
+            <!--            android:weightSum="2">-->
+
+            <!--            <LinearLayout-->
+            <!--                android:layout_width="0dp"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:orientation="vertical"-->
+            <!--                android:layout_weight="1"-->
+            <!--                android:layout_marginEnd="5dp"-->
+            <!--                >-->
+
+            <!--                <TextView-->
+            <!--                    android:id="@+id/fbLabel"-->
+            <!--                    android:layout_width="match_parent"-->
+            <!--                    android:layout_height="wrap_content"-->
+            <!--                    android:text="@string/facebook_link"-->
+            <!--                    android:textColor="@color/black" />-->
+
+            <!--                <EditText-->
+            <!--                    android:id="@+id/fbLinkText"-->
+            <!--                    android:layout_width="match_parent"-->
+            <!--                    android:layout_height="wrap_content"-->
+            <!--                    android:layout_marginStart="5dp"-->
+            <!--                    android:layout_marginEnd="5dp"-->
+            <!--                    android:background="@drawable/button_rnd_red"-->
+            <!--                    android:enabled="true"-->
+            <!--                    android:padding="5dp"-->
+            <!--                    android:singleLine="true"-->
+            <!--                    android:textColor="@color/black"-->
+            <!--                    android:textSize="15sp" />-->
+
+
+            <!--            </LinearLayout>-->
+
+
+            <!--            <LinearLayout-->
+            <!--                android:layout_width="0dp"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:orientation="vertical"-->
+            <!--                android:layout_weight="1"-->
+            <!--                android:layout_marginStart="5dp"-->
+            <!--                >-->
+
+            <!--                <TextView-->
+            <!--                    android:id="@+id/fbFollowersLabel"-->
+            <!--                    android:layout_width="match_parent"-->
+            <!--                    android:layout_height="wrap_content"-->
+            <!--                    android:text="@string/followers"-->
+            <!--                    android:textColor="@color/black" />-->
+
+            <!--                <EditText-->
+            <!--                    android:id="@+id/followersText"-->
+            <!--                    android:layout_width="match_parent"-->
+            <!--                    android:layout_height="wrap_content"-->
+            <!--                    android:layout_marginStart="5dp"-->
+            <!--                    android:layout_marginEnd="5dp"-->
+            <!--                    android:background="@drawable/button_rnd_red"-->
+            <!--                    android:enabled="true"-->
+            <!--                    android:padding="5dp"-->
+            <!--                    android:singleLine="true"-->
+            <!--                    android:textColor="@color/black"-->
+            <!--                    android:textSize="15sp" />-->
+
+
+            <!--            </LinearLayout>-->
+
+
+            <!--        </LinearLayout>-->
+
+
+            <!--        <LinearLayout-->
+            <!--            android:id="@+id/instaLayout"-->
+            <!--            android:layout_width="match_parent"-->
+            <!--            android:layout_height="wrap_content"-->
+            <!--            android:layout_below="@id/fbLayout"-->
+            <!--            android:layout_margin="5dp"-->
+            <!--            android:orientation="horizontal"-->
+
+            <!--            android:weightSum="2">-->
+
+            <!--            <LinearLayout-->
+            <!--                android:layout_width="0dp"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:orientation="vertical"-->
+            <!--                android:layout_weight="1"-->
+            <!--                android:layout_marginEnd="5dp"-->
+            <!--                >-->
+
+            <!--                <TextView-->
+            <!--                    android:id="@+id/instaLabel"-->
+            <!--                    android:layout_width="match_parent"-->
+            <!--                    android:layout_height="wrap_content"-->
+            <!--                    android:text="@string/instagram_link"-->
+            <!--                    android:textColor="@color/black" />-->
+
+            <!--                <EditText-->
+            <!--                    android:id="@+id/instaLinkText"-->
+            <!--                    android:layout_width="match_parent"-->
+            <!--                    android:layout_height="wrap_content"-->
+            <!--                    android:layout_marginStart="5dp"-->
+            <!--                    android:layout_marginEnd="5dp"-->
+            <!--                    android:background="@drawable/button_rnd_red"-->
+            <!--                    android:enabled="true"-->
+            <!--                    android:padding="5dp"-->
+            <!--                    android:singleLine="true"-->
+            <!--                    android:textColor="@color/black"-->
+            <!--                    android:textSize="15sp" />-->
+
+
+            <!--            </LinearLayout>-->
+
+
+            <!--            <LinearLayout-->
+            <!--                android:layout_width="0dp"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:orientation="vertical"-->
+            <!--                android:layout_weight="1"-->
+            <!--                android:layout_marginStart="5dp"-->
+            <!--                >-->
+
+            <!--                <TextView-->
+            <!--                    android:layout_width="match_parent"-->
+            <!--                    android:layout_height="wrap_content"-->
+            <!--                    android:text="@string/followers"-->
+            <!--                    android:textColor="@color/black" />-->
+
+            <!--                <EditText-->
+            <!--                    android:id="@+id/instaFollowersText"-->
+            <!--                    android:layout_width="match_parent"-->
+            <!--                    android:layout_height="wrap_content"-->
+            <!--                    android:layout_marginStart="5dp"-->
+            <!--                    android:layout_marginEnd="5dp"-->
+            <!--                    android:background="@drawable/button_rnd_red"-->
+            <!--                    android:enabled="true"-->
+            <!--                    android:padding="5dp"-->
+            <!--                    android:singleLine="true"-->
+            <!--                    android:textColor="@color/black"-->
+            <!--                    android:textSize="15sp" />-->
+
+
+            <!--            </LinearLayout>-->
+
+
+            <!--        </LinearLayout>-->
+
+
+            <!--        <LinearLayout-->
+            <!--            android:id="@+id/youtubeLayout"-->
+            <!--            android:layout_width="match_parent"-->
+            <!--            android:layout_height="wrap_content"-->
+            <!--            android:layout_below="@id/instaLayout"-->
+            <!--            android:layout_margin="5dp"-->
+            <!--            android:orientation="horizontal"-->
+
+            <!--            android:weightSum="2">-->
+
+            <!--            <LinearLayout-->
+            <!--                android:layout_width="0dp"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:orientation="vertical"-->
+            <!--                android:layout_weight="1"-->
+            <!--                android:layout_marginEnd="5dp"-->
+            <!--                >-->
+
+            <!--                <TextView-->
+            <!--                    android:id="@+id/youtubeLabel"-->
+            <!--                    android:layout_width="match_parent"-->
+            <!--                    android:layout_height="wrap_content"-->
+            <!--                    android:text="@string/youtube_link"-->
+            <!--                    android:textColor="@color/black" />-->
+
+            <!--                <EditText-->
+            <!--                    android:id="@+id/youtubeLinkText"-->
+            <!--                    android:layout_width="match_parent"-->
+            <!--                    android:layout_height="wrap_content"-->
+            <!--                    android:layout_marginStart="5dp"-->
+            <!--                    android:layout_marginEnd="5dp"-->
+            <!--                    android:background="@drawable/button_rnd_red"-->
+            <!--                    android:enabled="true"-->
+            <!--                    android:padding="5dp"-->
+            <!--                    android:singleLine="true"-->
+            <!--                    android:textColor="@color/black"-->
+            <!--                    android:textSize="15sp" />-->
+
+
+            <!--            </LinearLayout>-->
+
+
+            <!--            <LinearLayout-->
+            <!--                android:layout_width="0dp"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:orientation="vertical"-->
+            <!--                android:layout_weight="1"-->
+            <!--                android:layout_marginStart="5dp"-->
+            <!--                >-->
+
+            <!--                <TextView-->
+            <!--                    android:layout_width="match_parent"-->
+            <!--                    android:layout_height="wrap_content"-->
+            <!--                    android:text="@string/followers"-->
+            <!--                    android:textColor="@color/black" />-->
+
+            <!--                <EditText-->
+            <!--                    android:id="@+id/youtubeFollowersText"-->
+            <!--                    android:layout_width="match_parent"-->
+            <!--                    android:layout_height="wrap_content"-->
+            <!--                    android:layout_marginStart="5dp"-->
+            <!--                    android:layout_marginEnd="5dp"-->
+            <!--                    android:background="@drawable/button_rnd_red"-->
+            <!--                    android:enabled="true"-->
+            <!--                    android:padding="5dp"-->
+            <!--                    android:singleLine="true"-->
+            <!--                    android:textColor="@color/black"-->
+            <!--                    android:textSize="15sp" />-->
+
+
+            <!--            </LinearLayout>-->
+
+
+            <!--        </LinearLayout>-->
+
+
+            <!--        <LinearLayout-->
+            <!--            android:id="@+id/twitterLayout"-->
+            <!--            android:layout_width="match_parent"-->
+            <!--            android:layout_height="wrap_content"-->
+            <!--            android:layout_below="@id/youtubeLayout"-->
+            <!--            android:layout_margin="5dp"-->
+            <!--            android:orientation="horizontal"-->
+
+            <!--            android:weightSum="2">-->
+
+            <!--            <LinearLayout-->
+            <!--                android:layout_width="0dp"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:orientation="vertical"-->
+            <!--                android:layout_weight="1"-->
+            <!--                android:layout_marginEnd="5dp"-->
+            <!--                >-->
+
+            <!--                <TextView-->
+            <!--                    android:id="@+id/twitterLabel"-->
+            <!--                    android:layout_width="match_parent"-->
+            <!--                    android:layout_height="wrap_content"-->
+            <!--                    android:text="@string/twitter_link"-->
+            <!--                    android:textColor="@color/black" />-->
+
+            <!--                <EditText-->
+            <!--                    android:id="@+id/twitterLinkText"-->
+            <!--                    android:layout_width="match_parent"-->
+            <!--                    android:layout_height="wrap_content"-->
+            <!--                    android:layout_marginStart="5dp"-->
+            <!--                    android:layout_marginEnd="5dp"-->
+            <!--                    android:background="@drawable/button_rnd_red"-->
+            <!--                    android:enabled="true"-->
+            <!--                    android:padding="5dp"-->
+            <!--                    android:singleLine="true"-->
+            <!--                    android:textColor="@color/black"-->
+            <!--                    android:textSize="15sp" />-->
+
+
+            <!--            </LinearLayout>-->
+
+
+            <!--            <LinearLayout-->
+            <!--                android:layout_width="0dp"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:orientation="vertical"-->
+            <!--                android:layout_weight="1"-->
+            <!--                android:layout_marginStart="5dp"-->
+            <!--                >-->
+
+            <!--                <TextView-->
+            <!--                    android:layout_width="match_parent"-->
+            <!--                    android:layout_height="wrap_content"-->
+            <!--                    android:text="@string/followers"-->
+            <!--                    android:textColor="@color/black" />-->
+
+            <!--                <EditText-->
+            <!--                    android:id="@+id/twitterFollowersText"-->
+            <!--                    android:layout_width="match_parent"-->
+            <!--                    android:layout_height="wrap_content"-->
+            <!--                    android:layout_marginStart="5dp"-->
+            <!--                    android:layout_marginEnd="5dp"-->
+            <!--                    android:background="@drawable/button_rnd_red"-->
+            <!--                    android:enabled="true"-->
+            <!--                    android:padding="5dp"-->
+            <!--                    android:singleLine="true"-->
+            <!--                    android:textColor="@color/black"-->
+            <!--                    android:textSize="15sp" />-->
+
+
+            <!--            </LinearLayout>-->
+
+
+            <!--        </LinearLayout>-->
+
+
+            <!--        <LinearLayout-->
+            <!--            android:id="@+id/linkedinLayout"-->
+            <!--            android:layout_width="match_parent"-->
+            <!--            android:layout_height="wrap_content"-->
+            <!--            android:layout_below="@id/twitterLayout"-->
+            <!--            android:layout_margin="5dp"-->
+            <!--            android:orientation="horizontal"-->
+
+            <!--            android:weightSum="2">-->
+
+            <!--            <LinearLayout-->
+            <!--                android:layout_width="0dp"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:orientation="vertical"-->
+            <!--                android:layout_weight="1"-->
+            <!--                android:layout_marginEnd="5dp"-->
+            <!--                >-->
+
+            <!--                <TextView-->
+            <!--                    android:id="@+id/linkedinLabel"-->
+            <!--                    android:layout_width="match_parent"-->
+            <!--                    android:layout_height="wrap_content"-->
+            <!--                    android:text="@string/linkedin_link"-->
+            <!--                    android:textColor="@color/black" />-->
+
+            <!--                <EditText-->
+            <!--                    android:id="@+id/linkedinLinkText"-->
+            <!--                    android:layout_width="match_parent"-->
+            <!--                    android:layout_height="wrap_content"-->
+            <!--                    android:layout_marginStart="5dp"-->
+            <!--                    android:layout_marginEnd="5dp"-->
+            <!--                    android:background="@drawable/button_rnd_red"-->
+            <!--                    android:enabled="true"-->
+            <!--                    android:padding="5dp"-->
+            <!--                    android:singleLine="true"-->
+            <!--                    android:textColor="@color/black"-->
+            <!--                    android:textSize="15sp" />-->
+
+
+            <!--            </LinearLayout>-->
+
+
+            <!--            <LinearLayout-->
+            <!--                android:layout_width="0dp"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:orientation="vertical"-->
+            <!--                android:layout_weight="1"-->
+            <!--                android:layout_marginStart="5dp"-->
+            <!--                >-->
+
+            <!--                <TextView-->
+            <!--                    android:layout_width="match_parent"-->
+            <!--                    android:layout_height="wrap_content"-->
+            <!--                    android:text="@string/followers"-->
+            <!--                    android:textColor="@color/black" />-->
+
+            <!--                <EditText-->
+            <!--                    android:id="@+id/linkedinFollowersText"-->
+            <!--                    android:layout_width="match_parent"-->
+            <!--                    android:layout_height="wrap_content"-->
+            <!--                    android:layout_marginStart="5dp"-->
+            <!--                    android:layout_marginEnd="5dp"-->
+            <!--                    android:background="@drawable/button_rnd_red"-->
+            <!--                    android:enabled="true"-->
+            <!--                    android:padding="5dp"-->
+            <!--                    android:singleLine="true"-->
+            <!--                    android:textColor="@color/black"-->
+            <!--                    android:textSize="15sp" />-->
+
+
+            <!--            </LinearLayout>-->
+
+
+            <!--        </LinearLayout>-->
+
 
             <TextView
-                android:id="@+id/adharLabel"
-                android:layout_width="match_parent"
+                android:id="@+id/label_docs"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:text="@string/adhaar_card_no"
-                android:textColor="@color/black" />
-
-            <EditText
-                android:id="@+id/adharText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:layout_marginEnd="5dp"
-                android:layout_weight="1"
-                android:background="@drawable/button_rnd_red"
-                android:enabled="true"
-                android:padding="5dp"
-                android:singleLine="true"
+                android:layout_below="@id/social_list"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="5dp"
+                android:text="@string/documents"
                 android:textColor="@color/black"
-                android:textSize="15sp" />
+                android:textSize="12sp" />
 
-        </LinearLayout>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/doc_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/label_docs"
+                android:layout_marginTop="5dp">
 
-        <LinearLayout
-            android:id="@+id/panLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/adharLayout"
-            android:layout_margin="5dp"
-            android:orientation="horizontal"
+            </androidx.recyclerview.widget.RecyclerView>
 
-            android:weightSum="3">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/saveButton"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_below="@id/doc_list"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="60dp"
+                android:background="@drawable/oval_red_border"
+                android:text="@string/save_changes"
+                android:textAllCaps="false"
+                android:textColor="@color/red"
+                android:visibility="gone" />
 
             <TextView
-                android:id="@+id/panLabel"
-                android:layout_width="match_parent"
+                android:id="@+id/messageText"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:text="@string/pancard_no"
-                android:textColor="@color/black" />
-
-            <EditText
-                android:id="@+id/panText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:layout_marginEnd="5dp"
-                android:layout_weight="1"
-                android:background="@drawable/button_rnd_red"
-                android:enabled="true"
-                android:padding="5dp"
-                android:singleLine="true"
-                android:textColor="@color/black"
+                android:layout_below="@id/saveButton"
+                android:layout_centerHorizontal="true"
+                android:textColor="@color/red"
                 android:textSize="15sp" />
 
-        </LinearLayout>
-
-        <TextView
-            android:id="@+id/label_bank"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/panLayout"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="5dp"
-            android:text="@string/bank_details"
-            android:textColor="@color/black"
-            android:textSize="12sp" />
-
-
-        <LinearLayout
-            android:id="@+id/bankNameLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/label_bank"
-            android:layout_margin="5dp"
-            android:orientation="horizontal"
-            android:weightSum="3">
-
-            <TextView
-                android:id="@+id/bankNameLabel"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:text="@string/bank_name"
-                android:textColor="@color/black" />
-
-            <EditText
-                android:id="@+id/bankNameText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:layout_marginEnd="5dp"
-                android:layout_weight="1"
-                android:background="@drawable/button_rnd_red"
-                android:enabled="true"
-                android:padding="5dp"
-                android:singleLine="true"
-                android:textColor="@color/black"
-                android:textSize="15sp" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/bankAccLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/bankNameLayout"
-            android:layout_margin="5dp"
-            android:orientation="horizontal"
-
-            android:weightSum="3">
-
-            <TextView
-                android:id="@+id/bankAccLabel"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:text="@string/account_no"
-                android:textColor="@color/black" />
-
-            <EditText
-                android:id="@+id/bankAccText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:layout_marginEnd="5dp"
-                android:layout_weight="1"
-                android:background="@drawable/button_rnd_red"
-                android:enabled="true"
-                android:padding="5dp"
-                android:singleLine="true"
-                android:textColor="@color/black"
-                android:textSize="15sp" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/bankAccNameLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/bankAccLayout"
-            android:layout_margin="5dp"
-            android:orientation="horizontal"
-
-            android:weightSum="3">
-
-            <TextView
-                android:id="@+id/bankAccNameLabel"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:text="@string/account_name"
-                android:textColor="@color/black" />
-
-            <EditText
-                android:id="@+id/bankAccNameText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:layout_marginEnd="5dp"
-                android:layout_weight="1"
-                android:background="@drawable/button_rnd_red"
-                android:enabled="true"
-                android:padding="5dp"
-                android:singleLine="true"
-                android:textColor="@color/black"
-                android:textSize="15sp" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/bankAccIFSCLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/bankAccNameLayout"
-            android:layout_margin="5dp"
-            android:orientation="horizontal"
-
-            android:weightSum="3">
-
-            <TextView
-                android:id="@+id/bankAccNameIfscLabel"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:text="@string/bank_ifsc_code"
-                android:textColor="@color/black" />
-
-            <EditText
-                android:id="@+id/bankAccIfscText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:layout_marginEnd="5dp"
-                android:layout_weight="1"
-                android:background="@drawable/button_rnd_red"
-                android:enabled="true"
-                android:padding="5dp"
-                android:singleLine="true"
-                android:textColor="@color/black"
-                android:textSize="15sp" />
-
-        </LinearLayout>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/social_media"
-            android:id="@+id/label_social"
-            android:textColor="@color/black"
-            android:layout_below="@id/bankAccIFSCLayout"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="5dp"
-            android:textSize="12sp"/>
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/social_list"
-            android:layout_below="@id/label_social"
-            android:layout_marginTop="5dp">
-
-        </androidx.recyclerview.widget.RecyclerView>
-
-<!--        <LinearLayout-->
-<!--            android:id="@+id/fbLayout"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_below="@id/label_social"-->
-<!--            android:layout_margin="5dp"-->
-<!--            android:orientation="horizontal"-->
-
-<!--            android:weightSum="2">-->
-
-<!--            <LinearLayout-->
-<!--                android:layout_width="0dp"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:orientation="vertical"-->
-<!--                android:layout_weight="1"-->
-<!--                android:layout_marginEnd="5dp"-->
-<!--                >-->
-
-<!--                <TextView-->
-<!--                    android:id="@+id/fbLabel"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:text="@string/facebook_link"-->
-<!--                    android:textColor="@color/black" />-->
-
-<!--                <EditText-->
-<!--                    android:id="@+id/fbLinkText"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_marginStart="5dp"-->
-<!--                    android:layout_marginEnd="5dp"-->
-<!--                    android:background="@drawable/button_rnd_red"-->
-<!--                    android:enabled="true"-->
-<!--                    android:padding="5dp"-->
-<!--                    android:singleLine="true"-->
-<!--                    android:textColor="@color/black"-->
-<!--                    android:textSize="15sp" />-->
-
-
-<!--            </LinearLayout>-->
-
-
-<!--            <LinearLayout-->
-<!--                android:layout_width="0dp"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:orientation="vertical"-->
-<!--                android:layout_weight="1"-->
-<!--                android:layout_marginStart="5dp"-->
-<!--                >-->
-
-<!--                <TextView-->
-<!--                    android:id="@+id/fbFollowersLabel"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:text="@string/followers"-->
-<!--                    android:textColor="@color/black" />-->
-
-<!--                <EditText-->
-<!--                    android:id="@+id/followersText"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_marginStart="5dp"-->
-<!--                    android:layout_marginEnd="5dp"-->
-<!--                    android:background="@drawable/button_rnd_red"-->
-<!--                    android:enabled="true"-->
-<!--                    android:padding="5dp"-->
-<!--                    android:singleLine="true"-->
-<!--                    android:textColor="@color/black"-->
-<!--                    android:textSize="15sp" />-->
-
-
-<!--            </LinearLayout>-->
-
-
-<!--        </LinearLayout>-->
-
-
-
-<!--        <LinearLayout-->
-<!--            android:id="@+id/instaLayout"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_below="@id/fbLayout"-->
-<!--            android:layout_margin="5dp"-->
-<!--            android:orientation="horizontal"-->
-
-<!--            android:weightSum="2">-->
-
-<!--            <LinearLayout-->
-<!--                android:layout_width="0dp"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:orientation="vertical"-->
-<!--                android:layout_weight="1"-->
-<!--                android:layout_marginEnd="5dp"-->
-<!--                >-->
-
-<!--                <TextView-->
-<!--                    android:id="@+id/instaLabel"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:text="@string/instagram_link"-->
-<!--                    android:textColor="@color/black" />-->
-
-<!--                <EditText-->
-<!--                    android:id="@+id/instaLinkText"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_marginStart="5dp"-->
-<!--                    android:layout_marginEnd="5dp"-->
-<!--                    android:background="@drawable/button_rnd_red"-->
-<!--                    android:enabled="true"-->
-<!--                    android:padding="5dp"-->
-<!--                    android:singleLine="true"-->
-<!--                    android:textColor="@color/black"-->
-<!--                    android:textSize="15sp" />-->
-
-
-<!--            </LinearLayout>-->
-
-
-<!--            <LinearLayout-->
-<!--                android:layout_width="0dp"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:orientation="vertical"-->
-<!--                android:layout_weight="1"-->
-<!--                android:layout_marginStart="5dp"-->
-<!--                >-->
-
-<!--                <TextView-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:text="@string/followers"-->
-<!--                    android:textColor="@color/black" />-->
-
-<!--                <EditText-->
-<!--                    android:id="@+id/instaFollowersText"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_marginStart="5dp"-->
-<!--                    android:layout_marginEnd="5dp"-->
-<!--                    android:background="@drawable/button_rnd_red"-->
-<!--                    android:enabled="true"-->
-<!--                    android:padding="5dp"-->
-<!--                    android:singleLine="true"-->
-<!--                    android:textColor="@color/black"-->
-<!--                    android:textSize="15sp" />-->
-
-
-<!--            </LinearLayout>-->
-
-
-<!--        </LinearLayout>-->
-
-
-<!--        <LinearLayout-->
-<!--            android:id="@+id/youtubeLayout"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_below="@id/instaLayout"-->
-<!--            android:layout_margin="5dp"-->
-<!--            android:orientation="horizontal"-->
-
-<!--            android:weightSum="2">-->
-
-<!--            <LinearLayout-->
-<!--                android:layout_width="0dp"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:orientation="vertical"-->
-<!--                android:layout_weight="1"-->
-<!--                android:layout_marginEnd="5dp"-->
-<!--                >-->
-
-<!--                <TextView-->
-<!--                    android:id="@+id/youtubeLabel"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:text="@string/youtube_link"-->
-<!--                    android:textColor="@color/black" />-->
-
-<!--                <EditText-->
-<!--                    android:id="@+id/youtubeLinkText"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_marginStart="5dp"-->
-<!--                    android:layout_marginEnd="5dp"-->
-<!--                    android:background="@drawable/button_rnd_red"-->
-<!--                    android:enabled="true"-->
-<!--                    android:padding="5dp"-->
-<!--                    android:singleLine="true"-->
-<!--                    android:textColor="@color/black"-->
-<!--                    android:textSize="15sp" />-->
-
-
-<!--            </LinearLayout>-->
-
-
-<!--            <LinearLayout-->
-<!--                android:layout_width="0dp"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:orientation="vertical"-->
-<!--                android:layout_weight="1"-->
-<!--                android:layout_marginStart="5dp"-->
-<!--                >-->
-
-<!--                <TextView-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:text="@string/followers"-->
-<!--                    android:textColor="@color/black" />-->
-
-<!--                <EditText-->
-<!--                    android:id="@+id/youtubeFollowersText"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_marginStart="5dp"-->
-<!--                    android:layout_marginEnd="5dp"-->
-<!--                    android:background="@drawable/button_rnd_red"-->
-<!--                    android:enabled="true"-->
-<!--                    android:padding="5dp"-->
-<!--                    android:singleLine="true"-->
-<!--                    android:textColor="@color/black"-->
-<!--                    android:textSize="15sp" />-->
-
-
-<!--            </LinearLayout>-->
-
-
-<!--        </LinearLayout>-->
-
-
-
-<!--        <LinearLayout-->
-<!--            android:id="@+id/twitterLayout"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_below="@id/youtubeLayout"-->
-<!--            android:layout_margin="5dp"-->
-<!--            android:orientation="horizontal"-->
-
-<!--            android:weightSum="2">-->
-
-<!--            <LinearLayout-->
-<!--                android:layout_width="0dp"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:orientation="vertical"-->
-<!--                android:layout_weight="1"-->
-<!--                android:layout_marginEnd="5dp"-->
-<!--                >-->
-
-<!--                <TextView-->
-<!--                    android:id="@+id/twitterLabel"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:text="@string/twitter_link"-->
-<!--                    android:textColor="@color/black" />-->
-
-<!--                <EditText-->
-<!--                    android:id="@+id/twitterLinkText"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_marginStart="5dp"-->
-<!--                    android:layout_marginEnd="5dp"-->
-<!--                    android:background="@drawable/button_rnd_red"-->
-<!--                    android:enabled="true"-->
-<!--                    android:padding="5dp"-->
-<!--                    android:singleLine="true"-->
-<!--                    android:textColor="@color/black"-->
-<!--                    android:textSize="15sp" />-->
-
-
-<!--            </LinearLayout>-->
-
-
-<!--            <LinearLayout-->
-<!--                android:layout_width="0dp"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:orientation="vertical"-->
-<!--                android:layout_weight="1"-->
-<!--                android:layout_marginStart="5dp"-->
-<!--                >-->
-
-<!--                <TextView-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:text="@string/followers"-->
-<!--                    android:textColor="@color/black" />-->
-
-<!--                <EditText-->
-<!--                    android:id="@+id/twitterFollowersText"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_marginStart="5dp"-->
-<!--                    android:layout_marginEnd="5dp"-->
-<!--                    android:background="@drawable/button_rnd_red"-->
-<!--                    android:enabled="true"-->
-<!--                    android:padding="5dp"-->
-<!--                    android:singleLine="true"-->
-<!--                    android:textColor="@color/black"-->
-<!--                    android:textSize="15sp" />-->
-
-
-<!--            </LinearLayout>-->
-
-
-<!--        </LinearLayout>-->
-
-
-
-<!--        <LinearLayout-->
-<!--            android:id="@+id/linkedinLayout"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_below="@id/twitterLayout"-->
-<!--            android:layout_margin="5dp"-->
-<!--            android:orientation="horizontal"-->
-
-<!--            android:weightSum="2">-->
-
-<!--            <LinearLayout-->
-<!--                android:layout_width="0dp"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:orientation="vertical"-->
-<!--                android:layout_weight="1"-->
-<!--                android:layout_marginEnd="5dp"-->
-<!--                >-->
-
-<!--                <TextView-->
-<!--                    android:id="@+id/linkedinLabel"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:text="@string/linkedin_link"-->
-<!--                    android:textColor="@color/black" />-->
-
-<!--                <EditText-->
-<!--                    android:id="@+id/linkedinLinkText"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_marginStart="5dp"-->
-<!--                    android:layout_marginEnd="5dp"-->
-<!--                    android:background="@drawable/button_rnd_red"-->
-<!--                    android:enabled="true"-->
-<!--                    android:padding="5dp"-->
-<!--                    android:singleLine="true"-->
-<!--                    android:textColor="@color/black"-->
-<!--                    android:textSize="15sp" />-->
-
-
-<!--            </LinearLayout>-->
-
-
-<!--            <LinearLayout-->
-<!--                android:layout_width="0dp"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:orientation="vertical"-->
-<!--                android:layout_weight="1"-->
-<!--                android:layout_marginStart="5dp"-->
-<!--                >-->
-
-<!--                <TextView-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:text="@string/followers"-->
-<!--                    android:textColor="@color/black" />-->
-
-<!--                <EditText-->
-<!--                    android:id="@+id/linkedinFollowersText"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_marginStart="5dp"-->
-<!--                    android:layout_marginEnd="5dp"-->
-<!--                    android:background="@drawable/button_rnd_red"-->
-<!--                    android:enabled="true"-->
-<!--                    android:padding="5dp"-->
-<!--                    android:singleLine="true"-->
-<!--                    android:textColor="@color/black"-->
-<!--                    android:textSize="15sp" />-->
-
-
-<!--            </LinearLayout>-->
-
-
-<!--        </LinearLayout>-->
-
-
-        <TextView
-            android:id="@+id/label_docs"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/social_list"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="5dp"
-            android:text="@string/documents"
-            android:textColor="@color/black"
-            android:textSize="12sp" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/doc_list"
-            android:layout_below="@id/label_docs"
-            android:layout_marginTop="5dp">
-
-        </androidx.recyclerview.widget.RecyclerView>
-
-
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/saveButton"
-            android:layout_width="wrap_content"
-            android:layout_height="30dp"
-            android:layout_below="@id/doc_list"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="60dp"
-            android:background="@drawable/oval_red_border"
-            android:text="@string/save_changes"
-            android:textAllCaps="false"
-            android:textColor="@color/red"
-            android:visibility="gone" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/saveButton"
-            android:layout_centerHorizontal="true"
-            android:textColor="@color/red"
-            android:textSize="15sp"
-            android:id="@+id/messageText"/>
-
-    </RelativeLayout>
+        </RelativeLayout>
     </androidx.core.widget.NestedScrollView>
 
 </RelativeLayout>

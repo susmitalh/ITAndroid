@@ -18,12 +18,17 @@
                 android:id="@+id/header"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                app:cardElevation="5dp">
+                app:cardElevation="5dp"
+                android:outlineSpotShadowColor="@color/black"
+                android:outlineAmbientShadowColor="@color/black"
+                android:shadowColor="@color/black">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
-                    android:background="@color/white">
+                    android:background="@color/white"
+                    android:paddingLeft="@dimen/_5sdp"
+                    android:paddingRight="@dimen/_5sdp">
 
                     <de.hdodenhof.circleimageview.CircleImageView
                         android:id="@+id/profile"
@@ -37,18 +42,18 @@
 
                     <TextView
                         android:id="@+id/approval_counts"
-                        android:layout_width="wrap_content"
-                        android:layout_height="20dp"
-                        android:layout_marginLeft="-10dp"
-                        android:layout_marginTop="10dp"
+                        android:layout_width="@dimen/_15sdp"
+                        android:layout_height="@dimen/_15sdp"
+                        android:layout_marginLeft="-15dp"
+                        android:layout_marginTop="8dp"
                         android:layout_toRightOf="@+id/profile"
                         android:background="@drawable/btn_rnd_red_counts"
                         android:gravity="center"
-                        android:padding="4dp"
                         android:text="1"
                         android:textColor="@color/white"
                         android:textSize="10sp"
                         android:visibility="gone" />
+
 
                     <ImageView
                         android:id="@+id/createpost"
@@ -57,14 +62,16 @@
                         android:layout_marginLeft="0dp"
                         android:layout_toRightOf="@+id/profile"
                         android:padding="15sp"
-                        android:src="@drawable/ic_plus_square" />
+                        android:src="@drawable/ic_plus_square"
+                        app:tint="@color/black" />
 
 
                     <ImageView
                         android:layout_width="200dp"
                         android:layout_height="match_parent"
                         android:layout_centerHorizontal="true"
-                        android:src="@drawable/lt_logo_white" />
+                        android:padding="@dimen/_8sdp"
+                        android:src="@drawable/title_logo" />
 
                     <ImageView
                         android:id="@+id/share_header"
@@ -73,31 +80,33 @@
                         android:layout_marginRight="@dimen/_5sdp"
                         android:layout_toLeftOf="@+id/messages"
                         android:padding="@dimen/_5sdp"
-                        android:src="@drawable/share_ic_header" />
+                        android:src="@drawable/share_ic_header"
+                        app:tint="@color/black" />
 
                     <ImageView
                         android:id="@+id/messages"
-                        android:layout_width="35dp"
+                        android:layout_width="30dp"
                         android:layout_height="match_parent"
-                        android:layout_alignParentRight="true"
-                        android:layout_marginRight="1dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginEnd="5dp"
                         android:src="@drawable/lt_logo_icon" />
 
 
                     <TextView
                         android:id="@+id/message_counts"
-                        android:layout_width="wrap_content"
-                        android:layout_height="20dp"
-                        android:layout_marginLeft="-18dp"
-                        android:layout_marginTop="10dp"
+                        android:layout_width="@dimen/_15sdp"
+                        android:layout_height="@dimen/_13sdp"
+                        android:layout_marginLeft="-15dp"
+                        android:layout_marginTop="12dp"
                         android:layout_toRightOf="@+id/messages"
                         android:background="@drawable/btn_rnd_red_counts"
                         android:gravity="center"
-                        android:padding="4dp"
                         android:text="1"
                         android:textColor="@color/white"
                         android:textSize="10sp"
                         android:visibility="gone" />
+
+
 
 
                 </RelativeLayout>
@@ -114,7 +123,7 @@
                 android:layout_height="match_parent"
                 android:layout_below="@+id/header"
                 android:background="@color/white"
-                android:visibility="visible">
+                android:visibility="gone">
 
                 <LinearLayout
                     android:id="@+id/sbar"
@@ -132,6 +141,7 @@
                         android:drawableLeft="@drawable/ic_geo_alt_black"
                         android:drawableRight="@drawable/ic_baseline_arrow_drop_down_24"
                         android:gravity="center_vertical"
+                        android:drawableTint="@color/red_main_change"
                         android:text="  Delivery at-"
                         android:textColor="@color/black"
                         android:textSize="12sp"
@@ -156,6 +166,7 @@
                             android:layout_width="0dp"
                             android:layout_height="30dp"
                             android:layout_weight="4"
+                            android:drawableTint="@color/search_icon"
                             android:background="@drawable/edt_rnd_search"
                             android:drawableLeft="@drawable/ic_search"
                             android:hint=" Enter Location"
@@ -170,7 +181,8 @@
                             android:layout_height="30dp"
                             android:layout_weight="0.5"
                             android:padding="2dp"
-                            android:src="@drawable/ic_baseline_close_red_24" />
+                            android:src="@drawable/ic_baseline_close_red_24"
+                            app:tint="@color/red_main_change" />
                     </LinearLayout>
 
                 </LinearLayout>
@@ -189,7 +201,8 @@
                         android:layout_height="wrap_content"
                         android:drawableLeft="@drawable/ic_baseline_gps_fixed_24"
                         android:text="  Use current location"
-                        android:textColor="@color/red"
+                        android:textColor="@color/red_main_change"
+                        android:drawableTint="@color/red_main_change"
                         android:textSize="12dp" />
 
                     <TextView
@@ -236,8 +249,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_centerVertical="true"
-                app:cardElevation="@dimen/_10sdp"
-                app:cardBackgroundColor="@color/white">
+                app:cardBackgroundColor="@color/white"
+                app:cardElevation="@dimen/_10sdp">
 
 
                 <androidx.recyclerview.widget.RecyclerView

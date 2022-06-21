@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_marginLeft="@dimen/_10ssp"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="@dimen/_10ssp">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/seller_card"
@@ -16,7 +16,7 @@
         <ImageView
             android:id="@+id/seller_image"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent" />
 
         <TextView
             android:id="@+id/seller_percent"
@@ -26,35 +26,59 @@
             android:layout_margin="@dimen/_5sdp"
             android:background="@drawable/button_rnd_red_filled"
             android:gravity="center"
-           android:textSize="@dimen/_10ssp"
             android:text="0% OFF"
-            android:textColor="@color/white" />
+            android:textColor="@color/white"
+            android:textSize="@dimen/_10ssp" />
+
+        <RelativeLayout
+            android:id="@+id/hide_best_seller_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#C1000000"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/hide_best_seller_txt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/_5sdp"
+                android:layout_marginRight="@dimen/_5sdp"
+                android:gravity="center"
+                android:text="Currently not accepting orders"
+                android:textColor="#FFF"
+                android:textSize="@dimen/_8ssp" />
+
+
+        </RelativeLayout>
+
     </androidx.cardview.widget.CardView>
 
     <TextView
         android:id="@+id/seller_brand_name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:singleLine="true"
         android:text="Hyderabadi vegiggffg"
         android:textColor="@color/black"
         android:textSize="@dimen/_10ssp"
-        android:singleLine="true"
-        android:ellipsize="end"
-        app:layout_constraintStart_toStartOf="@+id/seller_card"
         app:layout_constraintEnd_toEndOf="@+id/seller_card"
+        app:layout_constraintStart_toStartOf="@+id/seller_card"
         app:layout_constraintTop_toBottomOf="@+id/seller_card" />
 
     <TextView
         android:id="@+id/seller_item_name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:singleLine="true"
         android:text="Hyderabadi vegi"
         android:textColor="@color/black"
         android:textSize="@dimen/_8ssp"
-        android:singleLine="true"
-        android:ellipsize="end"
-        app:layout_constraintStart_toStartOf="@+id/seller_card"
         app:layout_constraintEnd_toEndOf="@+id/seller_card"
+        app:layout_constraintStart_toStartOf="@+id/seller_card"
         app:layout_constraintTop_toBottomOf="@+id/seller_brand_name" />
 
 

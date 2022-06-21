@@ -3,46 +3,48 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal">
 
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/search_img"
-        android:layout_width="@dimen/_50sdp"
-        android:layout_height="@dimen/_50sdp"
-        android:layout_marginTop="@dimen/_5sdp"
-        android:layout_marginBottom="@dimen/_5sdp"
-        android:layout_marginLeft="@dimen/_10sdp"
-        android:padding="@dimen/_5sdp"
-        android:background="@drawable/search_img_bg" />
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/search_img"
+            android:layout_width="@dimen/_50sdp"
+            android:layout_height="@dimen/_50sdp"
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:layout_marginBottom="@dimen/_5sdp"
+            android:background="@drawable/search_img_bg"
+            android:padding="@dimen/_5sdp" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-      android:layout_gravity="center_vertical"
-        android:layout_marginLeft="@dimen/_10sdp"
-        android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/search_name"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Brand"
-            android:textColor="@color/google_color" />
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/search_brand"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Brand"
-            android:textColor="@color/red" />
+            <TextView
+                android:id="@+id/search_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Brand"
+                android:textColor="@color/google_color" />
+
+            <TextView
+                android:id="@+id/search_brand"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Brand"
+                android:textColor="@color/red_main_change" />
+        </LinearLayout>
     </LinearLayout>
-    </LinearLayout>
+
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="#BCBBBB"/>
+        android:background="#BCBBBB" />
 
 </LinearLayout>

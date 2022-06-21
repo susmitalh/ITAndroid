@@ -1,114 +1,146 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_marginLeft="@dimen/_10sdp">
+    android:layout_height="wrap_content">
 
-    <ImageView
-        android:id="@+id/offer_image"
-        android:layout_width="@dimen/_150sdp"
-        android:layout_height="@dimen/_150sdp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <LinearLayout
-        android:layout_width="0dp"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/main_banner"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="#9F000000"
-        android:padding="@dimen/_3sdp"
-        app:layout_constraintBottom_toBottomOf="@+id/offer_image"
-        app:layout_constraintEnd_toEndOf="@+id/offer_image"
-        app:layout_constraintStart_toStartOf="@+id/offer_image">
+        android:layout_marginLeft="@dimen/_10sdp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
-            android:id="@+id/offer_image_small"
-            android:layout_width="@dimen/_25sdp"
-            android:layout_height="@dimen/_25sdp"
-            android:src="@drawable/ic_location"
-            android:background="@color/white"/>
+            android:id="@+id/offer_image"
+            android:layout_width="@dimen/_150sdp"
+            android:layout_height="@dimen/_150sdp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/_5sdp"
-            android:gravity="center_vertical"
-            android:orientation="vertical">
+            android:background="@color/top_brand_bg"
+            android:padding="@dimen/_3sdp"
+            app:layout_constraintBottom_toBottomOf="@+id/offer_image"
+            app:layout_constraintEnd_toEndOf="@+id/offer_image"
+            app:layout_constraintStart_toStartOf="@+id/offer_image">
 
-            <TextView
-                android:id="@+id/offer_dicount_1"
+            <ImageView
+                android:id="@+id/offer_image_small"
+                android:layout_width="@dimen/_25sdp"
+                android:layout_height="@dimen/_25sdp"
+                android:background="#FFF"
+                android:src="@drawable/ic_location" />
+
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="dfgf"
-                android:textColor="@color/white"
-                android:textSize="@dimen/_10ssp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/offer_min_order"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="No min oder"
-                android:textColor="#B6B5B5"
-                android:textSize="@dimen/_8ssp" />
-        </LinearLayout>
-
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:background="@drawable/offer_bg"
-        android:orientation="vertical"
-        android:padding="@dimen/_3sdp"
-        app:layout_constraintEnd_toEndOf="@+id/offer_image"
-        app:layout_constraintStart_toStartOf="@+id/offer_image"
-        app:layout_constraintTop_toBottomOf="@+id/offer_image">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_5sdp">
-
-            <TextView
-                android:id="@+id/offer_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textSize="@dimen/_10ssp"
-                android:singleLine="true"
-                android:text="Anjappar Chettinad Restaurant_KLN"
-                android:textColor="@color/black" />
-
-            <TextView
-                android:id="@+id/offer_orderbtn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginRight="3dp"
-                android:layout_marginLeft="@dimen/_3sdp"
-                android:background="@drawable/button_rnd_full_red"
+                android:layout_marginLeft="@dimen/_5sdp"
                 android:gravity="center_vertical"
-                android:paddingLeft="@dimen/_5sdp"
-                android:paddingTop="@dimen/_2sdp"
-                android:paddingRight="@dimen/_5sdp"
-                android:paddingBottom="@dimen/_2sdp"
-                android:text="Order Now"
-                android:textColor="@color/white"
-                android:textSize="10sp" />
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/offer_dicount_1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="dfgf"
+                    android:textColor="#FFF"
+                    android:textSize="@dimen/_10ssp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/offer_min_order"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="No min oder"
+                    android:textColor="#B6B5B5"
+                    android:textSize="@dimen/_8ssp" />
+            </LinearLayout>
+
+
         </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/offer_bg"
+            android:orientation="vertical"
+            android:padding="@dimen/_3sdp"
+            app:layout_constraintEnd_toEndOf="@+id/offer_image"
+            app:layout_constraintStart_toStartOf="@+id/offer_image"
+            app:layout_constraintTop_toBottomOf="@+id/offer_image">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_5sdp">
+
+                <TextView
+                    android:id="@+id/offer_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:singleLine="true"
+                    android:text="Anjappar Chettinad Restaurant_KLN"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_10ssp" />
+
+                <TextView
+                    android:id="@+id/offer_orderbtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="@dimen/_3sdp"
+                    android:layout_marginRight="3dp"
+                    android:background="@drawable/button_rnd_full_red"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="@dimen/_5sdp"
+                    android:paddingTop="@dimen/_2sdp"
+                    android:paddingRight="@dimen/_5sdp"
+                    android:paddingBottom="@dimen/_2sdp"
+                    android:text="Order Now"
+                    android:textColor="@color/white"
+                    android:textSize="10sp" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/offer_discount2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:layout_marginBottom="@dimen/_5sdp"
+                android:text="20% OFF"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_10ssp" />
+
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <RelativeLayout
+        android:id="@+id/banner_offers_hide"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="#C1000000"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="@id/main_banner"
+        app:layout_constraintEnd_toEndOf="@id/main_banner"
+        app:layout_constraintStart_toStartOf="@+id/main_banner"
+        app:layout_constraintTop_toTopOf="@id/main_banner">
 
         <TextView
-            android:id="@+id/offer_discount2"
+            android:id="@+id/hide_text_banner_offers"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_5sdp"
-            android:layout_marginBottom="@dimen/_5sdp"
-            android:text="20% OFF"
-            android:textSize="@dimen/_10ssp"
-            android:textColor="@color/black" />
-
-
-    </LinearLayout>
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:text="Currently not accepting orders"
+            android:textColor="#FFF"
+            android:textSize="@dimen/_10ssp" />
+    </RelativeLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

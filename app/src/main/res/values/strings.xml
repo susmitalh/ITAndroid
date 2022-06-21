@@ -61,6 +61,7 @@
     <string name="facebook_app_id">516105349468090</string>
     <string name="fb_login_protocol_scheme">fb1234</string>
     <string name="facebook_client_token">56789</string>
+    <string name="approval_txt">Hi, Your Registration awaiting for approval. Once approved we will get back to you thanks.</string>
 </resources>
 
 

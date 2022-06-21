@@ -36,6 +36,7 @@ class RollsExoplayerActivity : FragmentActivity() {
         setContentView(binding.root)
 
         loadersh=binding.loader
+        Log.e("TAG", "onCreate: " )
 
         var repository= RollsRepository(application)
         var factory= RollsViewModelFactory(repository)

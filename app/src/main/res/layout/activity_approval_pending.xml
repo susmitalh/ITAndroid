@@ -28,28 +28,30 @@
         android:layout_marginEnd="@dimen/_10sdp"
         android:layout_marginBottom="@dimen/_10sdp"
         android:gravity="center"
-        android:text="Hi, Your Registration awaiting for approval. Once approved we will get back to you thanks." />
+        android:textColor="@color/black"
+        android:text="@string/approval_txt" />
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/approvalGoBack"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:cardCornerRadius="@dimen/_15sdp"
-        app:strokeWidth="1dp"
-        app:strokeColor="@color/red"
         android:layout_alignTop="@id/approval_text"
+        android:layout_centerHorizontal="true"
         android:layout_marginTop="@dimen/_40sdp"
-        android:layout_centerHorizontal="true">
+        app:cardCornerRadius="@dimen/_15sdp"
+        app:strokeColor="@color/red_main_change"
+        app:strokeWidth="1dp">
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Go Back"
-            android:textColor="@color/red"
             android:layout_margin="@dimen/_3sdp"
+            android:layout_marginTop="@dimen/_100sdp"
             android:paddingLeft="@dimen/_5sdp"
             android:paddingRight="@dimen/_5sdp"
-            android:textSize="@dimen/_12sdp"
-            android:layout_marginTop="@dimen/_100sdp"/>
+            android:text="Go Back"
+            android:textColor="@color/red_main_change"
+            android:textSize="@dimen/_12sdp" />
 
     </com.google.android.material.card.MaterialCardView>
 

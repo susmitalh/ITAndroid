@@ -57,12 +57,12 @@
                         android:layout_width="match_parent"
                         android:layout_height="35dp"
                         android:layout_marginTop="40dp"
-                        android:paddingLeft="@dimen/_10sdp"
                         android:background="@drawable/edt_rnd_5"
                         android:hint="Enter Mobile No."
                         android:inputType="number"
                         android:maxLength="10"
                         android:maxLines="1"
+                        android:paddingLeft="@dimen/_10sdp"
                         android:textColor="@color/black"
                         android:textColorHint="@color/hintwhite1"
                         android:textSize="12sp"
@@ -82,10 +82,10 @@
                         android:layout_width="match_parent"
                         android:layout_height="35dp"
                         android:layout_marginTop="2dp"
-                        android:paddingLeft="@dimen/_10sdp"
                         android:background="@drawable/edt_rnd_2"
                         android:inputType="textPassword"
                         android:maxLines="1"
+                        android:paddingLeft="@dimen/_10sdp"
                         android:visibility="gone" />
 
                     <LinearLayout
@@ -145,8 +145,8 @@
                             android:layout_height="@dimen/_30sdp"
                             android:paddingTop="12dp"
                             android:paddingBottom="12dp"
-                            android:visibility="gone"
-                             />
+                            android:visibility="gone" />
+
                         <android.widget.Button
                             android:id="@+id/fb"
                             android:layout_width="match_parent"
@@ -157,7 +157,6 @@
                             android:textAllCaps="false"
                             android:textColor="#fff"
                             android:textSize="12sp" />
-
 
 
                     </FrameLayout>
@@ -297,10 +296,10 @@
                             android:layout_marginLeft="5dp"
                             android:layout_marginTop="5dp"
                             android:layout_marginRight="5dp"
-                            android:paddingLeft="@dimen/_10sdp"
                             android:background="@drawable/edt_rnd_2"
                             android:inputType="number"
                             android:maxLength="10"
+                            android:paddingLeft="@dimen/_10sdp"
                             android:textColor="@color/white" />
 
                         <LinearLayout
@@ -387,8 +386,6 @@
         </LinearLayout>
 
 
-
-
         <RelativeLayout
             android:id="@+id/number_popup"
             android:layout_width="match_parent"
@@ -401,8 +398,8 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_margin="15dp"
-                app:cardCornerRadius="20dp"
-                android:elevation="2dp">
+                android:elevation="2dp"
+                app:cardCornerRadius="20dp">
 
                 <ScrollView
                     android:layout_width="match_parent"
@@ -471,20 +468,20 @@
                             android:layout_marginLeft="5dp"
                             android:layout_marginTop="5dp"
                             android:layout_marginRight="5dp"
-                            android:paddingLeft="@dimen/_10sdp"
                             android:background="@drawable/edt_rnd_2"
-                            android:focusable="true"
                             android:clickable="true"
+                            android:focusable="true"
                             android:inputType="number"
                             android:maxLength="10"
+                            android:paddingLeft="@dimen/_10sdp"
                             android:textColor="@color/white" />
 
                         <LinearLayout
                             android:id="@+id/otp_layout"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="vertical"
                             android:layout_marginTop="@dimen/_5sdp"
+                            android:orientation="vertical"
                             android:visibility="gone">
 
                             <TextView
@@ -498,30 +495,30 @@
                                 android:textSize="12sp" />
 
 
-                        <EditText
-                            android:id="@+id/add_number_verify"
-                            android:layout_width="match_parent"
-                            android:layout_height="35dp"
-                            android:layout_marginLeft="5dp"
-                            android:layout_marginTop="5dp"
-                            android:layout_marginRight="5dp"
-                            android:paddingLeft="@dimen/_10sdp"
-                            android:background="@drawable/edt_rnd_2"
-                            android:inputType="number"
-                            android:maxLength="4"
-                            android:textColor="@color/white" />
+                            <EditText
+                                android:id="@+id/add_number_verify"
+                                android:layout_width="match_parent"
+                                android:layout_height="35dp"
+                                android:layout_marginLeft="5dp"
+                                android:layout_marginTop="5dp"
+                                android:layout_marginRight="5dp"
+                                android:background="@drawable/edt_rnd_2"
+                                android:inputType="number"
+                                android:maxLength="4"
+                                android:paddingLeft="@dimen/_10sdp"
+                                android:textColor="@color/white" />
                         </LinearLayout>
 
 
                         <RelativeLayout
                             android:layout_width="@dimen/_100sdp"
                             android:layout_height="60dp"
+                            android:layout_gravity="right"
                             android:layout_marginLeft="5dp"
                             android:layout_marginTop="15dp"
                             android:layout_marginRight="5dp"
-                            android:orientation="horizontal"
                             android:gravity="right"
-                            android:layout_gravity="right"
+                            android:orientation="horizontal"
                             android:padding="5dp">
 
                             <Button
@@ -532,8 +529,8 @@
                                 android:background="@drawable/button_rnd_white_ovral_shape"
                                 android:text="@string/verify"
                                 android:textColor="@color/black_light_text"
-                                android:visibility="gone"
-                                android:textSize="12sp" />
+                                android:textSize="12sp"
+                                android:visibility="gone" />
 
                             <Button
                                 android:id="@+id/add_number"

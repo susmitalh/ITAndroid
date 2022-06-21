@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -9,33 +8,35 @@
     android:orientation="vertical"
     tools:context=".views.createrolls.audio_trimmer.TestActivity">
 
-<androidx.recyclerview.widget.RecyclerView
-    android:id="@+id/recyclerview"
-    android:layout_width="match_parent"
-    android:layout_height="100dp">
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerview"
+        android:layout_width="match_parent"
+        android:layout_height="100dp">
 
-</androidx.recyclerview.widget.RecyclerView>
+    </androidx.recyclerview.widget.RecyclerView>
+
     <com.locatocam.app.views.createrolls.audio_trimmer.SoundRangeBar
         android:id="@+id/soundrange"
-        android:background="@color/black"
-        app:sr_range="2"
-        app:sr_max="10"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Upload"
-        android:textSize="15dp"
-        android:textStyle="bold"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp"
-        android:paddingRight="20dp"
-        android:paddingLeft="20dp"
-        android:gravity="center"
-        android:layout_margin="15dp"
+        android:background="@color/black"
+        app:sr_max="10"
+        app:sr_range="2" />
+
+    <TextView
         android:id="@+id/upload"
-        android:textColor="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="15dp"
         android:background="@drawable/button_rnd_red"
-        android:layout_alignParentBottom="true"/>
+        android:gravity="center"
+        android:paddingLeft="20dp"
+        android:paddingTop="10dp"
+        android:paddingRight="20dp"
+        android:paddingBottom="10dp"
+        android:text="Upload"
+        android:textColor="@color/white"
+        android:textSize="15dp"
+        android:textStyle="bold" />
 </RelativeLayout>

@@ -3,6 +3,7 @@ package com.locatocam.app.views.home.header
 import android.Manifest
 import android.app.Activity
 import android.app.Dialog
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
@@ -14,7 +15,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
+import android.widget.CompoundButton
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -31,6 +35,8 @@ import com.locatocam.app.viewmodels.HeaderViewModel
 import com.locatocam.app.views.MainActivity
 import com.locatocam.app.views.createrolls.VideoRecorder
 import com.locatocam.app.views.home.HomeFragment
+import com.locatocam.app.views.home.HomeFragment.Companion.binding
+import com.locatocam.app.views.home.test.SimpleAdapter
 import com.locatocam.app.views.rollsexp.RollsExoplayerActivity
 
 
@@ -39,14 +45,16 @@ class HeaderFragment : Fragment(), IHeaderEvents {
 
         lateinit var loginType:String
         lateinit var userid:String
+        lateinit var binding: FragmentHeaderBinding
+
 
     }
-    lateinit var binding: FragmentHeaderBinding
+
 
     lateinit var viewModel: HeaderViewModel
     lateinit var dialog: Dialog
-
-    lateinit var searchAdapter: SearchAdapter
+    var darkMode=false
+    var searchAdapter: SearchAdapter? =null
 
 
     var dataList: ArrayList<DataSeach>? = ArrayList()
@@ -160,6 +168,25 @@ class HeaderFragment : Fragment(), IHeaderEvents {
     fun setClickListeners() {
         viewModel.searchApi(userid, dataList)
 
+//        Toast.makeText(context, ""+SharedPrefEnc.getPref(context?.applicationContext,"darkMode"), Toast.LENGTH_SHORT).show()
+
+        if (SharedPrefEnc.getPref(context?.applicationContext,"darkMode").equals("on")){
+            binding.darkMode.isChecked=true
+        }else{
+            binding.darkMode.isChecked=false
+        }
+
+
+        binding.darkMode.setOnCheckedChangeListener(CompoundButton.OnCheckedChangeListener { compoundButton, b ->
+            if (b==true){
+                SharedPrefEnc.setPref("darkMode", "on", context?.applicationContext)
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+            }else{
+                SharedPrefEnc.setPref("darkMode", "off", context?.applicationContext)
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+            }
+        })
+
         binding.allShortVideo.setOnClickListener {
             var intent=Intent(context,RollsExoplayerActivity::class.java)
             context?.startActivity(intent)
@@ -184,8 +211,13 @@ class HeaderFragment : Fragment(), IHeaderEvents {
                 viewModel.filter = binding.searchBrand.getText().toString()
 
                 searchBrandList = viewModel.filter(dataList!!)
-                searchAdapter.updateList(searchBrandList as ArrayList<DataSeach>?)
-                searchAdapter.notifyDataSetChanged()
+                if (searchAdapter != null) {
+                    searchAdapter!!.updateList(searchBrandList as ArrayList<DataSeach>?)
+                    searchAdapter!!.notifyDataSetChanged()
+                }
+//                (HomeFragment.binding.searchRecyclerView.adapter as SearchAdapter).updateList(searchBrandList as ArrayList<DataSeach>?)
+//                (HomeFragment.binding.searchRecyclerView.adapter as SearchAdapter).notifyDataSetChanged()
+
 
             }
 
@@ -205,8 +237,9 @@ class HeaderFragment : Fragment(), IHeaderEvents {
 
             HomeFragment.binding.searchRecyclerView.layoutManager =
                 LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-            searchAdapter = SearchAdapter(dataList)
+             searchAdapter = SearchAdapter(dataList)
             HomeFragment.binding.searchRecyclerView.adapter = searchAdapter
+
 
 
         }
@@ -284,19 +317,19 @@ class HeaderFragment : Fragment(), IHeaderEvents {
 
     override fun onItemClick(userid: String, inf_code: String) {
         Log.i("kl99999", inf_code + "--" + userid)
-        val bundle = bundleOf("user_id" to userid, "inf_code" to inf_code)
+      /*  val bundle = bundleOf("user_id" to userid, "inf_code" to inf_code)
         Navigation
             .findNavController(binding.root)
-            .navigate(R.id.action_homeFragment_to_otherProfileWithFeedFragment, bundle)
+            .navigate(R.id.action_homeFragment_to_otherProfileWithFeedFragment, bundle)*/
      //Navigation.findNavController(binding.root).navigate(R.id.action_homeFragment_to_otherProfileWithFeedFragment)
 
     }
 
     override fun onItemMostPopularVideos(user_id: String, inf_code: String) {
-        val bundle = bundleOf("user_id" to user_id, "inf_code" to inf_code)
+      /*  val bundle = bundleOf("user_id" to user_id, "inf_code" to inf_code)
         Navigation
             .findNavController(binding.root)
-            .navigate(R.id.action_homeFragment_to_otherProfileWithFeedFragment, bundle)
+            .navigate(R.id.action_homeFragment_to_otherProfileWithFeedFragment, bundle)*/
     }
 
     override fun onItemRollsAndShortVideos(firstid: String) {
@@ -313,6 +346,7 @@ class HeaderFragment : Fragment(), IHeaderEvents {
             var act = activity as MainActivity
             act.viewModel.address_text.observe(requireActivity(), {
                 binding.myLocation.text = it
+
             })
         }
 

@@ -1,29 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
-    android:background="@color/greylight1"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/greylight1"
+    android:orientation="vertical">
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <com.wonderkiln.camerakit.CameraView
+            android:id="@+id/camera"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/camera"
             android:adjustViewBounds="true"
             app:ckFacing="back"
-            app:ckVideoQuality="max480p"
-            app:ckLockVideoAspectRatio="true" />
+            app:ckLockVideoAspectRatio="true"
+            app:ckVideoQuality="max480p" />
+
         <FrameLayout
             android:id="@+id/root_video_view"
-            android:visibility="gone"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:visibility="gone">
 
         </FrameLayout>
-
 
 
         <RelativeLayout
@@ -43,135 +45,144 @@
         </RelativeLayout>
 
         <ImageButton
+            android:id="@+id/Goback"
             android:layout_width="32dp"
             android:layout_height="32dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="30dp"
+            android:background="@color/transparent"
             android:padding="5dp"
             android:scaleType="fitCenter"
-            android:layout_marginTop="30dp"
-            android:layout_marginLeft="15dp"
-            android:id="@+id/Goback"
-            android:background="@color/transparent"
-            android:src="@drawable/ic_close_white_new_24dp"/>
+            android:src="@drawable/ic_close_white_new_24dp" />
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
             android:layout_marginTop="30dp"
-            android:gravity="center_vertical"
-            android:layout_centerHorizontal="true">
+            android:gravity="center_vertical">
+
             <ImageButton
+                android:id="@+id/flash_camera"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
+                android:background="@color/transparent"
                 android:padding="5dp"
                 android:scaleType="fitCenter"
-                android:id="@+id/flash_camera"
-                android:background="@color/transparent"
-                android:src="@drawable/ic_flash_on"/>
+                android:src="@drawable/ic_flash_on" />
         </LinearLayout>
+
         <ImageButton
+            android:id="@+id/rotate_camera"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:padding="5dp"
             android:layout_alignParentRight="true"
             android:layout_margin="30dp"
-            android:scaleType="fitCenter"
-            android:id="@+id/rotate_camera"
             android:background="@color/transparent"
-            android:src="@drawable/ic_rotate_cam"/>
-        <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:gravity="right"
-        android:id="@+id/camera_options"
-        android:layout_marginTop="200dp"
-        android:layout_marginRight="20dp"
-        android:layout_alignParentRight="true">
+            android:padding="5dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_rotate_cam" />
 
         <LinearLayout
+            android:id="@+id/camera_options"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:layout_centerHorizontal="true">
-            <TextView
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="200dp"
+            android:layout_marginRight="20dp"
+            android:gravity="right"
+            android:orientation="vertical">
+
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Add Music"
-                android:textSize="13dp"
-                android:layout_marginRight="5dp"
-                android:textStyle="bold"
-                android:padding="5dp"
-                android:id="@+id/add_sound_txt"
-                android:textColor="@color/white"/>
-            <ImageView
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:padding="10dp"
-                android:src="@drawable/ic_music"
-                android:scaleType="fitCenter"
-                app:tint="@color/white" />
-        </LinearLayout>
+                android:layout_centerHorizontal="true"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:id="@+id/add_sound_txt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="5dp"
+                    android:padding="5dp"
+                    android:text="Add Music"
+                    android:textColor="@color/white"
+                    android:textSize="13dp"
+                    android:textStyle="bold" />
+
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:padding="10dp"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/ic_music"
+                    app:tint="@color/white" />
+            </LinearLayout>
 
 
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:layout_centerHorizontal="true">
-            <TextView
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Timer"
-                android:textSize="13dp"
-                android:layout_marginRight="5dp"
-                android:textStyle="bold"
-                android:padding="5dp"
-                android:textColor="@color/white"/>
-            <ImageButton
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:padding="5dp"
-                android:scaleType="fitCenter"
-                android:id="@+id/time_btn"
-                android:background="@color/transparent"
-                android:src="@drawable/ic_timer"/>
-        </LinearLayout>
-        <LinearLayout
-            android:id="@+id/effects"
-            android:visibility="gone"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:layout_centerHorizontal="true">
-            <TextView
+                android:layout_centerHorizontal="true"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="5dp"
+                    android:padding="5dp"
+                    android:text="Timer"
+                    android:textColor="@color/white"
+                    android:textSize="13dp"
+                    android:textStyle="bold" />
+
+                <ImageButton
+                    android:id="@+id/time_btn"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@color/transparent"
+                    android:padding="5dp"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/ic_timer" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/effects"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Effects"
-                android:textSize="13dp"
-                android:layout_marginRight="5dp"
-                android:textStyle="bold"
-                android:padding="5dp"
-                android:textColor="@color/white"/>
-            <ImageButton
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:padding="5dp"
-                android:scaleType="fitCenter"
-                android:background="@color/transparent"
-                android:src="@drawable/ic_photo_filter_black_24dp"/>
+                android:layout_centerHorizontal="true"
+                android:gravity="center_vertical"
+                android:visibility="gone">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="5dp"
+                    android:padding="5dp"
+                    android:text="Effects"
+                    android:textColor="@color/white"
+                    android:textSize="13dp"
+                    android:textStyle="bold" />
+
+                <ImageButton
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@color/transparent"
+                    android:padding="5dp"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/ic_photo_filter_black_24dp" />
+            </LinearLayout>
+
+
         </LinearLayout>
-
-
-    </LinearLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_marginBottom="80dp"
             android:layout_height="100dp"
+            android:layout_alignParentBottom="true"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
-            android:layout_alignParentBottom="true">
+            android:layout_marginBottom="80dp">
 
 
             <RelativeLayout
@@ -180,28 +191,28 @@
                 android:layout_toStartOf="@id/rec_animation">
 
                 <LinearLayout
+                    android:id="@+id/upload_layout"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
-                    android:orientation="vertical"
+                    android:layout_centerVertical="true"
                     android:gravity="center"
-                    android:visibility="gone"
-                    android:id="@+id/upload_layout"
-                    android:layout_centerVertical="true">
+                    android:orientation="vertical"
+                    android:visibility="gone">
 
                     <ImageView
                         android:layout_width="32dp"
                         android:layout_height="32dp"
-                        android:src="@drawable/ic_gallery_icon"/>
+                        android:src="@drawable/ic_gallery_icon" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Upload"
-                        android:textSize="12dp"
-                        android:textStyle="bold"
                         android:layout_marginTop="5dp"
-                        android:textColor="@color/white"/>
+                        android:text="Upload"
+                        android:textColor="@color/white"
+                        android:textSize="12dp"
+                        android:textStyle="bold" />
 
                 </LinearLayout>
 
@@ -209,25 +220,26 @@
             </RelativeLayout>
 
             <ImageButton
-                android:visibility="gone"
+                android:id="@+id/record_image"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-                android:id="@+id/record_image"
-                android:scaleType="fitCenter"
+                android:layout_centerHorizontal="true"
                 android:background="@color/transparent"
+                android:scaleType="fitCenter"
                 android:src="@drawable/ic_recoding_no"
-                android:layout_centerHorizontal="true"/>
+                android:visibility="gone" />
+
             <ImageButton
+                android:id="@+id/cut_video_btn"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="15dp"
+                android:layout_toLeftOf="@+id/rec_animation"
+                android:background="@color/transparent"
                 android:padding="3dp"
                 android:scaleType="fitCenter"
-                android:background="@color/transparent"
-                android:src="@drawable/ic_back_cross"
-                android:layout_marginEnd="15dp"
-                android:id="@+id/cut_video_btn"
-                android:layout_centerVertical="true"
-                android:layout_toLeftOf="@+id/rec_animation"/>
+                android:src="@drawable/ic_back_cross" />
 
             <com.airbnb.lottie.LottieAnimationView
                 android:id="@+id/rec_animation"
@@ -238,56 +250,58 @@
                 app:lottie_loop="true"
                 app:lottie_rawRes="@raw/rec_animation"
                 app:lottie_speed="3" />
-<TextView
-    android:id="@+id/sec_passed_text"
-    android:text="0"
-    android:textStyle="bold"
-    android:gravity="center_horizontal"
-    android:textColor="@color/white"
-    android:layout_marginTop="-60dp"
-    android:layout_centerHorizontal="true"
-    android:layout_below="@+id/rec_animation"
-    android:layout_width="100dp"
-    android:layout_height="wrap_content"/>
+
+            <TextView
+                android:id="@+id/sec_passed_text"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/rec_animation"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="-60dp"
+                android:gravity="center_horizontal"
+                android:text="0"
+                android:textColor="@color/white"
+                android:textStyle="bold" />
 
             <ImageButton
+                android:id="@+id/done"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:visibility="gone"
-                android:layout_centerVertical="true"
                 android:layout_alignParentRight="true"
-                android:id="@+id/done"
-                android:padding="3dp"
+                android:layout_centerVertical="true"
                 android:background="@color/transparent"
+                android:padding="3dp"
                 android:scaleType="fitCenter"
-                android:src="@drawable/ic_not_done"/>
+                android:src="@drawable/ic_not_done"
+                android:visibility="gone" />
 
         </RelativeLayout>
 
 
         <TextView
+            android:id="@+id/countdown_timer_txt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="100sp"
-            android:textColor="@color/colorAccent"
-            android:text="3"
-            android:visibility="gone"
-            android:id="@+id/countdown_timer_txt"
             android:layout_centerInParent="true"
-            android:textStyle="bold"
             android:shadowColor="@color/dark_gray"
             android:shadowDx="1"
             android:shadowDy="1"
-            android:shadowRadius="2"/>
+            android:shadowRadius="2"
+            android:text="3"
+            android:textColor="@color/colorAccent"
+            android:textSize="100sp"
+            android:textStyle="bold"
+            android:visibility="gone" />
 
     </RelativeLayout>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/gallery_view"
-        android:padding="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
         android:layout_alignParentBottom="true"
         android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="80dp">
+        android:padding="5dp">
 
     </androidx.recyclerview.widget.RecyclerView>
 </RelativeLayout>

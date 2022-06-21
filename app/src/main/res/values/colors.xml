@@ -31,4 +31,14 @@
     <color name="light_red">#F4D1D1</color>
     <color name="black_transperent">#94000000</color>
 
+    <color name="red_main_change">#BA0F02</color>
+    <color name="msg_count_stroke">#F44336</color>
+    <color name="search_border">#5C5C5C</color>
+    <color name="search_icon">#8E8E8E</color>
+    <color name="choice_stroke">#5C5C5C</color>
+    <color name="feed_shadow">#DADADA</color>
+    <color name="file_size_bg">#9EE8E6E6</color>
+    <color name="view_background">#9A9999</color>
+    <color name="top_brand_bg">#656464</color>
+
 </resources>

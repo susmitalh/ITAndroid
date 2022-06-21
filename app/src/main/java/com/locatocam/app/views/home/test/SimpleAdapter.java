@@ -7,8 +7,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -58,7 +60,7 @@ public class SimpleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     public static String viewCount;
     PostCountData postCountData;
     Follow follow;
-    int lastCount= -1;
+    public static Boolean userClick = true;
 
     public SimpleAdapter(Context context, List<Data> mediaList, SimpleEvents simpleEvents, PostCountData postCountData, Follow follow) {
         this.mediaList = mediaList;
@@ -68,6 +70,22 @@ public class SimpleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         this.postCountData = postCountData;
         this.follow = follow;
 
+    }
+
+    public List<Data> getList() {
+        return this.mediaList;
+    }
+
+    public void addAgain() {
+        List<Data> old = mediaList;
+        this.mediaList.clear();
+        this.mediaList.addAll(old);
+        notifyDataSetChanged();
+    }
+
+    public void addAtZero(Data newitems) {
+        this.mediaList.add(0, newitems);
+        notifyDataSetChanged();
     }
 
     public void addAll(List<Data> newitems) {
@@ -99,8 +117,7 @@ public class SimpleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         } else if (viewType == TYPE_BRAND_OFFERS) {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.feed_top_brand_offers_item, parent, false);
             return new VHTopBrandOffers(view);
-        }
-        else {
+        } else {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_layout_empty, parent, false);
             return new VHHeader(view);
         }
@@ -111,9 +128,8 @@ public class SimpleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
 
 
-
         if (holder instanceof SimpleExoPlayerViewHolder) {
-            ((SimpleExoPlayerViewHolder) holder).bind(mediaList.get(position), simpleEvents, position, postCountData, follow);
+            ((SimpleExoPlayerViewHolder) holder).bind(mediaList.get(position), simpleEvents, position, postCountData, follow, context);
 
 
             String userid = SharedPrefEnc.getPref(context, "user_id");
@@ -153,6 +169,19 @@ public class SimpleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
                     .thumbnail(0.1f)
                     .into(((VHBanner) holder).thumbnile);
+            Log.e("TAG", "onBindViewHoldecffr: " + item.getBanner_brand_active());
+
+            if (item.getBanner_brand_active() == 0) {
+                ((VHBanner) holder).bannerHide.setVisibility(View.VISIBLE);
+                if (item.getBanner_next_starting().equals("")) {
+                    ((VHBanner) holder).hide_text_banner.setText("Currently not accepting orders");
+
+                } else {
+                    ((VHBanner) holder).hide_text_banner.setText("Next opens at " + item.getBanner_next_starting());
+                }
+            } else {
+                ((VHBanner) holder).bannerHide.setVisibility(View.GONE);
+            }
 
             ((VHBanner) holder).brand_name.setText(item.getBanner_brand_name());
             ((VHBanner) holder).location_name.setText(item.getBanner_location());
@@ -164,7 +193,9 @@ public class SimpleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         } else if (holder instanceof VHTopbrands) {
             Data item = mediaList.get(position);
             ViewGroup mLinearLayout = (ViewGroup) ((VHTopbrands) holder).item_holder;
+            ViewGroup mScroll = (ViewGroup) ((VHTopbrands) holder).brand_layout_scroll;
             mLinearLayout.removeAllViews();
+            mScroll.scrollTo(0, 0);
             for (TopBrandDetail td : item.getTop_brand_details()) {
                 View layout2 = LayoutInflater.from(((VHTopbrands) holder).item_holder.getContext()).inflate(R.layout.row_layout_top_brands, mLinearLayout, false);
                 TextView name = (TextView) layout2.findViewById(R.id.name);
@@ -192,6 +223,21 @@ public class SimpleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 TextView sellerPercent = layout.findViewById(R.id.seller_percent);
                 TextView sellerBrandName = layout.findViewById(R.id.seller_brand_name);
                 TextView sellerItemName = layout.findViewById(R.id.seller_item_name);
+                TextView hide_best_seller_txt = layout.findViewById(R.id.hide_best_seller_txt);
+                RelativeLayout hide_best_seller_layout = layout.findViewById(R.id.hide_best_seller_layout);
+
+
+                if (bestSeller.getBrand_active() == 0) {
+                    hide_best_seller_layout.setVisibility(View.VISIBLE);
+                    if (bestSeller.getNext_starting().equals("")) {
+                        hide_best_seller_txt.setText("Currently not accepting orders");
+
+                    } else {
+                        hide_best_seller_txt.setText("Next opens at " + bestSeller.getNext_starting());
+                    }
+                } else {
+                    hide_best_seller_layout.setVisibility(View.GONE);
+                }
 
                 Glide.with(sellerImage.getContext())
                         .load(bestSeller.getImage())
@@ -218,6 +264,20 @@ public class SimpleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 TextView offer_min_order = layout.findViewById(R.id.offer_min_order);
                 TextView offerName = layout.findViewById(R.id.offer_name);
                 TextView offerDiscount = layout.findViewById(R.id.offer_discount2);
+                TextView hide_text_banner_offers = layout.findViewById(R.id.hide_text_banner_offers);
+                RelativeLayout banner_offers_hide = layout.findViewById(R.id.banner_offers_hide);
+
+                if (offersDetail.getOffers_brand_active() == 0) {
+                    banner_offers_hide.setVisibility(View.VISIBLE);
+                    if (offersDetail.getOffers_next_starting().equals("")) {
+                        hide_text_banner_offers.setText("Currently not accepting orders");
+
+                    } else {
+                        hide_text_banner_offers.setText("Next opens at " + offersDetail.getOffers_next_starting());
+                    }
+                } else {
+                    banner_offers_hide.setVisibility(View.GONE);
+                }
 
                 Glide.with(offerSmallImage.getContext())
                         .load(offersDetail.getOffers_image())
@@ -262,7 +322,6 @@ public class SimpleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     }
 
 
-
     @Override
     public int getItemCount() {
         return mediaList.size();
@@ -287,6 +346,7 @@ public class SimpleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         }
 
     }
+
     @Override
     public long getItemId(int position) {
         return position;
@@ -327,7 +387,8 @@ public class SimpleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         TextView cusine;
         TextView distance;
         TextView open_hours;
-        TextView ratings;
+        TextView ratings, hide_text_banner;
+        RelativeLayout bannerHide;
 
         public VHBanner(@NonNull View itView) {
             super(itView);
@@ -339,16 +400,20 @@ public class SimpleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             distance = itView.findViewById(R.id.distance);
             open_hours = itView.findViewById(R.id.open_hours);
             ratings = itView.findViewById(R.id.ratings);
+            bannerHide = itView.findViewById(R.id.banner_hide);
+            hide_text_banner = itView.findViewById(R.id.hide_text_banner);
         }
     }
 
     class VHTopbrands extends RecyclerView.ViewHolder {
 
         LinearLayout item_holder;
+        HorizontalScrollView brand_layout_scroll;
 
         public VHTopbrands(@NonNull View itView) {
             super(itView);
             item_holder = itView.findViewById(R.id.item_holder);
+            brand_layout_scroll = itView.findViewById(R.id.brand_layout_scroll);
         }
     }
 

@@ -1,331 +1,377 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@color/white"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical"
     tools:context=".views.ceratepost.UploadPostmanual">
-<LinearLayout
-    android:id="@+id/header"
-    android:orientation="horizontal"
-    android:layout_width="match_parent"
-    android:layout_height="45dp">
-    <ImageButton
-        android:id="@+id/back"
-        android:background="@null"
-        android:src="@drawable/ic_arrow_back_ddf24dp"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent" />
-    <TextView
-        android:gravity="center"
-        android:layout_marginLeft="10dp"
-        android:textColor="@color/black"
-        android:text="Upload your post"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent" />
-</LinearLayout>
-    <View
-        android:layout_below="@+id/header"
-        android:background="@color/black"
+
+    <LinearLayout
+        android:id="@+id/header"
         android:layout_width="match_parent"
-        android:layout_height="0.5dp"/>
+        android:layout_height="45dp"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:id="@+id/back"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@null"
+            android:src="@drawable/ic_arrow_back_ddf24dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
+            android:gravity="center"
+            android:text="Upload your post"
+            android:textColor="@color/black" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_below="@+id/header"
+        android:background="@color/black" />
+
     <ScrollView
         android:id="@+id/lo"
-        android:layout_below="@+id/header"
-        android:scrollbars="none"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/header"
+        android:scrollbars="none">
+
         <LinearLayout
-            android:padding="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:gravity="right"
             android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:padding="10dp">
+
             <TextView
-                android:layout_marginTop="10dp"
-                android:textColor="@color/black"
-                android:text="Create post"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Create post"
+                android:textColor="@color/black" />
+
             <EditText
                 android:id="@+id/paste_link"
-                android:gravity="left"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="5dp"
-                android:padding="10dp"
-                android:hint="Paste link here"
                 android:background="@drawable/lay_round_bg_white"
+                android:gravity="left"
+                android:hint="Paste link here"
+                android:padding="10dp"
                 android:textColor="@color/black"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:textSize="@dimen/_10ssp" />
 
             <LinearLayout
-                android:gravity="center_vertical"
-                android:layout_marginTop="10dp"
-                android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
                 <View
-                    android:background="@color/black"
-                    android:layout_weight="1"
                     android:layout_width="0dp"
-                    android:layout_height="0.5dp"/>
-                    <TextView
-                        android:gravity="center"
-                        android:textColor="@color/black"
-                        android:text="OR"
-                        android:layout_weight="0.2"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content" />
+                    android:layout_height="0.5dp"
+                    android:layout_weight="1"
+                    android:background="@color/black" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.2"
+                    android:gravity="center"
+                    android:text="OR"
+                    android:textColor="@color/black" />
+
                 <View
-                    android:background="@color/black"
-                    android:layout_weight="1"
                     android:layout_width="0dp"
-                    android:layout_height="0.5dp"/>
+                    android:layout_height="0.5dp"
+                    android:layout_weight="1"
+                    android:background="@color/black" />
             </LinearLayout>
+
             <Button
                 android:id="@+id/choose_file"
-                android:layout_marginTop="10dp"
-                android:padding="10dp"
-                android:textSize="12sp"
-                android:layout_marginBottom="10dp"
-                android:text="Choose file"
-                android:background="@drawable/lay_round_bg_white"
-                android:textColor="@color/black"
                 android:layout_width="match_parent"
-                android:layout_height="45dp" />
+                android:layout_height="@dimen/_30sdp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/create_post_btn_bg"
+                android:padding="10dp"
+                android:text="Choose file"
+                android:textColor="@color/white"
+                android:textSize="12sp" />
+
             <TextView
                 android:id="@+id/selected_type"
-                android:gravity="left"
-                android:visibility="gone"
-                android:layout_marginTop="10dp"
-                android:padding="10dp"
-                android:background="@drawable/lay_round_bg_grey"
-                android:textColor="@color/white"
-                android:text="Image Selected"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/lay_round_bg_grey"
+                android:gravity="left"
+                android:padding="10dp"
+                android:text="Image Selected"
+                android:textColor="@color/white"
+                android:visibility="gone" />
+
             <ImageView
                 android:id="@+id/upload_thuimb"
-                android:visibility="gone"
-                android:scaleType="centerCrop"
                 android:layout_width="match_parent"
-                android:layout_height="200dp" />
+                android:layout_height="200dp"
+                android:scaleType="centerCrop"
+                android:visibility="gone" />
+
             <RelativeLayout
                 android:id="@+id/videowrapper"
-                android:visibility="gone"
-                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
 
                 <VideoView
                     android:id="@+id/videoview"
                     android:layout_width="match_parent"
                     android:layout_height="200dp" />
+
                 <ProgressBar
                     android:id="@+id/og_loader"
-                    android:visibility="gone"
-                    android:padding="60dp"
                     android:layout_width="match_parent"
-                    android:layout_height="200dp" />
+                    android:layout_height="200dp"
+                    android:padding="60dp"
+                    android:visibility="gone" />
+
                 <ImageButton
                     android:id="@+id/pause_play"
-                    android:background="@null"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
                     android:layout_below="@+id/videoview"
-                    android:src="@drawable/ic_pause_black_24dp"
                     android:layout_marginLeft="5dp"
                     android:layout_marginTop="30dp"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp" />
+                    android:background="@null"
+                    android:src="@drawable/ic_pause_black_24dp" />
             </RelativeLayout>
 
             <TextView
-                android:layout_marginTop="10dp"
-                android:textColor="@color/black"
-                android:text="Headline"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Headline"
+                android:textColor="@color/black" />
+
             <EditText
                 android:id="@+id/headline"
-                android:gravity="left"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:padding="10dp"
                 android:background="@drawable/lay_round_bg_white"
+                android:ellipsize="end"
+                android:gravity="left"
+                android:padding="10dp"
+                android:singleLine="true"
                 android:textColor="@color/black"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:textSize="@dimen/_10ssp" />
+
             <TextView
-                android:layout_marginTop="10dp"
-                android:textColor="@color/black"
-                android:text="Sub header"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Sub header"
+                android:textColor="@color/black" />
+
             <EditText
                 android:id="@+id/sub_header"
-                android:gravity="left"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:padding="10dp"
                 android:background="@drawable/lay_round_bg_white"
+                android:ellipsize="end"
+                android:gravity="left"
+                android:padding="10dp"
+                android:singleLine="true"
                 android:textColor="@color/black"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:textSize="@dimen/_10ssp" />
+
             <TextView
-                android:layout_marginTop="10dp"
-                android:textColor="@color/black"
-                android:text="Description"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Description"
+                android:textColor="@color/black" />
+
             <EditText
                 android:id="@+id/description"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/lay_round_bg_white"
+                android:ellipsize="end"
                 android:gravity="left|top"
                 android:lines="5"
                 android:maxLines="10"
-                android:layout_marginTop="10dp"
                 android:padding="10dp"
-                android:background="@drawable/lay_round_bg_white"
                 android:textColor="@color/black"
-                android:layout_width="match_parent"
-                android:layout_height="100dp" />
+                android:textSize="@dimen/_10ssp" />
 
 
             <LinearLayout
                 android:id="@+id/admin_content"
-                android:visibility="gone"
-                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
+
                 <LinearLayout
-                    android:orientation="horizontal"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
                     <TextView
-                        android:layout_marginTop="10dp"
-                        android:textColor="@color/black"
-                        android:text="Select brand "
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:text="Select brand"
+                        android:textColor="@color/black" />
+
                     <TextView
                         android:id="@+id/brand_optional_tag"
-                        android:layout_marginTop="10dp"
-                        android:textColor="@color/com_facebook_blue"
-                        android:text="(Optional)"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:text="(Optional)"
+                        android:textColor="@color/com_facebook_blue" />
                 </LinearLayout>
+
                 <EditText
                     android:id="@+id/select_brand"
-                    android:gravity="left"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
+                    android:background="@drawable/lay_round_bg_white"
+                    android:ellipsize="end"
+                    android:focusable="false"
+                    android:gravity="left"
                     android:padding="10dp"
                     android:tag=""
-                    android:text="Select brand"
-                    android:focusable="false"
-                    android:background="@drawable/lay_round_bg_white"
                     android:textColor="@color/black"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:textSize="@dimen/_10ssp" />
 
 
                 <LinearLayout
-                    android:orientation="horizontal"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
                     <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
-                        android:textColor="@color/black"
                         android:text="Select items "
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:textColor="@color/black" />
+
                     <TextView
-                        android:layout_marginTop="10dp"
-                        android:textColor="@color/com_facebook_blue"
-                        android:text="(Optional)"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:text="(Optional)"
+                        android:textColor="@color/com_facebook_blue" />
                 </LinearLayout>
+
                 <EditText
                     android:id="@+id/select_items"
-                    android:gravity="left"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
+                    android:background="@drawable/lay_round_bg_white"
+                    android:ellipsize="end"
+                    android:focusable="false"
+                    android:gravity="left"
                     android:padding="10dp"
                     android:tag=""
-                    android:text="Select items"
-                    android:focusable="false"
-                    android:background="@drawable/lay_round_bg_white"
                     android:textColor="@color/black"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:textSize="@dimen/_10ssp" />
 
 
                 <LinearLayout
-                    android:orientation="horizontal"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
                     <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
-                        android:textColor="@color/black"
                         android:text="Button type "
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:textColor="@color/black" />
+
                     <TextView
-                        android:layout_marginTop="10dp"
-                        android:textColor="@color/com_facebook_blue"
-                        android:text="(Optional)"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:text="(Optional)"
+                        android:textColor="@color/com_facebook_blue" />
                 </LinearLayout>
+
                 <EditText
                     android:id="@+id/choose_button"
-                    android:gravity="left"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
+                    android:background="@drawable/lay_round_bg_white"
+                    android:ellipsize="end"
+                    android:focusable="false"
+                    android:gravity="left"
                     android:padding="10dp"
                     android:tag=""
-                    android:text="Choose button"
-                    android:focusable="false"
-                    android:background="@drawable/lay_round_bg_white"
                     android:textColor="@color/black"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:textSize="@dimen/_10ssp" />
             </LinearLayout>
 
             <Button
                 android:id="@+id/submit"
-                android:layout_marginTop="10dp"
-                android:padding="10dp"
-                android:textSize="12sp"
-                android:text="Post"
-                android:background="@drawable/lay_round_bg_white"
-                android:textColor="@color/black"
                 android:layout_width="wrap_content"
-                android:layout_height="45dp" />
+                android:layout_height="@dimen/_30sdp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/create_post_btn_bg"
+                android:paddingLeft="@dimen/_30sdp"
+                android:paddingRight="@dimen/_30sdp"
+                android:text="Post"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_12ssp" />
         </LinearLayout>
     </ScrollView>
 
     <RelativeLayout
         android:id="@+id/progress"
-        android:visibility="gone"
-        android:background="@color/transparent_black"
-        android:layout_alignParentTop="true"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:background="@color/transparent_black"
+        android:visibility="gone">
+
         <ProgressBar
             android:id="@+id/rr"
-            android:visibility="visible"
-            android:layout_centerVertical="true"
-            android:layout_centerHorizontal="true"
             android:layout_width="80dp"
-            android:layout_height="80dp" />
+            android:layout_height="80dp"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:visibility="visible" />
+
         <TextView
-            android:layout_marginTop="15dp"
-            android:text="Uploading please wait"
-            android:gravity="center_horizontal"
-            android:textColor="@color/white"
-            android:layout_below="@+id/rr"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/rr"
+            android:layout_marginTop="15dp"
+            android:gravity="center_horizontal"
+            android:text="Uploading please wait"
+            android:textColor="@color/white" />
     </RelativeLayout>
 
 </RelativeLayout>

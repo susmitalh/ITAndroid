@@ -1,9 +1,8 @@
 package com.locatocam.app.views.home.test;
 
+import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.net.Uri;
-import android.os.Build;
 import android.text.Html;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
@@ -22,7 +21,6 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -40,6 +38,7 @@ import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory;
 import com.google.android.exoplayer2.upstream.cache.Cache;
 import com.google.android.exoplayer2.upstream.cache.CacheDataSourceFactory;
 import com.google.android.exoplayer2.util.Util;
+import com.locatocam.app.Activity.OtherProfileWithFeedActivity;
 import com.locatocam.app.Activity.PlayPostActivity;
 import com.locatocam.app.ModalClass.AddShare;
 import com.locatocam.app.ModalClass.Follow;
@@ -50,15 +49,17 @@ import com.locatocam.app.di.module.NetworkModule;
 import com.locatocam.app.network.WebApi;
 import com.locatocam.app.reportpost.ReportPostActivity;
 import com.locatocam.app.security.SharedPrefEnc;
+import com.locatocam.app.views.MainActivity;
 import com.locatocam.app.views.comments.CommentsActivity;
 import com.locatocam.app.views.home.HomeFragment;
 import com.locatocam.app.views.home.header.HeaderFragment;
-import com.skyhope.showmoretextview.ShowMoreTextView;
+import com.locatocam.app.views.home.header.IHeaderEvents;
 
 import net.minidev.json.JSONObject;
 
 
 import java.util.List;
+import java.util.Locale;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import im.ene.toro.ToroPlayer;
@@ -86,9 +87,8 @@ public class SimpleExoPlayerViewHolder extends RecyclerView.ViewHolder implement
     WebApi apiInterface;
     PlayerView playerView;
     ImageButton volumebt;
-    ImageButton options;
+    ImageButton options,msg_img;
     String follow_process;
-
     CircleImageView profile_image;
     LinearLayout brandDetail;
     TextView name, datetime, profile_follow_count;
@@ -99,7 +99,7 @@ public class SimpleExoPlayerViewHolder extends RecyclerView.ViewHolder implement
     TextView comment;
     TextView views, postShareText;
     TextView shares, brandName, brandUnfollow, profileUnfollow, fileSizeText;
-    ImageView thumbnile, brandFollow, profileFollow;
+    ImageView thumbnile, brandFollow, profileFollow,imgBrandLocation;
     RelativeLayout profile_follow_layout, brand_follow_layout;
     CacheDataSourceFactory cacheDataSourceFactory;
     Cache simpleCache = MyApp.Companion.getSimpleCache();
@@ -128,6 +128,7 @@ public class SimpleExoPlayerViewHolder extends RecyclerView.ViewHolder implement
         comment = itemView.findViewById(R.id.comment);
         views = itemView.findViewById(R.id.views);
         shares = itemView.findViewById(R.id.shares);
+        msg_img = itemView.findViewById(R.id.msg_img);
 
 
 
@@ -152,6 +153,7 @@ public class SimpleExoPlayerViewHolder extends RecyclerView.ViewHolder implement
         postShareText = itemView.findViewById(R.id.post_share_text);
         profile_follow_layout = itemView.findViewById(R.id.profile_follow_layout);
         brand_follow_layout = itemView.findViewById(R.id.brand_follow_layout);
+        imgBrandLocation = itemView.findViewById(R.id.imgBrandLocation);
 
 
         Log.e("TAGfgg", "SimpleExoPlayerViewHolder: ");
@@ -164,10 +166,9 @@ public class SimpleExoPlayerViewHolder extends RecyclerView.ViewHolder implement
         }
 
         cacheDataSourceFactory = new CacheDataSourceFactory(simpleCache,
-                new DefaultHttpDataSourceFactory(
-                        Util.getUserAgent(shares.getContext(),
-                                "exo"))
-        );
+                new DefaultHttpDataSourceFactory(Util.getUserAgent(shares.getContext(), "exo")));
+
+
 
 
         volumebt.setOnClickListener(new View.OnClickListener() {
@@ -194,7 +195,7 @@ public class SimpleExoPlayerViewHolder extends RecyclerView.ViewHolder implement
 
 
     // called from Adapter to setup the media
-    void bind(Data item, SimpleEvents simpleEvents, int position, PostCountData postCountData, com.locatocam.app.views.home.test.Follow follow) {
+    void bind(Data item, SimpleEvents simpleEvents, int position, PostCountData postCountData, com.locatocam.app.views.home.test.Follow follow, Context context) {
 
 
         if (item != null) {
@@ -202,15 +203,54 @@ public class SimpleExoPlayerViewHolder extends RecyclerView.ViewHolder implement
 
             mediaUri = Uri.parse(item.getFile());
             // val uri = Uri.parse(linkUrl)
-
             userId = SharedPrefEnc.getPref(app, "user_id");
             apiInterface = NetworkModule.Companion.getClient().create(WebApi.class);
+
+            Log.e("TAG", "binddd: "+item.getUser_id());
+
+            if (userId.equals(item.getUser_id())){
+                profile_follow_layout.setVisibility(View.GONE);
+                msg_img.setVisibility(View.INVISIBLE);
+            }else{
+                profile_follow_layout.setVisibility(View.VISIBLE);
+                msg_img.setVisibility(View.VISIBLE);
+            }
 
             Glide.with(profile_image.getContext())
                     .load(item.getProfile_pic())
                     .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
                     .thumbnail(0.1f)
                     .into(profile_image);
+
+
+            profile_image.setOnClickListener(v->{
+                if (SimpleAdapter.userClick) {
+                    Intent intent=new Intent(context, OtherProfileWithFeedActivity.class);
+                    intent.putExtra("user_id",item.getUser_id());
+                    intent.putExtra("inf_code",item.getProfile_influencer_code());
+                    context.startActivity(intent);
+                    SimpleAdapter.userClick=true;
+                }
+            });
+            name.setOnClickListener(v->{
+                if (SimpleAdapter.userClick) {
+                    Intent intent=new Intent(context, OtherProfileWithFeedActivity.class);
+                    intent.putExtra("user_id",item.getUser_id());
+                    intent.putExtra("inf_code",item.getProfile_influencer_code());
+                    context.startActivity(intent);
+                    SimpleAdapter.userClick=true;
+
+                }
+            });
+
+            imgBrandLocation.setOnClickListener(v->{
+                Log.e("TAG", "bindLocation: "+item.getBrand_lat() +" , "+ item.getBrand_long());
+
+                String strUri = "http://maps.google.com/maps?q=loc:" + item.getBrand_lat() + "," + item.getBrand_long() + " (" + "Label which you want" + ")";
+                Intent intent = new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(strUri));
+                intent.setClassName("com.google.android.apps.maps", "com.google.android.maps.MapsActivity");
+                context.startActivity(intent);
+            });
 
             Glide.with(thumbnile.getContext())
                     .load(item.getScreenshot())
@@ -229,7 +269,8 @@ public class SimpleExoPlayerViewHolder extends RecyclerView.ViewHolder implement
 
             Log.e("TAG", "bindfffffff: " + description);
             if (a >= 3) {
-                makeTextViewResizable(feed_description, 3, "See More", true);
+                makeTextViewResizable(feed_description, 3, "Read More" +
+                        "", true);
             }
             Log.e("TAG", "bindd: " + a);
 
@@ -329,9 +370,6 @@ public class SimpleExoPlayerViewHolder extends RecyclerView.ViewHolder implement
             } else {
                 like.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_like, 0, 0, 0);
             }
-           /* if (CommentsActivity.Companion.getCommentNo()==true){
-                comment.setText(String.valueOf(Integer.parseInt(item.getComments_count()) + 1));
-            }*/
             comment.setText(" " + item.getComments_count());
 
 
@@ -377,14 +415,22 @@ public class SimpleExoPlayerViewHolder extends RecyclerView.ViewHolder implement
                 public void onClick(View view) {
                     if (item.getLiked().equals("0")) {
                         item.setLiked("1");
-                        item.setLikes_count(String.valueOf(Integer.parseInt(item.getLikes_count()) + 1));
+                        try {
+                            item.setLikes_count(String.valueOf(Integer.parseInt(item.getLikes_count()) + 1));
+                        } catch (NumberFormatException e) {
+                            e.printStackTrace();
+                        }
                         like.setText(" " + item.getLikes_count());
                         like.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_like_liked, 0, 0, 0);
                         //cal like api
                         simpleEvents.like("like", item.getPost_id());
                     } else {
                         item.setLiked("0");
-                        item.setLikes_count(String.valueOf(Integer.parseInt(item.getLikes_count()) - 1));
+                        try {
+                            item.setLikes_count(String.valueOf(Integer.parseInt(item.getLikes_count()) - 1));
+                        } catch (NumberFormatException e) {
+                            e.printStackTrace();
+                        }
                         like.setText(" " + item.getLikes_count());
                         like.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_like, 0, 0, 0);
                         //cal unlike like api
@@ -608,16 +654,6 @@ public class SimpleExoPlayerViewHolder extends RecyclerView.ViewHolder implement
                 }
             });
 
-//            if(helper!= null){
-//
-//                try{
-//                    helper.setVolume(0.0f);
-//                }catch (NullPointerException exception){
-//                    exception.printStackTrace();
-//                }
-//
-//
-//            }
         }
         helper.initialize(container, playbackInfo);
     }
@@ -726,12 +762,12 @@ public class SimpleExoPlayerViewHolder extends RecyclerView.ViewHolder implement
                         tv.setLayoutParams(tv.getLayoutParams());
                         tv.setText(tv.getTag().toString(), TextView.BufferType.SPANNABLE);
                         tv.invalidate();
-                        makeTextViewResizable(tv, -1, "See Less", false);
+                        makeTextViewResizable(tv, -1, "Read Less", false);
                     } else {
                         tv.setLayoutParams(tv.getLayoutParams());
                         tv.setText(tv.getTag().toString(), TextView.BufferType.SPANNABLE);
                         tv.invalidate();
-                        makeTextViewResizable(tv, 3, ".. See More", true);
+                        makeTextViewResizable(tv, 3, "... Read More", true);
                     }
                 }
             }, str.indexOf(spanableText), str.indexOf(spanableText) + spanableText.length(), 0);

@@ -3,6 +3,7 @@ package com.locatocam.app.views.home
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.app.Dialog
 import android.content.Intent
 import android.location.Address
 import android.location.Location
@@ -48,6 +49,7 @@ import androidx.navigation.Navigation
 import com.app.kardder.util.RecyclerViewScrollListener
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
+import com.locatocam.app.Activity.OtherProfileWithFeedActivity
 import com.locatocam.app.Activity.PlayPostActivity
 import com.locatocam.app.ModalClass.AddView
 import com.locatocam.app.adapter.PlayPostAdapter
@@ -55,8 +57,15 @@ import com.locatocam.app.databinding.FragmentOtherUserFeedBinding
 import com.locatocam.app.di.module.NetworkModule
 import com.locatocam.app.network.WebApi
 import com.locatocam.app.security.SharedPrefEnc
+import com.locatocam.app.viewmodels.OtherProfileWithFeedViewModel
+import com.locatocam.app.views.home.header.HeaderFragmentOtherUser
 import com.locatocam.app.views.home.test.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import net.minidev.json.JSONObject
+import pl.droidsonroids.gif.GifImageView
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -64,16 +73,18 @@ import retrofit2.Response
 
 class OtherProfileWithFeedFragment() : Fragment(), FeedEvents, ClickEvents, SimpleEvents {
 
-    lateinit var binding: FragmentOtherUserFeedBinding
+
     lateinit var viewModel: HomeViewModel
     var lastCount: Int = -1
     lateinit var placesClient: PlacesClient
     private lateinit var fusedLocationClient: FusedLocationProviderClient
+    lateinit var dialog: Dialog
 
     companion object {
         var postCountData: PostCountData? = null
         var follow: Follow? = null
         lateinit var inf_code: String
+        lateinit var binding: FragmentOtherUserFeedBinding
     }
 
     lateinit var userid: String
@@ -84,7 +95,7 @@ class OtherProfileWithFeedFragment() : Fragment(), FeedEvents, ClickEvents, Simp
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
+        showLoader()
         binding = FragmentOtherUserFeedBinding.inflate(layoutInflater)
         var repository = HomeRepository(requireActivity().application, "")
         var factory = HomeViewModelFactory(repository)
@@ -104,7 +115,16 @@ class OtherProfileWithFeedFragment() : Fragment(), FeedEvents, ClickEvents, Simp
 
 
         viewModel.feed_items.observe(viewLifecycleOwner, {
+            Log.e("paggination", "onCreateView: ")
             viewModel.loading = false
+
+            CoroutineScope(Dispatchers.Main).launch {
+                delay(2500)
+                try {
+                    hideLoader()
+                } catch (e: Exception) {
+                }
+            }
 
             binding.playerContainer.setLayoutManager(layoutManager)
 
@@ -147,7 +167,7 @@ class OtherProfileWithFeedFragment() : Fragment(), FeedEvents, ClickEvents, Simp
 
                 override fun brandFollow(position: Int, followStatus: String) {
                     it.get(position).brand_follow = followStatus
-                    (HomeFragment.binding.playerContainer.adapter as SimpleAdapterOtherprofile)!!.notifyDataSetChanged()
+                    (binding.playerContainer.adapter as SimpleAdapterOtherprofile).notifyDataSetChanged()
                 }
 
             }
@@ -201,7 +221,9 @@ class OtherProfileWithFeedFragment() : Fragment(), FeedEvents, ClickEvents, Simp
 
             startPreCaching(it)
             preloadImages(it)
-                (activity as MainActivity).hideLoader()
+
+
+
         })
         //viewModel.getAllFeeds(inf_code,0.00,0.00)
 
@@ -215,9 +237,10 @@ class OtherProfileWithFeedFragment() : Fragment(), FeedEvents, ClickEvents, Simp
 
         binding.home.setOnClickListener {
 
-            Navigation
+           /* Navigation
                 .findNavController(binding.root)
-                .navigate(R.id.homeFragment)
+                .navigate(R.id.homeFragment)*/
+            activity?.finish()
 
         }
         if (MainActivity.firstLoca==true){
@@ -233,19 +256,30 @@ class OtherProfileWithFeedFragment() : Fragment(), FeedEvents, ClickEvents, Simp
                     var visibleItemCount = layoutManager.getChildCount()
                     var totalItemCount = layoutManager.getItemCount()
                     var pastVisiblesItems = layoutManager.findFirstVisibleItemPosition()
+                    Log.e("paggination", "onScrolled: "+ viewModel.loading)
                     if (!viewModel.loading) {
+                        Log.e("paggination", "onScrolled: counts "+visibleItemCount+","+ totalItemCount+","+pastVisiblesItems)
+                        Log.e("paggination", "onScrolled: sum "+(visibleItemCount + pastVisiblesItems) )
+                        Log.e("paggination", "onScrolled: total "+totalItemCount.minus(2) )
                         if (visibleItemCount + pastVisiblesItems >= totalItemCount - 2) {
                             Log.v("gt66666", "Last Item Wow !")
-                            var act = activity as MainActivity
-                            viewModel.getAllFeeds(inf_code, act.viewModel.lat, act.viewModel.lng)
-                            // rfvcc435
+                            var act = (requireActivity() as OtherProfileWithFeedActivity)
+                            Log.e("TAG location", "onClickAddressNat: " + act.viewModel.lat + "," + act.viewModel.lng
+
+                            )
+                            Log.e("TAG", "onClickAddressNat: "+SharedPrefEnc.getPref(context,"selected_lat")+" lng "+SharedPrefEnc.getPref(context,"selected_lng") )
+
+                            var latLong:Double=SharedPrefEnc.getPref(context,"selected_lat").toDouble()
+                            var latlng:Double=SharedPrefEnc.getPref(context,"selected_lng").toDouble()
+
+//                            viewModel.getAllFeeds(inf_code, act.viewModel.lat, act.viewModel.lng)
+                            viewModel.getAllFeeds(inf_code, latLong, latlng)
+
                         }
                     }
                 }
             }
         })
-
-
         binding.close.setOnClickListener {
             binding.locationView.visibility = View.GONE
         }
@@ -278,14 +312,16 @@ class OtherProfileWithFeedFragment() : Fragment(), FeedEvents, ClickEvents, Simp
         return binding.root
     }
 
+
     fun observe() {
         viewModel.approvalCounts.observe(viewLifecycleOwner, {
             Glide.with(this).load(it.data.profile_pic).into(binding.userImg)
             MainActivity.binding.orderOnline.visibility = View.VISIBLE
+            OtherProfileWithFeedActivity.order_online_otherUser.visibility=View.VISIBLE
 
             if (it.data.approval_count.toInt() > 0) {
                 binding.approvalCounts.visibility = View.VISIBLE
-//                binding.messageCounts.setText(it.data.approval_count)
+                binding.approvalCounts.setText(it.data.approval_count)
                 Log.e("TAG", "getApprovalCountsget: " + it.data.approval_count)
             }
 
@@ -294,6 +330,7 @@ class OtherProfileWithFeedFragment() : Fragment(), FeedEvents, ClickEvents, Simp
                 HomeFragment.order_visiblity = true
                 Handler().postDelayed(Runnable {
                     MainActivity.binding.orderOnline.visibility = View.GONE
+                    OtherProfileWithFeedActivity.order_online_otherUser.visibility=View.GONE
 
                 }, 3000)
             } else {
@@ -344,8 +381,8 @@ class OtherProfileWithFeedFragment() : Fragment(), FeedEvents, ClickEvents, Simp
                     val postalCode: String = addresses[0].getPostalCode()
                     val knownName: String = addresses[0].getFeatureName()
 
-                    if (activity is MainActivity) {
-                        var act = activity as MainActivity
+                    if (activity is OtherProfileWithFeedActivity) {
+                        var act = activity as OtherProfileWithFeedActivity
                         act.viewModel.address_text.value = address
                         act.viewModel.lat = location.altitude
                         act.viewModel.lng = location.latitude
@@ -408,9 +445,6 @@ class OtherProfileWithFeedFragment() : Fragment(), FeedEvents, ClickEvents, Simp
 
     }
 
-    fun showLocation() {
-        binding.locationView.visibility = View.VISIBLE
-    }
 
     private fun startPreCaching(dataList: List<com.locatocam.app.data.responses.feed.Data>) {
         val urlList = mutableListOf<String>()
@@ -467,17 +501,16 @@ class OtherProfileWithFeedFragment() : Fragment(), FeedEvents, ClickEvents, Simp
     override fun onClickAddress(data: com.locatocam.app.data.responses.address.Data) {
 
         firstCall = false
-        if (activity is MainActivity) {
-            var act = activity as MainActivity
+        if (activity is OtherProfileWithFeedActivity) {
+            showLoader()
+            var act = activity as OtherProfileWithFeedActivity
+
             act.viewModel.address_text.value = data.customer_address
             act.viewModel.lat = data.latitude!!.toDouble()
             act.viewModel.lng = data.longitude!!.toDouble()
+            Log.e("TAG", "onClickAddress: "+data.customer_address )
 
             binding.locationView.visibility = View.GONE
-//            Log.e(
-//                "TAG location",
-//                "getAllFeedsdd: data setted" + act.viewModel.lat + "," + act.viewModel.lng
-//            )
 
             SharedPrefEnc.setPref("selected_lat", data.latitude, context)
             SharedPrefEnc.setPref("selected_lng", data.longitude, context)
@@ -485,6 +518,7 @@ class OtherProfileWithFeedFragment() : Fragment(), FeedEvents, ClickEvents, Simp
             HomeFragment.binding.locationView.visibility = View.GONE
             act.viewModel.add = data.customer_address.toString()
             HomeFragment.add = data.customer_address.toString()
+            Log.e("TAG", "onClickAddressNewLat: "+SharedPrefEnc.getPref(context,"selected_lat")+" lng "+SharedPrefEnc.getPref(context,"selected_lng") )
             viewModel.getAllFeeds(inf_code, act.viewModel.lat, act.viewModel.lng)
             firstCall = true
             MainActivity.firstLoca=false
@@ -499,8 +533,8 @@ class OtherProfileWithFeedFragment() : Fragment(), FeedEvents, ClickEvents, Simp
                 Log.i("tr4444", inte?.getStringExtra("result_text").toString())
                 Log.i("tr4444", inte?.getDoubleExtra("result_lat", 0.0).toString())
                 Log.i("tr4444", inte?.getDoubleExtra("result_lng", 0.0).toString())
-                if (activity is MainActivity) {
-                    var act = activity as MainActivity
+                if (activity is OtherProfileWithFeedActivity) {
+                    var act = activity as OtherProfileWithFeedActivity
                     act.viewModel.address_text.value =
                         inte?.getStringExtra("result_text").toString()
                     act.viewModel.lat = inte?.getDoubleExtra("result_lat", 0.0)!!
@@ -513,10 +547,12 @@ class OtherProfileWithFeedFragment() : Fragment(), FeedEvents, ClickEvents, Simp
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        if (activity is MainActivity) {
-            var act = activity as MainActivity
+        if (activity is OtherProfileWithFeedActivity) {
+            var act = activity as OtherProfileWithFeedActivity
             act.viewModel.address_text.observe(requireActivity(), {
-                binding.myLocation.text = it
+
+                binding.myLocation.text = " "+it
+
                 binding.locationView.visibility = View.GONE
                 viewModel.offset = 0
                 viewModel._isheader_added = false
@@ -525,10 +561,10 @@ class OtherProfileWithFeedFragment() : Fragment(), FeedEvents, ClickEvents, Simp
 
         }
 
-        if (activity is MainActivity) {
-            var act = activity as MainActivity
+        if (activity is OtherProfileWithFeedActivity) {
+            var act = activity as OtherProfileWithFeedActivity
             act.viewModel.address_text.observe(requireActivity(), {
-                binding.myLocation.text = it
+                binding.myLocation.text = " "+it
                 try {
                     SharedPrefEnc.setPref("selected_address", it, context)
 
@@ -539,8 +575,14 @@ class OtherProfileWithFeedFragment() : Fragment(), FeedEvents, ClickEvents, Simp
                 binding.locationView.visibility = View.GONE
                 viewModel.offset = 0
                 viewModel._isheader_added = false
-                if (firstCall)
-                    viewModel.getAllFeeds(inf_code, act.viewModel.lat, act.viewModel.lng)
+                if (firstCall) {
+
+                    var latLong: Double = SharedPrefEnc.getPref(context, "selected_lat").toDouble()
+                    var latlng: Double = SharedPrefEnc.getPref(context, "selected_lng").toDouble()
+//                    viewModel.getAllFeeds(inf_code, MainActivity.lat, MainActivity.lng)
+                    viewModel.getAllFeeds(inf_code,latLong, latlng)
+
+                }
 
 
             })
@@ -592,5 +634,19 @@ class OtherProfileWithFeedFragment() : Fragment(), FeedEvents, ClickEvents, Simp
         _isheader_added = false
     }
 
+    fun showLoader() {
+        dialog = Dialog(requireContext(), R.style.AppTheme_Dialog)
+        val view = View.inflate(requireContext(), R.layout.progressdialog_item, null)
+        dialog?.setContentView(view)
+        dialog?.setCancelable(true)
+        val progressbar: GifImageView = dialog?.findViewById(R.id.img_loader)!!
+        dialog?.show()
+    }
+
+    fun hideLoader() {
+        if (dialog != null) {
+            dialog?.dismiss()
+        }
+    }
 
 }

@@ -1,52 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/brand_card"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginLeft="-10dp"
-    android:layout_marginTop="@dimen/_5sdp"
-    android:layout_marginRight="-10dp"
-    android:layout_marginBottom="5dp"
-    app:cardBackgroundColor="@color/cardview_light_background"
-    app:cardCornerRadius="0dp"
-    app:cardElevation="50dp"
-    android:elevation="@dimen/_50sdp">
+    android:layout_height="wrap_content">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/brand_card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:elevation="@dimen/_20sdp"
+        app:cardBackgroundColor="@color/white"
+        app:cardCornerRadius="0dp"
+        app:cardElevation="20dp">
 
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_3sdp"
+            android:layout_marginLeft="@dimen/_15sdp"
+            android:layout_marginTop="@dimen/_8sdp"
             android:text="Best Seller"
-            android:layout_marginLeft="@dimen/_10ssp"
             android:textColor="@color/black" />
 
 
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_13sdp"
-        android:orientation="vertical"
-        android:padding="10dp">
-
-
-        <HorizontalScrollView
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:scrollbars="none">
+            android:layout_marginTop="@dimen/_15sdp"
+            android:orientation="vertical"
+            android:padding="10dp">
 
-            <LinearLayout
-                android:id="@+id/brand_item_holder"
+
+            <HorizontalScrollView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:scrollbars="none">
+
+                <LinearLayout
+                    android:id="@+id/brand_item_holder"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
 
 
-            </LinearLayout>
-        </HorizontalScrollView>
+                </LinearLayout>
+            </HorizontalScrollView>
 
-    </RelativeLayout>
+        </RelativeLayout>
 
-</androidx.cardview.widget.CardView>
+    </androidx.cardview.widget.CardView>
+</LinearLayout>

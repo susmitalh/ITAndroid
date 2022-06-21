@@ -1,8 +1,11 @@
 package com.locatocam.app.views
 
 import android.Manifest
+import android.R.attr.fragment
 import android.annotation.SuppressLint
 import android.app.Dialog
+import android.app.FragmentTransaction
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Address
@@ -13,16 +16,18 @@ import android.os.Bundle
 import android.os.Handler
 import android.util.Log
 import android.view.View
-import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.os.bundleOf
+import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.Navigation
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.NavHostFragment.findNavController
 import androidx.navigation.ui.NavigationUI
 import com.bumptech.glide.Glide
 import com.bumptech.glide.MemoryCategory
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
-import com.google.android.libraries.places.api.Places
 import com.locatocam.app.R
 import com.locatocam.app.databinding.ActivityMainBinding
 import com.locatocam.app.security.SharedPrefEnc
@@ -30,7 +35,6 @@ import com.locatocam.app.utils.Utils
 import com.locatocam.app.viewmodels.ActivityMainViewModel
 import com.locatocam.app.views.home.HomeFragment
 import com.locatocam.app.views.home.OtherProfileWithFeedFragment
-import com.locatocam.app.views.home.header.HeaderFragment
 import com.locatocam.app.views.home.test.SimpleExoPlayerViewHolder
 import com.locatocam.app.views.order_online.ActivityOrderOnline
 import dagger.hilt.android.AndroidEntryPoint
@@ -38,8 +42,8 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import pl.droidsonroids.gif.GifImageView
 import java.util.*
+
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -48,6 +52,29 @@ class MainActivity : AppCompatActivity() {
         var lat:Double = 0.0
         var lng:Double = 0.0
         var firstLoca:Boolean=true
+        var isLoaded: Boolean = false
+
+        fun onItemClick(userid: String, inf_code: String,context: Context) {
+            Log.i("kl99999", inf_code + "--" + userid)
+            val bundle = bundleOf("user_id" to userid, "inf_code" to inf_code)
+            isLoaded = true;
+            Navigation
+                .findNavController(HomeFragment.binding.root)
+                .navigate(R.id.action_homeFragment_to_otherProfileWithFeedFragment, bundle)
+            //Navigation.findNavController(binding.root).navigate(R.id.action_homeFragment_to_otherProfileWithFeedFragment)
+
+
+          /*  val fragment = OtherProfileWithFeedFragment()
+            fragment.arguments = bundle;
+            val fm = (context as AppCompatActivity).supportFragmentManager
+            val ft = fm.beginTransaction()
+            val name = OtherProfileWithFeedFragment.javaClass.name;
+            ft.add(R.id.nav_host_fragment, fragment, name)
+            ft.addToBackStack(null)
+            ft.commit()*/
+
+        }
+
     }
     lateinit var dialog:Dialog
     lateinit var viewModel: ActivityMainViewModel
@@ -104,24 +131,21 @@ class MainActivity : AppCompatActivity() {
         CoroutineScope(Dispatchers.Main).launch {
             delay(1000)
              Handler().postDelayed({
-                 binding.loader.visibility= View.GONE
+//                 binding.loader.visibility= View.GONE
+//                 binding.bttmNav.visibility=View.VISIBLE
+//                 binding.orderOnline.visibility=View.VISIBLE
        },3000)
-
-            binding.bttmNav.visibility=View.VISIBLE
-//            binding.orderOnline.visibility=View.VISIBLE
         }
-
     }
-   /* public fun showLoader(){
-        binding.loader.visibility= View.VISIBLE
-    }*/
+
+    public fun hideOrderBtn(){
+        binding.orderOnline.visibility=View.GONE
+    }
 
     fun showLocationPopup(){
         val childFragments = navHostFragment.childFragmentManager.fragments
         childFragments.forEach { fragment ->
             if(fragment is HomeFragment ){
-                fragment.showLocation()
-            }else if(fragment is OtherProfileWithFeedFragment ){
                 fragment.showLocation()
             }
         }
@@ -151,8 +175,10 @@ class MainActivity : AppCompatActivity() {
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == 2) {
-            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                initLocation()
+            if(grantResults!=null) {
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    initLocation()
+                }
             }
         }
     }
@@ -182,8 +208,8 @@ class MainActivity : AppCompatActivity() {
 
 
                         viewModel.address_text.value = address
-                        viewModel.lat = location.altitude
-                        viewModel.lng = location.latitude
+                        viewModel.lat = location.latitude
+                    viewModel.lng = location.altitude
 
                     Log.e("TAG", "initLocationff: "+location.altitude )
 
@@ -202,8 +228,8 @@ class MainActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         super.onBackPressed()
-        SimpleExoPlayerViewHolder.volumeMute=false
     }
+
 
 
 

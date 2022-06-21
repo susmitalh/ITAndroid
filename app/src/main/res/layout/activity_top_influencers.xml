@@ -1,22 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
     tools:context=".views.home.header.TopInfluencers">
+
     <androidx.cardview.widget.CardView
         android:id="@+id/header"
-        app:cardElevation="5dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        app:cardElevation="5dp">
+
         <RelativeLayout
-            android:background="@color/white"
-            android:padding="10dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:padding="10dp">
 
             <android.widget.Button
                 android:id="@+id/back"
@@ -28,45 +29,50 @@
                 android:text="Back"
                 android:textColor="@color/black"
                 android:textSize="10sp" />
-           <TextView
-               android:textColor="@color/black"
-               android:textSize="12sp"
-               android:text="View All influencers"
-               android:layout_centerHorizontal="true"
-               android:layout_width="wrap_content"
-               android:layout_height="wrap_content"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:text="View All influencers"
+                android:textColor="@color/black"
+                android:textSize="12sp" />
+
             <ImageButton
                 android:id="@+id/home"
-                android:src="@drawable/ic_house"
-                android:background="@null"
-                android:layout_alignParentRight="true"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:background="@null"
+                android:src="@drawable/ic_house" />
         </RelativeLayout>
     </androidx.cardview.widget.CardView>
+
     <LinearLayout
-        android:layout_below="@+id/header"
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/header"
+        android:orientation="vertical">
+
         <EditText
             android:id="@+id/search"
-            android:textSize="12sp"
-            android:background="@drawable/edt_rnd_search"
-            android:hint="  Search here.."
-            android:drawableStart="@drawable/ic_search"
-            android:textColorHint="@color/grey"
-            android:paddingLeft="10dp"
-            android:textColor="@color/black"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
             android:layout_margin="10dp"
             android:layout_marginRight="10dp"
-            android:layout_width="match_parent"
-            android:layout_height="30dp"/>
+            android:background="@drawable/edt_rnd_search"
+            android:drawableStart="@drawable/ic_search"
+            android:hint="  Search here.."
+            android:paddingLeft="10dp"
+            android:textColor="@color/black"
+            android:textColorHint="@color/grey"
+            android:textSize="12sp" />
+
         <androidx.recyclerview.widget.RecyclerView
-            android:layout_margin="10dp"
             android:id="@+id/recmain"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent"
+            android:layout_margin="10dp" />
     </LinearLayout>
 
 </RelativeLayout>

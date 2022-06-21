@@ -1,11 +1,13 @@
 package com.locatocam.app.views.home.header
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.locatocam.app.Activity.OtherProfileWithFeedActivity
 import com.locatocam.app.R
 import com.locatocam.app.data.responses.top_influencers.Data
 import de.hdodenhof.circleimageview.CircleImageView
@@ -30,7 +32,12 @@ class TopIfluencerAdapter(private val items:List<Data>,private val iTopinfluence
             .into(holder.Image);
 
         holder.Image.setOnClickListener {
-            iTopinfluencer.onItemClick(item.inf_id.toString(),item.inf_code.toString())
+//            iTopinfluencer.onItemClick(item.inf_id.toString(),item.inf_code.toString())
+
+            val intent = Intent(holder.Image.context, OtherProfileWithFeedActivity::class.java)
+            intent.putExtra("user_id", item.inf_id)
+            intent.putExtra("inf_code", item.inf_code)
+            holder.Image.context.startActivity(intent)
         }
 
     }

@@ -12,7 +12,6 @@
         android:icon="@drawable/ic_film"/>
 
     <item
-
         android:enabled="true"
         android:title=""
         android:orderInCategory="3"

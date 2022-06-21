@@ -1,78 +1,86 @@
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/card"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginLeft="-10dp"
-    android:layout_marginTop="@dimen/_5sdp"
-    android:layout_marginRight="-10dp"
-    android:layout_marginBottom="5dp"
-    app:cardBackgroundColor="@color/cardview_light_background"
-    app:cardCornerRadius="0dp"
-    app:cardElevation="@dimen/_20sdp"
-    android:outlineSpotShadowColor="@color/black"
-    android:outlineAmbientShadowColor="@color/black">
+    android:orientation="vertical">
 
-    <LinearLayout
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_3sdp"
-        android:layout_marginBottom="@dimen/_3sdp"
-        android:layout_marginLeft="@dimen/_10sdp"
-        android:layout_marginRight="@dimen/_10sdp">
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="Top Brands"
-        android:textColor="@color/black" />
+        android:layout_marginTop="@dimen/_5sdp"
+        android:layout_marginBottom="5dp"
+        app:cardBackgroundColor="@color/white"
+        android:outlineSpotShadowColor="@color/black"
+        android:outlineAmbientShadowColor="@color/black"
+        app:cardCornerRadius="0dp"
+        app:cardElevation="@dimen/_20sdp">
 
 
-        <TextView
-            android:id="@+id/ti_viewAll"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/_3sdp"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="5dp"
-            android:background="@drawable/button_rnd_red"
-            android:gravity="center_vertical"
-            android:paddingLeft="@dimen/_12sdp"
-            android:paddingTop="@dimen/_2sdp"
-            android:paddingRight="@dimen/_12sdp"
-            android:paddingBottom="@dimen/_2sdp"
-            android:text="View all"
-            android:textColor="@color/red"
-            android:textSize="10sp" />
-
-    </LinearLayout>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="@dimen/_10sdp"
-        android:layout_marginTop="@dimen/_20sdp">
-
-
-
-        <HorizontalScrollView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:scrollbars="none">
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_8sdp"
+            android:layout_marginRight="@dimen/_10sdp"
+            android:layout_marginBottom="@dimen/_3sdp"
+            android:background="@color/white">
 
-            <LinearLayout
-                android:id="@+id/item_holder"
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@color/transparent"
+                android:text="Top Brands"
+                android:textColor="@color/black" />
+
+
+            <TextView
+                android:id="@+id/ti_viewAll"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="5dp"
+                android:layout_marginBottom="@dimen/_3sdp"
+                android:background="@drawable/button_rnd_red"
+                android:gravity="center_vertical"
+                android:paddingLeft="@dimen/_12sdp"
+                android:paddingTop="@dimen/_2sdp"
+                android:paddingRight="@dimen/_12sdp"
+                android:paddingBottom="@dimen/_2sdp"
+                android:text="View all"
+                android:textColor="@color/red_main_change"
+                android:textSize="10sp" />
+
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_25sdp"
+            android:background="@color/white"
+            android:orientation="vertical"
+            android:padding="@dimen/_10sdp">
+
+
+            <HorizontalScrollView
+                android:id="@+id/brand_layout_scroll"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:scrollbars="none">
+
+                <LinearLayout
+                    android:id="@+id/item_holder"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
 
 
+                </LinearLayout>
+            </HorizontalScrollView>
 
-            </LinearLayout>
-        </HorizontalScrollView>
+        </RelativeLayout>
 
-    </RelativeLayout>
-
-</androidx.cardview.widget.CardView>
+    </androidx.cardview.widget.CardView>
+</LinearLayout>

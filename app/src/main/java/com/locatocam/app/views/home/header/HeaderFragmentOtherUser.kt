@@ -1,7 +1,10 @@
 package com.locatocam.app.views.home.header
 
 import android.content.Intent
+import android.graphics.drawable.PictureDrawable
+import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,22 +13,30 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.caverock.androidsvg.SVG
+import com.locatocam.app.Activity.OtherProfileWithFeedActivity
+import com.locatocam.app.R
+import com.locatocam.app.adapter.InfluencerProfileBannerAdapter
+import com.locatocam.app.adapter.OtherUserTitleAdapter
 import com.locatocam.app.databinding.FragmentHeaderOtherProfileBinding
 import com.locatocam.app.repositories.HeaderRepository
 import com.locatocam.app.security.SharedPrefEnc
+import com.locatocam.app.utility.OnViewPagerListener
+import com.locatocam.app.utility.ViewPagerLayoutManager
 import com.locatocam.app.viewmodels.HeaderViewModel
-import com.locatocam.app.views.MainActivity
 import com.locatocam.app.views.home.HomeFragment
 import com.locatocam.app.views.home.OtherProfileWithFeedFragment
 import com.locatocam.app.views.rollsexp.RollsExoplayerActivity
+import java.io.ByteArrayInputStream
+import java.io.InputStream
+import java.nio.charset.StandardCharsets
 
 
-class HeaderFragmentOtherUser(val userid:String) : Fragment(),IHeaderEvents {
+class HeaderFragmentOtherUser(val userid: String) : Fragment(), IHeaderEvents {
 
-
-
+companion object {
     lateinit var binding: FragmentHeaderOtherProfileBinding
+}
     lateinit var viewModel: HeaderViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,51 +52,105 @@ class HeaderFragmentOtherUser(val userid:String) : Fragment(),IHeaderEvents {
             val parent = view?.parent as ViewGroup
             parent?.removeView(view)
         }*/
-        binding= FragmentHeaderOtherProfileBinding.inflate(layoutInflater)
+        binding = FragmentHeaderOtherProfileBinding.inflate(layoutInflater)
 
 
-        var repository= HeaderRepository(userid,requireActivity().application)
-        var factory= HeaderViewModelFactory(repository)
+        var repository = HeaderRepository(userid, requireActivity().application)
+        var factory = HeaderViewModelFactory(repository)
 
-        viewModel= ViewModelProvider(this,factory).get(HeaderViewModel::class.java)
+        viewModel = ViewModelProvider(this, factory).get(HeaderViewModel::class.java)
 
         setObsevers()
         setClickListeners()
         refreshAll()
+
         return binding.root
     }
 
-    fun setObsevers(){
-        viewModel.topInfluencer.observe(viewLifecycleOwner,{
+    fun setObsevers() {
+        viewModel.topInfluencer.observe(viewLifecycleOwner, {
 
 
         })
 
-        viewModel.userDetails.observe(viewLifecycleOwner,{
-            Glide.with(this)
+        viewModel.userDetails.observe(viewLifecycleOwner, {
+            var maxposition = it.data?.logo?.size
+            var layoutManagerProfile = ViewPagerLayoutManager(requireActivity(), 0)
+            var pos:Int=0
+            layoutManagerProfile.mOnViewPagerListener = object :OnViewPagerListener{
+                override fun onInitComplete() {
+                }
+
+                override fun onPageRelease(z: Boolean, i: Int) {
+                }
+
+                override fun onPageSelected(i: Int, z: Boolean) {
+                    pos=i
+                }
+
+            }
+            var layoutManagerTitle = ViewPagerLayoutManager(requireActivity(), 0)
+            binding.profileImageRecycler.setLayoutManager(layoutManagerTitle)
+            var profileAdapter = InfluencerProfileBannerAdapter(it.data?.logo)
+            binding.profileImageRecycler.adapter = profileAdapter
+
+            OtherProfileWithFeedFragment.binding.titleRecycler.layoutManager=layoutManagerProfile
+            var otherUserAdapter=OtherUserTitleAdapter(it.data?.top_or_our_brands?.brand_details)
+            OtherProfileWithFeedFragment.binding.titleRecycler.adapter=otherUserAdapter
+
+            binding.leftBannerImage.setOnClickListener {
+                if (pos > 0) {
+                    binding.profileImageRecycler.smoothScrollToPosition(pos - 1)
+                    OtherProfileWithFeedFragment.binding.titleRecycler.smoothScrollToPosition(pos - 1)
+                    pos--
+                }
+            }
+            binding.rightBannerImage.setOnClickListener {
+                if (pos < maxposition?.minus(1)!!) {
+                    binding.profileImageRecycler.smoothScrollToPosition(pos + 1)
+                    OtherProfileWithFeedFragment.binding.titleRecycler.smoothScrollToPosition(pos + 1)
+                    pos++
+                }
+            }
+
+            if (it.data?.logo?.get(0)?.banner.equals("")) {
+                binding.rightBannerImage.visibility = View.GONE
+                binding.leftBannerImage.visibility = View.GONE
+                OtherProfileWithFeedFragment.binding.titleLogo.visibility=View.VISIBLE
+                OtherProfileWithFeedFragment.binding.titleRecycler.visibility=View.GONE
+            } else {
+                binding.topBrandTxt.setText("Our Brands")
+                binding.mostPopularCard.visibility = View.GONE
+                binding.rollsShortCard.visibility = View.GONE
+                binding.tiViewAll.visibility=View.GONE
+                binding.socialLayout.visibility=View.GONE
+                OtherProfileWithFeedFragment.binding.titleLogo.visibility=View.GONE
+                OtherProfileWithFeedFragment.binding.titleRecycler.visibility=View.VISIBLE
+            }
+            /*  Glide.with(this)
                 .load(it.data?.logo?.get(0)?.logo)
                 .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
                 .circleCrop()
-                .into(binding.profilepic)
-                viewModel.getMostPopularVideos(it.data!!.influencer_code.toString())
+                .into(binding.profilepic)*/
+            viewModel.getMostPopularVideos(it.data!!.influencer_code.toString())
 
-            binding.userName.text= "  "+it.data!!.name
-            binding.phone.text="  "+it.data.phone
-            binding.email.text="  "+it.data.email
-            binding.address.text="  "+it.data.address
-            binding.posts.text="  "+it.data.post+" Posts"
-            binding.likes.text="  "+it.data.likes+" Likes"
-            binding.comments.text="  "+it.data.comments+" Likes"
-            binding.views.text="  "+it.data.views+" Views"
-            binding.joinedon.text="  "+it.data.created
-            binding.status.text="  "+it.data.about
+            binding.userName.text = "  " + it.data!!.name
+            binding.phone.text = "  " + it.data.phone
+            binding.email.text = "  " + it.data.email
+            binding.address.text = "  " + it.data.address
+            binding.posts.text = "  " + it.data.post + " Posts"
+            binding.likes.text = "  " + it.data.likes + " Likes"
+            binding.comments.text = "  " + it.data.comments + " Likes"
+            binding.views.text = "  " + it.data.views + " Views"
+            binding.joinedon.text = "  " + it.data.created
+            binding.status.text = "  " + it.data.about
 
-            binding.share.tag=it.data.influencer_code
+            binding.share.tag = it.data.influencer_code
 
-            if (HomeFragment.orderType==true){
+            if (HomeFragment.orderType == true) {
                 binding.orderText.visibility = View.VISIBLE
                 binding.orderList.visibility = View.VISIBLE
-            }else{
+            } else {
                 binding.orderText.visibility = View.GONE
                 binding.orderList.visibility = View.GONE
             }
@@ -93,139 +158,199 @@ class HeaderFragmentOtherUser(val userid:String) : Fragment(),IHeaderEvents {
                 binding.orderDelivery.visibility = View.VISIBLE
                 binding.orderDineIn.visibility = View.VISIBLE
                 binding.orderPickup.visibility = View.VISIBLE
+
+                HeaderFragment.binding.orderDelivery.visibility = View.VISIBLE
+                HeaderFragment.binding.orderDineIn.visibility = View.VISIBLE
+                HeaderFragment.binding.orderPickup.visibility = View.VISIBLE
+
+
             } else {
                 binding.orderDelivery.visibility = View.GONE
                 binding.orderDineIn.visibility = View.GONE
                 binding.orderPickup.visibility = View.GONE
+
+                HeaderFragment.binding.orderDelivery.visibility = View.GONE
+                HeaderFragment.binding.orderDineIn.visibility = View.GONE
+                HeaderFragment.binding.orderPickup.visibility = View.GONE
             }
 
-            if (it.data.user_id.equals(SharedPrefEnc.getPref(context, "user_id"))){
-                binding.follow.visibility=View.GONE
-                binding.message.visibility=View.GONE
+            if (it.data.user_id.equals(SharedPrefEnc.getPref(context, "user_id"))) {
+                binding.follow.visibility = View.GONE
+                binding.message.visibility = View.GONE
+            }
+            if (it.data.social_details!!.isEmpty()){
+                binding.socialLayout.visibility=View.GONE
             }
 
 
+            it.data.social_details?.forEach { that ->
 
-            it.data.social_details?.forEach {that->
-                when(that.social_name){
-                    "Facebook"->{
-                        binding.facebook.text=" "+ that.follower
-                        binding.facebook.setOnClickListener {
-                            var intent=Intent(Intent.ACTION_VIEW,that.link?.toUri())
-                            startActivity(intent)
-                        }
-                    }
-                    "Instagram"->{
-                        binding.instagram.text=" "+ that.follower
-                        binding.instagram.setOnClickListener {
-                            var intent=Intent(Intent.ACTION_VIEW,that.link?.toUri())
-                            startActivity(intent)
-                        }
-                    }
-                    "Youtube"->{
-                        binding.youtube.text=" "+ that.follower
-                        binding.youtube.setOnClickListener {
-                            var intent=Intent(Intent.ACTION_VIEW,that.link?.toUri())
-                            startActivity(intent)
-                        }
-                    }
-                    "Twitter"->{
-                        binding.twitter.text=" "+ that.follower
-                        binding.twitter.setOnClickListener {
-                            var intent=Intent(Intent.ACTION_VIEW,that.link?.toUri())
-                            startActivity(intent)
-                        }
-                    }
-                   /* "linkedin"->{
+                when (that.social_name) {
+                    "Facebook" -> {
+                        val svg = SVG.getFromString(that.icon)
+                        val drawable = PictureDrawable(svg.renderToPicture())
+                        Glide.with(this).load(drawable).into(binding.imgFacebook)
 
-                        if (that.follower.isNullOrEmpty()){
-                            binding.linkedin.visibility=View.GONE
-                        }
-                        binding.linkedin.text=" "+ that.follower
 
-                    }*/
+                        binding.facebook.text = " " + that.follower
+                        binding.layoutFacebook.setOnClickListener {
+                            var intent = Intent(Intent.ACTION_VIEW, that.link?.toUri())
+                            startActivity(intent)
+                        }
+                    }
+                    "Instagram" -> {
+
+                        val svg = SVG.getFromString(that.icon)
+                        val drawable = PictureDrawable(svg.renderToPicture())
+                        Glide.with(this).load(drawable).into(binding.imgInstagram)
+
+                        binding.instagram.text = " " + that.follower
+                        binding.layoutInstagram.setOnClickListener {
+                            var intent = Intent(Intent.ACTION_VIEW, that.link?.toUri())
+                            startActivity(intent)
+                        }
+                    }
+                    "Youtube" -> {
+                        val svg = SVG.getFromString(that.icon)
+                        val drawable = PictureDrawable(svg.renderToPicture())
+                        Glide.with(this).load(drawable).into(binding.imgYoutube)
+
+                        binding.youtube.text = " " + that.follower
+                        binding.layoutYoutube.setOnClickListener {
+                            val uri = Uri.parse(that.link)
+                            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("http://" + uri)))
+                        }
+                    }
+                    "Twitter" -> {
+
+
+                        val svg = SVG.getFromString(that.icon)
+                        val drawable = PictureDrawable(svg.renderToPicture())
+                        Glide.with(this).load(drawable).into(binding.imgtwitter)
+
+                        binding.twitter.text = " " + that.follower
+
+                        binding.layoutTwitter.setOnClickListener {
+                            val uri = Uri.parse(that.link)
+                            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("http://" + uri)))
+                        }
+
+                    }
+                     "linkedin"->{
+                         if (that.icon!=null) {
+                             val svg = SVG.getFromString(that.icon)
+                             val drawable = PictureDrawable(svg.renderToPicture())
+                             Glide.with(this).load(drawable).into(binding.imglinkedin)
+                         }
+
+                         if (that.follower.equals("")||that.follower.equals(null)){
+                             binding.layoutLinkedin.visibility=View.GONE
+                         }else {
+                             binding.layoutLinkedin.visibility=View.VISIBLE
+                             binding.linkedin.text = " " + that.follower
+                             binding.layoutLinkedin.setOnClickListener {
+                                 val uri = Uri.parse(that.link)
+                                 startActivity(
+                                     Intent(
+                                         Intent.ACTION_VIEW,
+                                         Uri.parse("http://" + uri)
+                                     )
+                                 )
+                             }
+                         }
+
+                     }
                 }
             }
 
             binding.follow.setText(it.data.follow_status)
 
-            var ur=it
+            var ur = it
             binding.follow.setOnClickListener {
-                if (binding.follow.text.toString().equals("Following")){
-                    viewModel.follow(ur.data?.user_id?.toInt()!!,"unfollow")
+                if (binding.follow.text.toString().equals("Following")) {
+                    viewModel.follow(ur.data?.user_id?.toInt()!!, "unfollow")
                     binding.follow.setText("Follow")
-                }else{
-                    viewModel.follow(ur.data?.user_id?.toInt()!!,"follow")
+                } else {
+                    viewModel.follow(ur.data?.user_id?.toInt()!!, "follow")
                     binding.follow.setText("Following")
                 }
             }
 
 
-            var layoutManager = LinearLayoutManager(requireActivity(), LinearLayoutManager.HORIZONTAL ,false)
+            var layoutManager =
+                LinearLayoutManager(requireActivity(), LinearLayoutManager.HORIZONTAL, false)
             binding.topBrands.setLayoutManager(layoutManager)
 
-            var adapter = TopBrandsAdapter(it.data.top_or_our_brands?.brand_details!!,this)
-            binding.topBrands.setAdapter(adapter)
+                var adapter = TopBrandsAdapter(it.data.top_or_our_brands?.brand_details!!, this, it.data.logo)
+                binding.topBrands.setAdapter(adapter)
+
+
 
         })
         viewModel.getUserDetails()
 
 
-        viewModel.mostPopularVideos.observe(viewLifecycleOwner,{
+        viewModel.mostPopularVideos.observe(viewLifecycleOwner, {
 
-            var layoutManager = LinearLayoutManager(requireActivity(), LinearLayoutManager.HORIZONTAL ,false)
+            var layoutManager =
+                LinearLayoutManager(requireActivity(), LinearLayoutManager.HORIZONTAL, false)
             binding.mostPopVideos.setLayoutManager(layoutManager)
 
-            var adapter = MostPopularVideosAdapter(it,this)
+            var adapter = MostPopularVideosAdapter(it, this)
             binding.mostPopVideos.setAdapter(adapter)
         })
 
 
-        viewModel.rollsAndShortvdos.observe(viewLifecycleOwner,{
+        viewModel.rollsAndShortvdos.observe(viewLifecycleOwner, {
 
-            var layoutManager = LinearLayoutManager(requireActivity(), LinearLayoutManager.HORIZONTAL ,false)
+            var layoutManager =
+                LinearLayoutManager(requireActivity(), LinearLayoutManager.HORIZONTAL, false)
             binding.rollsVideos.setLayoutManager(layoutManager)
 
-            var adapter = RollsAndShortVideosAdapter(it,this)
+            var adapter = RollsAndShortVideosAdapter(it, this)
             binding.rollsVideos.setAdapter(adapter)
         })
     }
-    fun refreshAll(){
-        viewModel.getTopInfluencersV(userid,"top")
+
+
+    fun refreshAll() {
+        viewModel.getTopInfluencersV(userid, "top")
         //viewModel.getMostPopularVideos()
         viewModel.getRollsAndShortVideos(OtherProfileWithFeedFragment.inf_code)
     }
 
 
-    fun setClickListeners(){
+    fun setClickListeners() {
+        binding.myLocation.text = " "+HomeFragment.add.toString()
         binding.myLocation.setOnClickListener {
 //            Navigation.findNavController(binding.myLocation).navigate(R.id.action_homeFragment_to_locationSearchFragment
 
-            var parnt = requireActivity() as MainActivity
-            parnt.showLocationPopup()
+//            var parnt = requireActivity() as OtherProfileWithFeedFragment
+//            parnt.showLocation()
+            OtherProfileWithFeedFragment.binding.locationView.visibility = View.VISIBLE
 
 
         }
 
         binding.tiViewAll.setOnClickListener {
-            var intent=Intent(requireActivity(),TopInfluencers::class.java)
+            var intent = Intent(requireActivity(), TopInfluencers::class.java)
             startActivity(intent)
         }
 
         binding.share.setOnClickListener {
-            val message: String = "https://loca-toca.com/Main/index?si="+binding.share.tag
+            val message: String = "https://loca-toca.com/Main/index?si=" + binding.share.tag
             val share = Intent(Intent.ACTION_SEND)
             share.type = "text/plain"
             share.putExtra(Intent.EXTRA_TEXT, message)
             startActivity(Intent.createChooser(share, "Share"))
         }
         binding.showHide.setOnClickListener {
-            if (binding.moreinfolayout.visibility==View.VISIBLE){
-                binding.showHide.text=" Show more info"
-                binding.moreinfolayout.visibility=View.GONE
-            }else{
-                binding.moreinfolayout.visibility=View.VISIBLE
-                binding.showHide.text=" Hide more info"
+            if (binding.moreinfolayout.visibility == View.VISIBLE) {
+                binding.showHide.text = " Show more info"
+                binding.moreinfolayout.visibility = View.GONE
+            } else {
+                binding.moreinfolayout.visibility = View.VISIBLE
+                binding.showHide.text = " Hide more info"
             }
         }
 
@@ -237,10 +362,11 @@ class HeaderFragmentOtherUser(val userid:String) : Fragment(),IHeaderEvents {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        if (activity is MainActivity) {
-            var act = activity as MainActivity
-            act.viewModel.address_text.observe(requireActivity(),{
-                binding.myLocation.text =it
+        if (activity is OtherProfileWithFeedActivity) {
+            var act = activity as OtherProfileWithFeedActivity
+            act.viewModel.address_text.observe(requireActivity(), {
+                binding.myLocation.text = " "+HomeFragment.add.toString()
+                HeaderFragment.binding.myLocation.text= " "+it
             })
         }
 
@@ -250,17 +376,18 @@ class HeaderFragmentOtherUser(val userid:String) : Fragment(),IHeaderEvents {
     }
 
     override fun onItemMostPopularVideos(user_id: String, inf_code: String) {
-       /* val bundle = bundleOf("user_id" to user_id,"inf_code" to inf_code)
-        Navigation
-            .findNavController(binding.root)
-            .navigate(R.id.action_homeFragment_to_otherProfileWithFeedFragment,bundle)*/
+
+        /* val bundle = bundleOf("user_id" to user_id,"inf_code" to inf_code)
+         Navigation
+             .findNavController(binding.root)
+             .navigate(R.id.action_homeFragment_to_otherProfileWithFeedFragment,bundle)*/
     }
 
 
     override fun onItemRollsAndShortVideos(firstid: String) {
-        var intent=Intent(requireActivity(), RollsExoplayerActivity::class.java)
-        intent.putExtra("firstid",firstid)
-        intent.putExtra("inf_code",OtherProfileWithFeedFragment.inf_code)
+        var intent = Intent(requireActivity(), RollsExoplayerActivity::class.java)
+        intent.putExtra("firstid", firstid)
+        intent.putExtra("inf_code", OtherProfileWithFeedFragment.inf_code)
         startActivity(intent)
     }
 

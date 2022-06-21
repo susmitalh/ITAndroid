@@ -18,6 +18,7 @@ import com.locatocam.app.views.PlayPost.PlayPost
 import com.locatocam.app.views.PlayPost.PlayPostFragment
 import com.locatocam.app.views.comments.CommentsActivity
 import com.locatocam.app.views.home.HomeFragment.Companion.commet
+import com.locatocam.app.views.home.OtherProfileWithFeedFragment
 import com.locatocam.app.views.home.test.SimpleExoPlayerViewHolder
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
@@ -78,6 +79,7 @@ class CommentsViewModel(
                     CommentsActivity.commentNo=true
                     Log.e("TAG", "addComments: "+it.data.comment_count )
                     commet?.commentCount(it.data.comment_count,position)
+                    OtherProfileWithFeedFragment.postCountData?.commentCount(it.data.comment_count,position)
 //                    PlayPostFragment.playPost.comment(it.data.comment_count) }
                     var intent = Intent();
                     intent.putExtra("comment_count", it.data.comment_count)

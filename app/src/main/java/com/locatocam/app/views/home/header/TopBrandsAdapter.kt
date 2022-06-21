@@ -1,5 +1,6 @@
 package com.locatocam.app.views.home.header
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,9 +10,14 @@ import com.bumptech.glide.Glide
 import com.locatocam.app.R
 import com.locatocam.app.data.responses.top_influencers.Data
 import com.locatocam.app.data.responses.user_details.BrandDetail
+import com.locatocam.app.data.responses.user_details.Logo
 import de.hdodenhof.circleimageview.CircleImageView
 
-class TopBrandsAdapter(private val items:List<BrandDetail>, private val iTopinfluencer: IHeaderEvents):
+class TopBrandsAdapter(
+    private val items: List<BrandDetail>,
+    private val iTopinfluencer: IHeaderEvents,
+    var logo: List<Logo>
+):
     RecyclerView.Adapter<TopBrandsAdapter.TopInfluencerViewHolder>() {
 
 
@@ -25,10 +31,19 @@ class TopBrandsAdapter(private val items:List<BrandDetail>, private val iTopinfl
         holder.name.text = item.brand_name
         holder.posts.text = ""
 
-        Glide.with(holder.Image.context)
-            .load(item.brand_logo)
-            .fitCenter()
-            .into(holder.Image);
+        if (item.brand_logo.equals(null)){
+            Glide.with(holder.Image.context)
+                .load(logo.get(position).logo)
+                .fitCenter()
+                .into(holder.Image);
+        }else {
+            Glide.with(holder.Image.context)
+                .load(item.brand_logo)
+                .fitCenter()
+                .into(holder.Image);
+        }
+
+        Log.e("TAG", "onBindViewHolder: "+item.brand_logo )
 
         holder.Image.setOnClickListener {
             //iTopinfluencer.onItemClick(item.inf_id.toString(),item.inf_code.toString())

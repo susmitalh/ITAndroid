@@ -12,27 +12,27 @@
             android:id="@+id/editProfileLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="gone"
             android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
             android:layout_marginEnd="10dp"
-            android:layout_marginBottom="10dp">
+            android:layout_marginBottom="10dp"
+            android:visibility="gone">
 
             <TextView
+                android:id="@+id/label_personal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/personal_details"
-                android:id="@+id/label_personal"
                 android:textColor="@color/black"
-                android:textSize="12sp"/>
+                android:textSize="12sp" />
 
             <LinearLayout
                 android:id="@+id/nameLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_below="@+id/label_personal"
                 android:layout_margin="5dp"
                 android:orientation="horizontal"
-                android:layout_below="@+id/label_personal"
                 android:weightSum="3">
 
                 <TextView
@@ -51,9 +51,9 @@
                     android:layout_marginStart="5dp"
                     android:layout_marginEnd="5dp"
                     android:layout_weight="1"
+                    android:background="@drawable/button_rnd_red"
                     android:padding="5dp"
                     android:singleLine="true"
-                    android:background="@drawable/button_rnd_red"
 
                     android:textColor="@color/black"
 
@@ -88,8 +88,8 @@
                     android:layout_marginEnd="5dp"
                     android:layout_weight="1"
                     android:background="@drawable/button_rnd_red"
-                    android:padding="5dp"
                     android:inputType="phone"
+                    android:padding="5dp"
                     android:singleLine="true"
                     android:textColor="@color/black"
                     android:textSize="15sp" />
@@ -275,12 +275,11 @@
                     >
 
                     <AutoCompleteTextView
+                        android:id="@+id/stateText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:id="@+id/stateText"
-                        android:textColor="@color/black"
                         android:background="@drawable/button_rnd_red"
-                        />
+                        android:textColor="@color/black" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -320,12 +319,11 @@
                     >
 
                     <AutoCompleteTextView
+                        android:id="@+id/cityText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:id="@+id/cityText"
-                        android:textColor="@color/black"
                         android:background="@drawable/button_rnd_red"
-                        />
+                        android:textColor="@color/black" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -406,14 +404,6 @@
             </LinearLayout>
 
 
-
-
-
-
-
-
-
-
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/saveButton"
                 android:layout_width="wrap_content"
@@ -429,13 +419,13 @@
                 android:visibility="gone" />
 
             <TextView
+                android:id="@+id/messageText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/saveButton"
                 android:layout_centerHorizontal="true"
                 android:textColor="@color/red"
-                android:textSize="15sp"
-                android:id="@+id/messageText"/>
+                android:textSize="15sp" />
 
 
         </RelativeLayout>

@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/black"
     tools:context=".views.createrolls.Preview_Video_A">
 
 
-<com.locatocam.app.views.createrolls.video.MovieWrapperView
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_centerInParent="true"
-    android:id="@+id/layout_movie_wrapper"/>
+    <com.locatocam.app.views.createrolls.video.MovieWrapperView
+        android:id="@+id/layout_movie_wrapper"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true" />
 
 
     <RelativeLayout
@@ -20,70 +20,72 @@
         android:layout_height="48dp">
 
         <ImageButton
+            android:id="@+id/Goback"
             android:layout_width="32dp"
             android:layout_height="32dp"
+            android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
-            android:id="@+id/Goback"
+            android:background="@color/transparent"
             android:padding="2dp"
             android:scaleType="fitCenter"
-            android:layout_centerVertical="true"
-            android:background="@color/transparent"
             android:src="@drawable/ic_close_white_new_24dp"
             app:tint="@color/white" />
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="32dp"
-            android:visibility="gone"
             android:id="@+id/cancel_text"
-            android:layout_margin="10dp"
-            android:textSize="15sp"
-            android:textColor="@color/white"
-            android:textStyle="bold"
-            android:text="Cancel"
-            android:layout_centerVertical="true"
-            />
-        <TextView
             android:layout_width="wrap_content"
             android:layout_height="32dp"
-            android:id="@+id/done_text"
+            android:layout_centerVertical="true"
             android:layout_margin="10dp"
-            android:visibility="gone"
-            android:textSize="15sp"
+            android:text="Cancel"
             android:textColor="@color/white"
+            android:textSize="15sp"
             android:textStyle="bold"
-            android:text="Done"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/done_text"
+            android:layout_width="wrap_content"
+            android:layout_height="32dp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            />
+            android:layout_margin="10dp"
+            android:text="Done"
+            android:textColor="@color/white"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:visibility="gone" />
     </RelativeLayout>
-<RelativeLayout
-    android:id="@+id/audio_save_controls"
-    android:visibility="gone"
-    android:layout_width="match_parent"
-    android:layout_height="40dp">
-    <TextView
-        android:id="@+id/cancel_audio"
-        android:visibility="visible"
-        android:layout_margin="10dp"
-        android:textColor="@color/white"
-        android:text="Cancel"
-        android:textStyle="bold"
-        android:gravity="center"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent" />
-    <TextView
-        android:id="@+id/done_audio"
-        android:visibility="visible"
-        android:layout_margin="10dp"
-        android:layout_alignParentRight="true"
-        android:textColor="@color/white"
-        android:text="Done"
-        android:textStyle="bold"
-        android:gravity="center"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent" />
-</RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/audio_save_controls"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/cancel_audio"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_margin="10dp"
+            android:gravity="center"
+            android:text="Cancel"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:visibility="visible" />
+
+        <TextView
+            android:id="@+id/done_audio"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_margin="10dp"
+            android:gravity="center"
+            android:text="Done"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:visibility="visible" />
+    </RelativeLayout>
 
     <TextView
         android:id="@+id/next_btn"
@@ -104,128 +106,136 @@
         android:textStyle="bold" />
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recylerview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/recylerview"
-        android:paddingBottom="20dp"
+        android:layout_alignParentBottom="true"
         android:background="@color/transparent_black"
-        android:layout_alignParentBottom="true"/>
+        android:paddingBottom="20dp" />
+
     <ProgressBar
-        android:visibility="gone"
+        android:id="@+id/progress_bar"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:id="@+id/progress_bar"
         android:layout_centerVertical="true"
-        android:layout_marginLeft="15dp"/>
+        android:layout_marginLeft="15dp"
+        android:visibility="gone" />
 
     <LinearLayout
+        android:id="@+id/camera_options"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:gravity="right"
-        android:id="@+id/camera_options"
+        android:layout_alignParentRight="true"
         android:layout_marginTop="200dp"
         android:layout_marginRight="20dp"
-        android:layout_alignParentRight="true">
+        android:gravity="right"
+        android:orientation="vertical">
 
         <LinearLayout
             android:id="@+id/add_music_layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:layout_centerHorizontal="true">
+            android:layout_centerHorizontal="true"
+            android:gravity="center_vertical">
+
             <TextView
+                android:id="@+id/add_sound_txt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Add Music"
-                android:textSize="13dp"
                 android:layout_marginRight="5dp"
-                android:textStyle="bold"
                 android:padding="5dp"
-                android:id="@+id/add_sound_txt"
-                android:textColor="@color/white"/>
+                android:text="Add Music"
+                android:textColor="@color/white"
+                android:textSize="13dp"
+                android:textStyle="bold" />
+
             <ImageView
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:padding="10dp"
+                android:scaleType="fitCenter"
                 android:src="@drawable/ic_music"
-                app:tint="@color/white"
-                android:scaleType="fitCenter"/>
+                app:tint="@color/white" />
         </LinearLayout>
 
 
         <LinearLayout
             android:id="@+id/video_cut"
-            android:visibility="visible"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
             android:gravity="center_vertical"
-            android:layout_centerHorizontal="true">
+            android:visibility="visible">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Trim"
-                android:textSize="13dp"
                 android:layout_marginRight="5dp"
-                android:textStyle="bold"
                 android:padding="5dp"
-                android:textColor="@color/white"/>
+                android:text="Trim"
+                android:textColor="@color/white"
+                android:textSize="13dp"
+                android:textStyle="bold" />
+
             <ImageButton
                 android:layout_width="40dp"
                 android:layout_height="40dp"
+                android:background="@color/transparent"
                 android:padding="10dp"
                 android:scaleType="fitCenter"
-                android:background="@color/transparent"
-                android:src="@drawable/ic_content_cut_black_24dp"/>
+                android:src="@drawable/ic_content_cut_black_24dp" />
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/add_caption"
-            android:visibility="visible"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
             android:gravity="center_vertical"
-            android:layout_centerHorizontal="true">
+            android:visibility="visible">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Text"
-                android:textSize="13dp"
                 android:layout_marginRight="5dp"
-                android:textStyle="bold"
                 android:padding="5dp"
-                android:textColor="@color/white"/>
+                android:text="Text"
+                android:textColor="@color/white"
+                android:textSize="13dp"
+                android:textStyle="bold" />
+
             <ImageButton
                 android:layout_width="40dp"
                 android:layout_height="40dp"
+                android:background="@color/transparent"
                 android:padding="10dp"
                 android:scaleType="fitCenter"
-                android:background="@color/transparent"
-                android:src="@drawable/ic_text_fields_black_24dp"/>
+                android:src="@drawable/ic_text_fields_black_24dp" />
         </LinearLayout>
     </LinearLayout>
 
     <com.divyanshu.colorseekbar.ColorSeekBar
         android:id="@+id/color_seek_bar"
-        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
+        android:layout_marginTop="50dp"
         android:layout_marginRight="16dp"
-        android:layout_marginTop="50dp" />
-<EditText
-    android:id="@+id/add_text"
-    android:visibility="gone"
-    android:layout_marginLeft="20dp"
-    android:layout_margin="20dp"
-    android:background="@null"
-    android:text=""
-    android:textStyle="bold"
-    android:gravity="center"
-    android:textSize="30sp"
-    android:cursorVisible="true"
-    android:textColor="@color/white"
-    android:layout_centerVertical="true"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content" />
+        android:visibility="gone" />
+
+    <EditText
+        android:id="@+id/add_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_margin="20dp"
+        android:layout_marginLeft="20dp"
+        android:background="@null"
+        android:cursorVisible="true"
+        android:gravity="center"
+        android:text=""
+        android:textColor="@color/white"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        android:visibility="gone" />
 </RelativeLayout>
