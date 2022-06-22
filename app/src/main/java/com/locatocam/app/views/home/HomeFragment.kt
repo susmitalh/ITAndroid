@@ -9,7 +9,6 @@ import android.location.Address
 import android.location.Geocoder
 import android.location.Location
 import android.os.Bundle
-import android.os.Handler
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
@@ -58,7 +57,7 @@ import com.locatocam.app.views.search.AdddressAdapter
 import com.locatocam.app.views.search.AutoCompleteAdapter
 import com.locatocam.app.views.search.ClickEvents
 import com.locatocam.app.views.search.Locationitem
-import com.locatocam.app.views.settings.SettingsFragment
+import com.locatocam.app.views.settings.SettingsActivity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -318,7 +317,9 @@ public class HomeFragment : Fragment(), FeedEvents, ClickEvents, SimpleEvents {
             startActivity(intent)
         }
         binding.profile.setOnClickListener {
-            (activity as MainActivity).settingFragmentOpen()
+            //(activity as MainActivity).settingFragmentOpen()
+            var intent=Intent(requireActivity(), SettingsActivity::class.java)
+            startActivity(intent)
         }
 
         binding.playerContainer.addOnScrollListener(object :

@@ -33,7 +33,11 @@
         android:theme="@style/Theme.LT_MVVM"
         android:usesCleartextTraffic="true"
         tools:targetApi="m">
-
+        <activity
+            android:name=".views.settings.SettingsActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Design.NoActionBar" />
         <activity
             android:name=".Activity.OtherProfileWithFeedActivity"
             android:exported="false"

@@ -242,7 +242,7 @@ class EditProfileActivity : AppCompatActivity() {
 
         })
         binding.back.setOnClickListener {
-            var intent= Intent(applicationContext, SettingsFragment::class.java)
+            var intent= Intent(applicationContext, SettingsActivity::class.java)
             startActivity(intent)
         }
         binding.home.setOnClickListener {

@@ -52,8 +52,8 @@
         android:id="@+id/otherProfileWithFeedFragment"
         android:name="com.locatocam.app.views.home.OtherProfileWithFeedFragment"
         android:label="OtherProfileWithFeedFragment" />
-    <fragment
+    <activity
         android:id="@+id/settingsFragment"
-        android:name="com.locatocam.app.views.settings.SettingsFragment"
+        android:name="com.locatocam.app.views.settings.SettingsActivity"
         android:label="SettingsFragment" />
 </navigation>

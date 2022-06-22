@@ -1,11 +1,8 @@
 package com.locatocam.app.views
 
 import android.Manifest
-import android.R.attr.fragment
 import android.annotation.SuppressLint
 import android.app.Dialog
-import android.app.FragmentTransaction
-import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Address
@@ -17,12 +14,8 @@ import android.os.Handler
 import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.os.bundleOf
-import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.Navigation
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.fragment.NavHostFragment.findNavController
 import androidx.navigation.ui.NavigationUI
 import com.bumptech.glide.Glide
 import com.bumptech.glide.MemoryCategory
@@ -34,10 +27,8 @@ import com.locatocam.app.security.SharedPrefEnc
 import com.locatocam.app.utils.Utils
 import com.locatocam.app.viewmodels.ActivityMainViewModel
 import com.locatocam.app.views.home.HomeFragment
-import com.locatocam.app.views.home.OtherProfileWithFeedFragment
-import com.locatocam.app.views.home.test.SimpleExoPlayerViewHolder
 import com.locatocam.app.views.order_online.ActivityOrderOnline
-import com.locatocam.app.views.settings.SettingsFragment
+import com.locatocam.app.views.settings.SettingsActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -213,12 +204,12 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    fun settingFragmentOpen() {
-        val fragment = SettingsFragment()
+    /*fun settingFragmentOpen() {
+        val fragment = SettingsActivity()
         val fm = supportFragmentManager
         val ft = fm.beginTransaction()
         ft.replace(R.id.nav_host_fragment, fragment)
         ft.commit()
-    }
+    }*/
 
 }

@@ -65,6 +65,7 @@ class CompanyMenuSubItemAdapter (private val list: List<SubItem>, private val co
             if(title.equals("Merchant Dashboard")) {
                 val intent = Intent(context, SettingSubMenuActivity::class.java)
                 intent.putExtra("type",title)
+                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
                 context.startActivity(intent)
             }
             else if(title.equals("Logout")){
@@ -88,6 +89,7 @@ class CompanyMenuSubItemAdapter (private val list: List<SubItem>, private val co
             else if(title.equals("Post Reels Approvals")){
                 val intent = Intent(context, PostReelsApprovalActivity::class.java)
                 intent.putExtra("userID",companyDetails.user_id)
+                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
                 context.startActivity(intent)
             }
 

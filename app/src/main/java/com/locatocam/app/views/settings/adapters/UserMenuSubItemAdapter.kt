@@ -68,17 +68,20 @@ class UserMenuSubItemAdapter (private val list: List<com.locatocam.app.data.resp
             val title =list[position].Title
             if(title.equals("View Blocked User")){
                 val intent = Intent(context, ViewBlockUserActivity::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
                 context.startActivity(intent)
             }
             if(title.equals("Influencer Dashboard")||
                 title.equals("POC Dashboard")||title.equals("Merchant Dashboard")) {
                 val intent = Intent(context, SettingSubMenuActivity::class.java)
                 intent.putExtra("type",title)
+                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
                 context.startActivity(intent)
             }
             else if (title.equals("Influencer SOP")||title.equals("POC SOP")){
                 val intent = Intent(context, InfluencerSOPActivity::class.java)
                 intent.putExtra("type",title)
+                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
                 context.startActivity(intent)
             }
             else if(title.equals("Logout")){
@@ -102,6 +105,7 @@ class UserMenuSubItemAdapter (private val list: List<com.locatocam.app.data.resp
             else if(title.equals("View Approvals")){
                 val intent = Intent(context, ViewApprovalActivity::class.java)
                 intent.putExtra("userID",userDetails.user_id)
+                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
                 context.startActivity(intent)
             }
 

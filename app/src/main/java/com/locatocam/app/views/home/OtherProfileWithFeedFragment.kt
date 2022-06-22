@@ -60,6 +60,7 @@ import com.locatocam.app.security.SharedPrefEnc
 import com.locatocam.app.viewmodels.OtherProfileWithFeedViewModel
 import com.locatocam.app.views.home.header.HeaderFragmentOtherUser
 import com.locatocam.app.views.home.test.*
+import com.locatocam.app.views.settings.SettingsActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -242,7 +243,9 @@ class OtherProfileWithFeedFragment() : Fragment(), FeedEvents, ClickEvents, Simp
 
         }
         binding.userImg.setOnClickListener {
-            (activity as OtherProfileWithFeedActivity).openSettingFragment()
+            //(activity as OtherProfileWithFeedActivity).openSettingFragment()
+            var intent=Intent(requireContext(), SettingsActivity::class.java)
+            startActivity(intent)
         }
         if (MainActivity.firstLoca==true){
             viewModel.getApprovalCounts(MainActivity.lat.toString(), MainActivity.lng.toString())

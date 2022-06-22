@@ -5,21 +5,17 @@ import android.app.Activity
 import android.app.Dialog
 import android.content.Intent
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.os.bundleOf
-import androidx.fragment.app.Fragment
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.Navigation
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
@@ -41,7 +37,6 @@ import com.locatocam.app.utils.Utils
 import com.locatocam.app.viewmodels.SettingsViewModel
 import com.locatocam.app.views.MainActivity
 import com.locatocam.app.views.approvals.ApprovalBaseActivity
-import com.locatocam.app.views.home.header.IHeaderEvents
 import com.locatocam.app.views.notifications.ActivityNotifications
 import com.locatocam.app.views.settings.adapters.CompanyMenuAdapter
 import com.locatocam.app.views.settings.adapters.CustomerMenuAdapter
@@ -58,7 +53,7 @@ import javax.inject.Inject
 
 
 @AndroidEntryPoint
-class SettingsFragment : Fragment(){
+class SettingsActivity : AppCompatActivity(){
 
     lateinit var  binding:SettingsFragmentBinding
     lateinit var viewmodel:SettingsViewModel
@@ -81,8 +76,8 @@ class SettingsFragment : Fragment(){
 //                binding.image.setImageURI(fileUri)
 
 
-                viewmodel.uploadDocument(SharedPrefEnc.getPref(context,"user_id"),"photo",File(
-                    Utils.getActualPath(fileUri,requireContext())
+                viewmodel.uploadDocument(SharedPrefEnc.getPref(applicationContext,"user_id"),"photo",File(
+                    Utils.getActualPath(fileUri,applicationContext)
                 ))
 
                 observeImageUpload()
@@ -106,7 +101,7 @@ class SettingsFragment : Fragment(){
 
                       //  showProgress(false, "")
                         MainActivity.binding.loader.visibility= View.GONE
-                        Glide.with(requireActivity())
+                        Glide.with(applicationContext)
                             .load(Uri.parse(it.data!!.data))
                             .into(binding.image)
 
@@ -130,16 +125,19 @@ class SettingsFragment : Fragment(){
 
     @Inject
     lateinit var userDetailsMapper: UserDetailsMapper
-    override fun onCreateView(
+    /*override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View? {*/
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
         // Inflate the layout for this fragment
         binding= SettingsFragmentBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        dialog = Dialog(requireContext())
-        loading = Dialog(requireContext())
-        binding.menuItemList.layoutManager = LinearLayoutManager(context)
+        dialog = Dialog(applicationContext)
+        loading = Dialog(applicationContext)
+        binding.menuItemList.layoutManager = LinearLayoutManager(applicationContext)
 
         binding.menuItemList.itemAnimator = DefaultItemAnimator()
 
@@ -160,7 +158,7 @@ class SettingsFragment : Fragment(){
 
         }
 
-        return binding.root
+        //return binding.root
       //  hideLoader()
     }
 
@@ -173,12 +171,12 @@ class SettingsFragment : Fragment(){
 
     private fun pickImage() {
 
-        Dexter.withContext(requireContext())
+        Dexter.withContext(applicationContext)
             .withPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
             .withListener(object : PermissionListener {
                 override fun onPermissionGranted(p0: PermissionGrantedResponse?) {
 
-                    ImagePicker.with(this@SettingsFragment)
+                    ImagePicker.with(this@SettingsActivity)
 //                            .compress(1024)         //Final image size will be less than 1 MB(Optional)
 //                            .maxResultSize(1080, 1080)  //Final image resolution will be less than 1080 x 1080(Optional)
                         .galleryOnly()
@@ -203,7 +201,7 @@ class SettingsFragment : Fragment(){
 
 
     private fun manageSettingsData() {
-        when(SharedPrefEnc.getPref(context,"user_type")){
+        when(SharedPrefEnc.getPref(applicationContext,"user_type")){
             Constant.USER_TYPE->
                 observeUserSettingsData()
                 
@@ -225,7 +223,7 @@ class SettingsFragment : Fragment(){
                         binding.email.text = it.data!!.data.user_details.email
                         customerDetails = it.data.data.user_details
                         Log.e("userData", it.data.data.menu_details.toString())
-                        val menuAdapter =  CustomerMenuAdapter(it.data.data.menu_details,requireContext(),customerDetails)
+                        val menuAdapter =  CustomerMenuAdapter(it.data.data.menu_details,applicationContext,customerDetails)
 
                         binding.menuItemList.adapter = menuAdapter
 
@@ -267,7 +265,7 @@ class SettingsFragment : Fragment(){
                         binding.email.text = it.data!!.data.user_details.email
                         companyDetails = it.data.data.user_details
                         Log.e("userData", it.data.data.menu_details.toString())
-                        val menuAdapter =  CompanyMenuAdapter(it.data.data.menu_details,requireContext(),companyDetails)
+                        val menuAdapter =  CompanyMenuAdapter(it.data.data.menu_details,applicationContext,companyDetails)
 
                         binding.menuItemList.adapter = menuAdapter
 
@@ -312,7 +310,7 @@ class SettingsFragment : Fragment(){
                         binding.userName.text = it.data!!.data.user_details.name
                         binding.email.text = it.data!!.data.user_details.email
                         userDetails = it.data.data.user_details
-                        val menuAdapter =  UserMenuAdapter(it.data!!.data.menu_details,requireContext(),userDetails)
+                        val menuAdapter =  UserMenuAdapter(it.data!!.data.menu_details,applicationContext,userDetails)
 
                         binding.menuItemList.adapter = menuAdapter
 
@@ -346,7 +344,7 @@ class SettingsFragment : Fragment(){
     fun setObservers(){
 
 
-        viewmodel.respsettings.observe(viewLifecycleOwner) { respsettings ->
+        viewmodel.respsettings.observe(this) { respsettings ->
             var ud = respsettings.data.user_details
             val menuDetails = respsettings.data.menu_details
 
@@ -384,29 +382,29 @@ class SettingsFragment : Fragment(){
     fun setOnclickListeners(){
 
         binding.viewActivity.setOnClickListener {
-            var intent=Intent(requireContext(),ViewActivity::class.java)
+            var intent=Intent(applicationContext,ViewActivity::class.java)
             startActivity(intent)
         }
 
         binding.notification.setOnClickListener {
-            var intent=Intent(requireContext(),ActivityNotifications::class.java)
+            var intent=Intent(applicationContext,ActivityNotifications::class.java)
             startActivity(intent)
         }
 
         binding.back.setOnClickListener {
-            var intent=Intent(requireContext(),MainActivity::class.java)
+            var intent=Intent(applicationContext,MainActivity::class.java)
             startActivity(intent)
         }
 
 
         binding.myPostReelsApprovalpnding.setOnClickListener(View.OnClickListener {
 
-            val intent=Intent(requireContext(),ApprovalBaseActivity::class.java)
+            val intent=Intent(applicationContext,ApprovalBaseActivity::class.java)
             startActivity(intent)
 
         })
         binding.home.setOnClickListener {
-            var intent=Intent(requireContext(),MainActivity::class.java)
+            var intent=Intent(applicationContext,MainActivity::class.java)
             startActivity(intent)
         }
 
@@ -417,7 +415,7 @@ class SettingsFragment : Fragment(){
 
 
         viewmodel.sendOtp(ReqSendOtp(
-            phone = SharedPrefEnc.getPref(context,"mobile"),
+            phone = SharedPrefEnc.getPref(applicationContext,"mobile"),
             otp = ""
         ),false)
 
@@ -446,9 +444,9 @@ class SettingsFragment : Fragment(){
 
                                     dialog.dismiss()
 
-                                    val intent = Intent(activity,EditProfileActivity::class.java)
+                                    val intent = Intent(applicationContext, EditProfileActivity::class.java)
 
-                                    when(SharedPrefEnc.getPref(context,"user_type")){
+                                    when(SharedPrefEnc.getPref(applicationContext,"user_type")){
                                         Constant.USER_TYPE->
                                             intent.putExtra("profile",userDetails)
 
@@ -479,7 +477,7 @@ class SettingsFragment : Fragment(){
                                 if (edt_otp.text.isNotEmpty()){
                                     viewmodel.sendOtp(
                                         ReqSendOtp(
-                                            phone = SharedPrefEnc.getPref(context,"mobile"),
+                                            phone = SharedPrefEnc.getPref(applicationContext,"mobile"),
                                             otp = edt_otp.text.toString()
                                         ),true
                                     )
@@ -992,8 +990,8 @@ class SettingsFragment : Fragment(){
 
     }
 
-    fun recreate() {
-        viewmodel.getSettingsData(SharedPrefEnc.getPref(context,"user_type"))
+    override fun recreate() {
+        viewmodel.getSettingsData(SharedPrefEnc.getPref(applicationContext,"user_type"))
         manageSettingsData()
     }
 

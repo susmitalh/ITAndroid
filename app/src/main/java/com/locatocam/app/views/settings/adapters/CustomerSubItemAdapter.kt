@@ -79,6 +79,7 @@ class CustomerSubItemAdapter (private val list: List<SubItem>, private val conte
             else if(title.equals("My Post/Reels Approval Pending")){
                 val intent = Intent(context, ViewApprovalActivity::class.java)
                 intent.putExtra("userID",customerDetails.user_id)
+                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
                 context.startActivity(intent)
             }
         }

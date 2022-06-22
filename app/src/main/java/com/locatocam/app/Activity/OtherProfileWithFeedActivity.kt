@@ -11,7 +11,6 @@ import android.location.Location
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
-import android.view.View
 import android.widget.RelativeLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
@@ -26,10 +25,9 @@ import com.locatocam.app.utils.Utils
 import com.locatocam.app.viewmodels.ActivityMainViewModel
 import com.locatocam.app.views.followers.FollowersActivity
 import com.locatocam.app.views.home.OtherProfileWithFeedFragment
-import com.locatocam.app.views.home.header.HeaderFragment
 import com.locatocam.app.views.home.test.SimpleAdapter
 import com.locatocam.app.views.rollsexp.RollsExoplayerActivity
-import com.locatocam.app.views.settings.SettingsFragment
+import com.locatocam.app.views.settings.SettingsActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_other_profile_with_feed.*
 import java.util.*
@@ -156,7 +154,9 @@ class OtherProfileWithFeedActivity : AppCompatActivity() {
                     finish()
                 }
                 R.id.settingsFragment -> {
-                  openSettingFragment()
+                    var intent=Intent(this,SettingsActivity::class.java)
+                    startActivity(intent)
+                    finish()
                 }
             }
             true
@@ -173,12 +173,12 @@ class OtherProfileWithFeedActivity : AppCompatActivity() {
         ft.add(R.id.other_user_fragment, fragment, name)
         ft.commit()
     }
-    fun openSettingFragment(){
-        val fragment = SettingsFragment()
+  /*  fun openSettingFragment(){
+        val fragment = SettingsActivity()
         val fm = supportFragmentManager
         val ft = fm.beginTransaction()
         ft.replace(R.id.other_user_fragment, fragment)
         ft.commit()
-    }
+    }*/
 
 }
