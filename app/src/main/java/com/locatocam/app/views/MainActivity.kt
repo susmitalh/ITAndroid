@@ -37,6 +37,7 @@ import com.locatocam.app.views.home.HomeFragment
 import com.locatocam.app.views.home.OtherProfileWithFeedFragment
 import com.locatocam.app.views.home.test.SimpleExoPlayerViewHolder
 import com.locatocam.app.views.order_online.ActivityOrderOnline
+import com.locatocam.app.views.settings.SettingsFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -54,26 +55,7 @@ class MainActivity : AppCompatActivity() {
         var firstLoca:Boolean=true
         var isLoaded: Boolean = false
 
-        fun onItemClick(userid: String, inf_code: String,context: Context) {
-            Log.i("kl99999", inf_code + "--" + userid)
-            val bundle = bundleOf("user_id" to userid, "inf_code" to inf_code)
-            isLoaded = true;
-            Navigation
-                .findNavController(HomeFragment.binding.root)
-                .navigate(R.id.action_homeFragment_to_otherProfileWithFeedFragment, bundle)
-            //Navigation.findNavController(binding.root).navigate(R.id.action_homeFragment_to_otherProfileWithFeedFragment)
 
-
-          /*  val fragment = OtherProfileWithFeedFragment()
-            fragment.arguments = bundle;
-            val fm = (context as AppCompatActivity).supportFragmentManager
-            val ft = fm.beginTransaction()
-            val name = OtherProfileWithFeedFragment.javaClass.name;
-            ft.add(R.id.nav_host_fragment, fragment, name)
-            ft.addToBackStack(null)
-            ft.commit()*/
-
-        }
 
     }
     lateinit var dialog:Dialog
@@ -231,6 +213,12 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-
+    fun settingFragmentOpen() {
+        val fragment = SettingsFragment()
+        val fm = supportFragmentManager
+        val ft = fm.beginTransaction()
+        ft.replace(R.id.nav_host_fragment, fragment)
+        ft.commit()
+    }
 
 }

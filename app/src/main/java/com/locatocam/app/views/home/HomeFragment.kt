@@ -58,6 +58,7 @@ import com.locatocam.app.views.search.AdddressAdapter
 import com.locatocam.app.views.search.AutoCompleteAdapter
 import com.locatocam.app.views.search.ClickEvents
 import com.locatocam.app.views.search.Locationitem
+import com.locatocam.app.views.settings.SettingsFragment
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -242,11 +243,10 @@ public class HomeFragment : Fragment(), FeedEvents, ClickEvents, SimpleEvents {
 
             startPreCaching(it)
             preloadImages(it)
-//            (activity as MainActivity).showLoader()
+
             (activity as MainActivity).hideLoader()
 
         })
-        // viewModel.getAllFeeds("")
 
 
         viewModel.addressresp.observe(viewLifecycleOwner, {
@@ -316,6 +316,9 @@ public class HomeFragment : Fragment(), FeedEvents, ClickEvents, SimpleEvents {
         binding.messages.setOnClickListener {
             var intent = Intent(requireActivity(), ChatActivity::class.java)
             startActivity(intent)
+        }
+        binding.profile.setOnClickListener {
+            (activity as MainActivity).settingFragmentOpen()
         }
 
         binding.playerContainer.addOnScrollListener(object :

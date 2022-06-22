@@ -156,11 +156,7 @@ class OtherProfileWithFeedActivity : AppCompatActivity() {
                     finish()
                 }
                 R.id.settingsFragment -> {
-                    val fragment = SettingsFragment()
-                    val fm = supportFragmentManager
-                    val ft = fm.beginTransaction()
-                    ft.replace(R.id.other_user_fragment, fragment)
-                    ft.commit()
+                  openSettingFragment()
                 }
             }
             true
@@ -175,6 +171,13 @@ class OtherProfileWithFeedActivity : AppCompatActivity() {
         val ft = fm.beginTransaction()
         val name = OtherProfileWithFeedFragment.javaClass.name;
         ft.add(R.id.other_user_fragment, fragment, name)
+        ft.commit()
+    }
+    fun openSettingFragment(){
+        val fragment = SettingsFragment()
+        val fm = supportFragmentManager
+        val ft = fm.beginTransaction()
+        ft.replace(R.id.other_user_fragment, fragment)
         ft.commit()
     }
 
