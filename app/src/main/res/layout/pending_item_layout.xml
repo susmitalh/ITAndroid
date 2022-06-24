@@ -27,9 +27,9 @@
                 android:layout_marginTop="@dimen/_2sdp"
                 android:layout_marginBottom="@dimen/_2sdp"
                 android:id="@+id/labelPostedBy"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_weight="0.5"
                 android:text="@string/posted_by"
                 android:textColor="@color/black"
                 android:textStyle="bold" />
@@ -45,9 +45,9 @@
                 android:layout_marginTop="@dimen/_2sdp"
                 android:layout_marginBottom="@dimen/_2sdp"
                 android:id="@+id/textPostedBy"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1" />
+                android:layout_weight="1.5" />
 
 
         </LinearLayout>
@@ -70,9 +70,9 @@
                 android:layout_marginTop="@dimen/_2sdp"
                 android:layout_marginBottom="@dimen/_2sdp"
                 android:id="@+id/labelPostedOn"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_weight="0.5"
                 android:text="@string/posted_on"
                 android:textColor="@color/black"
                 android:textStyle="bold" />
@@ -87,9 +87,9 @@
                 android:layout_marginBottom="@dimen/_2sdp"
                 android:layout_marginLeft="@dimen/_2sdp"
                 android:id="@+id/textPostedOn"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1" />
+                android:layout_weight="1.5" />
 
         </LinearLayout>
         <View
@@ -107,10 +107,10 @@
                 android:textSize="12sp"
                 android:layout_marginTop="@dimen/_2sdp"
                 android:layout_marginBottom="@dimen/_2sdp"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_weight="1"
+                android:layout_weight="0.5"
                 android:text="@string/post_file"
                 android:textColor="@color/black"
                 android:textStyle="bold" />
@@ -124,9 +124,9 @@
                 android:layout_marginTop="@dimen/_2sdp"
                 android:layout_marginBottom="@dimen/_2sdp"
                 android:id="@+id/imagePostedFile"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="150dp"
-                android:layout_weight="1" />
+                android:layout_weight="1.5" />
 
         </LinearLayout>
 
@@ -146,9 +146,9 @@
                 android:textSize="12sp"
                 android:layout_marginTop="@dimen/_2sdp"
                 android:layout_marginBottom="@dimen/_2sdp"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_weight="0.5"
                 android:text="@string/post_type"
                 android:textColor="@color/black"
                 android:textStyle="bold" />
@@ -162,9 +162,9 @@
                 android:layout_marginTop="@dimen/_2sdp"
                 android:layout_marginBottom="@dimen/_2sdp"
                 android:id="@+id/textPostType"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1" />
+                android:layout_weight="1.5" />
 
         </LinearLayout>
         <View
@@ -183,9 +183,9 @@
                 android:textSize="12sp"
                 android:layout_marginTop="@dimen/_2sdp"
                 android:layout_marginBottom="@dimen/_2sdp"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_weight="0.5"
                 android:text="@string/headline"
                 android:textColor="@color/black"
                 android:textStyle="bold" />
@@ -200,9 +200,9 @@
                 android:layout_marginTop="@dimen/_2sdp"
                 android:layout_marginBottom="@dimen/_2sdp"
                 android:id="@+id/textHeadline"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1" />
+                android:layout_weight="1.5" />
 
         </LinearLayout>
         <View
@@ -221,9 +221,9 @@
                 android:textSize="12sp"
                 android:layout_marginTop="@dimen/_2sdp"
                 android:layout_marginBottom="@dimen/_2sdp"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_weight="0.5"
                 android:text="@string/sub_header"
                 android:textColor="@color/black"
                 android:textStyle="bold" />
@@ -238,9 +238,9 @@
                 android:layout_marginTop="@dimen/_2sdp"
                 android:layout_marginBottom="@dimen/_2sdp"
                 android:id="@+id/textSubHeader"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1" />
+                android:layout_weight="1.5" />
 
         </LinearLayout>
         <View
@@ -259,9 +259,9 @@
                 android:textSize="12sp"
                 android:layout_marginTop="@dimen/_2sdp"
                 android:layout_marginBottom="@dimen/_2sdp"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_weight="0.5"
                 android:text="@string/content"
                 android:textColor="@color/black"
                 android:textStyle="bold" />
@@ -276,9 +276,9 @@
                 android:layout_marginTop="@dimen/_2sdp"
                 android:layout_marginBottom="@dimen/_2sdp"
                 android:id="@+id/textContent"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1" />
+                android:layout_weight="1.5" />
         </LinearLayout>
         <View
             android:layout_width="match_parent"
@@ -297,9 +297,9 @@
                 android:textSize="12sp"
                 android:layout_marginTop="@dimen/_2sdp"
                 android:layout_marginBottom="@dimen/_2sdp"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_weight="0.5"
                 android:text="@string/brand"
                 android:textColor="@color/black"
                 android:textStyle="bold" />
@@ -314,9 +314,9 @@
                 android:layout_marginBottom="@dimen/_2sdp"
                 android:layout_marginLeft="@dimen/_2sdp"
                 android:id="@+id/textBrand"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1" />
+                android:layout_weight="1.5" />
         </LinearLayout>
         <View
             android:layout_width="match_parent"

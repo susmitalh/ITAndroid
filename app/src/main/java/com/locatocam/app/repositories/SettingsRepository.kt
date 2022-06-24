@@ -174,4 +174,23 @@ class SettingsRepository(val context: Context) {
         }.flowOn(Dispatchers.IO)
     }
 
+    suspend fun getMyPostReelPending(reqViewApproval: ReqViewApproval) : Flow<RespViewApproval> {
+        return flow {
+            val res = retrofit.create(WebApi::class.java).getMyPostReelPending(reqViewApproval)
+            emit(res)
+        }.flowOn(Dispatchers.IO)
+    }
+    suspend fun getMyPostReelApproved(reqViewApproval: ReqViewApproval) : Flow<ApprovedPost> {
+        return flow {
+            val res = retrofit.create(WebApi::class.java).getMyPostReelApproved(reqViewApproval)
+            emit(res)
+        }.flowOn(Dispatchers.IO)
+    }
+    suspend fun getMyPostReelRejected(reqViewApproval: ReqViewApproval) : Flow<ResRejected> {
+        return flow {
+            val res = retrofit.create(WebApi::class.java).getMyPostReelRejected(reqViewApproval)
+            emit(res)
+        }.flowOn(Dispatchers.IO)
+    }
+
 }

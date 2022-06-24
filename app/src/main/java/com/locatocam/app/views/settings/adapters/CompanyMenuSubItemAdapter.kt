@@ -16,6 +16,7 @@ import com.locatocam.app.data.responses.company.SubItem
 import com.locatocam.app.views.login.ActivityLogin
 import com.locatocam.app.views.settings.PostReelsApprovalActivity
 import com.locatocam.app.views.settings.influencerDashboard.SettingSubMenuActivity
+import com.locatocam.app.views.settings.myPostReelsApprovalPending.MyPostReelsApprovalPendingActivity
 import com.locatocam.app.views.settings.viewApprovals.ViewApprovalActivity
 
 class CompanyMenuSubItemAdapter (private val list: List<SubItem>, private val context: Context) : RecyclerView.Adapter<CompanyMenuSubItemAdapter.viewHolder>(){
@@ -52,10 +53,10 @@ class CompanyMenuSubItemAdapter (private val list: List<SubItem>, private val co
 
         if(list[position].Countable){
             holder.countText.text = "("+list[position].Count+")"
-            if(list[position].Count <=0)
-                return;
-            holder.title.setTextColor(ContextCompat.getColor(context,R.color.red))
-            holder.countText.setTextColor(ContextCompat.getColor(context,R.color.red))
+            if(list[position].Count >0) {
+                holder.title.setTextColor(ContextCompat.getColor(context, R.color.red))
+                holder.countText.setTextColor(ContextCompat.getColor(context, R.color.red))
+            }
         }else{
             holder.countText.visibility = View.GONE
         }
@@ -82,9 +83,10 @@ class CompanyMenuSubItemAdapter (private val list: List<SubItem>, private val co
             else if(title.equals("Share Page Link")){
                 val message: String = "https://loca-toca.com/Login/index?si="+companyDetails.influencer_code
                 val share = Intent(Intent.ACTION_SEND)
+                share.flags = Intent.FLAG_ACTIVITY_NEW_TASK
                 share.type = "text/plain"
                 share.putExtra(Intent.EXTRA_TEXT, message)
-                context.startActivity(Intent.createChooser(share, "Share"))
+                context.applicationContext.startActivity(Intent.createChooser(share, "Share").addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
             }
             else if(title.equals("Post Reels Approvals")){
                 val intent = Intent(context, PostReelsApprovalActivity::class.java)
@@ -92,6 +94,11 @@ class CompanyMenuSubItemAdapter (private val list: List<SubItem>, private val co
                 intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
                 context.startActivity(intent)
             }
+            else if(title.equals("My Post or Reels Approval Pending")){
+            val intent = Intent(context, MyPostReelsApprovalPendingActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
+            context.startActivity(intent)
+        }
 
         }
         Log.e("MenuSubItemAdapter",list[position].Title)

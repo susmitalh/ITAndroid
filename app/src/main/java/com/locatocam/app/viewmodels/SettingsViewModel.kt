@@ -70,7 +70,7 @@ class SettingsViewModel@Inject constructor(private val mainRepository: MainRepos
     var respViewBlockUSerList=MutableStateFlow<Resource<ViewBlockUser>>(Resource.loading(null))
     var respBlockedUser=MutableStateFlow<Resource<ResBlockedUser>>(Resource.loading(null))
     var respViewApprovalList=MutableStateFlow<Resource<RespViewApproval>>(Resource.loading(null))
-    var respApprovedlList=MutableStateFlow<Resource<ApprovedPost>>(Resource.loading(null))
+
     var respRejectedlList=MutableStateFlow<Resource<ResRejected>>(Resource.loading(null))
 
     var respViewCompanyPendingList=MutableStateFlow<Resource<CompanyPending>>(Resource.loading(null))
@@ -315,6 +315,7 @@ class SettingsViewModel@Inject constructor(private val mainRepository: MainRepos
         return respViewApprovalList
     }
     fun getViewApprovedList(reqViewApproval: ReqViewApproval): MutableStateFlow<Resource<ApprovedPost>>{
+        var respApprovedlList=MutableStateFlow<Resource<ApprovedPost>>(Resource.loading(null))
         viewModelScope.launch {
             settingsRepository.getViewApprovedList(reqViewApproval)
                 .catch {
@@ -475,5 +476,52 @@ class SettingsViewModel@Inject constructor(private val mainRepository: MainRepos
         return respApprovedStatus
 
     }
+
+
+
+    fun getMyPostReelsPendingList(reqViewApproval: ReqViewApproval): MutableStateFlow<Resource<RespViewApproval>>{
+        val reqSettings=ReqSettings(settingsRepository.getUserID())
+        viewModelScope.launch {
+            settingsRepository.getMyPostReelPending(reqViewApproval)
+                .catch {
+                    Log.i("uname",it.message.toString())
+                }
+                .collect {
+                    respViewApprovalList.value=/*it*/Resource.success(it)
+                    Log.i("uname",it.status.toString())
+                }
+        }
+        return respViewApprovalList
+    }
+    fun getMyPostReelsApprovedList(reqViewApproval: ReqViewApproval): MutableStateFlow<Resource<ApprovedPost>>{
+        var respApprovedlList=MutableStateFlow<Resource<ApprovedPost>>(Resource.loading(null))
+        viewModelScope.launch {
+            settingsRepository.getMyPostReelApproved(reqViewApproval)
+                .catch {
+                    Log.i("uname",it.message.toString())
+                }
+                .collect {
+                    respApprovedlList.value=/*it*/Resource.success(it)
+                    Log.i("uname",it.status.toString())
+                }
+        }
+        return respApprovedlList
+    }
+
+    fun getMyPostReelsejectedList(reqViewApproval: ReqViewApproval): MutableStateFlow<Resource<ResRejected>>{
+        val reqSettings=ReqSettings(settingsRepository.getUserID())
+        viewModelScope.launch {
+            settingsRepository.getMyPostReelRejected(reqViewApproval)
+                .catch {
+                    Log.i("uname",it.message.toString())
+                }
+                .collect {
+                    respRejectedlList.value=/*it*/Resource.success(it)
+                    Log.i("uname",it.status.toString())
+                }
+        }
+        return respRejectedlList
+    }
+
 
 }

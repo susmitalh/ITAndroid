@@ -9,3 +9,4 @@ data class DataX(
     val rejected: Int,
     val rolls: Int
 )
+data class PageDetails(val key: String,var currentPage: Int,var totalPages: Int)

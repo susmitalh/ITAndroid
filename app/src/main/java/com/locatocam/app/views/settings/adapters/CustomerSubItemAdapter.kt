@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.locatocam.app.R
 import com.locatocam.app.data.responses.customer_model.SubItem
 import com.locatocam.app.views.login.ActivityLogin
+import com.locatocam.app.views.settings.myPostReelsApprovalPending.MyPostReelsApprovalPendingActivity
 import com.locatocam.app.views.settings.viewApprovals.ViewApprovalActivity
 
 class CustomerSubItemAdapter (private val list: List<SubItem>, private val context: Context) : RecyclerView.Adapter<CustomerSubItemAdapter.viewHolder>(){
@@ -49,8 +50,7 @@ class CustomerSubItemAdapter (private val list: List<SubItem>, private val conte
         }*/
         if(list[position].Countable){
             holder.countText.text = "("+list[position].Count+")"
-            if(list[position].Count <= 0)
-                return;
+            if(list[position].Count > 0)
             holder.title.setTextColor(ContextCompat.getColor(context,R.color.red))
             holder.countText.setTextColor(ContextCompat.getColor(context,R.color.red))
         }else{
@@ -72,12 +72,13 @@ class CustomerSubItemAdapter (private val list: List<SubItem>, private val conte
             else if(title.equals("Share Page Link")){
                 val message: String = "https://loca-toca.com/Login/index?si="+customerDetails.influencer_code
                 val share = Intent(Intent.ACTION_SEND)
+                share.flags = Intent.FLAG_ACTIVITY_NEW_TASK
                 share.type = "text/plain"
                 share.putExtra(Intent.EXTRA_TEXT, message)
-                context.startActivity(Intent.createChooser(share, "Share"))
+                context.applicationContext.startActivity(Intent.createChooser(share, "Share").addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
             }
-            else if(title.equals("My Post/Reels Approval Pending")){
-                val intent = Intent(context, ViewApprovalActivity::class.java)
+            else if(title.equals("My Post or Reels Approval Pending")){
+                val intent = Intent(context, MyPostReelsApprovalPendingActivity::class.java)
                 intent.putExtra("userID",customerDetails.user_id)
                 intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
                 context.startActivity(intent)

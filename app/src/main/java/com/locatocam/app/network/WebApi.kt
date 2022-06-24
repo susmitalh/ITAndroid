@@ -442,5 +442,21 @@ interface WebApi {
         @Body reqCompanyApprove: ReqCompanyApprove
     ): StatusApproved
 
+    @Headers("Accept: application/json")
+    @POST("App/admin_post_rolls_approval_list")
+    suspend fun getMyPostReelPending(
+        @Body reqViewApproval: ReqViewApproval
+    ): RespViewApproval
 
+    @Headers("Accept: application/json")
+    @POST("App/admin_post_rolls_approval_list")
+    suspend fun getMyPostReelApproved(
+        @Body reqViewApproval: ReqViewApproval
+    ): ApprovedPost
+
+    @Headers("Accept: application/json")
+    @POST("App/admin_post_rolls_approval_list")
+    suspend fun getMyPostReelRejected(
+        @Body reqViewApproval: ReqViewApproval
+    ): ResRejected
 }

@@ -135,8 +135,8 @@ class SettingsActivity : AppCompatActivity(){
         binding= SettingsFragmentBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        dialog = Dialog(applicationContext)
-        loading = Dialog(applicationContext)
+        dialog = Dialog(this)
+        loading = Dialog(this)
         binding.menuItemList.layoutManager = LinearLayoutManager(applicationContext)
 
         binding.menuItemList.itemAnimator = DefaultItemAnimator()
@@ -310,7 +310,7 @@ class SettingsActivity : AppCompatActivity(){
                         binding.userName.text = it.data!!.data.user_details.name
                         binding.email.text = it.data!!.data.user_details.email
                         userDetails = it.data.data.user_details
-                        val menuAdapter =  UserMenuAdapter(it.data!!.data.menu_details,applicationContext,userDetails)
+                        val menuAdapter =  UserMenuAdapter(it.data!!.data.menu_details,application,userDetails)
 
                         binding.menuItemList.adapter = menuAdapter
 
@@ -445,7 +445,7 @@ class SettingsActivity : AppCompatActivity(){
                                     dialog.dismiss()
 
                                     val intent = Intent(applicationContext, EditProfileActivity::class.java)
-
+                                    intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
                                     when(SharedPrefEnc.getPref(applicationContext,"user_type")){
                                         Constant.USER_TYPE->
                                             intent.putExtra("profile",userDetails)

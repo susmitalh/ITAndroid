@@ -1,4 +1,4 @@
-package com.locatocam.app.views.settings.adapters
+package com.locatocam.app.views.settings.myPostReelsApprovalPending.adapters
 
 import android.content.Context
 import android.net.Uri
@@ -12,14 +12,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.locatocam.app.R
 import com.locatocam.app.data.responses.settings.Approved.Detail
+import com.locatocam.app.views.settings.myPostReelsApprovalPending.CompanyApprovedClickEvents
 
-class ApprovedPostApprovalsAdapter (private val list: MutableList<Detail>, private val context: Context,
-                                    private val clickEvents: com.locatocam.app.views.settings.ApprovedClickEvents,
-private var totalItemCount: Int) : RecyclerView.Adapter<ApprovedPostApprovalsAdapter.viewHolder>() {
+class CompanyApprovedPostApprovalsAdapter (private val list: List<Detail>, private val context: Context,
+                                           private val clickEvents: CompanyApprovedClickEvents) : RecyclerView.Adapter<CompanyApprovedPostApprovalsAdapter.viewHolder>() {
 
-    fun getDetails(): MutableList<Detail>{
-        return list
-    }
     class viewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         var textPostedBy: TextView = itemView.findViewById(R.id.textPostedBy)
@@ -60,10 +57,8 @@ private var totalItemCount: Int) : RecyclerView.Adapter<ApprovedPostApprovalsAda
         Glide.with(context)
             .load(Uri.parse(list[position].file))
             .into(holder.imagePostedFile);
+        holder.btn_reject.visibility=View.GONE
 
-        holder.btn_reject.setOnClickListener {
-            clickEvents.ApprovedReject(holder.btn_reject,list[position],"approved","post")
-        }
         holder.btn_view.setOnClickListener {
             clickEvents.Approvedview(holder.btn_view,list[position],"approved","post")
         }
@@ -72,6 +67,4 @@ private var totalItemCount: Int) : RecyclerView.Adapter<ApprovedPostApprovalsAda
     override fun getItemCount(): Int {
         return list.size
     }
-
-
 }

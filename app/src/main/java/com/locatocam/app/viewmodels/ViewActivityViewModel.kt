@@ -32,7 +32,7 @@ class ViewActivityViewModel(
     }
 
     fun getActivity(){
-        var request= ReqMyActivity(repository.getUserID().toInt())
+        var request= ReqMyActivity(repository.getUserID().toInt(),"1")
         viewModelScope.launch {
             repository.getViewActivity(request)
                 .catch {e->

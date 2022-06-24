@@ -28,64 +28,64 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
-                   <android.widget.Button
-                    android:id="@+id/back"
-                    android:layout_width="0dp"
-                    android:layout_weight="0.7"
-                    android:layout_margin="@dimen/_1sdp"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/edt_rnd_5"
-                    android:text="back"
-                    android:textColor="@color/black"
-                    android:textSize="10sp" />
+                    <android.widget.Button
+                        android:id="@+id/back"
+                        android:layout_width="0dp"
+                        android:layout_weight="0.7"
+                        android:layout_margin="@dimen/_1sdp"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/edt_rnd_5"
+                        android:text="back"
+                        android:textColor="@color/black"
+                        android:textSize="10sp" />
 
 
-               <!-- <TextView
-                    android:visibility="gone"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_centerHorizontal="true"
-                    android:text="Settings"
-                    android:textColor="@color/black"
-                    android:textSize="12sp" />-->
+                    <!-- <TextView
+                         android:visibility="gone"
+                         android:layout_width="wrap_content"
+                         android:layout_height="match_parent"
+                         android:layout_centerHorizontal="true"
+                         android:text="Settings"
+                         android:textColor="@color/black"
+                         android:textSize="12sp" />-->
 
 
-                        <androidx.appcompat.widget.AppCompatButton
-                            android:textSize="11sp"
-                            android:id="@+id/pending"
-                            android:layout_width="0dp"
-                            android:layout_weight="1.2"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="@dimen/_2sdp"
-                            android:background="@drawable/button_rnd_red_filled_oval"
-                            android:text="Pending(4)"
-                            android:textAllCaps="false"
-                            android:textColor="@color/white" />
-                        <androidx.appcompat.widget.AppCompatButton
-                            android:textSize="11sp"
-                            android:id="@+id/approved"
-                            android:layout_width="0dp"
-                            android:layout_weight="1.2"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@id/pinLayout"
-                            android:layout_centerHorizontal="true"
-                            android:layout_margin="@dimen/_2sdp"
-                            android:background="@drawable/oval_red_border"
-                            android:text="Approved"
-                            android:textAllCaps="false"
-                            android:textColor="@color/red" />
-                        <androidx.appcompat.widget.AppCompatButton
-                            android:textSize="11sp"
-                            android:id="@+id/rejected"
-                            android:layout_width="0dp"
-                            android:layout_weight="1.2"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@id/pinLayout"
-                            android:layout_margin="@dimen/_2sdp"
-                            android:background="@drawable/oval_red_border"
-                            android:text="Rejected"
-                            android:textAllCaps="false"
-                            android:textColor="@color/red" />
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:textSize="11sp"
+                        android:id="@+id/pending"
+                        android:layout_width="0dp"
+                        android:layout_weight="1.2"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/_2sdp"
+                        android:background="@drawable/button_rnd_red_filled_oval"
+                        android:text="Pending(4)"
+                        android:textAllCaps="false"
+                        android:textColor="@color/white" />
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:textSize="11sp"
+                        android:id="@+id/approved"
+                        android:layout_width="0dp"
+                        android:layout_weight="1.2"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/pinLayout"
+                        android:layout_centerHorizontal="true"
+                        android:layout_margin="@dimen/_2sdp"
+                        android:background="@drawable/oval_red_border"
+                        android:text="Approved"
+                        android:textAllCaps="false"
+                        android:textColor="@color/red" />
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:textSize="11sp"
+                        android:id="@+id/rejected"
+                        android:layout_width="0dp"
+                        android:layout_weight="1.2"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/pinLayout"
+                        android:layout_margin="@dimen/_2sdp"
+                        android:background="@drawable/oval_red_border"
+                        android:text="Rejected"
+                        android:textAllCaps="false"
+                        android:textColor="@color/red" />
                     <ImageView
                         android:id="@+id/home"
                         android:layout_width="0dp"
@@ -93,7 +93,7 @@
                         android:layout_height="25dp"
                         android:layout_alignParentRight="true"
                         android:src="@drawable/ic_house" />
-                    </LinearLayout>
+                </LinearLayout>
 
 
 
@@ -128,7 +128,7 @@
                     android:textAllCaps="false"
                     android:textColor="@color/red" />
                 <androidx.appcompat.widget.AppCompatButton
-                    android:textSize="10sp"
+                    android:textSize="11sp"
                     android:id="@+id/post"
                     android:layout_width="0dp"
                     android:layout_weight="1"
@@ -137,11 +137,11 @@
                     android:layout_centerHorizontal="true"
                     android:layout_margin="@dimen/_2sdp"
                     android:background="@drawable/button_rnd_red_filled_oval"
-                    android:text="Post(1172)"
+                    android:text="Post(4)"
                     android:textAllCaps="false"
                     android:textColor="@color/white" />
                 <androidx.appcompat.widget.AppCompatButton
-                    android:textSize="10sp"
+                    android:textSize="11sp"
                     android:id="@+id/rolls"
                     android:layout_width="0dp"
                     android:layout_weight="1"
@@ -160,37 +160,21 @@
                 android:layout_width="match_parent"
                 android:layout_height="25dp"
                 android:orientation="vertical">
-            <TextView
-                android:id="@+id/selectedType"
-                android:textAlignment="center"
-                android:textColor="@color/black"
-                android:textStyle="bold"
-                android:textSize="12sp"
-                android:layout_width="wrap_content"
-                android:layout_height="25dp"
-                android:text="List of Post Pending For Approval"/>
+                <TextView
+                    android:id="@+id/selectedType"
+                    android:textAlignment="center"
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    android:textSize="12sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="25dp"
+                    android:text="List of Post Pending For Approval"/>
             </LinearLayout>
             <androidx.recyclerview.widget.RecyclerView
                 android:layout_marginBottom="@dimen/_50sdp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/Pendinglist">
-
-            </androidx.recyclerview.widget.RecyclerView>
-            <androidx.recyclerview.widget.RecyclerView
-                android:visibility="gone"
-                android:layout_marginBottom="@dimen/_50sdp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/Rejectedlist">
-
-            </androidx.recyclerview.widget.RecyclerView>
-            <androidx.recyclerview.widget.RecyclerView
-                android:visibility="gone"
-                android:layout_marginBottom="@dimen/_50sdp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/Approvedlist">
+                android:id="@+id/list">
 
             </androidx.recyclerview.widget.RecyclerView>
 
