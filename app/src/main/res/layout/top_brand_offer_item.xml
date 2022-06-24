@@ -13,21 +13,51 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <ImageView
-            android:id="@+id/offer_image"
+        <RelativeLayout
+            android:id="@+id/layoutUser"
             android:layout_width="@dimen/_150sdp"
             android:layout_height="@dimen/_150sdp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent" >
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/offer_image"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/user"
+            />
+
+            <RelativeLayout
+                android:id="@+id/banner_offers_hide"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/top_offer_bg"
+                android:visibility="visible">
+
+                <TextView
+                    android:id="@+id/hide_text_banner_offers"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:text="Currently not accepting orders"
+                    android:textColor="#FFF"
+                    android:textSize="@dimen/_10ssp" />
+            </RelativeLayout>
+        </RelativeLayout>
 
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:background="@color/top_brand_bg"
             android:padding="@dimen/_3sdp"
-            app:layout_constraintBottom_toBottomOf="@+id/offer_image"
-            app:layout_constraintEnd_toEndOf="@+id/offer_image"
-            app:layout_constraintStart_toStartOf="@+id/offer_image">
+            app:layout_constraintBottom_toBottomOf="@+id/layoutUser"
+            app:layout_constraintEnd_toEndOf="@+id/layoutUser"
+            app:layout_constraintStart_toStartOf="@+id/layoutUser">
+
+
+
+
 
             <ImageView
                 android:id="@+id/offer_image_small"
@@ -70,9 +100,9 @@
             android:background="@drawable/offer_bg"
             android:orientation="vertical"
             android:padding="@dimen/_3sdp"
-            app:layout_constraintEnd_toEndOf="@+id/offer_image"
-            app:layout_constraintStart_toStartOf="@+id/offer_image"
-            app:layout_constraintTop_toBottomOf="@+id/offer_image">
+            app:layout_constraintEnd_toEndOf="@+id/layoutUser"
+            app:layout_constraintStart_toStartOf="@+id/layoutUser"
+            app:layout_constraintTop_toBottomOf="@+id/layoutUser">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -122,25 +152,5 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <RelativeLayout
-        android:id="@+id/banner_offers_hide"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:background="#C1000000"
-        android:visibility="visible"
-        app:layout_constraintBottom_toBottomOf="@id/main_banner"
-        app:layout_constraintEnd_toEndOf="@id/main_banner"
-        app:layout_constraintStart_toStartOf="@+id/main_banner"
-        app:layout_constraintTop_toTopOf="@id/main_banner">
 
-        <TextView
-            android:id="@+id/hide_text_banner_offers"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:text="Currently not accepting orders"
-            android:textColor="#FFF"
-            android:textSize="@dimen/_10ssp" />
-    </RelativeLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

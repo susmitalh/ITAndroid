@@ -24,7 +24,7 @@
     <color name="backgoundColor1">#BDBCBC</color>
     <color name="greylight1">#E2DFDF</color>
     <color name="inputColor">#303030</color>
-    <color name="black_light_text">#413E3E</color>
+    <color name="black_light_text">#E7E7E7</color>
     <color name="colorRange">#FF4081</color>
     <color name="transparent">#00FFFFFF</color>
     <color name="vb">#000000</color>
@@ -40,6 +40,8 @@
     <color name="file_size_bg">#9E000000</color>
     <color name="view_background">#605F5F</color>
     <color name="top_brand_bg">#373737</color>
+    <color name="view">#686868</color>
+
 
 
 </resources>

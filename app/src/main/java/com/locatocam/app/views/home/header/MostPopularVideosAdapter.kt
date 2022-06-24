@@ -48,6 +48,7 @@ class MostPopularVideosAdapter(private val items:List<Data>, private val iTopinf
             val intent = Intent(holder.video_image.context, OtherProfileWithFeedActivity::class.java)
             intent.putExtra("user_id", item.inf_id)
             intent.putExtra("inf_code", item.inf_code)
+            intent.putExtra("post_id", item.post_id)
             holder.video_image.context.startActivity(intent)
         }
 

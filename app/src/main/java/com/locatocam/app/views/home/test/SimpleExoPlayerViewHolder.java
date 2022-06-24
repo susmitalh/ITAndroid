@@ -29,7 +29,6 @@ import com.google.android.exoplayer2.ExoPlaybackException;
 import com.google.android.exoplayer2.PlaybackParameters;
 import com.google.android.exoplayer2.Timeline;
 import com.google.android.exoplayer2.metadata.Metadata;
-import com.google.android.exoplayer2.source.ProgressiveMediaSource;
 import com.google.android.exoplayer2.source.TrackGroupArray;
 import com.google.android.exoplayer2.text.Cue;
 import com.google.android.exoplayer2.trackselection.TrackSelectionArray;
@@ -49,17 +48,14 @@ import com.locatocam.app.di.module.NetworkModule;
 import com.locatocam.app.network.WebApi;
 import com.locatocam.app.reportpost.ReportPostActivity;
 import com.locatocam.app.security.SharedPrefEnc;
-import com.locatocam.app.views.MainActivity;
+import com.locatocam.app.views.ceratepost.UploadPostmanual;
 import com.locatocam.app.views.comments.CommentsActivity;
 import com.locatocam.app.views.home.HomeFragment;
 import com.locatocam.app.views.home.header.HeaderFragment;
-import com.locatocam.app.views.home.header.IHeaderEvents;
 
 import net.minidev.json.JSONObject;
 
-
 import java.util.List;
-import java.util.Locale;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import im.ene.toro.ToroPlayer;
@@ -68,7 +64,6 @@ import im.ene.toro.exoplayer.ExoPlayerViewHelper;
 import im.ene.toro.exoplayer.Playable;
 import im.ene.toro.media.PlaybackInfo;
 import im.ene.toro.widget.Container;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -81,13 +76,12 @@ public class SimpleExoPlayerViewHolder extends RecyclerView.ViewHolder implement
     @Nullable
     private Uri mediaUri;
     public static boolean volumeMute;
-    ProgressiveMediaSource mediaSource;
     public static TextView postShareBtn;
     String userId;
     WebApi apiInterface;
     PlayerView playerView;
     ImageButton volumebt;
-    ImageButton options,msg_img;
+    ImageButton options, msg_img;
     String follow_process;
     CircleImageView profile_image;
     LinearLayout brandDetail;
@@ -99,11 +93,13 @@ public class SimpleExoPlayerViewHolder extends RecyclerView.ViewHolder implement
     TextView comment;
     TextView views, postShareText;
     TextView shares, brandName, brandUnfollow, profileUnfollow, fileSizeText;
-    ImageView thumbnile, brandFollow, profileFollow,imgBrandLocation;
+    ImageView thumbnile, brandFollow, profileFollow, imgBrandLocation;
     RelativeLayout profile_follow_layout, brand_follow_layout;
+    View viewFeed;
     CacheDataSourceFactory cacheDataSourceFactory;
     Cache simpleCache = MyApp.Companion.getSimpleCache();
     MyApp app = (MyApp) itemView.getContext().getApplicationContext();
+
 
     SimpleExoPlayerViewHolder(View itemView) {
         super(itemView);
@@ -129,6 +125,7 @@ public class SimpleExoPlayerViewHolder extends RecyclerView.ViewHolder implement
         views = itemView.findViewById(R.id.views);
         shares = itemView.findViewById(R.id.shares);
         msg_img = itemView.findViewById(R.id.msg_img);
+        viewFeed = itemView.findViewById(R.id.tpgrey);
 
 
 
@@ -156,7 +153,7 @@ public class SimpleExoPlayerViewHolder extends RecyclerView.ViewHolder implement
         imgBrandLocation = itemView.findViewById(R.id.imgBrandLocation);
 
 
-        Log.e("TAGfgg", "SimpleExoPlayerViewHolder: ");
+        Log.e("TAGfgg", "SimpleExoPlayerViewH: ");
 
 
         if (HomeFragment.Companion.getOrder_visiblity() == true) {
@@ -167,8 +164,6 @@ public class SimpleExoPlayerViewHolder extends RecyclerView.ViewHolder implement
 
         cacheDataSourceFactory = new CacheDataSourceFactory(simpleCache,
                 new DefaultHttpDataSourceFactory(Util.getUserAgent(shares.getContext(), "exo")));
-
-
 
 
         volumebt.setOnClickListener(new View.OnClickListener() {
@@ -193,25 +188,28 @@ public class SimpleExoPlayerViewHolder extends RecyclerView.ViewHolder implement
 
     }
 
-
     // called from Adapter to setup the media
     void bind(Data item, SimpleEvents simpleEvents, int position, PostCountData postCountData, com.locatocam.app.views.home.test.Follow follow, Context context) {
 
 
         if (item != null) {
 
+            if (HomeFragment.Companion.getHideView()) {
+                viewFeed.setVisibility(View.GONE);
+                HomeFragment.Companion.setHideView(false);
+            }
 
             mediaUri = Uri.parse(item.getFile());
             // val uri = Uri.parse(linkUrl)
             userId = SharedPrefEnc.getPref(app, "user_id");
             apiInterface = NetworkModule.Companion.getClient().create(WebApi.class);
 
-            Log.e("TAG", "binddd: "+item.getUser_id());
+            Log.e("TAG", "binddd: " + item.getType());
 
-            if (userId.equals(item.getUser_id())){
+            if (userId.equals(item.getUser_id())) {
                 profile_follow_layout.setVisibility(View.GONE);
                 msg_img.setVisibility(View.INVISIBLE);
-            }else{
+            } else {
                 profile_follow_layout.setVisibility(View.VISIBLE);
                 msg_img.setVisibility(View.VISIBLE);
             }
@@ -223,28 +221,28 @@ public class SimpleExoPlayerViewHolder extends RecyclerView.ViewHolder implement
                     .into(profile_image);
 
 
-            profile_image.setOnClickListener(v->{
+            profile_image.setOnClickListener(v -> {
                 if (SimpleAdapter.userClick) {
-                    Intent intent=new Intent(context, OtherProfileWithFeedActivity.class);
-                    intent.putExtra("user_id",item.getUser_id());
-                    intent.putExtra("inf_code",item.getProfile_influencer_code());
+                    Intent intent = new Intent(context, OtherProfileWithFeedActivity.class);
+                    intent.putExtra("user_id", item.getUser_id());
+                    intent.putExtra("inf_code", item.getProfile_influencer_code());
                     context.startActivity(intent);
-                    SimpleAdapter.userClick=true;
+                    SimpleAdapter.userClick = true;
                 }
             });
-            name.setOnClickListener(v->{
+            name.setOnClickListener(v -> {
                 if (SimpleAdapter.userClick) {
-                    Intent intent=new Intent(context, OtherProfileWithFeedActivity.class);
-                    intent.putExtra("user_id",item.getUser_id());
-                    intent.putExtra("inf_code",item.getProfile_influencer_code());
+                    Intent intent = new Intent(context, OtherProfileWithFeedActivity.class);
+                    intent.putExtra("user_id", item.getUser_id());
+                    intent.putExtra("inf_code", item.getProfile_influencer_code());
                     context.startActivity(intent);
-                    SimpleAdapter.userClick=true;
+                    SimpleAdapter.userClick = true;
 
                 }
             });
 
-            imgBrandLocation.setOnClickListener(v->{
-                Log.e("TAG", "bindLocation: "+item.getBrand_lat() +" , "+ item.getBrand_long());
+            imgBrandLocation.setOnClickListener(v -> {
+                Log.e("TAG", "bindLocation: " + item.getBrand_lat() + " , " + item.getBrand_long());
 
                 String strUri = "http://maps.google.com/maps?q=loc:" + item.getBrand_lat() + "," + item.getBrand_long() + " (" + "Label which you want" + ")";
                 Intent intent = new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(strUri));
@@ -445,14 +443,17 @@ public class SimpleExoPlayerViewHolder extends RecyclerView.ViewHolder implement
                 public void onClick(View view) {
                     // Initializing the popup menu and giving the reference as current context
                     PopupMenu popupMenu = new PopupMenu(options.getContext(), options);
-
-                    // Inflating popup menu from popup_menu.xml file
                     popupMenu.getMenuInflater().inflate(R.menu.action_manu_post, popupMenu.getMenu());
                     Log.e("TAG", "onClickitemMenu: " + item.getUser_id());
+
+
                     if (item.getUser_id().equals(SharedPrefEnc.getPref(options.getContext(), "user_id"))) {
+                        popupMenu.getMenu().getItem(0).setVisible(true);
                         popupMenu.getMenu().getItem(1).setVisible(true);
                     } else {
+                        popupMenu.getMenu().getItem(0).setVisible(false);
                         popupMenu.getMenu().getItem(1).setVisible(false);
+
                     }
                     popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                         @Override
@@ -466,7 +467,11 @@ public class SimpleExoPlayerViewHolder extends RecyclerView.ViewHolder implement
                                     break;
                                 case R.id.trash:
                                     simpleEvents.trash(item.getPost_id(), position);
-
+                                    break;
+                                case R.id.edit:
+                                    Intent intentEdt = new Intent(context, UploadPostmanual.class);
+                                    intentEdt.putExtra("videoImage",item.getScreenshot());
+                                    context.startActivity(intentEdt);
                                     break;
                             }
 

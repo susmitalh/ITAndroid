@@ -14,6 +14,8 @@ import android.os.Handler
 import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.os.bundleOf
+import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
@@ -210,6 +212,8 @@ class MainActivity : AppCompatActivity() {
         val ft = fm.beginTransaction()
         ft.replace(R.id.nav_host_fragment, fragment)
         ft.commit()
+//        Navigation.findNavController(HomeFragment.binding.root).navigate(R.id.action_homeFragment_to_settingsFragment)
+ }
     }*/
 
 }

@@ -28,4 +28,5 @@ interface AppComponent {
     fun inject(reportPostActivity: ViewActivityRepository)
     fun inject(reportPostActivity: PlayPostRepository)
     fun inject(viewMyPostRepository: ViewMyPostRepository)
+    fun inject(onlineOrderHelpRepository: OnlineOrderHelpRepository)
 }

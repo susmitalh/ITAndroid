@@ -12,6 +12,7 @@ import com.locatocam.app.data.responses.SearchModal.DataSeach
 import com.locatocam.app.data.responses.top_influencers.Data
 import com.locatocam.app.data.responses.user_details.RespUserDetails
 import com.locatocam.app.repositories.HeaderRepository
+import com.locatocam.app.views.home.header.HeaderFragment
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -29,6 +30,7 @@ class HeaderViewModel(
     var userDetails = MutableLiveData<RespUserDetails>()
     lateinit var filter: String
 
+
     fun getTopInfluencersV(userid: String, type: String) {
         viewModelScope.launch {
             repository.getTopInfluencersFlow(userid, type).catch {
@@ -43,8 +45,10 @@ class HeaderViewModel(
         }
     }
 
-    fun getMostPopularVideos(infcode: String) {
-        var request = ReqMostPopularVideos(infcode, 0, repository.getUserID(), "influencer")
+    fun getMostPopularVideos() {
+        Log.e("TAG", "getMostPopularVideos: " )
+        var request = ReqMostPopularVideos(HeaderFragment.infcode, 0, repository.getUserID(), HeaderFragment.userType)
+        Log.e("TAG", "getMostPopularVideos: "+HeaderFragment.infcode+","+0 +repository.getUserID()+","+HeaderFragment.userType)
         viewModelScope.launch {
             repository.getTopMostPopularVideos(request).catch {
 
@@ -58,7 +62,9 @@ class HeaderViewModel(
         }
     }
 
-    fun getUserDetails() {
+    fun getUserDetails(userid: String) {
+
+        repository.userid=userid
         var request =
             ReqUserDetails(repository.userid.toString(), repository.getUserID().toString())
 
@@ -96,7 +102,7 @@ class HeaderViewModel(
     fun getRollsAndShortVideos(infCode: String) {
         var userid = repository.getUserID()
 
-        var request = ReqRollsAndShortVideos(userid, "influencer", infCode)
+        var request = ReqRollsAndShortVideos(userid, HeaderFragment.userType, infCode)
         viewModelScope.launch {
             repository.getRollsAndShortVideos(request).catch {
 

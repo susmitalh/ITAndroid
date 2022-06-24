@@ -80,7 +80,7 @@
 
 
                 <ImageView
-                    android:id="@+id/share_header"
+                    android:id="@+id/imgUserInfo"
                     android:layout_width="@dimen/_30sdp"
                     android:layout_height="match_parent"
                     android:layout_marginRight="@dimen/_5sdp"
@@ -96,7 +96,7 @@
                     android:layout_height="match_parent"
                     android:layout_alignParentRight="true"
                     android:layout_marginRight="@dimen/_7sdp"
-                    android:padding="@dimen/_5sdp"
+                    android:padding="@dimen/_3sdp"
                     android:src="@drawable/ic_house"
                     app:tint="@color/black" />
             </RelativeLayout>

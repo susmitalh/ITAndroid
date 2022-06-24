@@ -39,6 +39,11 @@
             android:screenOrientation="portrait"
             android:theme="@style/ThemeNoActionBar" />
         <activity
+            android:name=".Activity.OnlineOrderingHelpActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.LT_MVVM_NoactionBar"/>
+        <activity
             android:name=".views.settings.SettingsActivity"
             android:exported="false"
             android:screenOrientation="portrait"
@@ -48,260 +53,215 @@
             android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.LT_MVVM_NoactionBar" />
-
         <activity
             android:name=".Activity.ViewMyPostActivity"
             android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/ThemeNoActionBar" />
-
         <activity
             android:name=".Activity.PlayPostActivity"
             android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.LT_MVVM_NoactionBar" />
-
         <activity
             android:name=".views.register.ApprovalPendingActivity"
             android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.LT_MVVM_NoactionBar" />
-
-
         <activity
             android:name=".views.SplashScreenActivity"
             android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.LT_MVVM_NoactionBar">
-
-
             <intent-filter>
-
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-
             </intent-filter>
-
         </activity>
-
         <activity
             android:name=".views.order_online.OrderOnlineBaseActivity"
             android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Design.NoActionBar" />
-
         <activity
             android:name=".views.order_online.ActivityOffersForYou"
             android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Design.NoActionBar" />
-
         <activity
             android:name=".views.settings.EditProfileActivity"
             android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar" />
-
         <activity
             android:name=".views.approvals.ApprovedActivity"
             android:exported="false"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar" />
-
         <activity
             android:name=".views.approvals.PendingActivity"
             android:exported="false"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar" />
-
         <activity
             android:name=".views.approvals.ApprovalBaseActivity"
             android:exported="false"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar" />
-
         <activity
             android:name=".views.notifications.ActivityNotifications"
             android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Design.NoActionBar" />
-
         <activity
             android:name=".views.view_activity.ViewActivity"
             android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Design.NoActionBar" />
-
         <activity
             android:name=".views.followers.FollowersActivity"
             android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Design.NoActionBar" />
-
         <activity
             android:name=".reportpost.ReportPostActivity"
             android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.MyDialog" />
-
         <activity
             android:name=".views.custom.CustomSearchSpinner"
             android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.MyDialog" />
-
         <activity
             android:name=".views.ceratepost.UploadPostmanual"
             android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Design.NoActionBar" />
-
         <activity
             android:name=".views.custom.imageVideoPicker.ListGalleryImVdoActivity"
             android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Design.NoActionBar" />
-
         <activity
             android:name=".views.order_online.AddProductActivity"
             android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Design.NoActionBar" />
-
         <activity
             android:name=".views.order_online.ActivityOrderOnline"
             android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Design.NoActionBar" />
-
         <activity
             android:name=".views.createrolls.audio_trimmer.TestActivity"
             android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Design.NoActionBar" />
-
         <activity
             android:name=".views.createrolls.EditVideoActivity"
             android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Design.NoActionBar" />
-
         <activity
             android:name=".views.createrolls.FinalPreviewActivity"
             android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Design.NoActionBar" />
-
         <activity
             android:name=".views.createrolls.ListGalleryActivity"
             android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Design.NoActionBar" />
-
         <activity
             android:name=".views.createrolls.ListSoundActivity"
             android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Design.NoActionBar" />
-
         <activity
             android:name=".views.createrolls.ListSoundWebActivity"
             android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Design.NoActionBar" />
-
         <activity
             android:name=".views.createrolls.Preview_Video_A"
             android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Design.NoActionBar" />
-
         <activity
             android:name=".views.createrolls.TrimVideoActivity"
             android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Design.NoActionBar" />
-
         <activity
             android:name=".views.createrolls.TrimVideoCustom"
             android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Design.NoActionBar" />
-
         <activity
             android:name=".views.createrolls.TrimVideoFFmpg"
             android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Design.NoActionBar" />
-
         <activity
             android:name=".views.createrolls.VideoRecorder"
             android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Design.NoActionBar" />
-
         <activity
             android:name=".views.comments.CommentsActivity"
             android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Design.NoActionBar" />
-
         <activity
             android:name=".views.home.header.TopInfluencers"
             android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Design.NoActionBar" />
-
         <activity
             android:name=".views.location.MapsActivity"
             android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Design.NoActionBar" />
-
         <activity
             android:name=".views.register.ActivityRegister"
             android:exported="true"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Design.NoActionBar" />
-
         <activity
             android:name=".views.login.ActivityLogin"
             android:exported="false"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Design.NoActionBar" />
-
         <activity
             android:name=".views.chat.ChatActivity"
             android:exported="true"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".views.rollsexp.RollsExoplayerActivity"
             android:exported="true"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".views.rolls.RollsActivity"
             android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Design.NoActionBar" />
-
         <activity
             android:name=".views.MainActivity"
             android:exported="true"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.LT_MVVM_NoactionBar" />
 
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
-
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
@@ -310,23 +270,19 @@
             android:name="org.apache.http.legacy"
             android:required="false" />
 
-
-        -<provider
-        android:name="androidx.core.content.FileProvider"
-        android:authorities="${applicationId}.provider"
-        android:exported="false"
-        android:grantUriPermissions="true">
-
-        <meta-data
-            android:name="android.support.FILE_PROVIDER_PATHS"
-            android:resource="@xml/provider_paths" />
-
-    </provider>
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_paths" />
+        </provider>
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
-
         <meta-data
             android:name="com.facebook.sdk.ClientToken"
             android:value="@string/facebook_client_token" />
@@ -335,28 +291,18 @@
             android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:label="@string/app_name" />
-
-
         <activity
             android:name="com.facebook.CustomTabActivity"
             android:exported="true">
-
-
             <intent-filter>
-
                 <action android:name="android.intent.action.VIEW" />
 
                 <category android:name="android.intent.category.DEFAULT" />
-
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data android:scheme="@string/fb_login_protocol_scheme" />
-
             </intent-filter>
-
         </activity>
-
-
         <activity
             android:name=".views.settings.ViewImageFileActivity"
             android:exported="false"
@@ -393,7 +339,6 @@
             android:screenOrientation="portrait"
             android:theme="@style/ThemeNoActionBar" />
 
-
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.provider"
@@ -403,8 +348,6 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/provider_paths" />
         </provider>
-
-
     </application>
 
 </manifest>

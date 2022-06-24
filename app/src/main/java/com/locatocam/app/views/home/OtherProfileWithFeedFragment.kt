@@ -6,11 +6,16 @@ import android.app.Activity
 import android.app.Dialog
 import android.content.Intent
 import android.location.Address
+import android.location.Geocoder
 import android.location.Location
 import android.os.Bundle
+import android.os.Handler
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
+import android.view.*
+import android.widget.PopupMenu
+import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
@@ -21,47 +26,36 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.work.Data
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
+import com.app.kardder.util.RecyclerViewScrollListener
 import com.bumptech.glide.Glide
 import com.google.android.gms.common.api.ApiException
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.model.AutocompleteSessionToken
 import com.google.android.libraries.places.api.net.FindAutocompletePredictionsRequest
 import com.google.android.libraries.places.api.net.FindAutocompletePredictionsResponse
 import com.google.android.libraries.places.api.net.PlacesClient
+import com.locatocam.app.Activity.OnlineOrderingHelpActivity
+import com.locatocam.app.Activity.OtherProfileWithFeedActivity
+import com.locatocam.app.ModalClass.AddView
 import com.locatocam.app.R
+import com.locatocam.app.databinding.FragmentOtherUserFeedBinding
+import com.locatocam.app.di.module.NetworkModule
+import com.locatocam.app.network.WebApi
 import com.locatocam.app.repositories.HomeRepository
+import com.locatocam.app.security.SharedPrefEnc
 import com.locatocam.app.services.PreCachingService
 import com.locatocam.app.utils.Constants
 import com.locatocam.app.viewmodels.HomeViewModel
 import com.locatocam.app.views.MainActivity
+import com.locatocam.app.views.home.test.*
 import com.locatocam.app.views.location.MapsActivity
 import com.locatocam.app.views.search.AdddressAdapter
 import com.locatocam.app.views.search.AutoCompleteAdapter
 import com.locatocam.app.views.search.ClickEvents
 import com.locatocam.app.views.search.Locationitem
-import java.util.*
-import android.location.Geocoder
-import android.os.Handler
-import android.view.*
-import android.widget.PopupMenu
-import android.widget.Toast
-import androidx.navigation.Navigation
-import com.app.kardder.util.RecyclerViewScrollListener
-import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationServices
-import com.locatocam.app.Activity.OtherProfileWithFeedActivity
-import com.locatocam.app.Activity.PlayPostActivity
-import com.locatocam.app.ModalClass.AddView
-import com.locatocam.app.adapter.PlayPostAdapter
-import com.locatocam.app.databinding.FragmentOtherUserFeedBinding
-import com.locatocam.app.di.module.NetworkModule
-import com.locatocam.app.network.WebApi
-import com.locatocam.app.security.SharedPrefEnc
-import com.locatocam.app.viewmodels.OtherProfileWithFeedViewModel
-import com.locatocam.app.views.home.header.HeaderFragmentOtherUser
-import com.locatocam.app.views.home.test.*
 import com.locatocam.app.views.settings.SettingsActivity
-import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -71,6 +65,7 @@ import pl.droidsonroids.gif.GifImageView
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.util.*
 
 
 class OtherProfileWithFeedFragment() : Fragment(), FeedEvents, ClickEvents, SimpleEvents {
@@ -90,7 +85,6 @@ class OtherProfileWithFeedFragment() : Fragment(), FeedEvents, ClickEvents, Simp
     }
 
     lateinit var userid: String
-
     var _isheader_added = false
     var firstCall: Boolean = true
     override fun onCreateView(
@@ -107,6 +101,10 @@ class OtherProfileWithFeedFragment() : Fragment(), FeedEvents, ClickEvents, Simp
 
         userid = arguments?.getString("user_id").toString()
         inf_code = arguments?.getString("inf_code").toString()
+
+
+            viewModel.get_post_id = arguments?.getString("post_id").toString()
+
         Log.i("trfggg", userid + "," + inf_code)
 
         var layoutManager = LinearLayoutManager(requireActivity())
@@ -117,13 +115,20 @@ class OtherProfileWithFeedFragment() : Fragment(), FeedEvents, ClickEvents, Simp
 
 
         viewModel.feed_items.observe(viewLifecycleOwner, {
-            Log.e("paggination", "onCreateView: ")
+            Log.e("paggination", "onCrdsceateView: "+viewModel.get_post_id)
             viewModel.loading = false
 
             CoroutineScope(Dispatchers.Main).launch {
                 delay(2500)
                 try {
                     hideLoader()
+
+                    if (!viewModel.get_post_id.equals("null")) {
+                        binding.playerContainer.smoothScrollToPosition(1)
+                    }
+
+
+
                 } catch (e: Exception) {
                 }
             }
@@ -183,6 +188,10 @@ class OtherProfileWithFeedFragment() : Fragment(), FeedEvents, ClickEvents, Simp
                 (binding.playerContainer.adapter as SimpleAdapterOtherprofile)!!.notifyDataSetChanged()
             }
 
+
+
+
+
             binding.playerContainer.addOnScrollListener(object : RecyclerViewScrollListener() {
                 override fun onItemIsFirstVisibleItem(index: Int) {
                     val apiInterface = NetworkModule.getClient()!!.create(
@@ -216,7 +225,12 @@ class OtherProfileWithFeedFragment() : Fragment(), FeedEvents, ClickEvents, Simp
                                 })
                         }
                     }
+
+
+
                 }
+
+
 
             })
 
@@ -235,7 +249,11 @@ class OtherProfileWithFeedFragment() : Fragment(), FeedEvents, ClickEvents, Simp
         })
         viewModel.getAddress(SharedPrefEnc.getPref(requireContext(), "mobile"))
 
-
+        binding.imgUserInfo?.setOnClickListener {
+            Toast.makeText(context, "ddd", Toast.LENGTH_SHORT).show()
+            var intent=Intent(context,OnlineOrderingHelpActivity::class.java)
+            context?.startActivity(intent)
+        }
 
         binding.home.setOnClickListener {
 
@@ -319,7 +337,7 @@ class OtherProfileWithFeedFragment() : Fragment(), FeedEvents, ClickEvents, Simp
 
     fun observe() {
         viewModel.approvalCounts.observe(viewLifecycleOwner, {
-            Glide.with(this).load(it.data.profile_pic).into(binding.userImg)
+//            Glide.with(this).load(it.data.profile_pic).into(binding.userImg)
             MainActivity.binding.orderOnline.visibility = View.VISIBLE
             OtherProfileWithFeedActivity.order_online_otherUser.visibility=View.VISIBLE
 

@@ -4,7 +4,6 @@ import android.content.Intent
 import android.graphics.drawable.PictureDrawable
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,7 +14,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.caverock.androidsvg.SVG
 import com.locatocam.app.Activity.OtherProfileWithFeedActivity
-import com.locatocam.app.R
 import com.locatocam.app.adapter.InfluencerProfileBannerAdapter
 import com.locatocam.app.adapter.OtherUserTitleAdapter
 import com.locatocam.app.databinding.FragmentHeaderOtherProfileBinding
@@ -27,9 +25,6 @@ import com.locatocam.app.viewmodels.HeaderViewModel
 import com.locatocam.app.views.home.HomeFragment
 import com.locatocam.app.views.home.OtherProfileWithFeedFragment
 import com.locatocam.app.views.rollsexp.RollsExoplayerActivity
-import java.io.ByteArrayInputStream
-import java.io.InputStream
-import java.nio.charset.StandardCharsets
 
 
 class HeaderFragmentOtherUser(val userid: String) : Fragment(), IHeaderEvents {
@@ -76,7 +71,7 @@ companion object {
         viewModel.userDetails.observe(viewLifecycleOwner, {
             var maxposition = it.data?.logo?.size
             var layoutManagerProfile = ViewPagerLayoutManager(requireActivity(), 0)
-            var pos:Int=0
+            var pos=0
             layoutManagerProfile.mOnViewPagerListener = object :OnViewPagerListener{
                 override fun onInitComplete() {
                 }
@@ -132,7 +127,8 @@ companion object {
                 .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
                 .circleCrop()
                 .into(binding.profilepic)*/
-            viewModel.getMostPopularVideos(it.data!!.influencer_code.toString())
+            HeaderFragment.infcode=it.data!!.influencer_code.toString()
+            viewModel.getMostPopularVideos()
 
             binding.userName.text = "  " + it.data!!.name
             binding.phone.text = "  " + it.data.phone
@@ -277,8 +273,7 @@ companion object {
             }
 
 
-            var layoutManager =
-                LinearLayoutManager(requireActivity(), LinearLayoutManager.HORIZONTAL, false)
+            var layoutManager = LinearLayoutManager(requireActivity(), LinearLayoutManager.HORIZONTAL, false)
             binding.topBrands.setLayoutManager(layoutManager)
 
                 var adapter = TopBrandsAdapter(it.data.top_or_our_brands?.brand_details!!, this, it.data.logo)
@@ -287,7 +282,7 @@ companion object {
 
 
         })
-        viewModel.getUserDetails()
+        viewModel.getUserDetails(userid)
 
 
         viewModel.mostPopularVideos.observe(viewLifecycleOwner, {
@@ -389,6 +384,10 @@ companion object {
         intent.putExtra("firstid", firstid)
         intent.putExtra("inf_code", OtherProfileWithFeedFragment.inf_code)
         startActivity(intent)
+    }
+
+    override fun onBrandSearchClick(searchId: String?, userId: String?) {
+        TODO("Not yet implemented")
     }
 
 

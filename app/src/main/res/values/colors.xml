@@ -40,5 +40,9 @@
     <color name="file_size_bg">#9EE8E6E6</color>
     <color name="view_background">#9A9999</color>
     <color name="top_brand_bg">#656464</color>
+    <color name="backgoundDialog">#414040</color>
+    <color name="btn_verify_txt">#413E3E</color>
+    <color name="view">#C7C6C6</color>
+
 
 </resources>

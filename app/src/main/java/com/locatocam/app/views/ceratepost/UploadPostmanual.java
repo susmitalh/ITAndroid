@@ -120,6 +120,8 @@ public class UploadPostmanual extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        String thuimb=getIntent().getStringExtra("videoImage");
+
         String theme = "light";
         if (!theme.equals("dark")) {
             setContentView(R.layout.activity_upload_post_manuel_light);
@@ -136,6 +138,12 @@ public class UploadPostmanual extends AppCompatActivity {
         checkBrandMandatory();
         // Log.i("hbnntgnn1111",intent.getStringExtra(Intent.EXTRA_TEXT));
         // Log.i("hbnntgnn1111",intent.getParcelableExtra(Intent.EXTRA_STREAM));
+
+        if (thuimb!=null){
+            upload_thuimb.setVisibility(View.VISIBLE);
+            Glide.with(this).load(thuimb).into(upload_thuimb);
+
+        }
 
         if (Intent.ACTION_SEND.equals(action) && type != null) {
             Log.i("hbnnnn1111", type);

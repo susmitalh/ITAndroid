@@ -15,6 +15,7 @@ import android.util.Log
 import android.view.*
 import android.widget.PopupMenu
 import android.widget.Toast
+import android.widget.VideoView
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
@@ -27,6 +28,7 @@ import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import com.app.kardder.util.RecyclerViewScrollListener
 import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
@@ -35,6 +37,7 @@ import com.google.android.libraries.places.api.model.AutocompleteSessionToken
 import com.google.android.libraries.places.api.net.FindAutocompletePredictionsRequest
 import com.google.android.libraries.places.api.net.FindAutocompletePredictionsResponse
 import com.google.android.libraries.places.api.net.PlacesClient
+import com.locatocam.app.Activity.OnlineOrderingHelpActivity
 import com.locatocam.app.ModalClass.AddView
 import com.locatocam.app.R
 import com.locatocam.app.databinding.FragmentHomeBinding
@@ -48,6 +51,8 @@ import com.locatocam.app.viewmodels.HomeViewModel
 import com.locatocam.app.views.MainActivity
 import com.locatocam.app.views.ceratepost.UploadPostmanual
 import com.locatocam.app.views.chat.ChatActivity
+import com.locatocam.app.views.home.header.HeaderFragment
+import com.locatocam.app.views.home.header.IHeaderEvents
 import com.locatocam.app.views.home.test.Follow
 import com.locatocam.app.views.home.test.PostCountData
 import com.locatocam.app.views.home.test.SimpleAdapter
@@ -81,13 +86,17 @@ public class HomeFragment : Fragment(), FeedEvents, ClickEvents, SimpleEvents {
         var commet: PostCountData? = null
         var follow: Follow? = null
         var firstCall: Boolean = true
+        var hideView: Boolean? = false
+        lateinit var viewModel: HomeViewModel
+        var influencerCode=""
     }
 
     lateinit var dialog: Dialog
-    lateinit var viewModel: HomeViewModel
+
     var lastCount: Int = -1
     lateinit var placesClient: PlacesClient
     private lateinit var fusedLocationClient: FusedLocationProviderClient
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -129,8 +138,29 @@ public class HomeFragment : Fragment(), FeedEvents, ClickEvents, SimpleEvents {
 
         }
 
+        if (SharedPrefEnc.getPref(context,"user_type").equals("company")){
+            Log.e("TAG", "onCreafteView: "+SharedPrefEnc.getPref(context,"influencer_code") )
+
+            influencerCode=SharedPrefEnc.getPref(context,"influencer_code")
+            binding.profile.visibility = View.GONE
+            binding.imgSetting.visibility = View.VISIBLE
+            binding.rcTitleCompany.visibility = View.VISIBLE
+            binding.imgTitle.visibility = View.GONE
+            binding.shareHeader.visibility = View.GONE
+            binding.messages.visibility = View.GONE
+            binding.imgCompanyInfo.visibility = View.VISIBLE
+        }else{
+            binding.rcTitleCompany.visibility = View.GONE
+            binding.imgTitle.visibility = View.VISIBLE
+
+            binding.messages.visibility = View.VISIBLE
+            binding.imgCompanyInfo.visibility = View.GONE
+        }
+
 
         viewModel.feed_items.observe(viewLifecycleOwner, {
+            Log.e("TAG", "onCreateViewittt: "+it.size )
+
             viewModel.loading = false
             CoroutineScope(Dispatchers.Main).launch {
                 delay(2500)
@@ -242,6 +272,7 @@ public class HomeFragment : Fragment(), FeedEvents, ClickEvents, SimpleEvents {
 
             startPreCaching(it)
             preloadImages(it)
+            searchBrandHeader()
 
             (activity as MainActivity).hideLoader()
 
@@ -258,7 +289,11 @@ public class HomeFragment : Fragment(), FeedEvents, ClickEvents, SimpleEvents {
 
 
         viewModel.approvalCounts.observe(viewLifecycleOwner, {
-            Glide.with(this).load(it.data.profile_pic).into(binding.profile)
+            Glide.with(context!!).load(it.data.profile_pic).apply(RequestOptions().override(200, 200)).into(binding.profile)
+
+//            Picasso.with(context) .load(it.data.profile_pic).into(binding.profile)
+
+
             MainActivity.binding.orderOnline.visibility = View.VISIBLE
 
             if (it.data.approval_count.toInt() > 0) {
@@ -316,10 +351,14 @@ public class HomeFragment : Fragment(), FeedEvents, ClickEvents, SimpleEvents {
             var intent = Intent(requireActivity(), ChatActivity::class.java)
             startActivity(intent)
         }
-        binding.profile.setOnClickListener {
+        binding.layoutProfile.setOnClickListener {
             //(activity as MainActivity).settingFragmentOpen()
             var intent=Intent(requireActivity(), SettingsActivity::class.java)
             startActivity(intent)
+        }
+        binding.imgCompanyInfo.setOnClickListener {
+            var intent=Intent(requireActivity(),OnlineOrderingHelpActivity::class.java)
+            context?.startActivity(intent)
         }
 
         binding.playerContainer.addOnScrollListener(object :
@@ -354,7 +393,7 @@ public class HomeFragment : Fragment(), FeedEvents, ClickEvents, SimpleEvents {
                                 ) + " lng " + SharedPrefEnc.getPref(context, "selected_lng")
                             )
 
-                            viewModel.getAllFeeds("", act.viewModel.lat, act.viewModel.lng)
+                            viewModel.getAllFeeds(influencerCode, act.viewModel.lat, act.viewModel.lng)
 
                         }
                     }
@@ -517,11 +556,6 @@ public class HomeFragment : Fragment(), FeedEvents, ClickEvents, SimpleEvents {
             .enqueue(preCachingWork)
     }
 
-    override fun onDestroy() {
-        // if (binding.recMain != null) binding.recMain.releasePlayer()
-        super.onDestroy()
-    }
-
 
     fun preloadImages(dataList: List<com.locatocam.app.data.responses.feed.Data>) {
         lifecycleScope.launchWhenCreated {
@@ -554,6 +588,9 @@ public class HomeFragment : Fragment(), FeedEvents, ClickEvents, SimpleEvents {
 
         firstCall = false
         if (activity is MainActivity) {
+            viewModel.searchType="influencer"
+            HeaderFragment. userType="influencer"
+            HeaderFragment.infcode=""
             var act = activity as MainActivity
             showLoader()
             act.viewModel.address_text.value = data.customer_address
@@ -565,7 +602,7 @@ public class HomeFragment : Fragment(), FeedEvents, ClickEvents, SimpleEvents {
             binding.locationView.visibility = View.GONE
             act.viewModel.add = data.customer_address.toString()
             add = data.customer_address.toString()
-            viewModel.getAllFeeds("", act.viewModel.lat, act.viewModel.lng)
+            viewModel.getAllFeeds(influencerCode, act.viewModel.lat, act.viewModel.lng)
             firstCall = true
             MainActivity.firstLoca = false
 
@@ -620,11 +657,24 @@ public class HomeFragment : Fragment(), FeedEvents, ClickEvents, SimpleEvents {
                 viewModel.offset = 0
                 viewModel._isheader_added = false
                 if (firstCall) {
-                    viewModel.getAllFeeds("", act.viewModel.lat, act.viewModel.lng)
+                    viewModel.getAllFeeds(influencerCode, act.viewModel.lat, act.viewModel.lng)
                 }
             })
 
         }
+
+    }
+    fun searchBrandHeader(){
+
+
+
+
+
+/*
+        viewModel.searchType=seachType
+        var act = activity as MainActivity
+        viewModel.getAllFeeds(influencerCode, act.viewModel.lat, act.viewModel.lng,userId)
+*/
 
     }
 

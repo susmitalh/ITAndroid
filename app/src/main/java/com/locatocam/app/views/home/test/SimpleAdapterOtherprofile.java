@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -24,6 +25,7 @@ import com.locatocam.app.data.responses.feed.BestSeller;
 import com.locatocam.app.data.responses.feed.Data;
 import com.locatocam.app.data.responses.feed.OffersDetail;
 import com.locatocam.app.data.responses.feed.TopBrandDetail;
+import com.locatocam.app.views.home.OtherProfileWithFeedFragment;
 import com.locatocam.app.views.home.header.HeaderFragmentOtherUser;
 
 import java.util.List;
@@ -92,7 +94,10 @@ public class SimpleAdapterOtherprofile extends RecyclerView.Adapter<RecyclerView
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+
         if (holder instanceof SimpleExoPlayerViewHolder) {
+
+
             SimpleAdapter.userClick=false;
             ((SimpleExoPlayerViewHolder) holder).bind(mediaList.get(position), simpleEvents, position, postCountData, follow, context);
         } else if (holder instanceof VHBanner) {
@@ -173,7 +178,7 @@ public class SimpleAdapterOtherprofile extends RecyclerView.Adapter<RecyclerView
             for (OffersDetail offersDetail : item.getOffers_details()) {
                 View layout = LayoutInflater.from(((VHTopBrandOffers) holder).top_brand_offer_holder.getContext()).inflate(R.layout.top_brand_offer_item, mLinearLayout, false);
                 ImageView offerSmallImage = layout.findViewById(R.id.offer_image_small);
-                ImageView offerImage = layout.findViewById(R.id.offer_image);
+                CircleImageView offerImage = layout.findViewById(R.id.offer_image);
                 TextView offerDiscount1 = layout.findViewById(R.id.offer_dicount_1);
                 TextView offer_min_order = layout.findViewById(R.id.offer_min_order);
                 TextView offerName = layout.findViewById(R.id.offer_name);

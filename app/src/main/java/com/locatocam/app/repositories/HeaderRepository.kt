@@ -17,7 +17,7 @@ import net.minidev.json.JSONObject
 import retrofit2.*
 import javax.inject.Inject
 
-class HeaderRepository(val userid: String, val application: Application) {
+class HeaderRepository(var userid: String, val application: Application) {
     @Inject
     lateinit var retrofitService: Retrofit
 
