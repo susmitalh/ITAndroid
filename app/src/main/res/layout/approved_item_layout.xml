@@ -37,7 +37,7 @@
             <View
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
-                android:background="@color/grey" />
+                android:background="#ddd" />
 
             <TextView
                 android:textColor="@color/black"
@@ -55,7 +55,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/grey" />
+            android:background="#ddd" />
         <LinearLayout
             android:id="@+id/layoutPostedOn"
             android:layout_width="match_parent"
@@ -80,7 +80,7 @@
             <View
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
-                android:background="@color/grey" />
+                android:background="#ddd" />
             <TextView
                 android:textColor="@color/black"
                 android:textSize="12sp"
@@ -96,7 +96,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/grey" />
+            android:background="#ddd" />
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -118,9 +118,10 @@
             <View
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
-                android:background="@color/grey" />
+                android:background="#ddd" />
 
             <ImageView
+                android:scaleType="fitStart"
                 android:layout_marginLeft="@dimen/_2sdp"
                 android:layout_marginTop="2dp"
                 android:layout_marginBottom="2dp"
@@ -134,7 +135,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/grey" />
+            android:background="#ddd" />
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -156,7 +157,7 @@
             <View
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
-                android:background="@color/grey" />
+                android:background="#ddd" />
             <TextView
                 android:textColor="@color/black"
                 android:textSize="12sp"
@@ -172,7 +173,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/grey" />
+            android:background="#ddd" />
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -194,7 +195,7 @@
             <View
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
-                android:background="@color/grey" />
+                android:background="#ddd" />
             <TextView
                 android:textColor="@color/black"
                 android:textSize="12sp"
@@ -210,7 +211,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/grey" />
+            android:background="#ddd" />
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -232,7 +233,7 @@
             <View
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
-                android:background="@color/grey" />
+                android:background="#ddd" />
             <TextView
                 android:textColor="@color/black"
                 android:textSize="12sp"
@@ -248,7 +249,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/grey" />
+            android:background="#ddd" />
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -270,7 +271,7 @@
             <View
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
-                android:background="@color/grey" />
+                android:background="#ddd" />
             <TextView
                 android:textColor="@color/black"
                 android:textSize="12sp"
@@ -285,7 +286,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/grey" />
+            android:background="#ddd" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -308,7 +309,7 @@
             <View
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
-                android:background="@color/grey" />
+                android:background="#ddd" />
             <TextView
                 android:textColor="@color/black"
                 android:textSize="12sp"
@@ -323,7 +324,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/grey" />
+            android:background="#ddd" />
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -345,7 +346,7 @@
             <View
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
-                android:background="@color/grey" />
+                android:background="#ddd" />
             <TextView
                 android:textColor="@color/black"
                 android:textSize="12sp"
@@ -360,7 +361,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/grey" />
+            android:background="#ddd" />
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -382,7 +383,7 @@
             <View
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
-                android:background="@color/grey" />
+                android:background="#ddd" />
             <TextView
                 android:textColor="@color/black"
                 android:textSize="12sp"
@@ -397,7 +398,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/grey" />
+            android:background="#ddd" />
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -419,7 +420,7 @@
             <View
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
-                android:background="@color/grey" />
+                android:background="#ddd" />
             <TextView
                 android:textColor="@color/green"
                 android:textSize="12sp"
@@ -434,7 +435,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/grey" />
+            android:background="#ddd" />
         <LinearLayout
             android:layout_margin="2dp"
             android:layout_gravity="center"

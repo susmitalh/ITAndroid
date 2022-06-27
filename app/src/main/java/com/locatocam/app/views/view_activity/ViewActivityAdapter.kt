@@ -12,7 +12,7 @@ import com.locatocam.app.data.responses.followers.*
 import com.locatocam.app.data.responses.my_activity.Data
 import java.util.*
 
-class ViewActivityAdapter(val data:List<Data>):
+class ViewActivityAdapter(val data:MutableList<Data>):
     RecyclerView.Adapter<ViewActivityAdapter.ItemViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
         var view:View= LayoutInflater.from(parent.context).inflate(R.layout.row_layout_view_activity,parent,false,)

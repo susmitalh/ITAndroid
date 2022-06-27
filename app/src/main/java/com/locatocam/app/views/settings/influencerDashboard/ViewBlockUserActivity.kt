@@ -55,7 +55,17 @@ class ViewBlockUserActivity : AppCompatActivity(),SettingClickListener {
         binding.recyclerview.itemAnimator = DefaultItemAnimator()
         viewModel=ViewModelProvider(this).get(SettingsViewModel::class.java)
         setdata()
+        clicklisnter()
 
+    }
+    private fun clicklisnter() {
+        binding.back.setOnClickListener {
+            finish()
+        }
+        binding.home.setOnClickListener {
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+        }
     }
     fun setdata(){
         lifecycleScope.launch {

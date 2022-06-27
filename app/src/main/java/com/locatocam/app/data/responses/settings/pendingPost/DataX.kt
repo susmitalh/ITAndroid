@@ -5,7 +5,7 @@ data class DataX(
     val brand_pending: String,
     val details: List<Detail>,
     val pending: Int,
-    val post: String,
+    val post: Int,
     val rejected: Int,
-    val rolls: String
+    val rolls: Int
 )

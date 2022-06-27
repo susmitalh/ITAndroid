@@ -327,8 +327,10 @@ interface WebApi {
     ): RespMyActivity
 
     @Headers("Accept: application/json")
-    @GET("App/notification")
-    suspend fun getNotification(): RespNotification
+    @POST("App/notification")
+    suspend fun getNotification(
+        @Body reqMyActivity: ReqMyActivity
+    ): RespNotification
 
 
     @POST("App/add_share")
@@ -443,19 +445,19 @@ interface WebApi {
     ): StatusApproved
 
     @Headers("Accept: application/json")
-    @POST("App/admin_post_rolls_approval_list")
+    @POST("App/my_post_rolls_approval_list")
     suspend fun getMyPostReelPending(
         @Body reqViewApproval: ReqViewApproval
     ): RespViewApproval
 
     @Headers("Accept: application/json")
-    @POST("App/admin_post_rolls_approval_list")
+    @POST("App/my_post_rolls_approval_list")
     suspend fun getMyPostReelApproved(
         @Body reqViewApproval: ReqViewApproval
     ): ApprovedPost
 
     @Headers("Accept: application/json")
-    @POST("App/admin_post_rolls_approval_list")
+    @POST("App/my_post_rolls_approval_list")
     suspend fun getMyPostReelRejected(
         @Body reqViewApproval: ReqViewApproval
     ): ResRejected

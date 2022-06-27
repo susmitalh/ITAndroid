@@ -328,7 +328,7 @@
                 android:background="@drawable/button_rnd_red"
                 android:enabled="false"
                 android:padding="5dp"
-                android:singleLine="true"
+                android:singleLine="false"
                 android:textColor="@color/black"
                 android:textSize="15sp" />
 

@@ -15,7 +15,7 @@ import com.locatocam.app.data.responses.settings.pendingPost.Detail
 import com.locatocam.app.views.settings.PendingClickEvents
 import com.locatocam.app.views.settings.myPostReelsApprovalPending.CompanyPendingClickEvents
 
-class CompanyPendingRollsApprovalAdapter (private val list: List<Detail>, private val context: Context,
+class CompanyPendingRollsApprovalAdapter (private val list: MutableList<Detail>, private val context: Context,
                                           private val click: CompanyPendingClickEvents
 ) : RecyclerView.Adapter<CompanyPendingRollsApprovalAdapter.viewHolder>() {
 

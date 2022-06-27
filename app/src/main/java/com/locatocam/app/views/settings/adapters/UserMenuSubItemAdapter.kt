@@ -1,5 +1,6 @@
 package com.locatocam.app.views.settings.adapters
 
+import android.app.Dialog
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
@@ -7,6 +8,8 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.Window
+import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
@@ -56,13 +59,13 @@ class UserMenuSubItemAdapter (private val list: List<com.locatocam.app.data.resp
         }*/
         if(list[position].Countable){
             holder.countText.text = "("+list[position].Count+")"
-            if(list[position].Count > 0)
+            if(list[position].Count == 0){
+            holder.countText.visibility = View.GONE
+        }
+            else if(list[position].Count > 0)
             holder.title.setTextColor(ContextCompat.getColor(context,R.color.red))
             holder.countText.setTextColor(ContextCompat.getColor(context,R.color.red))
             Log.e("Countable",list[position].Count.toString())
-
-        }else{
-            holder.countText.visibility = View.GONE
         }
         holder.title.setOnClickListener {
             val title =list[position].Title
@@ -86,15 +89,7 @@ class UserMenuSubItemAdapter (private val list: List<com.locatocam.app.data.resp
                 context.startActivity(intent)
             }
             else if(title.equals("Logout")){
-                Toast.makeText(context, "Successfully Logout", Toast.LENGTH_SHORT).show()
-                val intent = Intent(context, ActivityLogin::class.java)
-                val sharedPreferences: SharedPreferences =
-                    context.getSharedPreferences("userinfo", Context.MODE_PRIVATE)
-                val editor = sharedPreferences.edit()
-                editor.clear()
-                editor.apply()
-                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                context.startActivity(intent)
+                popupLogout(holder.title.getRootView().getContext())
             }
             else if(title.equals("Share Page Link")){
                 val message: String = "https://loca-toca.com/Login/index?si="+userDetails.influencer_code
@@ -110,7 +105,7 @@ class UserMenuSubItemAdapter (private val list: List<com.locatocam.app.data.resp
                 intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
                 context.startActivity(intent)
             }
-            else if(title.equals("My Post or Reels Approval Pending")){
+            else if(title.equals("My Post or Reels Pending Apporval")){
                 val intent = Intent(context, MyPostReelsApprovalPendingActivity::class.java)
                 intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
                 context.startActivity(intent)
@@ -122,5 +117,27 @@ class UserMenuSubItemAdapter (private val list: List<com.locatocam.app.data.resp
 
     override fun getItemCount(): Int {
         return list.size
+    }
+    fun popupLogout(context: Context) {
+        val dialog = Dialog(context.applicationContext)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setContentView(R.layout.popup_logout)
+        dialog.setCanceledOnTouchOutside(false)
+        val yes = dialog.findViewById<View>(R.id.yes) as Button
+        val no = dialog.findViewById<View>(R.id.no) as Button
+        no.setOnClickListener { dialog.dismiss() }
+        yes.setOnClickListener {
+            Toast.makeText(context, "Successfully Logout", Toast.LENGTH_SHORT).show()
+            val intent = Intent(context, ActivityLogin::class.java)
+            val sharedPreferences: SharedPreferences =
+                context.getSharedPreferences("userinfo", Context.MODE_PRIVATE)
+            val editor = sharedPreferences.edit()
+            editor.clear()
+            editor.apply()
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            context.startActivity(intent)
+            dialog.dismiss()
+        }
+        dialog.show()
     }
 }
