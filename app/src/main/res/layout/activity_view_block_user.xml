@@ -14,40 +14,34 @@
             android:layout_width="match_parent"
             android:layout_height="50dp">
             <RelativeLayout
-                android:background="@color/white"
                 android:layout_width="match_parent"
-                android:layout_height="50dp">
+                android:layout_height="match_parent"
+                android:background="@color/white"
+                android:gravity="center_vertical"
+                android:padding="10dp">
 
-                <Button
+                <android.widget.Button
                     android:id="@+id/back"
-                    android:layout_width="65dp"
-                    android:layout_height="25dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginBottom="8dp"
-                    android:background="@drawable/button_broder_black"
+                    android:layout_width="50dp"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/edt_rnd_5"
                     android:text="back"
                     android:textColor="@color/black"
-                    android:textSize="8sp"
-                    app:backgroundTint="@null" />
+                    android:textSize="10sp" />
 
                 <TextView
-                    android:layout_width="200dp"
+                    android:id="@+id/tittle"
+                    android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_centerHorizontal="true"
-                    android:gravity="center"
-                    android:text="Blocked User List"
-                    android:textAlignment="center"
                     android:textColor="@color/black"
                     android:textSize="12sp" />
 
-
                 <ImageView
-                    android:id="@+id/messages"
-                    android:layout_width="20dp"
+                    android:id="@+id/home"
+                    android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_alignParentRight="true"
-                    android:layout_marginRight="5dp"
                     android:src="@drawable/ic_house" />
             </RelativeLayout>
 

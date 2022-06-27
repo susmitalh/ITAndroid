@@ -11,7 +11,7 @@ import com.locatocam.app.R
 import com.locatocam.app.data.responses.notification.Data
 import java.util.*
 
-class NotificationAdapter(val data:List<Data>):
+class NotificationAdapter(val data:MutableList<Data>):
     RecyclerView.Adapter<NotificationAdapter.ItemViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
         var view:View= LayoutInflater.from(parent.context).inflate(R.layout.row_layout_view_activity,parent,false,)

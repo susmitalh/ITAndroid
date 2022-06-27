@@ -69,13 +69,8 @@ class SettingsViewModel@Inject constructor(private val mainRepository: MainRepos
     var respInfluencerSop=MutableLiveData<InfluencerSop>()
     var respViewBlockUSerList=MutableStateFlow<Resource<ViewBlockUser>>(Resource.loading(null))
     var respBlockedUser=MutableStateFlow<Resource<ResBlockedUser>>(Resource.loading(null))
-    var respViewApprovalList=MutableStateFlow<Resource<RespViewApproval>>(Resource.loading(null))
-
     var respRejectedlList=MutableStateFlow<Resource<ResRejected>>(Resource.loading(null))
 
-    var respViewCompanyPendingList=MutableStateFlow<Resource<CompanyPending>>(Resource.loading(null))
-    var respCompanyApprovedlList=MutableStateFlow<Resource<companyApproved>>(Resource.loading(null))
-    var respComapnyRejectedlList=MutableStateFlow<Resource<companyRejected>>(Resource.loading(null))
     var respRejectApprovStatus=MutableStateFlow<Resource<StatusApproved>>(Resource.loading(null))
     var respApprovedStatus=MutableStateFlow<Resource<StatusApproved>>(Resource.loading(null))
 
@@ -301,6 +296,7 @@ class SettingsViewModel@Inject constructor(private val mainRepository: MainRepos
     }
 
     fun getViewPendingUser(reqViewApproval: ReqViewApproval): MutableStateFlow<Resource<RespViewApproval>>{
+        var respViewApprovalList=MutableStateFlow<Resource<RespViewApproval>>(Resource.loading(null))
         val reqSettings=ReqSettings(settingsRepository.getUserID())
         viewModelScope.launch {
             settingsRepository.getViewApprovalList(reqViewApproval)
@@ -330,7 +326,7 @@ class SettingsViewModel@Inject constructor(private val mainRepository: MainRepos
     }
 
     fun getViewRejectedList(reqViewApproval: ReqViewApproval): MutableStateFlow<Resource<ResRejected>>{
-        val reqSettings=ReqSettings(settingsRepository.getUserID())
+        var respRejectedlList=MutableStateFlow<Resource<ResRejected>>(Resource.loading(null))
         viewModelScope.launch {
             settingsRepository.getViewRejectedList(reqViewApproval)
                 .catch {
@@ -345,6 +341,7 @@ class SettingsViewModel@Inject constructor(private val mainRepository: MainRepos
     }
 
     fun getCompanyPendingUser(reqViewApproval: ReqViewApproval): MutableStateFlow<Resource<CompanyPending>>{
+        var respViewCompanyPendingList=MutableStateFlow<Resource<CompanyPending>>(Resource.loading(null))
         viewModelScope.launch {
             settingsRepository.getCompanyPendindList(reqViewApproval)
                 .catch {
@@ -358,6 +355,7 @@ class SettingsViewModel@Inject constructor(private val mainRepository: MainRepos
         return respViewCompanyPendingList
     }
     fun getCompanyApprovedList(reqViewApproval: ReqViewApproval): MutableStateFlow<Resource<companyApproved>>{
+        var respCompanyApprovedlList=MutableStateFlow<Resource<companyApproved>>(Resource.loading(null))
         viewModelScope.launch {
             settingsRepository.getCompanyApprovedList(reqViewApproval)
                 .catch {
@@ -371,6 +369,7 @@ class SettingsViewModel@Inject constructor(private val mainRepository: MainRepos
         return respCompanyApprovedlList
     }
     fun getComapnyRejectedList(reqViewApproval: ReqViewApproval): MutableStateFlow<Resource<companyRejected>>{
+        var respComapnyRejectedlList=MutableStateFlow<Resource<companyRejected>>(Resource.loading(null))
         viewModelScope.launch {
             settingsRepository.getCompanyRejectedList(reqViewApproval)
                 .catch {
@@ -480,7 +479,7 @@ class SettingsViewModel@Inject constructor(private val mainRepository: MainRepos
 
 
     fun getMyPostReelsPendingList(reqViewApproval: ReqViewApproval): MutableStateFlow<Resource<RespViewApproval>>{
-        val reqSettings=ReqSettings(settingsRepository.getUserID())
+        var respViewApprovalList=MutableStateFlow<Resource<RespViewApproval>>(Resource.loading(null))
         viewModelScope.launch {
             settingsRepository.getMyPostReelPending(reqViewApproval)
                 .catch {

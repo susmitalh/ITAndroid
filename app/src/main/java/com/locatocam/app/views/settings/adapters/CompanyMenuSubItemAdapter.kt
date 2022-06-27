@@ -1,5 +1,6 @@
 package com.locatocam.app.views.settings.adapters
 
+import android.app.Dialog
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
@@ -7,14 +8,18 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.Window
+import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.facebook.appevents.internal.AppEventUtility.getRootView
 import com.locatocam.app.R
 import com.locatocam.app.data.responses.company.SubItem
 import com.locatocam.app.views.login.ActivityLogin
 import com.locatocam.app.views.settings.PostReelsApprovalActivity
+import com.locatocam.app.views.settings.SettingsActivity
 import com.locatocam.app.views.settings.influencerDashboard.SettingSubMenuActivity
 import com.locatocam.app.views.settings.myPostReelsApprovalPending.MyPostReelsApprovalPendingActivity
 import com.locatocam.app.views.settings.viewApprovals.ViewApprovalActivity
@@ -45,22 +50,16 @@ class CompanyMenuSubItemAdapter (private val list: List<SubItem>, private val co
     override fun onBindViewHolder(holder: CompanyMenuSubItemAdapter.viewHolder, position: Int) {
         holder.title.text = list[position].Title
         Log.e("MenuSubItemAdapter",list[position].Count.toString())
-        /*if(list[position].Countable){
-            holder.countText.text = "("+list[position].Count+")"
-        }else{
-            holder.countText.visibility = View.GONE
-        }*/
-
         if(list[position].Countable){
             holder.countText.text = "("+list[position].Count+")"
-            if(list[position].Count >0) {
-                holder.title.setTextColor(ContextCompat.getColor(context, R.color.red))
-                holder.countText.setTextColor(ContextCompat.getColor(context, R.color.red))
+            if(list[position].Count == 0){
+                holder.countText.visibility = View.GONE
             }
-        }else{
-            holder.countText.visibility = View.GONE
+            else if(list[position].Count > 0)
+                holder.title.setTextColor(ContextCompat.getColor(context,R.color.red))
+            holder.countText.setTextColor(ContextCompat.getColor(context,R.color.red))
+            Log.e("Countable",list[position].Count.toString())
         }
-
         holder.title.setOnClickListener {
             val title =list[position].Title
             if(title.equals("Merchant Dashboard")) {
@@ -70,15 +69,7 @@ class CompanyMenuSubItemAdapter (private val list: List<SubItem>, private val co
                 context.startActivity(intent)
             }
             else if(title.equals("Logout")){
-                Toast.makeText(context, "Successfully Logout", Toast.LENGTH_SHORT).show()
-                val intent = Intent(context, ActivityLogin::class.java)
-                val sharedPreferences: SharedPreferences =
-                    context.getSharedPreferences("userinfo", Context.MODE_PRIVATE)
-                val editor = sharedPreferences.edit()
-                editor.clear()
-                editor.apply()
-                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                context.startActivity(intent)
+                popupLogout(holder.title.getRootView().getContext())
             }
             else if(title.equals("Share Page Link")){
                 val message: String = "https://loca-toca.com/Login/index?si="+companyDetails.influencer_code
@@ -107,5 +98,28 @@ class CompanyMenuSubItemAdapter (private val list: List<SubItem>, private val co
     override fun getItemCount(): Int {
         return list.size
     }
+    fun popupLogout(context: Context) {
+        val dialog = Dialog(context)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setContentView(R.layout.popup_logout)
+        dialog.setCanceledOnTouchOutside(false)
+        val yes = dialog.findViewById<View>(R.id.yes) as Button
+        val no = dialog.findViewById<View>(R.id.no) as Button
+        no.setOnClickListener { dialog.dismiss() }
+        yes.setOnClickListener {
+            Toast.makeText(context, "Successfully Logout", Toast.LENGTH_SHORT).show()
+            val intent = Intent(context, ActivityLogin::class.java)
+            val sharedPreferences: SharedPreferences =
+                context.getSharedPreferences("userinfo", Context.MODE_PRIVATE)
+            val editor = sharedPreferences.edit()
+            editor.clear()
+            editor.apply()
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            context.startActivity(intent)
+            dialog.dismiss()
+        }
+        dialog.show()
+    }
 }
+//Unable to add window -- token null is not valid; is your activity running?
 

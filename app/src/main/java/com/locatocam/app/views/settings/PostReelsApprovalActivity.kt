@@ -5,6 +5,8 @@ import android.content.Intent
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.View
 import android.view.Window
@@ -22,6 +24,7 @@ import com.locatocam.app.data.requests.viewApproval.ReqApprove
 import com.locatocam.app.data.requests.viewApproval.ReqCompanyApprove
 import com.locatocam.app.data.requests.viewApproval.ReqCompanyReject
 import com.locatocam.app.data.requests.viewApproval.ReqReject
+import com.locatocam.app.data.responses.settings.Approved.PageDetails
 import com.locatocam.app.data.responses.settings.companyPending.Detail
 import com.locatocam.app.databinding.ActivityPostReelsApprovalBinding
 import com.locatocam.app.network.Status
@@ -37,11 +40,18 @@ class PostReelsApprovalActivity : AppCompatActivity(),CompanyPendingClickEvents,
     lateinit var binding: ActivityPostReelsApprovalBinding
     lateinit var viewModel: SettingsViewModel
     var userId: String?=null
-    lateinit var viewPendingLIst: com.locatocam.app.data.responses.settings.companyPending.Data
-    lateinit var viewApprovedLIst: com.locatocam.app.data.responses.settings.companyApproved.Data
-    lateinit var viewRejectedLIst: com.locatocam.app.data.responses.settings.companyRejected.Data
     var process:String="pending"
     var type:String="post"
+    private val pageStart: Int = 0
+    private var isLoading: Boolean = false
+    private var isLastPage: Boolean = false
+    private var totalPages: Int = 200
+    private val pageSize =10
+    private var currentPage: Int = pageStart
+    private var currentPageNumber: HashMap<String, PageDetails> = HashMap<String, PageDetails>()
+    private var appovedPosts: MutableList<com.locatocam.app.data.responses.settings.companyApproved.Detail> = ArrayList()
+    private var pendingPosts: MutableList<Detail> = ArrayList()
+    private var rejectPosts: MutableList<com.locatocam.app.data.responses.settings.companyRejected.Detail> = ArrayList()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding= ActivityPostReelsApprovalBinding.inflate(layoutInflater)
@@ -53,19 +63,28 @@ class PostReelsApprovalActivity : AppCompatActivity(),CompanyPendingClickEvents,
             }
 
         }
-        binding.list.layoutManager = LinearLayoutManager(MyApp.context)
-        binding.list.itemAnimator = DefaultItemAnimator()
+        binding.Pendinglist.layoutManager = LinearLayoutManager(MyApp.context)
+        binding.Pendinglist.itemAnimator = DefaultItemAnimator()
+        binding.Approvedlist.layoutManager = LinearLayoutManager(MyApp.context)
+        binding.Approvedlist.itemAnimator = DefaultItemAnimator()
+        binding.Rejectedlist.layoutManager = LinearLayoutManager(MyApp.context)
+        binding.Rejectedlist.itemAnimator = DefaultItemAnimator()
         viewModel= ViewModelProvider(this).get(SettingsViewModel::class.java)
         onClick()
-        setComapanyPendingPost(type, process)
+        initMyPendingRecyclerView()
 
     }
 
     private fun onClick() {
         binding.pending.setOnClickListener {
+            isLoading = false
+            isLastPage = false
             process="pending"
             type = "post"
-            setComapanyPendingPost(type,process)
+            pendingPosts.clear()
+            currentPageNumber.clear()
+            currentPageNumber.remove("$type#$process")
+            initMyPendingRecyclerView()
             binding.pending.setBackgroundResource(R.drawable.button_rnd_red_filled_oval)
             binding.approved.setBackgroundResource(R.drawable.oval_red_border)
             binding.rejected.setBackgroundResource(R.drawable.oval_red_border)
@@ -74,9 +93,14 @@ class PostReelsApprovalActivity : AppCompatActivity(),CompanyPendingClickEvents,
             binding.rejected.setTextColor(Color.parseColor("#AC0000"))
         }
         binding.approved.setOnClickListener {
+            isLoading = false
+            isLastPage = false
             process="approved"
             type="post"
-            setComapanyApprovedPost(type,process)
+            appovedPosts.clear()
+            currentPageNumber.clear()
+            currentPageNumber.remove("$type#$process")
+            initMyApprovedRecyclerView()
             binding.pending.setBackgroundResource(R.drawable.oval_red_border)
             binding.approved.setBackgroundResource(R.drawable.button_rnd_red_filled_oval)
             binding.rejected.setBackgroundResource(R.drawable.oval_red_border)
@@ -85,9 +109,14 @@ class PostReelsApprovalActivity : AppCompatActivity(),CompanyPendingClickEvents,
             binding.rejected.setTextColor(Color.parseColor("#AC0000"))
         }
         binding.rejected.setOnClickListener {
+            isLoading = false
+            isLastPage = false
             process="rejected"
             type="post"
-            setComapanyRejectedPost(type,process)
+            rejectPosts.clear()
+            currentPageNumber.clear()
+            currentPageNumber.remove("$type#$process")
+            initMyRejectRecyclerView()
             binding.pending.setBackgroundResource(R.drawable.oval_red_border)
             binding.approved.setBackgroundResource(R.drawable.oval_red_border)
             binding.rejected.setBackgroundResource(R.drawable.button_rnd_red_filled_oval)
@@ -107,13 +136,49 @@ class PostReelsApprovalActivity : AppCompatActivity(),CompanyPendingClickEvents,
     fun getUserID():String{
         return SharedPrefEnc.getPref(MyApp.context,"user_id")
     }
+    private fun initMyPendingRecyclerView() {
+        setComapanyPendingPost(type,process)
+        //attach adapter to  recycler
+        binding.Pendinglist.addOnScrollListener(object : PaginationScrollListener(binding.Pendinglist.layoutManager as LinearLayoutManager) {
+            var key = type + "#" + process
+            var pageDetails = currentPageNumber.get(key)
+            override fun loadMoreItems() {
+                isLoading = true
+                Handler(Looper.myLooper()!!).postDelayed({
+                    setComapanyPendingPost(type,process)
+                    isLoading = false
+                }, 1000)
+            }
+            override fun getTotalPageCount(): Int {
+                return totalPages
+            }
+            override fun isLastPage(): Boolean {
+                return isLastPage
+            }
+            override fun isLoading(): Boolean {
+                return isLoading
+            }
+        })
+    }
 
     fun setComapanyPendingPost(type:String, process:String){
-
+        binding.Pendinglist.visibility=View.VISIBLE
+        binding.Rejectedlist.visibility=View.GONE
+        binding.Approvedlist.visibility=View.GONE
         val userId:String= SharedPrefEnc.getPref(MyApp.context,"user_id")
         val user_id:Int=userId.toInt()
+        var key = type + "#" + process
+        var pageDetails = currentPageNumber.get(key)
+        var pageNumber = pageDetails?.currentPage ?: -1;
+        ++pageNumber
+        if(pageDetails == null) {
+            pageDetails = PageDetails(key, pageNumber,0)
+            currentPageNumber.put(key,pageDetails);
+        }
+        pageDetails.currentPage = pageNumber
+        currentPage = pageNumber
         val reqViewApproval= ReqViewApproval(
-            "", process,
+            pageNumber.toString(), process,
             type,
             user_id.toString()
         )
@@ -122,17 +187,29 @@ class PostReelsApprovalActivity : AppCompatActivity(),CompanyPendingClickEvents,
             viewModel.getCompanyPendingUser(reqViewApproval).collect {
                 when(it.status){
                     Status.SUCCESS -> {
-                        MainActivity.binding.loader.visibility= View.GONE
-                        viewPendingLIst =  it.data?.data ?: viewPendingLIst
                         if(type.equals("post")) {
-                            val companyPendingApprovalAdapter = CompanyPendingApprovalAdapter(viewPendingLIst.details,
+                            var totalCount =0
+                            lateinit var viewPendingLIst: com.locatocam.app.data.responses.settings.companyPending.Data
+                            MainActivity.binding.loader.visibility= View.GONE
+                            viewPendingLIst =  it.data?.data ?: viewPendingLIst
+                            totalCount = viewPendingLIst.pending
+                            pendingPosts.addAll(viewPendingLIst.details)
+                            val companyPendingApprovalAdapter = CompanyPendingApprovalAdapter(pendingPosts,
                                 applicationContext,this@PostReelsApprovalActivity)
-                            binding.list.adapter = companyPendingApprovalAdapter
+                            binding.Pendinglist.adapter = companyPendingApprovalAdapter
+                            companyPendingApprovalAdapter.notifyDataSetChanged()
+                            binding.pending.text="Pending("+viewPendingLIst.pending+")"
+                            binding.approved.text="Approved("+viewPendingLIst.approved+")"
+                            binding.rejected.text="Rejected("+viewPendingLIst.rejected+")"
+                            if(pageNumber>0) {
+                                val scrollPosition = pageNumber * 11
+                                binding.Pendinglist.scrollToPosition(scrollPosition)
+                            }
+                            pageDetails.totalPages = totalCount/pageSize
+                            pageDetails.totalPages = if(totalCount%pageSize ==0) pageDetails.totalPages else pageDetails.totalPages +1
+                            totalPages = pageDetails?.totalPages ?: 0
+                            isLastPage = pageNumber + 1 == totalPages
                         }
-
-                        binding.pending.text="Pending("+viewPendingLIst.pending+")"
-                        binding.approved.text="Approved("+viewPendingLIst.approved+")"
-                        binding.rejected.text="Rejected("+viewPendingLIst.rejected+")"
 
                     }
                     Status.LOADING -> {
@@ -151,12 +228,48 @@ class PostReelsApprovalActivity : AppCompatActivity(),CompanyPendingClickEvents,
             }
         }
     }
+    private fun initMyApprovedRecyclerView() {
+        setComapanyApprovedPost(type,process)
+        //attach adapter to  recycler
+        binding.Approvedlist.addOnScrollListener(object : PaginationScrollListener(binding.Approvedlist.layoutManager as LinearLayoutManager) {
+            var key = type + "#" + process
+            var pageDetails = currentPageNumber.get(key)
+            override fun loadMoreItems() {
+                isLoading = true
+                Handler(Looper.myLooper()!!).postDelayed({
+                    setComapanyApprovedPost(type,process)
+                    isLoading = false
+                }, 1000)
+            }
+            override fun getTotalPageCount(): Int {
+                return totalPages
+            }
+            override fun isLastPage(): Boolean {
+                return isLastPage
+            }
+            override fun isLoading(): Boolean {
+                return isLoading
+            }
+        })
+    }
     fun setComapanyApprovedPost(type:String, process:String){
-        binding.list.adapter=null
+        binding.Approvedlist.visibility=View.VISIBLE
+        binding.Pendinglist.visibility=View.GONE
+        binding.Rejectedlist.visibility=View.GONE
         val userId:String= SharedPrefEnc.getPref(MyApp.context,"user_id")
         val user_id:Int=userId.toInt()
+        var key = type + "#" + process
+        var pageDetails = currentPageNumber.get(key)
+        var pageNumber = pageDetails?.currentPage ?: -1;
+        ++pageNumber
+        if(pageDetails == null) {
+            pageDetails = PageDetails(key, pageNumber,0)
+            currentPageNumber.put(key,pageDetails);
+        }
+        pageDetails.currentPage = pageNumber
+        currentPage = pageNumber
         val reqViewApproval= ReqViewApproval(
-            "", process,
+            pageNumber.toString(), process,
             type,
             user_id.toString()
         )
@@ -165,18 +278,27 @@ class PostReelsApprovalActivity : AppCompatActivity(),CompanyPendingClickEvents,
             viewModel.getCompanyApprovedList(reqViewApproval).collect {
                 when(it.status){
                     Status.SUCCESS -> {
-                        MainActivity.binding.loader.visibility= View.GONE
-                        viewApprovedLIst =  it.data?.data ?: viewApprovedLIst
-                        if(type.equals("post")) {
-                            val comaonyApprovedApprovalsAdapter = ComaonyApprovedApprovalsAdapter(
-                                viewApprovedLIst.details,
+                        var totalCount =0
+                            lateinit var viewApprovedLIst: com.locatocam.app.data.responses.settings.companyApproved.Data
+                            MainActivity.binding.loader.visibility= View.GONE
+                            viewApprovedLIst =  it.data?.data ?: viewApprovedLIst
+                            totalCount = viewApprovedLIst.approved
+                            appovedPosts.addAll(viewApprovedLIst.details)
+                            val comaonyApprovedApprovalsAdapter = ComaonyApprovedApprovalsAdapter(appovedPosts,
                                 applicationContext,this@PostReelsApprovalActivity)
-                            binding.list.adapter = comaonyApprovedApprovalsAdapter
-                        }
-
-                        binding.pending.text="Pending("+viewPendingLIst.pending+")"
-                        binding.approved.text="Approved("+viewPendingLIst.approved+")"
-                        binding.rejected.text="Rejected("+viewPendingLIst.rejected+")"
+                            binding.Approvedlist.adapter = comaonyApprovedApprovalsAdapter
+                            comaonyApprovedApprovalsAdapter.notifyDataSetChanged()
+                            binding.pending.text="Pending("+viewApprovedLIst.pending+")"
+                            binding.approved.text="Approved("+viewApprovedLIst.approved+")"
+                            binding.rejected.text="Rejected("+viewApprovedLIst.rejected+")"
+                            if(pageNumber>0) {
+                                val scrollPosition = pageNumber * 11
+                                binding.Approvedlist.scrollToPosition(scrollPosition)
+                            }
+                            pageDetails.totalPages = totalCount/pageSize
+                            pageDetails.totalPages = if(totalCount%pageSize ==0) pageDetails.totalPages else pageDetails.totalPages +1
+                            totalPages = pageDetails?.totalPages ?: 0
+                            isLastPage = pageNumber + 1 == totalPages
                     }
                     Status.LOADING -> {
                         MainActivity.binding.loader.visibility= View.VISIBLE
@@ -194,12 +316,47 @@ class PostReelsApprovalActivity : AppCompatActivity(),CompanyPendingClickEvents,
             }
         }
     }
+    private fun initMyRejectRecyclerView() {
+        setComapanyRejectedPost(type,process)
+        //attach adapter to  recycler
+        binding.Rejectedlist.addOnScrollListener(object : PaginationScrollListener(binding.Rejectedlist.layoutManager as LinearLayoutManager) {
+            var key = type + "#" + process
+            var pageDetails = currentPageNumber.get(key)
+            override fun loadMoreItems() {
+                isLoading = true
+                Handler(Looper.myLooper()!!).postDelayed({
+                    setComapanyRejectedPost(type,process)
+                    isLoading = false
+                }, 1000)
+            }
+            override fun getTotalPageCount(): Int {
+                return totalPages
+            }
+            override fun isLastPage(): Boolean {
+                return isLastPage
+            }
+            override fun isLoading(): Boolean {
+                return isLoading
+            }
+        })
+    }
     fun setComapanyRejectedPost(type:String, process:String){
-
+        binding.Pendinglist.visibility=View.GONE
+        binding.Rejectedlist.visibility=View.VISIBLE
+        binding.Approvedlist.visibility=View.GONE
         val userId:String= SharedPrefEnc.getPref(MyApp.context,"user_id")
         val user_id:Int=userId.toInt()
-        val reqViewApproval= ReqViewApproval(
-            "", process,
+        var key = type + "#" + process
+        var pageDetails = currentPageNumber.get(key)
+        var pageNumber = pageDetails?.currentPage ?: -1;
+        ++pageNumber
+        if(pageDetails == null) {
+            pageDetails = PageDetails(key, pageNumber,0)
+            currentPageNumber.put(key,pageDetails);
+        }
+        pageDetails.currentPage = pageNumber
+        currentPage = pageNumber
+        val reqViewApproval= ReqViewApproval(pageNumber.toString(), process,
             type,
             user_id.toString()
         )
@@ -208,18 +365,31 @@ class PostReelsApprovalActivity : AppCompatActivity(),CompanyPendingClickEvents,
             viewModel.getComapnyRejectedList(reqViewApproval).collect {
                 when(it.status){
                     Status.SUCCESS -> {
-                        MainActivity.binding.loader.visibility= View.GONE
-                        viewRejectedLIst =  it.data?.data ?: viewRejectedLIst
-                        if(type.equals("post")) {
+                        var totalCount =0
+                            lateinit var viewRejectedLIst: com.locatocam.app.data.responses.settings.companyRejected.Data
+                            MainActivity.binding.loader.visibility= View.GONE
+                            viewRejectedLIst =  it.data?.data ?: viewRejectedLIst
+                            totalCount = viewRejectedLIst.rejected
+                            rejectPosts.addAll(viewRejectedLIst.details)
                             val ComapnyRejectedApprovalsAdapter = ComapnyRejectedApprovalsAdapter(
-                                viewRejectedLIst.details,
+                                rejectPosts,
                                 applicationContext,this@PostReelsApprovalActivity
                             )
-                            binding.list.adapter = ComapnyRejectedApprovalsAdapter
-                        }
-                        binding.pending.text="Pending("+viewPendingLIst.pending+")"
-                        binding.approved.text="Approved("+viewPendingLIst.approved+")"
-                        binding.rejected.text="Rejected("+viewPendingLIst.rejected+")"
+                            binding.Rejectedlist.adapter = ComapnyRejectedApprovalsAdapter
+                            ComapnyRejectedApprovalsAdapter.notifyDataSetChanged()
+                            binding.pending.text="Pending("+viewRejectedLIst.pending+")"
+                            binding.approved.text="Approved("+viewRejectedLIst.approved+")"
+                            binding.rejected.text="Rejected("+viewRejectedLIst.rejected+")"
+                            if(pageNumber>0) {
+                                val scrollPosition = pageNumber * 11
+                                binding.Rejectedlist.scrollToPosition(scrollPosition)
+                            }
+                            pageDetails.totalPages = totalCount/pageSize
+                            pageDetails.totalPages = if(totalCount%pageSize ==0) pageDetails.totalPages else pageDetails.totalPages +1
+                            totalPages = pageDetails?.totalPages ?: 0
+                            isLastPage = pageNumber + 1 == totalPages
+
+
                     }
                     Status.LOADING -> {
                         MainActivity.binding.loader.visibility= View.VISIBLE
@@ -396,12 +566,24 @@ class PostReelsApprovalActivity : AppCompatActivity(),CompanyPendingClickEvents,
                     Status.SUCCESS -> {
                         MainActivity.binding.loader.visibility= View.GONE
                         if(process=="pending") {
+                            isLoading = false
+                            isLastPage = false
+                            pendingPosts.clear()
+                            currentPageNumber.clear()
                             setComapanyPendingPost(type, process)
                         }
                         else if(process=="approved") {
+                            isLoading = false
+                            isLastPage = false
+                            appovedPosts.clear()
+                            currentPageNumber.clear()
                             setComapanyApprovedPost(type, process)
                         }
                         else if(process=="rejected") {
+                            isLoading = false
+                            isLastPage = false
+                            rejectPosts.clear()
+                            currentPageNumber.clear()
                             setComapanyRejectedPost(type, process)
                         }
                     }
@@ -448,12 +630,24 @@ class PostReelsApprovalActivity : AppCompatActivity(),CompanyPendingClickEvents,
                     Status.SUCCESS -> {
                         MainActivity.binding.loader.visibility= View.GONE
                         if(process=="pending") {
+                            isLoading = false
+                            isLastPage = false
+                            pendingPosts.clear()
+                            currentPageNumber.clear()
                             setComapanyPendingPost(type, process)
                         }
                         else if(process=="approved") {
+                            isLoading = false
+                            isLastPage = false
+                            appovedPosts.clear()
+                            currentPageNumber.clear()
                             setComapanyApprovedPost(type, process)
                         }
                         else if(process=="rejected") {
+                            isLoading = false
+                            isLastPage = false
+                            rejectPosts.clear()
+                            currentPageNumber.clear()
                             setComapanyRejectedPost(type, process)
                         }
                     }
@@ -502,13 +696,13 @@ class PostReelsApprovalActivity : AppCompatActivity(),CompanyPendingClickEvents,
                 when(it.status){
                     Status.SUCCESS -> {
                         MainActivity.binding.loader.visibility= View.GONE
-                        if(process=="pending") {
+                        if(process.equals("pending")) {
                             setComapanyPendingPost(type, process)
                         }
-                        else if(process=="approved") {
+                        else if(process.equals("approved")) {
                             setComapanyApprovedPost(type, process)
                         }
-                        else if(process=="rejected") {
+                        else if(process.equals("rejected")) {
                             setComapanyRejectedPost(type, process)
                         }
                     }

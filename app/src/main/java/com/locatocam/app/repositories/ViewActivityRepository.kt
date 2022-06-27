@@ -4,6 +4,7 @@ import android.app.Application
 import com.locatocam.app.data.requests.*
 import com.locatocam.app.data.responses.followers.RespFollowers
 import com.locatocam.app.data.responses.my_activity.RespMyActivity
+import com.locatocam.app.data.responses.notification.RespNotification
 import com.locatocam.app.data.responses.popular_brands.RespPopularBrands
 import com.locatocam.app.data.responses.products.RespProducts
 import com.locatocam.app.data.responses.selected_brands.RespSelectedBrand
@@ -29,6 +30,12 @@ class ViewActivityRepository(val application: Application)  {
     suspend fun getViewActivity(reqMyActivity: ReqMyActivity): Flow<RespMyActivity> {
         return flow {
             val res= retrofitService.create(WebApi::class.java).getMyActivity(reqMyActivity)
+            emit(res)
+        }.flowOn(Dispatchers.IO)
+    }
+    suspend fun getNotification(reqMyActivity: ReqMyActivity): Flow<RespNotification> {
+        return flow {
+            val res= retrofitService.create(WebApi::class.java).getNotification(reqMyActivity)
             emit(res)
         }.flowOn(Dispatchers.IO)
     }

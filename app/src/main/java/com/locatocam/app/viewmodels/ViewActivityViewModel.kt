@@ -4,13 +4,13 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.locatocam.app.data.requests.ReqFollowers
-import com.locatocam.app.data.requests.ReqItems
-import com.locatocam.app.data.requests.ReqMyActivity
-import com.locatocam.app.data.requests.ReqSelectedBrand
+import com.locatocam.app.data.requests.*
+import com.locatocam.app.data.requests.reqUserProfile.ReqViewApproval
 import com.locatocam.app.data.responses.followers.RespFollowers
 import com.locatocam.app.data.responses.my_activity.RespMyActivity
+import com.locatocam.app.data.responses.notification.RespNotification
 import com.locatocam.app.data.responses.products.Data
+import com.locatocam.app.data.responses.settings.pendingPost.RespViewApproval
 import com.locatocam.app.network.Resource
 import com.locatocam.app.repositories.AddProductRepository
 import com.locatocam.app.repositories.FollowersRepository
@@ -22,17 +22,14 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import okhttp3.Dispatcher
 
-class ViewActivityViewModel(
-    val repository: ViewActivityRepository
-    ):ViewModel() {
-
+class ViewActivityViewModel(val repository: ViewActivityRepository):ViewModel() {
     val myactivity = MutableStateFlow<Resource<RespMyActivity>>(Resource.loading(null))
-
+    val mynotification = MutableStateFlow<Resource<RespNotification>>(Resource.loading(null))
     init {
     }
+    fun getActivity(request:ReqMyActivity){
 
-    fun getActivity(){
-        var request= ReqMyActivity(repository.getUserID().toInt(),"1")
+        //var request= ReqMyActivity(repository.getUserID().toInt(),"1")
         viewModelScope.launch {
             repository.getViewActivity(request)
                 .catch {e->
@@ -42,6 +39,19 @@ class ViewActivityViewModel(
                 }
         }
     }
+    fun getNotification(request:ReqMyActivity){
+
+        //var request= ReqMyActivity(repository.getUserID().toInt(),"1")
+        viewModelScope.launch {
+            repository.getNotification(request)
+                .catch {e->
+                    mynotification.value = (Resource.error(e.toString(), null))
+                }.collect {
+                    mynotification.value=(Resource.success(it))
+                }
+        }
+    }
+
 
 
 }

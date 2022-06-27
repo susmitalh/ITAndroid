@@ -14,12 +14,9 @@ import com.locatocam.app.R
 import com.locatocam.app.data.responses.settings.Approved.Detail
 
 class ApprovedPostApprovalsAdapter (private val list: MutableList<Detail>, private val context: Context,
-                                    private val clickEvents: com.locatocam.app.views.settings.ApprovedClickEvents,
-private var totalItemCount: Int) : RecyclerView.Adapter<ApprovedPostApprovalsAdapter.viewHolder>() {
+                                    private val clickEvents: com.locatocam.app.views.settings.ApprovedClickEvents) : RecyclerView.Adapter<ApprovedPostApprovalsAdapter.viewHolder>() {
 
-    fun getDetails(): MutableList<Detail>{
-        return list
-    }
+
     class viewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         var textPostedBy: TextView = itemView.findViewById(R.id.textPostedBy)

@@ -354,14 +354,14 @@
                 <EditText
                     android:id="@+id/addressText"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="80dp"
                     android:layout_marginStart="5dp"
                     android:layout_marginEnd="5dp"
                     android:layout_weight="1"
                     android:background="@drawable/button_rnd_red"
                     android:enabled="true"
                     android:padding="5dp"
-                    android:singleLine="true"
+                    android:singleLine="false"
                     android:textColor="@color/black"
                     android:textSize="15sp" />
 

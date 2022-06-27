@@ -11,10 +11,11 @@
     </data>
 
     <RelativeLayout
-        android:background="@color/white"
+        android:background="@color/black"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <androidx.cardview.widget.CardView
+            android:visibility="gone"
             android:id="@+id/header"
             android:layout_width="match_parent"
             android:layout_height="40dp">

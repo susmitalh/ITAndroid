@@ -10,6 +10,7 @@ import android.os.Handler
 import android.util.Log
 import android.view.View
 import android.view.ViewGroup
+import android.view.Window
 import android.widget.*
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -28,6 +29,7 @@ import com.karumi.dexter.listener.PermissionRequest
 import com.karumi.dexter.listener.single.PermissionListener
 import com.locatocam.app.R
 import com.locatocam.app.data.requests.ReqSendOtp
+import com.locatocam.app.data.responses.settings.companyPending.Detail
 import com.locatocam.app.databinding.SettingsFragmentBinding
 import com.locatocam.app.network.Status
 import com.locatocam.app.network.UserDetailsMapper
@@ -567,11 +569,14 @@ class SettingsActivity : AppCompatActivity(){
                 }
 
         }
-        if(ud.is_admin==="1" && ud.user_type==="user" ){
+        if(ud.is_admin.equals("1") && ud.user_type.equals("user")){
             binding.userType.text="Admin"
         }
-        else if (ud.is_admin==="0" && ud.user_type==="user" ){
+        else if (ud.is_admin.equals("0") && ud.user_type.equals("user")){
             binding.userType.text="Influncer"
+        }
+        else{
+            binding.userType.visibility=View.GONE
         }
         binding.shareLink.setOnClickListener {
             val message: String = "https://loca-toca.com/Login/index?si="+ud.influencer_code
@@ -705,7 +710,7 @@ class SettingsActivity : AppCompatActivity(){
         binding.linearShareLink.visibility=View.VISIBLE
         binding.linearMyPage.visibility=View.VISIBLE
         binding.image.visibility=View.GONE
-        binding.editProfile.visibility=View.GONE
+        binding.imgEdit.visibility=View.GONE
 
         val docs = ud.documents
         if (!docs.isNullOrEmpty()){
@@ -723,11 +728,14 @@ class SettingsActivity : AppCompatActivity(){
                 }
 
         }
-        if(ud.is_admin==="1" && ud.user_type==="company" ){
+        if(ud.is_admin.equals("1") && ud.user_type.equals("user")){
             binding.userType.text="Admin"
         }
-        else if (ud.is_admin==="0" && ud.user_type==="company" ){
+        else if (ud.is_admin.equals("0") && ud.user_type.equals("user")){
             binding.userType.text="Influncer"
+        }
+        else{
+            binding.userType.visibility=View.GONE
         }
 
         binding.shareLink.setOnClickListener {
@@ -836,6 +844,15 @@ class SettingsActivity : AppCompatActivity(){
 
                 }
 
+        }
+        if(ud.is_admin.equals("1") && ud.user_type.equals("user")){
+            binding.userType.text="Admin"
+        }
+        else if (ud.is_admin.equals("0") && ud.user_type.equals("user")){
+            binding.userType.text="Influncer"
+        }
+        else{
+            binding.userType.visibility=View.GONE
         }
         binding.shareLink.setOnClickListener {
             val message: String = "https://loca-toca.com/Login/index?si="+ud.influencer_code
@@ -1007,4 +1024,5 @@ class SettingsActivity : AppCompatActivity(){
         }
 
     }
+
 }

@@ -16,7 +16,7 @@ import com.locatocam.app.data.PendingPost
 import com.locatocam.app.data.responses.settings.Approved.Detail
 import com.locatocam.app.views.settings.CompanyApprovedClickEvents
 
-class ComaonyApprovedApprovalsAdapter (private val list: List<com.locatocam.app.data.responses.settings.companyApproved.Detail>, private val context: Context,
+class ComaonyApprovedApprovalsAdapter (private val list: MutableList<com.locatocam.app.data.responses.settings.companyApproved.Detail>, private val context: Context,
  private val companyApprovedClickEvents: CompanyApprovedClickEvents) : RecyclerView.Adapter<ComaonyApprovedApprovalsAdapter.viewHolder>() {
 
     class viewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

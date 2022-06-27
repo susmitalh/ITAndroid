@@ -17,7 +17,7 @@ import com.locatocam.app.data.responses.settings.Approved.Detail
 import com.locatocam.app.views.settings.RejectedClickEvents
 import com.locatocam.app.views.settings.myPostReelsApprovalPending.CompanyRejectedClickEvents
 
-class CompanyRejectedRollsApprovalsAdapter (private val list: List<com.locatocam.app.data.responses.settings.rejectedPost.Detail>, private val context: Context,
+class CompanyRejectedRollsApprovalsAdapter (private val list: MutableList<com.locatocam.app.data.responses.settings.rejectedPost.Detail>, private val context: Context,
                                             private val click: CompanyRejectedClickEvents
 ) : RecyclerView.Adapter<CompanyRejectedRollsApprovalsAdapter.viewHolder>() {
 
