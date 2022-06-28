@@ -16,6 +16,7 @@ import com.locatocam.app.data.requests.viewApproval.ReqCompanyReject
 import com.locatocam.app.data.requests.viewApproval.ReqReject
 import com.locatocam.app.data.responses.*
 import com.locatocam.app.data.responses.customer_model.Customer
+import com.locatocam.app.data.responses.favOrder.ResFavOrder
 import com.locatocam.app.data.responses.settings.*
 import com.locatocam.app.data.responses.settings.Approved.ApprovedPost
 import com.locatocam.app.data.responses.settings.companyApproved.companyApproved
@@ -25,6 +26,7 @@ import com.locatocam.app.data.responses.settings.pendingPost.RespViewApproval
 import com.locatocam.app.data.responses.settings.rejectedPost.ResRejected
 import com.locatocam.app.data.responses.user_model.Document
 import com.locatocam.app.data.responses.user_model.User
+import com.locatocam.app.data.responses.yourOrder.ResYourOrder
 import com.locatocam.app.network.Resource
 import com.locatocam.app.repositories.*
 import com.locatocam.app.utils.Constant
@@ -65,15 +67,14 @@ class SettingsViewModel@Inject constructor(private val mainRepository: MainRepos
         launchDocPicker.value = DocLauncher(document,documentView)
 
     }
-
     var respInfluencerSop=MutableLiveData<InfluencerSop>()
     var respViewBlockUSerList=MutableStateFlow<Resource<ViewBlockUser>>(Resource.loading(null))
     var respBlockedUser=MutableStateFlow<Resource<ResBlockedUser>>(Resource.loading(null))
     var respRejectedlList=MutableStateFlow<Resource<ResRejected>>(Resource.loading(null))
-
     var respRejectApprovStatus=MutableStateFlow<Resource<StatusApproved>>(Resource.loading(null))
     var respApprovedStatus=MutableStateFlow<Resource<StatusApproved>>(Resource.loading(null))
-
+    var resYourOrders = MutableStateFlow<Resource<ResYourOrder>>(Resource.loading(null))
+    var resFavOrders = MutableStateFlow<Resource<ResFavOrder>>(Resource.loading(null))
 
     fun getSettings(){
         var reqSettings=ReqSettings(settingsRepository.getUserID())
@@ -520,6 +521,33 @@ class SettingsViewModel@Inject constructor(private val mainRepository: MainRepos
                 }
         }
         return respRejectedlList
+    }
+    fun getYourOrdersList(reqOrders: ReqOrders): MutableStateFlow<Resource<ResYourOrder>>{
+        viewModelScope.launch {
+            settingsRepository.getYourOrders(reqOrders)
+                .catch {
+                    Log.i("uname",it.message.toString())
+                }
+                .collect {
+                    resYourOrders.value=/*it*/Resource.success(it)
+                    Log.i("uname",it.status.toString())
+                }
+        }
+        return resYourOrders
+    }
+
+    fun getYourFavsList(reqOrders: ReqOrders): MutableStateFlow<Resource<ResFavOrder>>{
+        viewModelScope.launch {
+            settingsRepository.getFavOrders(reqOrders)
+                .catch {
+                    Log.i("uname",it.message.toString())
+                }
+                .collect {
+                    resFavOrders.value=/*it*/Resource.success(it)
+                    Log.i("uname",it.status.toString())
+                }
+        }
+        return resFavOrders
     }
 
 

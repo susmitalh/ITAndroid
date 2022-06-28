@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.locatocam.app.R
 import com.locatocam.app.data.responses.company.SubItem
 import com.locatocam.app.views.login.ActivityLogin
+import com.locatocam.app.views.settings.foodOrders.YourOrderActivity
 import com.locatocam.app.views.settings.influencerDashboard.InfluencerSOPActivity
 import com.locatocam.app.views.settings.influencerDashboard.SettingSubMenuActivity
 import com.locatocam.app.views.settings.influencerDashboard.ViewBlockUserActivity
@@ -110,6 +111,13 @@ class UserMenuSubItemAdapter (private val list: List<com.locatocam.app.data.resp
                 intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
                 context.startActivity(intent)
             }
+            else if(title.equals("Your Orders")){
+                val intent = Intent(context, YourOrderActivity::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
+                context.startActivity(intent)
+            }
+
+
 
         }
         Log.e("MenuSubItemAdapter",list[position].Title)
@@ -119,7 +127,7 @@ class UserMenuSubItemAdapter (private val list: List<com.locatocam.app.data.resp
         return list.size
     }
     fun popupLogout(context: Context) {
-        val dialog = Dialog(context.applicationContext)
+        val dialog = Dialog(context)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setContentView(R.layout.popup_logout)
         dialog.setCanceledOnTouchOutside(false)
