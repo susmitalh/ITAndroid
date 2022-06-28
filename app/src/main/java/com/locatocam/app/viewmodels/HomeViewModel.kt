@@ -11,6 +11,7 @@ import com.locatocam.app.data.responses.address.RespAddress
 import com.locatocam.app.data.responses.feed.Data
 import com.locatocam.app.repositories.HomeRepository
 import com.locatocam.app.views.home.HomeFragment
+import com.locatocam.app.views.home.HomeFragment.Companion.instance
 import com.locatocam.app.views.home.test.SimpleAdapter
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
@@ -20,7 +21,9 @@ import kotlinx.coroutines.launch
 class HomeViewModel(
     val repository: HomeRepository
 ) : ViewModel() {
-
+companion object{
+    lateinit var instances:HomeViewModel
+}
 
     var feed_items = MutableLiveData<List<Data>>()
     var addressresp = MutableLiveData<RespAddress>()
@@ -34,6 +37,7 @@ class HomeViewModel(
     var _isheader_added = false
     var searchType = "influencer"
     var get_post_id = ""
+
 
     init {
         offset = 0

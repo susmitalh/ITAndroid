@@ -16,29 +16,50 @@ import com.locatocam.app.databinding.ActivityMapsBinding
 import com.google.android.gms.maps.CameraUpdate
 import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.model.Place
-import com.google.android.libraries.places.api.net.FetchPlaceRequest
-import com.google.android.libraries.places.api.net.FetchPlaceResponse
-import com.google.android.libraries.places.api.net.PlacesClient
 import android.content.Intent
+import android.location.Address
+import android.location.Geocoder
+import android.location.Location
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.View
 import android.widget.RadioButton
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.maps.model.Marker
+import com.google.android.libraries.places.api.model.AutocompleteSessionToken
+import com.google.android.libraries.places.api.net.*
+import com.locatocam.app.Activity.PlayPostActivity
+import com.locatocam.app.data.responses.address.Data
 import com.locatocam.app.repositories.LoginRepository
 import com.locatocam.app.repositories.MapRepository
 import com.locatocam.app.security.SharedPrefEnc
 import com.locatocam.app.viewmodels.LoginViewModel
 import com.locatocam.app.viewmodels.MapsViewModel
+import com.locatocam.app.views.MainActivity
+import com.locatocam.app.views.MainActivity.Companion.activity
+import com.locatocam.app.views.home.HomeFragment
+import com.locatocam.app.views.home.header.HeaderFragment
 import com.locatocam.app.views.login.LoginViewModelFactory
+import com.locatocam.app.views.search.AdddressAdapter
+import com.locatocam.app.views.search.AutoCompleteAdapter
+import com.locatocam.app.views.search.ClickEvents
+import com.locatocam.app.views.search.Locationitem
 import dagger.internal.MapFactory
+import java.io.IOException
+import java.util.*
 
 
-class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
+class MapsActivity : AppCompatActivity(), OnMapReadyCallback , GoogleMap.OnMapClickListener,
+    GoogleMap.OnMarkerDragListener, ClickEvents {
 
     private lateinit var mMap: GoogleMap
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var binding: ActivityMapsBinding
     lateinit var placesClient: PlacesClient
     lateinit var viewModel: MapsViewModel
-
+    lateinit var geocoder: Geocoder
     var result_lat=0.0
     var result_lng=0.0
     var result_text=""
@@ -50,9 +71,13 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
         var repository= MapRepository(application)
         var factory= MapsModelFactory(repository)
+        geocoder = Geocoder(this)
 
         viewModel= ViewModelProvider(this,factory).get(MapsViewModel::class.java)
         val apiKey ="AIzaSyD5-MyENcRZHlFaCYAUvb0gsyrCv5wVaV4"
+
+        binding.recyclerviewSearchLoca.layoutManager = LinearLayoutManager(this)
+        binding.savedAddress.layoutManager = LinearLayoutManager(this)
 
         setclickListeners()
         setObservers()
@@ -68,6 +93,14 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
     fun setObservers(){
+
+        viewModel.addressresp.observe(this, {
+            Log.e("address", it.message!!)
+            Log.e("address", it.data.toString())
+            val adapter = AdddressAdapter(it.data!!, this)
+            binding.savedAddress.adapter = adapter
+        })
+        viewModel.getAddress(SharedPrefEnc.getPref(this, "mobile"))
         viewModel.save_address_status.observe(this,{
             if (it){
                 val data = Intent()
@@ -79,7 +112,75 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             }
         })
     }
+
+    fun performSearch(query: String) {
+        val token = AutocompleteSessionToken.newInstance()
+        val request = FindAutocompletePredictionsRequest.builder()
+            .setCountry("IND")
+            .setSessionToken(token)
+            .setQuery(query)
+            .build()
+        placesClient.findAutocompletePredictions(request)
+            .addOnSuccessListener { response: FindAutocompletePredictionsResponse ->
+                val locations = mutableListOf<Locationitem>()
+
+                for (prediction in response.autocompletePredictions) {
+                    Log.i("REEWthQ9998", prediction.placeId)
+                    Log.i("REEWQ9998", prediction.getPrimaryText(null).toString())
+                    locations.add(
+                        Locationitem(
+                            prediction.getFullText(null).toString(),
+                            prediction.placeId
+                        )
+                    )
+                }
+                var adapter3 = AutoCompleteAdapter(locations, this)
+                binding.recyclerviewSearchLoca.setAdapter(adapter3)
+                if (locations.size > 0) {
+                    binding.recyclerviewSearchLoca.visibility = View.VISIBLE
+                } else {
+                    binding.recyclerviewSearchLoca.visibility = View.GONE
+                }
+            }.addOnFailureListener { exception: Exception? ->
+                if (exception is ApiException) {
+                    Log.e("REEWQ9998", "Place not found: " + exception.statusCode)
+                }
+            }
+
+
+    }
+
+
+
+
     fun setclickListeners(){
+
+
+        binding.imgSearchLocCancel.setOnClickListener {
+            binding.layoutSearchLoc.visibility=View.GONE
+        }
+
+        binding.edtSearchLoca.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun afterTextChanged(p0: Editable?) {
+                if (!binding.edtSearchLoca.text.toString().equals("")) {
+                    performSearch(binding.edtSearchLoca.text.toString())
+                }
+            }
+
+        })
+
+        binding.txtChangeLocation.setOnClickListener {
+
+            binding.layoutSearchLoc.visibility=View.VISIBLE
+        }
         binding.continueSave.setOnClickListener {
           binding.saveAddress.visibility= View.VISIBLE
           binding.mainListing.visibility= View.GONE
@@ -112,10 +213,14 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     }
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
+        mMap.mapType = GoogleMap.MAP_TYPE_NORMAL
+        mMap.setOnMapClickListener(this)
+        mMap.setOnMarkerDragListener(this)
 
         var address_text=intent.getStringExtra("address_text")
         var place_id=intent.getStringExtra("place_id")
         binding.location.setText(address_text)
+        binding.txtSearchLoc.setText(address_text)
         // Specify the fields to return.
         val placeFields = listOf(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG)
         val request = FetchPlaceRequest.newInstance(place_id.toString(), placeFields)
@@ -134,7 +239,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
                 viewModel.lat=place.latLng?.latitude!!.toString()
                 viewModel.lng=place.latLng?.longitude!!.toString()
-                viewModel.place=place.address.toString()
+//                viewModel.place=place.address.toString()
                 viewModel.phone=place.phoneNumber.toString()
 
                 val sydney = LatLng(place.latLng?.latitude!!, place.latLng?.longitude!!)
@@ -154,5 +259,106 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
     }
 
+    override fun onMapClick(p0: LatLng) {
+        try {
+            mMap.clear()
+            var addresses: List<Address> = geocoder.getFromLocation(p0.latitude, p0.longitude, 1)
+            if (addresses.size > 0) {
+                var address = addresses.get(0)
+                var streetAddress = address.getAddressLine(0)
 
+                result_lat= address.latitude
+                result_lng= address.longitude
+                result_text= streetAddress.toString()
+
+                binding.address.setText(streetAddress.toString())
+                binding.houseFlat.setText("")
+                binding.landmark.setText("")
+
+                viewModel.lat=address.latitude.toString()
+                viewModel.lng=address.longitude.toString()
+//                viewModel.place=streetAddress.toString()
+//                viewModel.phone=address.phone.toString()
+                viewModel.pin_code=address.postalCode.toString()
+
+
+                Log.e("TAG", "onMapClicksx: "+address.postalCode )
+
+                binding.location.setText(streetAddress.toString())
+                binding.txtSearchLoc.setText(streetAddress.toString())
+                mMap.addMarker(MarkerOptions()
+                    .position(p0)
+                    .title(streetAddress)
+                    .draggable(true)
+                )
+            }
+        } catch (e: IOException) {
+            e.printStackTrace()
+        }
+    }
+
+    override fun onMarkerDrag(p0: Marker) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onMarkerDragEnd(p0: Marker) {
+        var latLng = p0.position
+        try {
+
+            var addresses: List<Address> =
+                geocoder.getFromLocation(latLng.latitude, latLng.longitude, 1)
+            if (addresses.size > 0) {
+                var address = addresses.get(0)
+                var streetAddress = address.getAddressLine(0)
+                p0.title = streetAddress
+            }
+        } catch (e: IOException) {
+            e.printStackTrace()
+        }
+    }
+
+    override fun onMarkerDragStart(p0: Marker) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onClickLocationItem(locationitem: Locationitem) {
+       binding.layoutSearchLoc.visibility=View.GONE
+    }
+
+    override fun onClickAddress(data: Data) {
+
+        HomeFragment.binding.locationView.visibility=View.GONE
+
+            result_lat=data.latitude!!.toDouble()
+            result_lng=data.longitude!!.toDouble()
+        binding.layoutSearchLoc.visibility = View.GONE
+
+        result_text= data.customer_address!!
+
+       HeaderFragment.binding.myLocation.setText(data.customer_address)
+       HomeFragment.binding.myLocation.setText(data.customer_address)
+        binding.houseFlat.setText("")
+        binding.landmark.setText("")
+
+        viewModel.lat=data.latitude.toString()
+        viewModel.lng=data.longitude.toString()
+        viewModel.pin_code=data.pin_code.toString()
+        viewModel.landmark=data.cust_landmark.toString()
+        Log.e("TAG", "getAllFeedsdd: "+data.latitude+", "+data.longitude )
+        val data = Intent()
+        data.putExtra("result_lat",result_lat)
+        data.putExtra("result_lng",result_lng)
+        data.putExtra("result_text",result_text)
+        setResult(RESULT_OK,data)
+        finish()
+
+//                viewModel.place=place.address.toString()
+
+
+
+    }
+
+    override fun showPopup(v: View) {
+        TODO("Not yet implemented")
+    }
 }

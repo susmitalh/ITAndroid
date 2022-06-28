@@ -42,6 +42,7 @@
             android:layout_width="0dp"
             android:layout_height="30dp"
             android:layout_weight="1"
+            android:textColor="@color/black"
             android:background="@null"
             android:text="NO" />
 
@@ -50,6 +51,7 @@
             android:layout_width="0dp"
             android:layout_height="30dp"
             android:layout_weight="1"
+            android:textColor="@color/black"
             android:background="@null"
             android:text="YES" />
     </LinearLayout>

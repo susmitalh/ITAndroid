@@ -20,6 +20,7 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.locatocam.app.Activity.ViewMyPostActivity
 import com.locatocam.app.adapter.InfluencerProfileBannerAdapter
 import com.locatocam.app.adapter.OtherUserTitleAdapter
 import com.locatocam.app.adapter.SearchAdapter
@@ -256,6 +257,11 @@ class HeaderFragment : Fragment(), IHeaderEvents {
         } else {
             binding.darkMode.isChecked = false
         }
+        binding.myShortVideos.setOnClickListener {
+            var intent=Intent(context,ViewMyPostActivity::class.java)
+            intent.putExtra("shortVideo","shortVideo")
+            context?.startActivity(intent)
+        }
         binding.txtCompanyShare.setOnClickListener {
             val message: String =
                 "https://loca-toca.com/Main/index?si=" + binding.txtCompanyShare.tag
@@ -448,12 +454,12 @@ class HeaderFragment : Fragment(), IHeaderEvents {
         HomeFragment.influencerCode=influencerCode!!
         HomeFragment.viewModel.getAllFeeds(influencerCode, (activity as MainActivity).viewModel.lat,  (activity as MainActivity).viewModel.lng)
 
-        userType=searchId!!
-        infcode=influencerCode!!
+        userType=searchId
+        infcode=influencerCode
         viewModel.getMostPopularVideos()
         searchAdapter?.notifyDataSetChanged()
-        viewModel.getRollsAndShortVideos(influencerCode!!)
-        (binding.rollsVideos.adapter as RollsAndShortVideosAdapter).notifyDataSetChanged()
+        viewModel.getRollsAndShortVideos(influencerCode)
+        (binding.rollsVideos.adapter)?.notifyDataSetChanged()
 
 
         HomeFragment.binding.searchPopup.visibility = View.GONE

@@ -42,6 +42,7 @@ import java.util.*
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     companion object {
+        lateinit var activity: MainActivity
         lateinit var binding: ActivityMainBinding
         var lat:Double = 0.0
         var lng:Double = 0.0
@@ -69,6 +70,7 @@ class MainActivity : AppCompatActivity() {
         setUpNavigation()
         Glide.get(this).setMemoryCategory(MemoryCategory.HIGH)
 
+        activity=this
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
 
@@ -203,6 +205,10 @@ class MainActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         super.onBackPressed()
+
+        binding.bttmNav.visibility=View.VISIBLE
+        binding.orderOnline.visibility=View.VISIBLE
+
     }
 
 

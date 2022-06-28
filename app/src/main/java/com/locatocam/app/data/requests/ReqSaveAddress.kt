@@ -8,6 +8,6 @@ data class ReqSaveAddress(
     val lat: String?,
     val lng: String?,
     val phone: String?,
-    val pin_code: Int?,
+    val pin_code: String?,
     val place: String?
 )

@@ -194,6 +194,8 @@ public class SimpleExoPlayerViewHolder extends RecyclerView.ViewHolder implement
 
         if (item != null) {
 
+            Log.e("TAG", "onResponseSS: res "+item.getScreenshot() );
+
             if (HomeFragment.Companion.getHideView()) {
                 viewFeed.setVisibility(View.GONE);
                 HomeFragment.Companion.setHideView(false);
@@ -347,7 +349,7 @@ public class SimpleExoPlayerViewHolder extends RecyclerView.ViewHolder implement
 
             if (item.getBrand_id().equals("0") || item.getBrand_id().equals("")) {
                 brandDetail.setVisibility(View.GONE);
-            } else if (item.getProfile_login_type().equals("company") || HeaderFragment.loginType.equals("company")) {
+            } else if (item.getProfile_login_type().equals("company") || SharedPrefEnc.getPref(context, "user_type").equals("company")) {
                 brandDetail.setVisibility(View.GONE);
             } else {
                 brandDetail.setVisibility(View.VISIBLE);
@@ -469,8 +471,16 @@ public class SimpleExoPlayerViewHolder extends RecyclerView.ViewHolder implement
                                     simpleEvents.trash(item.getPost_id(), position);
                                     break;
                                 case R.id.edit:
+                                    Log.e("TAG", "onMenuItppostemClick: "+item.getPost_id() );
                                     Intent intentEdt = new Intent(context, UploadPostmanual.class);
-                                    intentEdt.putExtra("videoImage",item.getScreenshot());
+
+                                    intentEdt.putExtra("userId",item.getUser_id());
+                                    intentEdt.putExtra("postId",item.getPost_id());
+                                    intentEdt.putExtra("video",item.getFile());
+                                    intentEdt.putExtra("headline",item.getHeader());
+                                    intentEdt.putExtra("subHeadline",item.getSubheader());
+                                    intentEdt.putExtra("description",item.getDescription());
+                                    intentEdt.putExtra("position",position);
                                     context.startActivity(intentEdt);
                                     break;
                             }

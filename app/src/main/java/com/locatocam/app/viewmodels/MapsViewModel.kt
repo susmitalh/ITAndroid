@@ -26,9 +26,11 @@ class MapsViewModel(
     var lat=""
     var lng=""
     var place=""
-    var pin_code=0
+    var pin_code=""
     var phone="7012967301"
     var save_address_status=MutableLiveData<Boolean>()
+    var addressresp = MutableLiveData<RespAddress>()
+
     init {
        // phone="7012967301" //change later
     }
@@ -64,6 +66,24 @@ class MapsViewModel(
                         Log.e("saveAddress",it.message.toString())
                     }
             }
+        }
+    }
+
+    fun getAddress(phone: String) {
+        var request = ReqAddress(phone)
+        //repository.getAdress(request)
+
+        viewModelScope.launch {
+            repository.getAdress(request)
+                .catch {
+                    Log.e("address", it.message.toString())
+                }
+                .collect {
+                    try {
+                        addressresp.value = it
+                    } catch (e: Exception) {
+                    }
+                }
         }
     }
 
