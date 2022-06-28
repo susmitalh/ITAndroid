@@ -9,6 +9,7 @@ import com.locatocam.app.data.requests.viewApproval.ReqCompanyApprove
 import com.locatocam.app.data.requests.viewApproval.ReqCompanyReject
 import com.locatocam.app.data.requests.viewApproval.ReqReject
 import com.locatocam.app.data.responses.customer_model.Customer
+import com.locatocam.app.data.responses.favOrder.ResFavOrder
 import com.locatocam.app.data.responses.settings.*
 import com.locatocam.app.data.responses.settings.Approved.ApprovedPost
 import com.locatocam.app.data.responses.settings.companyApproved.companyApproved
@@ -17,6 +18,7 @@ import com.locatocam.app.data.responses.settings.companyRejected.companyRejected
 import com.locatocam.app.data.responses.settings.pendingPost.RespViewApproval
 import com.locatocam.app.data.responses.settings.rejectedPost.ResRejected
 import com.locatocam.app.data.responses.user_model.User
+import com.locatocam.app.data.responses.yourOrder.ResYourOrder
 import com.locatocam.app.di.DaggerAppComponent
 import com.locatocam.app.network.WebApi
 import com.locatocam.app.security.SharedPrefEnc
@@ -189,6 +191,18 @@ class SettingsRepository(val context: Context) {
     suspend fun getMyPostReelRejected(reqViewApproval: ReqViewApproval) : Flow<ResRejected> {
         return flow {
             val res = retrofit.create(WebApi::class.java).getMyPostReelRejected(reqViewApproval)
+            emit(res)
+        }.flowOn(Dispatchers.IO)
+    }
+    suspend fun getYourOrders(reqOrders: ReqOrders) : Flow<ResYourOrder> {
+        return flow {
+            val res = retrofit.create(WebApi::class.java).getYourOrders(reqOrders)
+            emit(res)
+        }.flowOn(Dispatchers.IO)
+    }
+    suspend fun getFavOrders(reqOrders: ReqOrders) : Flow<ResFavOrder> {
+        return flow {
+            val res = retrofit.create(WebApi::class.java).getFavOrders(reqOrders)
             emit(res)
         }.flowOn(Dispatchers.IO)
     }

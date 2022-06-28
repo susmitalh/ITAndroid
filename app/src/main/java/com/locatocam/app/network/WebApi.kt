@@ -16,6 +16,7 @@ import com.locatocam.app.data.responses.address.RespAddress
 import com.locatocam.app.data.responses.brand_list.BrandList
 import com.locatocam.app.data.responses.comments.RespGetComments
 import com.locatocam.app.data.responses.customer_model.Customer
+import com.locatocam.app.data.responses.favOrder.ResFavOrder
 import com.locatocam.app.data.responses.feed.Feed
 import com.locatocam.app.data.responses.followers.RespFollowers
 import com.locatocam.app.data.responses.like.RespLike
@@ -45,6 +46,7 @@ import com.locatocam.app.data.responses.user_details.RespUserDetails
 import com.locatocam.app.data.responses.user_model.User
 import com.locatocam.app.data.responses.verify_ptp.RespVerifyOTP
 import com.locatocam.app.data.responses.webaudio.RespWebAudio
+import com.locatocam.app.data.responses.yourOrder.ResYourOrder
 import com.locatocam.app.network.approvals.RespApproval
 import com.locatocam.app.network.approvedData.RespApprovedData
 import net.minidev.json.JSONObject
@@ -468,4 +470,16 @@ interface WebApi {
     suspend fun getMyPostReelRejected(
         @Body reqViewApproval: ReqViewApproval
     ): ResRejected
+
+    @Headers("Accept: application/json")
+    @POST("App/your_orders")
+    suspend fun getYourOrders(
+        @Body reqOrders: ReqOrders
+    ): ResYourOrder
+
+    @Headers("Accept: application/json")
+    @POST("App/favourite_orders")
+    suspend fun getFavOrders(
+        @Body reqOrders: ReqOrders
+    ): ResFavOrder
 }

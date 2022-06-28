@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.locatocam.app.R
 import com.locatocam.app.data.responses.customer_model.SubItem
 import com.locatocam.app.views.login.ActivityLogin
+import com.locatocam.app.views.settings.influencerDashboard.ViewBlockUserActivity
 import com.locatocam.app.views.settings.myPostReelsApprovalPending.MyPostReelsApprovalPendingActivity
 import com.locatocam.app.views.settings.viewApprovals.ViewApprovalActivity
 
@@ -82,8 +83,13 @@ class CustomerSubItemAdapter (private val list: List<SubItem>, private val conte
                 share.putExtra(Intent.EXTRA_TEXT, message)
                 context.applicationContext.startActivity(Intent.createChooser(share, "Share").addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
             }
-            else if(title.equals("My Post or Reels Pending Apporval")){
+            else if(title.equals("My Post Reels Approval Pending")){
                 val intent = Intent(context, MyPostReelsApprovalPendingActivity::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
+                context.startActivity(intent)
+            }
+            if(title.equals("View Blocked User")){
+                val intent = Intent(context, ViewBlockUserActivity::class.java)
                 intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
                 context.startActivity(intent)
             }

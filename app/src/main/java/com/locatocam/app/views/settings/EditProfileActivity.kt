@@ -881,6 +881,7 @@ class EditProfileActivity : AppCompatActivity() {
 
         }
 
+
         if (!ud.gender.isNullOrEmpty()){
 
             Log.e("gender",ud.gender)
