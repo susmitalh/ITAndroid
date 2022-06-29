@@ -1,5 +1,6 @@
 package com.locatocam.app.views.settings.foodOrders
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -34,7 +35,15 @@ class YourOrderActivity : AppCompatActivity() {
         binding.rec1.layoutManager = LinearLayoutManager(MyApp.context)
         binding.rec1.itemAnimator = DefaultItemAnimator()
         getYourOrdersList()
+        setOnClickListeners()
 
+    }
+    fun setOnClickListeners(){
+        binding.back.setOnClickListener { finish() }
+        binding.home.setOnClickListener {
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+        }
     }
     fun getYourOrdersList(){
         val userId:String= SharedPrefEnc.getPref(MyApp.context,"user_id")

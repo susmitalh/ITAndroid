@@ -34,8 +34,15 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="m">
         <activity
+            android:name=".views.settings.addressBook.MyAddressActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/ThemeNoActionBar" />
+        <activity
             android:name=".views.settings.favOrders.FavouiteOrdersActivity"
-            android:exported="true" />
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/ThemeNoActionBar" />
         <activity
             android:name=".views.settings.foodOrders.YourOrderActivity"
             android:exported="false"
@@ -372,7 +379,6 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/provider_paths" />
         </provider>
-
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.provider"

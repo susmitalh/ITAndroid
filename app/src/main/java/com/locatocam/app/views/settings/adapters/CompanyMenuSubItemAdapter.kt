@@ -20,6 +20,8 @@ import com.locatocam.app.data.responses.company.SubItem
 import com.locatocam.app.views.login.ActivityLogin
 import com.locatocam.app.views.settings.PostReelsApprovalActivity
 import com.locatocam.app.views.settings.SettingsActivity
+import com.locatocam.app.views.settings.addressBook.MyAddressActivity
+import com.locatocam.app.views.settings.favOrders.FavouiteOrdersActivity
 import com.locatocam.app.views.settings.influencerDashboard.SettingSubMenuActivity
 import com.locatocam.app.views.settings.myPostReelsApprovalPending.MyPostReelsApprovalPendingActivity
 import com.locatocam.app.views.settings.viewApprovals.ViewApprovalActivity
@@ -89,7 +91,17 @@ class CompanyMenuSubItemAdapter (private val list: List<SubItem>, private val co
             val intent = Intent(context, MyPostReelsApprovalPendingActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
             context.startActivity(intent)
-        }
+           }
+            else if(title.equals("Favourite Orders")){
+                val intent = Intent(context, FavouiteOrdersActivity::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
+                context.startActivity(intent)
+            }
+            else if(title.equals("Address Book")){
+                val intent = Intent(context, MyAddressActivity::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
+                context.startActivity(intent)
+            }
 
         }
         Log.e("MenuSubItemAdapter",list[position].Title)

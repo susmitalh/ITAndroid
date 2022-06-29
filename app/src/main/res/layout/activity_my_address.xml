@@ -15,6 +15,7 @@
             android:gravity="center_vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
             <android.widget.Button
                 android:id="@+id/back"
                 android:layout_width="50dp"
@@ -23,11 +24,12 @@
                 android:text="back"
                 android:textColor="@color/black"
                 android:textSize="10sp" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_centerHorizontal="true"
-                android:text="Favourite Orders"
+                android:text="My Address"
                 android:textColor="@color/black"
                 android:textSize="12sp" />
             <ImageView

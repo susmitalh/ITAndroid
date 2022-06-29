@@ -491,4 +491,10 @@ interface WebApi {
     suspend fun getFavOrders(
         @Body reqOrders: ReqOrders
     ): ResFavOrder
+
+    @Headers("Accept: application/json")
+    @POST("App/view_address")
+    suspend fun getMyAddress(
+        @Body reqAddress: ReqAddress
+    ): RespAddress
 }

@@ -1,4 +1,4 @@
-package com.locatocam.app.views.settings.foodOrders
+package com.locatocam.app.views.settings.favOrders
 
 import android.content.Context
 import android.util.Log
@@ -15,7 +15,7 @@ import com.locatocam.app.R
 import com.locatocam.app.data.responses.yourOrder.Data
 import com.locatocam.app.data.responses.yourOrder.Item
 
-class YourOrdersAdapter (private val list: List<Data>, private val context: Context) : RecyclerView.Adapter<YourOrdersAdapter.viewHolder>(){
+class FavouirteOrdersAdapter (private val list: List<com.locatocam.app.data.responses.favOrder.Data>, private val context: Context) : RecyclerView.Adapter<FavouirteOrdersAdapter.viewHolder>(){
     class viewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)  {
 
         val txtOrderId = itemView.findViewById<TextView>(R.id.txtOrderId)
@@ -34,19 +34,18 @@ class YourOrdersAdapter (private val list: List<Data>, private val context: Cont
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): YourOrdersAdapter.viewHolder {
+    ): FavouirteOrdersAdapter.viewHolder {
         val view: View = LayoutInflater.from(parent.context).inflate(R.layout.your_orders_layout, parent, false)
 
         return viewHolder(view)
     }
 
-    override fun onBindViewHolder(holder: YourOrdersAdapter.viewHolder, position: Int) {
+    override fun onBindViewHolder(holder: FavouirteOrdersAdapter.viewHolder, position: Int) {
             holder.txtOrderId.text = "Order ID: "+list[position].order_id
             holder.brandName.text=list[position].brand_name
             holder.address.text=list[position].location
             holder.amount.text=": "+list[position].amount
-            val strModified = list[position].status.capitalize()
-            holder.status.text=strModified
+            holder.status.text=list[position].status
             holder.date.text=list[position].ordered_on
             Glide.with(holder.itemView.context)
                 .load(list[position].logo)
@@ -56,7 +55,7 @@ class YourOrdersAdapter (private val list: List<Data>, private val context: Cont
 
             holder.items.layoutManager = LinearLayoutManager(context)
             holder.items.itemAnimator = DefaultItemAnimator()
-            val orderItemAdapter =  YourOrdersItemAdapter(list[position].items,context)
+            val orderItemAdapter =  FavouriteOrdersItemAdapter(list[position].items,context)
             holder.items.adapter = orderItemAdapter
 
 
