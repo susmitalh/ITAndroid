@@ -722,7 +722,7 @@ public class HomeFragment : Fragment(), FeedEvents, ClickEvents, SimpleEvents {
                     startForResult.launch(intent)
                 }
                 R.id.delete -> {
-
+//                    Log.e(TAG, "showPopup: ", )
                     //Toast.makeText(requireActivity(), item.title, Toast.LENGTH_SHORT).show()
                     (binding.savedAddress.adapter as AdddressAdapter).items.removeAt(position)
                     (binding.savedAddress.adapter as AdddressAdapter).notifyDataSetChanged()
