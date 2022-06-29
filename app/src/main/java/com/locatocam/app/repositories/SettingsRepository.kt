@@ -8,6 +8,8 @@ import com.locatocam.app.data.requests.viewApproval.ReqApprove
 import com.locatocam.app.data.requests.viewApproval.ReqCompanyApprove
 import com.locatocam.app.data.requests.viewApproval.ReqCompanyReject
 import com.locatocam.app.data.requests.viewApproval.ReqReject
+import com.locatocam.app.data.responses.ResMyAddress
+import com.locatocam.app.data.responses.address.RespAddress
 import com.locatocam.app.data.responses.customer_model.Customer
 import com.locatocam.app.data.responses.favOrder.ResFavOrder
 import com.locatocam.app.data.responses.settings.*
@@ -203,6 +205,12 @@ class SettingsRepository(val context: Context) {
     suspend fun getFavOrders(reqOrders: ReqOrders) : Flow<ResFavOrder> {
         return flow {
             val res = retrofit.create(WebApi::class.java).getFavOrders(reqOrders)
+            emit(res)
+        }.flowOn(Dispatchers.IO)
+    }
+    suspend fun getMyAddress(reqAddress: ReqAddress) : Flow<RespAddress> {
+        return flow {
+            val res = retrofit.create(WebApi::class.java).getMyAddress(reqAddress)
             emit(res)
         }.flowOn(Dispatchers.IO)
     }

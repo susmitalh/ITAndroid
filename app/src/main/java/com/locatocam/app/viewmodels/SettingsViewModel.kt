@@ -5,6 +5,7 @@ import android.widget.ImageView
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.android.gms.common.config.GservicesValue.value
 import com.locatocam.app.data.requests.*
 import com.locatocam.app.data.requests.reqUserProfile.ReqBlockedUser
 import com.locatocam.app.data.requests.reqUserProfile.ReqProfileData
@@ -15,6 +16,7 @@ import com.locatocam.app.data.requests.viewApproval.ReqCompanyApprove
 import com.locatocam.app.data.requests.viewApproval.ReqCompanyReject
 import com.locatocam.app.data.requests.viewApproval.ReqReject
 import com.locatocam.app.data.responses.*
+import com.locatocam.app.data.responses.address.RespAddress
 import com.locatocam.app.data.responses.customer_model.Customer
 import com.locatocam.app.data.responses.favOrder.ResFavOrder
 import com.locatocam.app.data.responses.settings.*
@@ -75,6 +77,7 @@ class SettingsViewModel@Inject constructor(private val mainRepository: MainRepos
     var respApprovedStatus=MutableStateFlow<Resource<StatusApproved>>(Resource.loading(null))
     var resYourOrders = MutableStateFlow<Resource<ResYourOrder>>(Resource.loading(null))
     var resFavOrders = MutableStateFlow<Resource<ResFavOrder>>(Resource.loading(null))
+    var resMyAddress = MutableStateFlow<Resource<RespAddress>>(Resource.loading(null))
 
     fun getSettings(){
         var reqSettings=ReqSettings(settingsRepository.getUserID())
@@ -549,6 +552,31 @@ class SettingsViewModel@Inject constructor(private val mainRepository: MainRepos
         }
         return resFavOrders
     }
-
+   /* fun getMyAddressList(reqMyAddress: ReqAddress): MutableStateFlow<Resource<RespAddress>>{
+        viewModelScope.launch {
+            settingsRepository.getMyAddress(reqMyAddress)
+                .catch {
+                    Log.i("uname",it.message.toString())
+                }
+                .collect {
+                    RespAddress.value=*//*it*//*Resource.success(it)
+                    Log.i("uname",it.status.toString())
+                }
+        }
+        return RespAddress
+    }*/
+   fun getMyAddressList(reqMyAddress: ReqAddress): MutableStateFlow<Resource<RespAddress>>{
+       viewModelScope.launch {
+           settingsRepository.getMyAddress(reqMyAddress)
+               .catch {
+                   Log.i("uname",it.message.toString())
+               }
+               .collect {
+                   resMyAddress.value=/*it*/Resource.success(it)
+                   Log.i("uname",it.status.toString())
+               }
+       }
+       return resMyAddress
+   }
 
 }

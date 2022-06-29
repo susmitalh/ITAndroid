@@ -6,12 +6,10 @@
     android:layout_height="wrap_content">
 
     <LinearLayout
-        android:layout_margin="5dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
         <TextView
-            android:textStyle="bold"
             android:id="@+id/item"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

@@ -1,5 +1,6 @@
 package com.locatocam.app.views.view_activity
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
@@ -24,6 +25,7 @@ import com.locatocam.app.repositories.ViewActivityRepository
 import com.locatocam.app.security.SharedPrefEnc
 import com.locatocam.app.viewmodels.FollowersViewModel
 import com.locatocam.app.viewmodels.ViewActivityViewModel
+import com.locatocam.app.views.MainActivity
 import com.locatocam.app.views.followers.FollowersViewModelFactory
 import com.locatocam.app.views.followers.adapters.InfluencerFollowersAdapter
 import com.locatocam.app.views.settings.PaginationScrollListener
@@ -130,5 +132,9 @@ class ViewActivity : AppCompatActivity() {
 
     fun setOnClickListeners(){
         binding.back.setOnClickListener { finish() }
+        binding.home.setOnClickListener {
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+        }
     }
 }
