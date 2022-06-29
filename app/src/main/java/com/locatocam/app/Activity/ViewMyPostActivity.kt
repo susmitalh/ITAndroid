@@ -83,12 +83,26 @@ class ViewMyPostActivity : AppCompatActivity() {
 
             Log.e("TAG", "OnClickListdsener: " + shortVideo)
 
+           /* title_text.setText("View Short Videos")
+            posts_text.setBackground(ContextCompat.getDrawable(this, R.drawable.button_rnd_red))
+            posts_text.setTextColor(ContextCompat.getColor(this, R.color.red))
+
+            short_video_text.setBackground(ContextCompat.getDrawable(this, R.drawable.button_rnd_red_filled))
+            short_video_text.setTextColor(Color.WHITE)
+
+            myPost=true
+            viewModel.offset=0
+            viewModel.post_id="0"
+            viewModel.myShort(this)
+            shortVideo(layoutManager)*/
+
             title_text.setText("View Short Videos")
             posts_text.setBackground(ContextCompat.getDrawable(this, R.drawable.button_rnd_red))
             posts_text.setTextColor(ContextCompat.getColor(this, R.color.red))
 
             short_video_text.setBackground(ContextCompat.getDrawable(this, R.drawable.button_rnd_red_filled))
             short_video_text.setTextColor(Color.WHITE)
+
 
             myPost=true
             viewModel.offset=0

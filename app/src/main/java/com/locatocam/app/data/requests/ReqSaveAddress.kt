@@ -1,6 +1,7 @@
 package com.locatocam.app.data.requests
 
 data class ReqSaveAddress(
+    val address_id:String?,
     val add_save_as: String?,
     val address: String?,
     val flat_no: String?,

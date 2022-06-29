@@ -1,6 +1,7 @@
 package com.locatocam.app.viewmodels
 
 import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -27,18 +28,21 @@ class MapsViewModel(
     var lng=""
     var place=""
     var pin_code=""
-    var phone="7012967301"
+    var phone=""
+    var address_id=""
     var save_address_status=MutableLiveData<Boolean>()
     var addressresp = MutableLiveData<RespAddress>()
+    var edtAddress = MutableLiveData<Boolean>()
 
     init {
        // phone="7012967301" //change later
     }
 
     fun saveAddress(){
-        Log.i("tghbbb","called")
+        Log.e("TAG", "saveAddressss: "+add_save_as )
 
         var request=ReqSaveAddress(
+            address_id,
             add_save_as,
             address,
             flat_no,
@@ -66,6 +70,39 @@ class MapsViewModel(
                         Log.e("saveAddress",it.message.toString())
                     }
             }
+        }
+    }
+
+    fun edtAddress(){
+        Log.e("TAG", "saveAddressss: "+add_save_as )
+
+        var request=ReqSaveAddress(
+            address_id,
+            add_save_as,
+            address,
+            flat_no,
+            landmark,
+            lat,
+            lng,
+            phone,
+            pin_code,
+            place
+        )
+
+        viewModelScope.launch {
+            repository.edtAddress(request)
+                .catch {
+                    Log.e("saveAddress",it.message.toString())
+                }
+                .collect {
+                    Log.e("saveAddress",it.status.toString())
+
+                    if (it.status.equals("true")){
+                        edtAddress.value=true
+                    }else{
+                        Log.e("saveAddress",it.message.toString())
+                    }
+                }
         }
     }
 

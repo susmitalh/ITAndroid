@@ -153,6 +153,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="35dp"
                 android:background="@drawable/edt_rnd_search"
+                android:singleLine="true"
+                android:imeOptions="actionNext"
                 android:paddingLeft="10dp"
                 android:textColor="@color/black"
                 android:textSize="12sp" />
@@ -171,6 +173,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="35dp"
                 android:background="@drawable/edt_rnd_search"
+                android:singleLine="true"
+                android:imeOptions="actionNext"
                 android:paddingLeft="10dp"
                 android:textColor="@color/black"
                 android:textSize="12sp" />
@@ -189,6 +193,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="35dp"
                 android:background="@drawable/edt_rnd_search"
+                android:singleLine="true"
+                android:imeOptions="actionNext"
                 android:paddingLeft="10dp"
                 android:textColor="@color/black"
                 android:textSize="12sp" />
@@ -225,7 +231,7 @@
                         android:gravity="center"
                         android:tag="home"
                         android:text="Home"
-                        android:textColor="@color/black" />
+                        android:textColor="@drawable/maps_text_color" />
 
                     <RadioButton
                         android:id="@+id/office"
@@ -238,7 +244,7 @@
                         android:gravity="center"
                         android:tag="office"
                         android:text="Office"
-                        android:textColor="@color/black" />
+                        android:textColor="@drawable/maps_text_color" />
 
                     <RadioButton
                         android:id="@+id/other"
@@ -251,9 +257,32 @@
                         android:gravity="center"
                         android:tag="other"
                         android:text="Other"
-                        android:textColor="@color/black" />
+                        android:textColor="@drawable/maps_text_color" />
                 </RadioGroup>
             </LinearLayout>
+
+            <TextView
+                android:id="@+id/txtAddressTag"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Address tag"
+                android:textSize="@dimen/_8ssp"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:layout_marginBottom="@dimen/_3sdp"
+                android:visibility="gone"
+                android:textColor="@color/black"/>
+
+            <EditText
+                android:id="@+id/edtAddressTag"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:background="@drawable/edt_rnd_search"
+                android:paddingLeft="10dp"
+                android:textColor="@color/black"
+                android:singleLine="true"
+                android:imeOptions="actionDone"
+                android:visibility="gone"
+                android:textSize="12sp" />
         </LinearLayout>
 
 

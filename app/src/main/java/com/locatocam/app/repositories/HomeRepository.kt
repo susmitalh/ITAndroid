@@ -4,11 +4,13 @@ import android.app.Application
 import android.util.Log
 import com.locatocam.app.ModalClass.AddView
 import com.locatocam.app.data.requests.*
+import com.locatocam.app.data.requests.viewApproval.ReqDeleteAddress
 import com.locatocam.app.data.responses.RespCounts
 import com.locatocam.app.data.responses.RespTrash
 import com.locatocam.app.data.responses.address.RespAddress
 import com.locatocam.app.data.responses.feed.Data
 import com.locatocam.app.data.responses.like.RespLike
+import com.locatocam.app.data.responses.saveaddress.RespSaveAddress
 import com.locatocam.app.di.DaggerAppComponent
 import com.locatocam.app.network.WebApi
 import com.locatocam.app.security.SharedPrefEnc
@@ -59,6 +61,13 @@ class HomeRepository constructor(val application: Application,val other_user_id:
 
         return flow {
             val res= retrofitService.create(WebApi::class.java).trash(reqTrash)
+            emit(res)
+        }.flowOn(Dispatchers.IO)
+    }
+    fun deleteAddress(deleteAdd:ReqDeleteAddress): Flow<RespSaveAddress> {
+
+        return flow {
+            val res= retrofitService.create(WebApi::class.java).deleteAdd(deleteAdd)
             emit(res)
         }.flowOn(Dispatchers.IO)
     }

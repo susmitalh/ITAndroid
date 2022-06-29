@@ -7,7 +7,6 @@ import android.content.pm.PackageManager
 import android.location.Address
 import android.location.Geocoder
 import android.location.Location
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -29,15 +28,11 @@ import com.google.android.libraries.places.api.net.PlacesClient
 import com.locatocam.app.data.responses.address.Data
 import com.locatocam.app.databinding.ActivityOrderOnlineBinding
 import com.locatocam.app.repositories.HomeRepository
-import com.locatocam.app.repositories.OrderOnlineRepository
 import com.locatocam.app.security.SharedPrefEnc
 import com.locatocam.app.viewmodels.ActivityMainViewModel
 import com.locatocam.app.viewmodels.HomeViewModel
-import com.locatocam.app.viewmodels.OrderOnlineViewModel
-import com.locatocam.app.views.MainActivity
 import com.locatocam.app.views.home.HomeViewModelFactory
 import com.locatocam.app.views.location.MapsActivity
-import com.locatocam.app.views.order_online.fragments.OrderOnlineModelFactory
 import com.locatocam.app.views.search.AdddressAdapter
 import com.locatocam.app.views.search.AutoCompleteAdapter
 import com.locatocam.app.views.search.ClickEvents
@@ -147,7 +142,7 @@ class ActivityOrderOnline : OrderOnlineBaseActivity(), ClickEvents {
 
     }
 
-    override fun showPopup(v: View) {
+    override fun showPopup(v: View, item: Data, position: Int) {
         TODO("Not yet implemented")
     }
     fun showLocation(){

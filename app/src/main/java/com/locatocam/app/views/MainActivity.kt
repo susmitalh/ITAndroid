@@ -206,8 +206,6 @@ class MainActivity : AppCompatActivity() {
     override fun onBackPressed() {
         super.onBackPressed()
 
-        binding.bttmNav.visibility=View.VISIBLE
-        binding.orderOnline.visibility=View.VISIBLE
 
     }
 

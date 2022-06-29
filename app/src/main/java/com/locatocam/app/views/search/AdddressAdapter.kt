@@ -4,19 +4,14 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.locatocam.app.R
 import com.locatocam.app.data.responses.address.Data
 
-import android.view.MenuInflater
-import android.widget.PopupMenu
-import android.widget.Toast
-import com.locatocam.app.views.MainActivity
+import android.widget.*
 
 
-class AdddressAdapter(private val items:List<Data>,private val clickEvents: ClickEvents):
+class AdddressAdapter(var items:ArrayList<Data>,private val clickEvents: ClickEvents):
     RecyclerView.Adapter<AdddressAdapter.TopInfluencerViewHolder>() {
 
 
@@ -26,8 +21,19 @@ class AdddressAdapter(private val items:List<Data>,private val clickEvents: Clic
     }
 
     override fun onBindViewHolder(holder: TopInfluencerViewHolder, position: Int) {
+
         val item = items[position]
-        holder.name.text = item.customer_address
+
+        var flatNo=""
+        var landmark=""
+
+        if (!item.door_no!!.isEmpty()||!item.door_no.equals("")){
+            flatNo=item.door_no+", "
+        }else if (!item.cust_landmark!!.isEmpty()||!item.cust_landmark.equals("")){
+            landmark=item.cust_landmark+", "
+        }
+
+        holder.name.text = flatNo+landmark+item.customer_address
         holder.addressLabel.text = item.address_save_as
         Log.e("TAG", "onBindViewHolder: "+item.latitude )
         holder.name.setOnClickListener {
@@ -36,7 +42,7 @@ class AdddressAdapter(private val items:List<Data>,private val clickEvents: Clic
         }
 
         holder.actions.setOnClickListener {
-            clickEvents.showPopup(holder.actions)
+            clickEvents.showPopup(holder.actions,item,position)
         }
     }
 

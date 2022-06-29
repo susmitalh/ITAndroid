@@ -615,7 +615,7 @@ class OtherProfileWithFeedFragment() : Fragment(), FeedEvents, ClickEvents, Simp
     }
 
     override
-    fun showPopup(v: View) {
+    fun showPopup(v: View, item: com.locatocam.app.data.responses.address.Data, position: Int) {
         val popup = PopupMenu(requireActivity(), v)
         val inflater: MenuInflater = popup.getMenuInflater()
         inflater.inflate(R.menu.action_manu, popup.getMenu())

@@ -480,6 +480,7 @@ public class SimpleExoPlayerViewHolder extends RecyclerView.ViewHolder implement
                                     intentEdt.putExtra("headline",item.getHeader());
                                     intentEdt.putExtra("subHeadline",item.getSubheader());
                                     intentEdt.putExtra("description",item.getDescription());
+                                    intentEdt.putExtra("thumbnail",item.getScreenshot());
                                     intentEdt.putExtra("position",position);
                                     context.startActivity(intentEdt);
                                     break;

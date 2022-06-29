@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.locatocam.app.data.requests.*
+import com.locatocam.app.data.requests.viewApproval.ReqDeleteAddress
 import com.locatocam.app.data.responses.RespCounts
 import com.locatocam.app.data.responses.RespTrash
 import com.locatocam.app.data.responses.address.RespAddress
@@ -29,6 +30,7 @@ companion object{
     var addressresp = MutableLiveData<RespAddress>()
     var approvalCounts = MutableLiveData<RespCounts>()
     var trash = MutableLiveData<RespTrash>()
+    var deleteAdd = MutableLiveData<Boolean>()
 
     var offset: Int
     var lastid: Int
@@ -160,6 +162,20 @@ companion object{
                     } catch (e: Exception) {
                     }
                 }
+        }
+    }
+    fun deleteAddress(addressId: String) {
+            var request=ReqDeleteAddress(addressId)
+        viewModelScope.launch {
+            repository.deleteAddress(request).catch {
+
+            }.collect{
+                if (it.status.equals("true")){
+                    deleteAdd.value=true
+                }else{
+                    Log.e("saveAddress",it.message.toString())
+                }
+            }
         }
     }
 
