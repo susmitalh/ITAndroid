@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.locatocam.app.R
@@ -23,7 +24,7 @@ class RollsAndShortVideosAdapter(private val items:List<Data>, private val iTopi
     override fun onBindViewHolder(holder: MostPopularVideosViewHolder, position: Int) {
         val item = items[position]
         holder.name.text = item.name
-        holder.views.text = item.views
+        holder.views.text = " "+item.views
 
 
 
@@ -38,6 +39,10 @@ class RollsAndShortVideosAdapter(private val items:List<Data>, private val iTopi
         }
 
         holder.video_image.setOnClickListener {
+            var viewPlus= item.views?.toInt()?.plus(1)
+            item.views= viewPlus.toString()
+            notifyDataSetChanged()
+
             iTopinfluencer.onItemRollsAndShortVideos(item.id.toString())
         }
     }

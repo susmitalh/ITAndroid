@@ -31,10 +31,8 @@
 
                     <ImageView
                         android:layout_width="200dp"
-                        android:layout_height="60dp"
-                        android:layout_marginLeft="15dp"
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/logo_lt_new" />
+                        android:layout_height="@dimen/_35sdp"
+                        android:src="@drawable/splash_screen" />
 
                     <!-- <TextView
                          android:textColor="@color/white"
@@ -64,9 +62,10 @@
                         android:layout_height="35dp"
                         android:layout_marginTop="20dp"
                         android:background="@drawable/edt_rnd_5"
-                        android:hint="  Enter Full Name"
+                        android:hint="Enter Full Name"
                         android:inputType="textEmailAddress"
                         android:maxLines="1"
+                        android:paddingStart="@dimen/_5sdp"
                         android:textColor="@color/black"
                         android:textColorHint="@color/hintwhite1"
                         android:textSize="12sp" />
@@ -86,9 +85,10 @@
                         android:layout_height="35dp"
                         android:layout_marginTop="15dp"
                         android:background="@drawable/edt_rnd_5"
-                        android:hint="  Enter Email Id"
+                        android:hint="Enter Email Id"
                         android:inputType="textEmailAddress"
                         android:maxLines="1"
+                        android:paddingStart="@dimen/_5sdp"
                         android:textColor="@color/black"
                         android:textColorHint="@color/hintwhite1"
                         android:textSize="12sp" />
@@ -108,7 +108,8 @@
                         android:layout_height="35dp"
                         android:layout_marginTop="15dp"
                         android:background="@drawable/edt_rnd_5"
-                        android:hint="  Enter Mobile No."
+                        android:hint="Enter Mobile No."
+                        android:paddingStart="@dimen/_5sdp"
                         android:inputType="number"
                         android:maxLength="10"
                         android:maxLines="1"
@@ -239,7 +240,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:background="@color/backgoundColor1"
+                        android:background="@color/backgoundDialog"
                         android:orientation="vertical"
                         android:padding="10dp">
 
@@ -258,7 +259,7 @@
                                     android:layout_height="wrap_content"
                                     android:gravity="center_vertical"
                                     android:text="Verify mobile number"
-                                    android:textColor="@color/white"
+                                    android:textColor="#FFF"
                                     android:textSize="16sp" />
 
                             </LinearLayout>
@@ -271,7 +272,8 @@
                                 android:layout_marginRight="10dp"
                                 android:background="@null"
                                 android:gravity="center"
-                                android:src="@drawable/ic_close_white_new_24dp" />
+                                android:src="@drawable/ic_close_white_new_24dp"
+                                app:tint="#FFF" />
                         </RelativeLayout>
 
                         <View
@@ -288,7 +290,7 @@
                             android:layout_marginTop="2dp"
                             android:layout_marginRight="5dp"
                             android:text="Enter Otp"
-                            android:textColor="@color/white"
+                            android:textColor="#FFF"
                             android:textSize="12sp" />
 
                         <EditText
@@ -301,7 +303,7 @@
                             android:background="@drawable/edt_rnd_2"
                             android:inputType="number"
                             android:maxLength="10"
-                            android:textColor="@color/white" />
+                            android:textColor="#FFF" />
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -319,7 +321,7 @@
                                 android:layout_gravity="end"
                                 android:background="@drawable/button_rnd_white_ovral_shape"
                                 android:text="Verify"
-                                android:textColor="@color/black_light_text"
+                                android:textColor="@color/btn_verify_txt"
                                 android:textSize="12sp" />
 
                             <TextView
@@ -330,7 +332,7 @@
                                 android:layout_marginTop="5dp"
                                 android:gravity="right"
                                 android:text="Resend OTP"
-                                android:textColor="@color/white"
+                                android:textColor="#FFF"
                                 android:textSize="12sp"
                                 android:visibility="visible" />
                         </LinearLayout>

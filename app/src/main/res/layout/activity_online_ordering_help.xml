@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Activity.OnlineOrderingHelpActivity">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:gravity="center_vertical"
+            android:padding="10dp">
+
+            <android.widget.Button
+                android:id="@+id/btnBack"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/edt_rnd_5"
+                android:text="back"
+                android:textColor="@color/black"
+                android:textSize="10sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:text="FAQ"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_15sdp" />
+
+            <ImageView
+                android:id="@+id/imgHome"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/ic_house" />
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
+
+   <androidx.recyclerview.widget.RecyclerView
+       android:id="@+id/rcFAQ"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:layout_marginTop="@dimen/_10sdp"
+       app:layout_constraintTop_toBottomOf="@+id/cardToolbar" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

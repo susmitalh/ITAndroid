@@ -4,14 +4,11 @@
     android:layout_height="wrap_content"
     android:layout_marginBottom="@dimen/_8sdp">
 
-    <androidx.cardview.widget.CardView
+    <LinearLayout
         android:id="@+id/card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:elevation="20dp"
-        app:cardBackgroundColor="@color/white"
-        app:cardCornerRadius="0dp"
-        app:cardElevation="20dp">
+        app:cardBackgroundColor="@color/white">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -20,8 +17,8 @@
             <View
                 android:id="@+id/tpgrey"
                 android:layout_width="match_parent"
-                android:layout_height="3dp"
-                android:background="@drawable/gradient_bg" />
+                android:layout_height="1dp"
+                android:background="@color/view" />
 
             <LinearLayout
                 android:id="@+id/header_section"
@@ -110,7 +107,10 @@
                             android:paddingTop="@dimen/_1sdp"
                             android:paddingRight="@dimen/_8sdp"
                             android:paddingBottom="@dimen/_1sdp"
+                            android:maxWidth="@dimen/_150sdp"
+                            android:singleLine="true"
                             android:text="Impirio Rastorant"
+                            android:ellipsize="end"
                             android:textColor="@color/black" />
 
                         <RelativeLayout
@@ -428,5 +428,5 @@
         </RelativeLayout>
 
 
-    </androidx.cardview.widget.CardView>
+    </LinearLayout>
 </RelativeLayout>

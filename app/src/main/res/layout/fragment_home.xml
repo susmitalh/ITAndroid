@@ -11,17 +11,16 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/white"
-            tools:context=".views.home.HomeFragment">
+            android:background="@color/white">
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/header"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                app:cardElevation="5dp"
-                android:outlineSpotShadowColor="@color/black"
                 android:outlineAmbientShadowColor="@color/black"
-                android:shadowColor="@color/black">
+                android:outlineSpotShadowColor="@color/black"
+                android:shadowColor="@color/black"
+                app:cardElevation="5dp">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -30,29 +29,49 @@
                     android:paddingLeft="@dimen/_5sdp"
                     android:paddingRight="@dimen/_5sdp">
 
-                    <de.hdodenhof.circleimageview.CircleImageView
-                        android:id="@+id/profile"
-                        android:layout_width="35dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="5dp"
-                        android:layout_marginTop="5dp"
-                        android:layout_marginEnd="5dp"
-                        android:layout_marginBottom="5dp"
-                        android:src="@drawable/user" />
+                    <RelativeLayout
+                        android:id="@+id/layoutProfile"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent">
 
-                    <TextView
-                        android:id="@+id/approval_counts"
-                        android:layout_width="@dimen/_15sdp"
-                        android:layout_height="@dimen/_15sdp"
-                        android:layout_marginLeft="-15dp"
-                        android:layout_marginTop="8dp"
-                        android:layout_toRightOf="@+id/profile"
-                        android:background="@drawable/btn_rnd_red_counts"
-                        android:gravity="center"
-                        android:text="1"
-                        android:textColor="@color/white"
-                        android:textSize="10sp"
-                        android:visibility="gone" />
+
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:id="@+id/profile"
+                            android:layout_width="35dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="5dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginEnd="5dp"
+                            android:layout_marginBottom="5dp"
+                            android:src="@drawable/user" />
+
+                        <TextView
+                            android:id="@+id/approval_counts"
+                            android:layout_width="@dimen/_15sdp"
+                            android:layout_height="@dimen/_15sdp"
+                            android:layout_marginLeft="-15dp"
+                            android:layout_marginTop="8dp"
+                            android:layout_toRightOf="@+id/profile"
+                            android:background="@drawable/btn_rnd_red_counts"
+                            android:gravity="center"
+                            android:text="1"
+                            android:textColor="@color/white"
+                            android:textSize="10sp"
+                            android:visibility="gone" />
+
+                        <ImageView
+                            android:id="@+id/imgSetting"
+                            android:layout_width="23dp"
+                            android:layout_height="23dp"
+                            android:layout_centerVertical="true"
+                            android:layout_margin="@dimen/_5sdp"
+                            android:src="@drawable/ic_gear"
+                            android:visibility="gone"
+                            app:tint="@color/black" />
+
+                    </RelativeLayout>
+
+
 
 
                     <ImageView
@@ -60,51 +79,86 @@
                         android:layout_width="50dp"
                         android:layout_height="match_parent"
                         android:layout_marginLeft="0dp"
-                        android:layout_toRightOf="@+id/profile"
+                        android:layout_toRightOf="@+id/layoutProfile"
                         android:padding="15sp"
                         android:src="@drawable/ic_plus_square"
                         app:tint="@color/black" />
 
-
-                    <ImageView
+                    <RelativeLayout
                         android:layout_width="200dp"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
                         android:layout_centerHorizontal="true"
-                        android:padding="@dimen/_8sdp"
-                        android:src="@drawable/title_logo" />
+                        android:gravity="center">
 
-                    <ImageView
-                        android:id="@+id/share_header"
-                        android:layout_width="@dimen/_30sdp"
+                        <ImageView
+                            android:id="@+id/imgTitle"
+                            android:layout_width="200dp"
+                            android:layout_height="match_parent"
+                            android:layout_centerHorizontal="true"
+                            android:padding="@dimen/_8sdp"
+                            android:src="@drawable/title_logo" />
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/rcTitleCompany"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent" />
+
+
+                    </RelativeLayout>
+
+
+                        <ImageView
+                            android:id="@+id/share_header"
+                            android:layout_width="@dimen/_32sdp"
+                            android:layout_height="match_parent"
+                            android:layout_marginRight="@dimen/_5sdp"
+                            android:padding="@dimen/_5sdp"
+                            android:layout_toStartOf="@+id/layoutMsg"
+                            android:src="@drawable/share_ic_header"
+                            app:tint="@color/black" />
+
+                    <RelativeLayout
+                        android:id="@+id/layoutMsg"
+                        android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:layout_marginRight="@dimen/_5sdp"
-                        android:layout_toLeftOf="@+id/messages"
-                        android:padding="@dimen/_5sdp"
-                        android:src="@drawable/share_ic_header"
-                        app:tint="@color/black" />
+                        android:layout_alignParentEnd="true">
 
-                    <ImageView
-                        android:id="@+id/messages"
-                        android:layout_width="30dp"
-                        android:layout_height="match_parent"
-                        android:layout_alignParentEnd="true"
-                        android:layout_marginEnd="5dp"
-                        android:src="@drawable/lt_logo_icon" />
+                        <ImageView
+                            android:id="@+id/messages"
+                            android:layout_width="30dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginEnd="5dp"
+                            android:src="@drawable/lt_logo_icon" />
+
+                        <TextView
+                            android:id="@+id/message_counts"
+                            android:layout_width="@dimen/_15sdp"
+                            android:layout_height="@dimen/_13sdp"
+                            android:layout_marginLeft="-15dp"
+                            android:layout_marginTop="12dp"
+                            android:layout_toRightOf="@+id/messages"
+                            android:background="@drawable/btn_rnd_red_counts"
+                            android:gravity="center"
+                            android:text="1"
+                            android:textColor="@color/white"
+                            android:textSize="10sp"
+                            android:visibility="gone" />
+
+                        <ImageView
+                            android:id="@+id/imgCompanyInfo"
+                            android:layout_width="30dp"
+                            android:layout_height="match_parent"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginEnd="5dp"
+                            android:padding="@dimen/_3sdp"
+                            android:src="@drawable/question_mark"
+                            android:visibility="gone"
+                            app:tint="@color/black" />
 
 
-                    <TextView
-                        android:id="@+id/message_counts"
-                        android:layout_width="@dimen/_15sdp"
-                        android:layout_height="@dimen/_13sdp"
-                        android:layout_marginLeft="-15dp"
-                        android:layout_marginTop="12dp"
-                        android:layout_toRightOf="@+id/messages"
-                        android:background="@drawable/btn_rnd_red_counts"
-                        android:gravity="center"
-                        android:text="1"
-                        android:textColor="@color/white"
-                        android:textSize="10sp"
-                        android:visibility="gone" />
+                    </RelativeLayout>
+
 
 
 
@@ -115,7 +169,8 @@
             <im.ene.toro.widget.Container xmlns:android="http://schemas.android.com/apk/res/android"
                 android:id="@+id/player_container"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                android:visibility="visible"/>
 
             <RelativeLayout
                 android:id="@+id/location_view"
@@ -140,8 +195,8 @@
                         android:layout_height="wrap_content"
                         android:drawableLeft="@drawable/ic_geo_alt_black"
                         android:drawableRight="@drawable/ic_baseline_arrow_drop_down_24"
-                        android:gravity="center_vertical"
                         android:drawableTint="@color/red_main_change"
+                        android:gravity="center_vertical"
                         android:text="  Delivery at-"
                         android:textColor="@color/black"
                         android:textSize="12sp"
@@ -166,9 +221,9 @@
                             android:layout_width="0dp"
                             android:layout_height="30dp"
                             android:layout_weight="4"
-                            android:drawableTint="@color/search_icon"
                             android:background="@drawable/edt_rnd_search"
                             android:drawableLeft="@drawable/ic_search"
+                            android:drawableTint="@color/search_icon"
                             android:hint=" Enter Location"
                             android:paddingLeft="10dp"
                             android:textColor="@color/black"
@@ -200,9 +255,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:drawableLeft="@drawable/ic_baseline_gps_fixed_24"
+                        android:drawableTint="@color/red_main_change"
                         android:text="  Use current location"
                         android:textColor="@color/red_main_change"
-                        android:drawableTint="@color/red_main_change"
                         android:textSize="12dp" />
 
                     <TextView

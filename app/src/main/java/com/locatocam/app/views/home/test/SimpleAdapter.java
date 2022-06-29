@@ -70,23 +70,15 @@ public class SimpleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         this.postCountData = postCountData;
         this.follow = follow;
 
+        Log.e("TAG", "SimpleAdaptcxxer: " );
+
     }
 
     public List<Data> getList() {
         return this.mediaList;
     }
 
-    public void addAgain() {
-        List<Data> old = mediaList;
-        this.mediaList.clear();
-        this.mediaList.addAll(old);
-        notifyDataSetChanged();
-    }
 
-    public void addAtZero(Data newitems) {
-        this.mediaList.add(0, newitems);
-        notifyDataSetChanged();
-    }
 
     public void addAll(List<Data> newitems) {
         this.mediaList.addAll(newitems);
@@ -99,6 +91,8 @@ public class SimpleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+
+
         if (viewType == TYPE_VIDEO) {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.view_holder_exoplayer_basic, parent, false);
             return new SimpleExoPlayerViewHolder(view);
@@ -126,9 +120,13 @@ public class SimpleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-
+        Log.e("TAG", "onBindVbhjggiewlder "+mediaList.get(position).getType());
+        Log.e("TAG", "onBindVbhjggiewlder "+mediaList.size());
 
         if (holder instanceof SimpleExoPlayerViewHolder) {
+
+
+
             ((SimpleExoPlayerViewHolder) holder).bind(mediaList.get(position), simpleEvents, position, postCountData, follow, context);
 
 
@@ -163,6 +161,12 @@ public class SimpleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
 
         } else if (holder instanceof VHBanner) {
+
+            if (mediaList.get(position).getType().equals("banner")){
+                Log.e("TAG", "onBindVbhjiewHolder: "+mediaList.get(position).getType() );
+                Log.e("TAG", "onBindVbhjiewHolder: current "+mediaList.get(position).getType() );
+                HomeFragment.Companion.setHideView(true);
+            }
             Data item = mediaList.get(position);
             Glide.with(((VHBanner) holder).thumbnile.getContext())
                     .load(item.getBanner_image())

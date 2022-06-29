@@ -8,5 +8,6 @@ data class ReqFeed(
     val offset: String?,
     val search_type: String?,
     val user_id: Int?,
-        val post_id: String?
+    val post_id: String?,
+    val get_post_id: String?
 )

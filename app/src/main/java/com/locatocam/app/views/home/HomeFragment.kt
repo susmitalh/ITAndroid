@@ -27,6 +27,7 @@ import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import com.app.kardder.util.RecyclerViewScrollListener
 import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
@@ -35,6 +36,7 @@ import com.google.android.libraries.places.api.model.AutocompleteSessionToken
 import com.google.android.libraries.places.api.net.FindAutocompletePredictionsRequest
 import com.google.android.libraries.places.api.net.FindAutocompletePredictionsResponse
 import com.google.android.libraries.places.api.net.PlacesClient
+import com.locatocam.app.Activity.OnlineOrderingHelpActivity
 import com.locatocam.app.ModalClass.AddView
 import com.locatocam.app.R
 import com.locatocam.app.databinding.FragmentHomeBinding
@@ -48,6 +50,8 @@ import com.locatocam.app.viewmodels.HomeViewModel
 import com.locatocam.app.views.MainActivity
 import com.locatocam.app.views.ceratepost.UploadPostmanual
 import com.locatocam.app.views.chat.ChatActivity
+import com.locatocam.app.views.home.header.HeaderFragment
+import com.locatocam.app.views.home.header.IHeaderEvents
 import com.locatocam.app.views.home.test.Follow
 import com.locatocam.app.views.home.test.PostCountData
 import com.locatocam.app.views.home.test.SimpleAdapter
@@ -70,7 +74,7 @@ import retrofit2.Response
 import java.util.*
 
 
-public class HomeFragment : Fragment(), FeedEvents, ClickEvents, SimpleEvents {
+    public class HomeFragment : Fragment(), FeedEvents, ClickEvents, SimpleEvents {
 
     companion object {
         lateinit var instance: HomeFragment
@@ -81,13 +85,18 @@ public class HomeFragment : Fragment(), FeedEvents, ClickEvents, SimpleEvents {
         var commet: PostCountData? = null
         var follow: Follow? = null
         var firstCall: Boolean = true
+        var hideView: Boolean? = false
+        lateinit var viewModel: HomeViewModel
+        var influencerCode=""
     }
 
+     var latLong:Double=0.00
+    var latlng:Double=0.00
     lateinit var dialog: Dialog
-    lateinit var viewModel: HomeViewModel
     var lastCount: Int = -1
     lateinit var placesClient: PlacesClient
     private lateinit var fusedLocationClient: FusedLocationProviderClient
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -129,8 +138,28 @@ public class HomeFragment : Fragment(), FeedEvents, ClickEvents, SimpleEvents {
 
         }
 
+        if (SharedPrefEnc.getPref(context,"user_type").equals("company")){
+            Log.e("TAG", "onCreafteView: "+SharedPrefEnc.getPref(context,"influencer_code") )
+
+            influencerCode=SharedPrefEnc.getPref(context,"influencer_code")
+            binding.profile.visibility = View.GONE
+            binding.imgSetting.visibility = View.VISIBLE
+            binding.rcTitleCompany.visibility = View.VISIBLE
+            binding.imgTitle.visibility = View.GONE
+            binding.shareHeader.visibility = View.GONE
+            binding.messages.visibility = View.GONE
+            binding.imgCompanyInfo.visibility = View.VISIBLE
+        }else{
+            binding.rcTitleCompany.visibility = View.GONE
+            binding.imgTitle.visibility = View.VISIBLE
+
+            binding.messages.visibility = View.VISIBLE
+            binding.imgCompanyInfo.visibility = View.GONE
+        }
+
 
         viewModel.feed_items.observe(viewLifecycleOwner, {
+            Log.e("TAG", "onCreateViewittt: "+it.size )
             viewModel.loading = false
             CoroutineScope(Dispatchers.Main).launch {
                 delay(2500)
@@ -169,8 +198,9 @@ public class HomeFragment : Fragment(), FeedEvents, ClickEvents, SimpleEvents {
                 binding.playerContainer.setAdapter(adapter)
             } else {
                 if (binding.playerContainer.adapter != null) {
+
                     (binding.playerContainer.adapter as SimpleAdapter).addAll(it)
-                    (binding.playerContainer.adapter as SimpleAdapter)!!.notifyDataSetChanged()
+                    (binding.playerContainer.adapter as SimpleAdapter).notifyDataSetChanged()
                 }
             }
             commet = object : PostCountData {
@@ -242,6 +272,7 @@ public class HomeFragment : Fragment(), FeedEvents, ClickEvents, SimpleEvents {
 
             startPreCaching(it)
             preloadImages(it)
+            searchBrandHeader()
 
             (activity as MainActivity).hideLoader()
 
@@ -258,7 +289,11 @@ public class HomeFragment : Fragment(), FeedEvents, ClickEvents, SimpleEvents {
 
 
         viewModel.approvalCounts.observe(viewLifecycleOwner, {
-            Glide.with(this).load(it.data.profile_pic).into(binding.profile)
+            Glide.with(context!!).load(it.data.profile_pic).apply(RequestOptions().override(200, 200)).into(binding.profile)
+
+//            Picasso.with(context) .load(it.data.profile_pic).into(binding.profile)
+
+
             MainActivity.binding.orderOnline.visibility = View.VISIBLE
 
             if (it.data.approval_count.toInt() > 0) {
@@ -316,10 +351,14 @@ public class HomeFragment : Fragment(), FeedEvents, ClickEvents, SimpleEvents {
             var intent = Intent(requireActivity(), ChatActivity::class.java)
             startActivity(intent)
         }
-        binding.profile.setOnClickListener {
+        binding.layoutProfile.setOnClickListener {
             //(activity as MainActivity).settingFragmentOpen()
             var intent=Intent(requireActivity(), SettingsActivity::class.java)
             startActivity(intent)
+        }
+        binding.imgCompanyInfo.setOnClickListener {
+            var intent=Intent(requireActivity(),OnlineOrderingHelpActivity::class.java)
+            context?.startActivity(intent)
         }
 
         binding.playerContainer.addOnScrollListener(object :
@@ -353,8 +392,9 @@ public class HomeFragment : Fragment(), FeedEvents, ClickEvents, SimpleEvents {
                                     "selected_lat"
                                 ) + " lng " + SharedPrefEnc.getPref(context, "selected_lng")
                             )
-
-                            viewModel.getAllFeeds("", act.viewModel.lat, act.viewModel.lng)
+                            latlng=act.viewModel.lat
+                            latLong=act.viewModel.lng
+                            viewModel.getAllFeeds(influencerCode, act.viewModel.lat, act.viewModel.lng)
 
                         }
                     }
@@ -378,7 +418,11 @@ public class HomeFragment : Fragment(), FeedEvents, ClickEvents, SimpleEvents {
             binding.locationView.visibility = View.GONE
         }
 
+
+
         binding.searchLocation.addTextChangedListener(object : TextWatcher {
+
+
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
 
             }
@@ -388,6 +432,7 @@ public class HomeFragment : Fragment(), FeedEvents, ClickEvents, SimpleEvents {
             }
 
             override fun afterTextChanged(p0: Editable?) {
+
                 if (!binding.searchLocation.text.toString().equals("")) {
                     performSearch(binding.searchLocation.text.toString())
                 }
@@ -499,6 +544,7 @@ public class HomeFragment : Fragment(), FeedEvents, ClickEvents, SimpleEvents {
 
     fun showLocation() {
         binding.locationView.visibility = View.VISIBLE
+        viewModel.getAddress(SharedPrefEnc.getPref(requireContext(), "mobile"))
     }
 
     private fun startPreCaching(dataList: List<com.locatocam.app.data.responses.feed.Data>) {
@@ -515,11 +561,6 @@ public class HomeFragment : Fragment(), FeedEvents, ClickEvents, SimpleEvents {
             .build()
         WorkManager.getInstance(requireContext())
             .enqueue(preCachingWork)
-    }
-
-    override fun onDestroy() {
-        // if (binding.recMain != null) binding.recMain.releasePlayer()
-        super.onDestroy()
     }
 
 
@@ -548,12 +589,16 @@ public class HomeFragment : Fragment(), FeedEvents, ClickEvents, SimpleEvents {
         intent.putExtra("address_text", locationitem.name)
         intent.putExtra("place_id", locationitem.placeid)
         startForResult.launch(intent)
+        binding.searchLocation.setText("")
     }
 
     override fun onClickAddress(data: com.locatocam.app.data.responses.address.Data) {
 
         firstCall = false
         if (activity is MainActivity) {
+            viewModel.searchType="influencer"
+            HeaderFragment. userType="influencer"
+            HeaderFragment.infcode=""
             var act = activity as MainActivity
             showLoader()
             act.viewModel.address_text.value = data.customer_address
@@ -565,7 +610,9 @@ public class HomeFragment : Fragment(), FeedEvents, ClickEvents, SimpleEvents {
             binding.locationView.visibility = View.GONE
             act.viewModel.add = data.customer_address.toString()
             add = data.customer_address.toString()
-            viewModel.getAllFeeds("", act.viewModel.lat, act.viewModel.lng)
+            latlng=data.latitude.toDouble()
+            latLong=data.longitude.toDouble()
+            viewModel.getAllFeeds(influencerCode, act.viewModel.lat, act.viewModel.lng)
             firstCall = true
             MainActivity.firstLoca = false
 
@@ -604,6 +651,8 @@ public class HomeFragment : Fragment(), FeedEvents, ClickEvents, SimpleEvents {
         super.onActivityCreated(savedInstanceState)
         if (activity is MainActivity) {
             var act = activity as MainActivity
+            latLong=act.viewModel.lat
+            latlng=act.viewModel.lng
             act.viewModel.address_text.observe(requireActivity(), {
                 binding.myLocation.text = it
                 add = it
@@ -620,11 +669,24 @@ public class HomeFragment : Fragment(), FeedEvents, ClickEvents, SimpleEvents {
                 viewModel.offset = 0
                 viewModel._isheader_added = false
                 if (firstCall) {
-                    viewModel.getAllFeeds("", act.viewModel.lat, act.viewModel.lng)
+                    viewModel.getAllFeeds(influencerCode, act.viewModel.lat, act.viewModel.lng)
                 }
             })
 
         }
+
+    }
+    fun searchBrandHeader(){
+
+
+
+
+
+/*
+        viewModel.searchType=seachType
+        var act = activity as MainActivity
+        viewModel.getAllFeeds(influencerCode, act.viewModel.lat, act.viewModel.lng,userId)
+*/
 
     }
 
@@ -694,6 +756,15 @@ public class HomeFragment : Fragment(), FeedEvents, ClickEvents, SimpleEvents {
         if (dialog != null) {
             dialog?.dismiss()
         }
+    }
+    fun feedApi(){
+//        var latLong: Double = SharedPrefEnc.getPref(context, "selected_lat").toDouble()
+//        var latlng: Double = SharedPrefEnc.getPref(context, "selected_lng").toDouble()
+        Log.e("TAG", "feedAfffpi: "+latLong+","+latlng )
+
+        viewModel.getAllFeeds(influencerCode, latlng , latLong)
+
+
     }
 
 }

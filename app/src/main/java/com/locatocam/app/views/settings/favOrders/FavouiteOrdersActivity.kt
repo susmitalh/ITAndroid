@@ -19,6 +19,7 @@ import com.locatocam.app.views.settings.foodOrders.YourOrdersAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import com.locatocam.app.R
 @AndroidEntryPoint
 class FavouiteOrdersActivity : AppCompatActivity() {
     lateinit var binding:ActivityFavouiteOrdersBinding

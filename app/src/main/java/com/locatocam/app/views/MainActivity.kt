@@ -14,6 +14,8 @@ import android.os.Handler
 import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.os.bundleOf
+import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
@@ -40,6 +42,7 @@ import java.util.*
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     companion object {
+        lateinit var activity: MainActivity
         lateinit var binding: ActivityMainBinding
         var lat:Double = 0.0
         var lng:Double = 0.0
@@ -67,6 +70,7 @@ class MainActivity : AppCompatActivity() {
         setUpNavigation()
         Glide.get(this).setMemoryCategory(MemoryCategory.HIGH)
 
+        activity=this
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
 
@@ -201,6 +205,10 @@ class MainActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         super.onBackPressed()
+
+        binding.bttmNav.visibility=View.VISIBLE
+        binding.orderOnline.visibility=View.VISIBLE
+
     }
 
 
@@ -210,6 +218,8 @@ class MainActivity : AppCompatActivity() {
         val ft = fm.beginTransaction()
         ft.replace(R.id.nav_host_fragment, fragment)
         ft.commit()
+//        Navigation.findNavController(HomeFragment.binding.root).navigate(R.id.action_homeFragment_to_settingsFragment)
+ }
     }*/
 
 }

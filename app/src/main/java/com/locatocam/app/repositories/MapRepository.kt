@@ -38,6 +38,15 @@ class MapRepository constructor(val application: Application) {
             emit(res)
         }.flowOn(Dispatchers.IO)
     }
+    fun getAdress(reqAddress: ReqAddress):Flow<RespAddress>{
+        Log.e("reqAddress", reqAddress.toString())
+
+        return flow {
+            val res= retrofit.create(WebApi::class.java).getAddress(reqAddress)
+            emit(res)
+        }.flowOn(Dispatchers.IO)
+    }
+
    /* fun getAdress(reqAddress: ReqAddress):Flow<RespAddress>{
         return flow {
             val res= retrofitService.create(WebApi::class.java).getAddress(reqAddress)

@@ -36,6 +36,7 @@ import java.util.*
 class OtherProfileWithFeedActivity : AppCompatActivity() {
     lateinit var userid:String
     lateinit var inf_code:String
+    lateinit var post_id:String
     lateinit var dialog:Dialog
     lateinit var viewModel: ActivityMainViewModel
     private lateinit var fusedLocationClient: FusedLocationProviderClient
@@ -51,6 +52,7 @@ class OtherProfileWithFeedActivity : AppCompatActivity() {
 
         userid=intent.getStringExtra("user_id").toString()
         inf_code=intent.getStringExtra("inf_code").toString()
+        post_id=intent.getStringExtra("post_id").toString()
 
         viewModel= ViewModelProvider(this).get(ActivityMainViewModel::class.java)
         order_online_otherUser=order_online_other_user
@@ -164,7 +166,7 @@ class OtherProfileWithFeedActivity : AppCompatActivity() {
 
 
 
-        val bundle = bundleOf("user_id" to userid, "inf_code" to inf_code)
+        val bundle = bundleOf("user_id" to userid, "inf_code" to inf_code, "post_id" to post_id)
         val fragment = OtherProfileWithFeedFragment()
         fragment.arguments = bundle;
         val fm = supportFragmentManager
@@ -173,12 +175,5 @@ class OtherProfileWithFeedActivity : AppCompatActivity() {
         ft.add(R.id.other_user_fragment, fragment, name)
         ft.commit()
     }
-  /*  fun openSettingFragment(){
-        val fragment = SettingsActivity()
-        val fm = supportFragmentManager
-        val ft = fm.beginTransaction()
-        ft.replace(R.id.other_user_fragment, fragment)
-        ft.commit()
-    }*/
 
 }

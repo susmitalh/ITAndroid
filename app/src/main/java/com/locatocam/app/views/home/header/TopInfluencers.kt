@@ -85,6 +85,11 @@ class TopInfluencers : AppCompatActivity(),IHeaderEvents{
     override fun onItemRollsAndShortVideos(firstid: String) {
 
     }
+
+    override fun onBrandSearchClick(searchId: String?, userId: String?) {
+
+    }
+
     fun showLoader() {
         dialog = Dialog(this, R.style.AppTheme_Dialog)
         val view = View.inflate(this, R.layout.progressdialog_item, null)

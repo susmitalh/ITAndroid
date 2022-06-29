@@ -11,6 +11,8 @@
         android:id="@+id/header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:outlineSpotShadowColor="@color/black"
+        android:outlineAmbientShadowColor="@color/black"
         app:cardElevation="5dp">
 
         <RelativeLayout
@@ -44,7 +46,8 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:background="@null"
-                android:src="@drawable/ic_house" />
+                android:src="@drawable/ic_house"
+                app:tint="@color/black" />
         </RelativeLayout>
     </androidx.cardview.widget.CardView>
 
@@ -72,7 +75,8 @@
             android:id="@+id/recmain"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="10dp" />
+            android:layout_marginEnd="@dimen/_10sdp"
+            android:layout_marginStart="@dimen/_10sdp"/>
     </LinearLayout>
 
 </RelativeLayout>

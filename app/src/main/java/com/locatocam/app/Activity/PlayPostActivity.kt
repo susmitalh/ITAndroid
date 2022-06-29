@@ -35,8 +35,6 @@ class PlayPostActivity : AppCompatActivity() {
         lateinit var activity: PlayPostActivity
 
     }
-
-    public lateinit var loadersh: ShimmerFrameLayout
     var dialog: Dialog? = null
     var position: Int = 0
 

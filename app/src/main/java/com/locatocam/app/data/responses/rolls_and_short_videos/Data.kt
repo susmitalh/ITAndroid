@@ -4,5 +4,5 @@ data class Data(
     val id: String?,
     val name: String?,
     val screenshot: String?,
-    val views: String?
+    var views: String?
 )

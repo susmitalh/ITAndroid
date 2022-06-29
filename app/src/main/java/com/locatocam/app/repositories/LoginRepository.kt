@@ -96,6 +96,8 @@ class LoginRepository(val application: Application) {
        customer_id:String
     ) {
         Log.e("setUserPrefs",login_type)
+
+
         SharedPrefEnc.setPref("user_id", user_id, application)
         SharedPrefEnc.setPref("mobile", phone, application)
         SharedPrefEnc.setPref("email", email, application)

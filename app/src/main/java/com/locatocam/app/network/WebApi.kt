@@ -426,6 +426,13 @@ interface WebApi {
         @Body reqApprove: ReqApprove
     ): StatusApproved
 
+    @Headers("Accept: application/json")
+    @POST("App/online_ordering_help")
+    suspend fun FAQ(
+        @Body reqFeed: ReqOnlineOrderHelp
+    ): FAQ
+
+
 
 
 

@@ -3,18 +3,24 @@ package com.locatocam.app.views.ceratepost;
 
 import static com.locatocam.app.security.ResponseVerify.generateHashWithHmac256;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.drawable.BitmapDrawable;
 import android.media.MediaMetadataRetriever;
+import android.media.MediaPlayer;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -33,8 +39,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.ContextCompat;
 
 import com.anandwana001.ogtagparser.LinkSourceContent;
 import com.anandwana001.ogtagparser.LinkViewCallback;
@@ -57,7 +67,8 @@ import com.locatocam.app.utils.AppHelper;
 import com.locatocam.app.utils.ItemData;
 import com.locatocam.app.views.custom.CustomSearchSpinner;
 import com.locatocam.app.views.custom.imageVideoPicker.ListGalleryImVdoActivity;
-
+import com.locatocam.app.views.home.HomeFragment;
+import com.locatocam.app.views.home.test.SimpleAdapter;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
@@ -95,17 +106,17 @@ public class UploadPostmanual extends AppCompatActivity {
     Button submit;
     RelativeLayout progress;
 
-    String input_type = "";
+    String input_type = "",userId,postId;
     Uri upload_uri;
     ImageView upload_thuimb;
     VideoView videoview;
     boolean _istext = false;
-    RelativeLayout videowrapper;
+    ConstraintLayout videowrapper;
     String link_open = "";
     ImageButton back;
     EditText paste_link;
     Button choose_file;
-    int IMAGE_PICKER_SELECT = 114;
+    int IMAGE_PICKER_SELECT = 114,position;
 
     ProgressBar og_loader;
     String mandatory = "0";
@@ -115,10 +126,78 @@ public class UploadPostmanual extends AppCompatActivity {
     LinearLayout admin_content;
 
     boolean brandSelectionMandatory = false;
+    String storagePermission[];
+    private static final int STORAGE_REQUEST = 200;
+
+    private void init() {
+        admin_content = findViewById(R.id.admin_content);
+        selected_type = findViewById(R.id.selected_type);
+        headline = findViewById(R.id.headline);
+        sub_header = findViewById(R.id.sub_header);
+        description = findViewById(R.id.description);
+        select_brand = findViewById(R.id.select_brand);
+        select_items = findViewById(R.id.select_items);
+        choose_button = findViewById(R.id.choose_button);
+        brand_optional_tag = findViewById(R.id.brand_optional_tag);
+        videowrapper = findViewById(R.id.videowrapper);
+        submit = findViewById(R.id.submit);
+        progress = findViewById(R.id.progress);
+        upload_thuimb = findViewById(R.id.upload_thuimb);
+        videoview = findViewById(R.id.videoview);
+        back = findViewById(R.id.back);
+        paste_link = findViewById(R.id.paste_link);
+        choose_file = findViewById(R.id.choose_file);
+        og_loader = findViewById(R.id.og_loader);
+        pause_play = findViewById(R.id.pause_play);
+        storagePermission = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.READ_EXTERNAL_STORAGE};
+
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+    }
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    private void requestStoragePermission() {
+        requestPermissions(storagePermission, STORAGE_REQUEST);
+    }
+
+    private Boolean checkCameraPermission() {
+        boolean result = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == (PackageManager.PERMISSION_GRANTED);
+        return  result;
+    }
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode) {
+            case STORAGE_REQUEST: {
+                if (grantResults.length > 0) {
+                    boolean writeStorageaccepted = grantResults[0] == PackageManager.PERMISSION_GRANTED;
+                    if (writeStorageaccepted) {
+                        Intent intent1 = new Intent(UploadPostmanual.this, ListGalleryImVdoActivity.class);
+                        startActivityForResult(intent1, IMAGE_PICKER_SELECT);
+                    } else {
+                        Toast.makeText(this, "Please Enable Storage Permissions", Toast.LENGTH_LONG).show();
+                    }
+                }
+            }
+            break;
+        }
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        String video = getIntent().getStringExtra("video");
+        String headlineTxt = getIntent().getStringExtra("headline");
+        String subHeadlineTxt = getIntent().getStringExtra("subHeadline");
+        String descriptionTxt = getIntent().getStringExtra("description");
+        userId = getIntent().getStringExtra("userId");
+        postId = getIntent().getStringExtra("postId");
+        position = getIntent().getIntExtra("position",0);
 
         String theme = "light";
         if (!theme.equals("dark")) {
@@ -137,6 +216,43 @@ public class UploadPostmanual extends AppCompatActivity {
         // Log.i("hbnntgnn1111",intent.getStringExtra(Intent.EXTRA_TEXT));
         // Log.i("hbnntgnn1111",intent.getParcelableExtra(Intent.EXTRA_STREAM));
 
+        if (userId != null) {
+
+            videoview.setVideoURI(Uri.parse(video));
+            videoview.start();
+            og_loader.setVisibility(View.VISIBLE);
+            videowrapper.setVisibility(View.VISIBLE);
+
+            videoview.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+                @Override
+                public void onPrepared(MediaPlayer mp) {
+
+                    new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            og_loader.setVisibility(View.GONE);
+                            videoview.pause();
+                            pause_play.setImageResource(R.drawable.ic_play_arrow_dark_24dp);
+
+                        }
+                    }, 100);
+
+                }
+            });
+//            Glide.with(this).load(thuimb).into(upload_thuimb);
+            headline.setText(headlineTxt);
+            sub_header.setText(subHeadlineTxt);
+            description.setText(descriptionTxt);
+
+
+
+        }
+        if (videoview.isPlaying()) {
+            pause_play.setImageResource(R.drawable.ic_pause_dark_24dp);
+        }else {
+            pause_play.setImageResource(R.drawable.ic_play_arrow_dark_24dp);
+        }
+
         if (Intent.ACTION_SEND.equals(action) && type != null) {
             Log.i("hbnnnn1111", type);
             if (type.startsWith("video/")) {
@@ -153,9 +269,23 @@ public class UploadPostmanual extends AppCompatActivity {
                 getThumb(imageUri);
                 upload_thuimb.setVisibility(View.GONE);
                 videoview.setVisibility(View.VISIBLE);
-                videoview.setZOrderOnTop(true);
+//                videoview.setZOrderOnTop(true);
                 videoview.setVideoURI(imageUri);
                 videoview.start();
+
+                videoview.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+                    @Override
+                    public void onPrepared(MediaPlayer mp) {
+                        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                videoview.pause();
+                                pause_play.setImageResource(R.drawable.ic_play_arrow_dark_24dp);
+                            }
+                        }, 100);
+
+                    }
+                });
 
                 // upload_thuimb.setImageResource(R.drawable.play_thumb);
             } else if (type.startsWith("image/")) {
@@ -309,6 +439,8 @@ public class UploadPostmanual extends AppCompatActivity {
             }
         });
 
+        choose_button.setText("Order Now");
+
         choose_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -317,6 +449,7 @@ public class UploadPostmanual extends AppCompatActivity {
         });
 
         choose_file.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
             public void onClick(View view) {
                /* DazzleOptions dazzleOptions=DazzleOptions.init();
@@ -328,9 +461,12 @@ public class UploadPostmanual extends AppCompatActivity {
                 Dazzle.startPicker(UploadPostmanual.this, dazzleOptions) ;   //this -> context of Activity or Fragment*/
                 //startActivityForResult(intent, IMAGE_PICKER_SELECT);
 
-
-                Intent intent1 = new Intent(UploadPostmanual.this, ListGalleryImVdoActivity.class);
-                startActivityForResult(intent1, IMAGE_PICKER_SELECT);
+                if (!checkCameraPermission()) {
+                    requestStoragePermission();
+                } else {
+                    Intent intent1 = new Intent(UploadPostmanual.this, ListGalleryImVdoActivity.class);
+                    startActivityForResult(intent1, IMAGE_PICKER_SELECT);
+                }
             }
         });
 
@@ -416,42 +552,6 @@ public class UploadPostmanual extends AppCompatActivity {
 
     }
 
-    private void init() {
-        admin_content = findViewById(R.id.admin_content);
-        selected_type = findViewById(R.id.selected_type);
-        headline = findViewById(R.id.headline);
-        sub_header = findViewById(R.id.sub_header);
-        description = findViewById(R.id.description);
-        select_brand = findViewById(R.id.select_brand);
-        select_items = findViewById(R.id.select_items);
-        choose_button = findViewById(R.id.choose_button);
-        brand_optional_tag = findViewById(R.id.brand_optional_tag);
-        videowrapper = findViewById(R.id.videowrapper);
-        submit = findViewById(R.id.submit);
-        progress = findViewById(R.id.progress);
-        ;
-        upload_thuimb = findViewById(R.id.upload_thuimb);
-        ;
-        videoview = findViewById(R.id.videoview);
-        ;
-        back = findViewById(R.id.back);
-        ;
-        paste_link = findViewById(R.id.paste_link);
-        ;
-        choose_file = findViewById(R.id.choose_file);
-        ;
-        og_loader = findViewById(R.id.og_loader);
-        ;
-        pause_play = findViewById(R.id.pause_play);
-        ;
-
-        back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
-    }
 
     private void validateAll() {
         // postFile();
@@ -471,7 +571,8 @@ public class UploadPostmanual extends AppCompatActivity {
         }*/
         /*else if (choose_button.getText().toString().equals("")) {
             choose_button.setError("Input value ");
-        }*/ else {
+        }*/
+        else {
 
             if (mandatory.equals("1")) {
                 if (select_brand.getTag().toString().equals("")) {
@@ -493,28 +594,47 @@ public class UploadPostmanual extends AppCompatActivity {
 
         Log.i("errrrrrr", "start");
         progress.setVisibility(View.VISIBLE);
-        String url = "https://loca-toca.com/Api/insert_post";
+        String url;
+        if (userId!=null){
+            url = "https://loca-toca.com/App/edit_post";
+        }else {
+             url = "https://loca-toca.com/App/insert_post";
+        }
+        Log.e("TAG", "postFileUrl: "+url);
         VolleyMultipartRequest multipartRequest = new VolleyMultipartRequest(Request.Method.POST, url, new Response.Listener<NetworkResponse>() {
             @Override
             public void onResponse(NetworkResponse response) {
                 String resultResponse = new String(response.data);
                 progress.setVisibility(View.GONE);
-                Log.i("errrrrrr", resultResponse);
-                Toast.makeText(getApplicationContext(), "Posted succesfully, will be live after approval", Toast.LENGTH_LONG).show();
-                Intent intent = new Intent(UploadPostmanual.this, UploadPostmanual.class);
-                startActivity(intent);
-                finish();
-                try {
-                    JSONObject result = new JSONObject(resultResponse);
+                if (userId != null) {
+                    HomeFragment.instance.feedApi();
 
-
-                } catch (JSONException e) {
-
-
-                    e.getMessage();
-                    e.printStackTrace();
+                    /*Log.e("TAG", "onResponseSS: Edit "+getBase64() );
+                    ((SimpleAdapter)(HomeFragment.Companion.getBinding().playerContainer.getAdapter())).mediaList.get(position).setScreenshot(getBase64());
+                    ((SimpleAdapter)(HomeFragment.Companion.getBinding().playerContainer.getAdapter())).mediaList.get(position).setHeader(headline.getText().toString());
+                    ((SimpleAdapter)(HomeFragment.Companion.getBinding().playerContainer.getAdapter())).notifyDataChanged();*/
+                    Toast.makeText(getApplicationContext(), "Posted succesfully, will be live after approval", Toast.LENGTH_LONG).show();
+                    finish();
                 }
-            }
+
+
+                    Log.i("errrrrrr", resultResponse);
+                    Toast.makeText(getApplicationContext(), "Posted succesfully, will be live after approval", Toast.LENGTH_LONG).show();
+                   /* Intent intent = new Intent(UploadPostmanual.this, UploadPostmanual.class);
+                    startActivity(intent);*/
+                    finish();
+                    try {
+                        JSONObject result = new JSONObject(resultResponse);
+
+
+                    } catch (JSONException e) {
+
+
+                        e.getMessage();
+                        e.printStackTrace();
+                    }
+                }
+
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
@@ -564,18 +684,41 @@ public class UploadPostmanual extends AppCompatActivity {
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
                 String mobile = SharedPrefEnc.getPref(UploadPostmanual.this, "mobile");
-                params.put("phone", mobile);
-                params.put("screenshot", getBase64());
-                params.put("brand_id", select_brand.getTag().toString());
-                params.put("brand_name", select_brand.getText().toString());
-                params.put("item", select_items.getTag().toString());
-                params.put("header", headline.getText().toString());
-                params.put("sub_header", sub_header.getText().toString());
-                params.put("description", description.getText().toString());
-                params.put("button", choose_button.getTag().toString());
-                params.put("social", _istext ? "1" : "0");
-                params.put("link", link_open);
-                Log.i("paramsxxxc", params.toString());
+                if (userId!=null){
+
+                    params.put("user_id", userId);//4
+                    params.put("post_id", postId);//1
+                    params.put("phone", mobile);//12
+                    params.put("screenshot", getBase64());//10
+                    params.put("brand_id", select_brand.getTag().toString());//6
+                    params.put("brand_name", select_brand.getText().toString());//3
+                    params.put("item", select_items.getTag().toString());//7
+                    params.put("header", headline.getText().toString());
+                    params.put("sub_header", sub_header.getText().toString());//2
+                    params.put("description", description.getText().toString());//8
+                    params.put("button", choose_button.getText().toString());//5
+//                params.put("button", choose_button.getTag().toString());
+                    params.put("social", _istext ? "1" : "0");//11
+                    params.put("link", link_open);//9
+                    Log.e("paramsxxxc", params.toString());
+                    Log.e("TAG", "getParams: "+headline.toString() );
+                }else {
+
+                    params.put("phone", mobile);
+                    params.put("screenshot", getBase64());
+                    params.put("brand_id", select_brand.getTag().toString());
+                    params.put("brand_name", select_brand.getText().toString());
+                    params.put("item", select_items.getTag().toString());
+                    params.put("header", headline.getText().toString());
+                    params.put("sub_header", sub_header.getText().toString());
+                    params.put("description", description.getText().toString());
+                    params.put("button", choose_button.getText().toString());
+//                params.put("button", choose_button.getTag().toString());
+                    params.put("social", _istext ? "1" : "0");
+                    params.put("link", link_open);
+                    Log.i("paramsxxxc", params.toString());
+                    Log.e("TAG", "getParams: " + headline.toString());
+                }
                 //params.put("id", q_id);
 
                 return params;
@@ -938,13 +1081,13 @@ public class UploadPostmanual extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        videowrapper.setVisibility(View.VISIBLE);
+
         if (requestCode == 14) {
             if (resultCode == 14) {
                 select_brand.setTag(data.getStringExtra("result_id").toString());
                 select_brand.setText(data.getStringExtra("result_value").toString());
                 select_brand.setError(null);
-                brandSelectionMandatory=false;
+                brandSelectionMandatory = false;
 
             }
         } else if (requestCode == 15) {
@@ -976,11 +1119,26 @@ public class UploadPostmanual extends AppCompatActivity {
                 Uri imageUri = selectedMediaUri;
                 Log.i("ju78888", imageUri.toString());
                 getThumb(imageUri);
+                videowrapper.setVisibility(View.VISIBLE);
                 upload_thuimb.setVisibility(View.GONE);
                 videoview.setVisibility(View.VISIBLE);
-                videoview.setZOrderOnTop(true);
+//                videoview.setZOrderOnTop(true);
                 videoview.setVideoURI(imageUri);
                 videoview.start();
+
+                videoview.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+                    @Override
+                    public void onPrepared(MediaPlayer mp) {
+                        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                videoview.pause();
+                                pause_play.setImageResource(R.drawable.ic_play_arrow_dark_24dp);
+                            }
+                        }, 100);
+
+                    }
+                });
             } else if (tp.contains("image")) {
                 //handle video
                 Uri imageUri = selectedMediaUri;

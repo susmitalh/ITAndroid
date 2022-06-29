@@ -5,5 +5,5 @@
     <solid android:color="#FFFFFF" />
     <stroke
         android:width="0.5dip"
-        android:color="#F44336" />
+        android:color="@color/msg_count_stroke" />
 </shape>
