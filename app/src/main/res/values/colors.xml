@@ -43,6 +43,8 @@
     <color name="backgoundDialog">#414040</color>
     <color name="btn_verify_txt">#413E3E</color>
     <color name="view">#C7C6C6</color>
+    <color name="map_save_as">#4DBA0F02</color>
+    <color name="map_save_as_1">#1A000000</color>
 
 
 </resources>

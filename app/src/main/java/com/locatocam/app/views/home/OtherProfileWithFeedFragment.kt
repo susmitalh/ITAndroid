@@ -3,7 +3,9 @@ package com.locatocam.app.views.home
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.app.AlertDialog
 import android.app.Dialog
+import android.content.DialogInterface
 import android.content.Intent
 import android.location.Address
 import android.location.Geocoder
@@ -18,6 +20,7 @@ import android.widget.PopupMenu
 import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -28,6 +31,7 @@ import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import com.app.kardder.util.RecyclerViewScrollListener
 import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
@@ -46,9 +50,11 @@ import com.locatocam.app.network.WebApi
 import com.locatocam.app.repositories.HomeRepository
 import com.locatocam.app.security.SharedPrefEnc
 import com.locatocam.app.services.PreCachingService
+import com.locatocam.app.utility.Loader
 import com.locatocam.app.utils.Constants
 import com.locatocam.app.viewmodels.HomeViewModel
 import com.locatocam.app.views.MainActivity
+import com.locatocam.app.views.home.header.HeaderFragmentOtherUser
 import com.locatocam.app.views.home.test.*
 import com.locatocam.app.views.location.MapsActivity
 import com.locatocam.app.views.search.AdddressAdapter
@@ -56,6 +62,7 @@ import com.locatocam.app.views.search.AutoCompleteAdapter
 import com.locatocam.app.views.search.ClickEvents
 import com.locatocam.app.views.search.Locationitem
 import com.locatocam.app.views.settings.SettingsActivity
+import kotlinx.android.synthetic.main.activity_other_profile_with_feed.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -80,6 +87,7 @@ class OtherProfileWithFeedFragment() : Fragment(), FeedEvents, ClickEvents, Simp
     companion object {
         var postCountData: PostCountData? = null
         var follow: Follow? = null
+        lateinit var instants:OtherProfileWithFeedFragment
         lateinit var inf_code: String
         lateinit var binding: FragmentOtherUserFeedBinding
     }
@@ -91,7 +99,7 @@ class OtherProfileWithFeedFragment() : Fragment(), FeedEvents, ClickEvents, Simp
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        showLoader()
+     Loader(context!!).showLoader()
         binding = FragmentOtherUserFeedBinding.inflate(layoutInflater)
         var repository = HomeRepository(requireActivity().application, "")
         var factory = HomeViewModelFactory(repository)
@@ -102,7 +110,7 @@ class OtherProfileWithFeedFragment() : Fragment(), FeedEvents, ClickEvents, Simp
         userid = arguments?.getString("user_id").toString()
         inf_code = arguments?.getString("inf_code").toString()
 
-
+            instants=this
             viewModel.get_post_id = arguments?.getString("post_id").toString()
 
         Log.i("trfggg", userid + "," + inf_code)
@@ -121,7 +129,7 @@ class OtherProfileWithFeedFragment() : Fragment(), FeedEvents, ClickEvents, Simp
             CoroutineScope(Dispatchers.Main).launch {
                 delay(2500)
                 try {
-                    hideLoader()
+                 Loader(context!!).hideLoader()
 
                     if (!viewModel.get_post_id.equals("null")) {
                         binding.playerContainer.smoothScrollToPosition(1)
@@ -304,6 +312,7 @@ class OtherProfileWithFeedFragment() : Fragment(), FeedEvents, ClickEvents, Simp
         })
         binding.close.setOnClickListener {
             binding.locationView.visibility = View.GONE
+            OtherProfileWithFeedActivity.layoutOtherBNavigation.visibility=View.VISIBLE
         }
 
         binding.searchLocation.addTextChangedListener(object : TextWatcher {
@@ -338,6 +347,8 @@ class OtherProfileWithFeedFragment() : Fragment(), FeedEvents, ClickEvents, Simp
     fun observe() {
         viewModel.approvalCounts.observe(viewLifecycleOwner, {
 //            Glide.with(this).load(it.data.profile_pic).into(binding.userImg)
+            Glide.with(this).load(it.data.profile_pic)
+                .apply(RequestOptions().override(200, 200)).into(binding.userImg)
             MainActivity.binding.orderOnline.visibility = View.VISIBLE
             OtherProfileWithFeedActivity.order_online_otherUser.visibility=View.VISIBLE
 
@@ -403,14 +414,21 @@ class OtherProfileWithFeedFragment() : Fragment(), FeedEvents, ClickEvents, Simp
                     val postalCode: String = addresses[0].getPostalCode()
                     val knownName: String = addresses[0].getFeatureName()
 
-                    if (activity is OtherProfileWithFeedActivity) {
+                    var intent = Intent(requireActivity(), MapsActivity::class.java)
+                    intent.putExtra("lat", location.latitude.toString())
+                    intent.putExtra("lng", location.longitude.toString())
+                    intent.putExtra("address", address)
+                    intent.putExtra("addressId", "")
+                    startForResult.launch(intent)
+
+                    /*if (activity is OtherProfileWithFeedActivity) {
                         var act = activity as OtherProfileWithFeedActivity
                         act.viewModel.address_text.value = address
                         act.viewModel.lat = location.altitude
                         act.viewModel.lng = location.latitude
                         binding.locationView.visibility = View.GONE
 
-                    }
+                    }*/
                 } else {
                     initLocation()
                 }
@@ -521,10 +539,10 @@ class OtherProfileWithFeedFragment() : Fragment(), FeedEvents, ClickEvents, Simp
 
 
     override fun onClickAddress(data: com.locatocam.app.data.responses.address.Data) {
-
+        OtherProfileWithFeedActivity.layoutOtherBNavigation.visibility=View.VISIBLE
         firstCall = false
         if (activity is OtherProfileWithFeedActivity) {
-            showLoader()
+          Loader(context!!).showLoader()
             var act = activity as OtherProfileWithFeedActivity
 
             act.viewModel.address_text.value = data.customer_address
@@ -551,6 +569,7 @@ class OtherProfileWithFeedFragment() : Fragment(), FeedEvents, ClickEvents, Simp
     val startForResult =
         this.registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
             if (result.resultCode == Activity.RESULT_OK) {
+                Loader(context!!).showLoader()
                 val inte = result.data
                 Log.i("tr4444", inte?.getStringExtra("result_text").toString())
                 Log.i("tr4444", inte?.getDoubleExtra("result_lat", 0.0).toString())
@@ -561,11 +580,27 @@ class OtherProfileWithFeedFragment() : Fragment(), FeedEvents, ClickEvents, Simp
                         inte?.getStringExtra("result_text").toString()
                     act.viewModel.lat = inte?.getDoubleExtra("result_lat", 0.0)!!
                     act.viewModel.lng = inte?.getDoubleExtra("result_text", 0.0)!!
+                    HomeFragment.add= inte?.getStringExtra("result_text").toString()
+//                    HeaderFragmentOtherUser.binding.myLocation.setText( inte?.getStringExtra("result_text").toString())
 
-
+                    SharedPrefEnc.setPref(
+                        "selected_lat",
+                        inte?.getDoubleExtra("result_lat", 0.0)!!.toString(), context
+                    )
+                    SharedPrefEnc.setPref(
+                        "selected_lng",
+                        inte?.getDoubleExtra("result_lng", 0.0)!!.toString(), context
+                    )
                 }
             }
         }
+
+    fun locationShow(){
+        binding.locationView.visibility = View.VISIBLE
+        viewModel.getAddress(SharedPrefEnc.getPref(requireContext(), "mobile"))
+        OtherProfileWithFeedActivity.layoutOtherBNavigation.visibility=View.GONE
+
+    }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -615,7 +650,7 @@ class OtherProfileWithFeedFragment() : Fragment(), FeedEvents, ClickEvents, Simp
     }
 
     override
-    fun showPopup(v: View) {
+    fun showPopup(v: View, data: com.locatocam.app.data.responses.address.Data, position: Int) {
         val popup = PopupMenu(requireActivity(), v)
         val inflater: MenuInflater = popup.getMenuInflater()
         inflater.inflate(R.menu.action_manu, popup.getMenu())
@@ -623,10 +658,37 @@ class OtherProfileWithFeedFragment() : Fragment(), FeedEvents, ClickEvents, Simp
 
             when (item!!.itemId) {
                 R.id.edit -> {
-                    //Toast.makeText(requireActivity(), item.title, Toast.LENGTH_SHORT).show()
+                    var intent = Intent(requireActivity(), MapsActivity::class.java)
+                    intent.putExtra("lat", data.latitude)
+                    intent.putExtra("lng", data.longitude)
+                    intent.putExtra("address", data.customer_address.toString())
+                    intent.putExtra("flateNo", data.door_no.toString())
+                    intent.putExtra("landmark", data.cust_landmark)
+                    intent.putExtra("addressId", data.c_address_id)
+                    intent.putExtra("address_save_as", data.address_save_as)
+                    startForResult.launch(intent)
                 }
                 R.id.delete -> {
-                    //Toast.makeText(requireActivity(), item.title, Toast.LENGTH_SHORT).show()
+                    val dialogBuilder = AlertDialog.Builder(activity!!)
+                    dialogBuilder.setMessage("Are you sure to delete this address?")
+
+                        .setCancelable(false)
+                        .setPositiveButton("Yes", DialogInterface.OnClickListener { dialogInterface, i ->
+                            (binding.savedAddress.adapter as AdddressAdapter).items.removeAt(position)
+                            (binding.savedAddress.adapter as AdddressAdapter).notifyDataSetChanged()
+                            viewModel.deleteAddress(data.c_address_id!!)
+                            dialogInterface.dismiss()
+                        }).setNegativeButton("Cancel",DialogInterface.OnClickListener { dialogInterface, i ->
+                            dialogInterface.dismiss()
+                        })
+
+                    val alert = dialogBuilder.create()
+                    alert.setTitle("Delete Address")
+                    alert.show()
+                    alert.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(ContextCompat.getColor(context!!, R.color.black))
+                    alert.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(ContextCompat.getColor(context!!, R.color.black))
+
+
                 }
             }
 
@@ -656,19 +718,5 @@ class OtherProfileWithFeedFragment() : Fragment(), FeedEvents, ClickEvents, Simp
         _isheader_added = false
     }
 
-    fun showLoader() {
-        dialog = Dialog(requireContext(), R.style.AppTheme_Dialog)
-        val view = View.inflate(requireContext(), R.layout.progressdialog_item, null)
-        dialog?.setContentView(view)
-        dialog?.setCancelable(true)
-        val progressbar: GifImageView = dialog?.findViewById(R.id.img_loader)!!
-        dialog?.show()
-    }
-
-    fun hideLoader() {
-        if (dialog != null) {
-            dialog?.dismiss()
-        }
-    }
 
 }

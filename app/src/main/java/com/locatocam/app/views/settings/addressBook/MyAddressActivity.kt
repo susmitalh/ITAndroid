@@ -1,10 +1,10 @@
 package com.locatocam.app.views.settings.addressBook
 
-import android.app.Dialog
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import android.view.View
 import android.view.Window
 import android.widget.Button
@@ -15,6 +15,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.locatocam.app.MyApp
+import com.locatocam.app.data.responses.address.Data
 import com.locatocam.app.R
 import com.locatocam.app.data.requests.ReqAddress
 import com.locatocam.app.data.requests.ReqOrders
@@ -22,20 +23,15 @@ import com.locatocam.app.data.responses.address.Data
 import com.locatocam.app.data.responses.address.RespAddress
 import com.locatocam.app.data.responses.settings.pendingPost.Detail
 import com.locatocam.app.databinding.ActivityMyAddressBinding
-import com.locatocam.app.network.Status
 import com.locatocam.app.repositories.HomeRepository
 import com.locatocam.app.security.SharedPrefEnc
 import com.locatocam.app.viewmodels.HomeViewModel
-import com.locatocam.app.viewmodels.SettingsViewModel
 import com.locatocam.app.views.MainActivity
-import com.locatocam.app.views.home.HomeFragment
 import com.locatocam.app.views.home.HomeViewModelFactory
-import com.locatocam.app.views.search.AdddressAdapter
-import com.locatocam.app.views.settings.foodOrders.YourOrdersAdapter
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
+
 @AndroidEntryPoint
+class MyAddressActivity : AppCompatActivity(),ClickEditAddress {
 class MyAddressActivity : AppCompatActivity(),AddressClickEvents {
     lateinit var binding:ActivityMyAddressBinding
     lateinit var viewModel: HomeViewModel

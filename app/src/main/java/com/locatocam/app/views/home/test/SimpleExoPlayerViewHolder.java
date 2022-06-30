@@ -283,7 +283,7 @@ public class SimpleExoPlayerViewHolder extends RecyclerView.ViewHolder implement
             description.setShowLessTextColor(Color.BLACK);
             description.addShowMoreText("Read Less");
 */
-
+            Log.e("TAG", "binddddsd: "+item.getShares_count()+" viewCount "+item.getViews_count() );
 
             sub_header.setText(item.getSubheader());
             header.setText(item.getHeader());
@@ -291,6 +291,7 @@ public class SimpleExoPlayerViewHolder extends RecyclerView.ViewHolder implement
 
             views.setText(" " + item.getViews_count());
             shares.setText(" " + item.getShares_count());
+            Log.e("TAG", "binghgd: "+item.getViews_count()+","+item.getShares_count() );
             brandName.setText(item.getBrand_name());
             fileSizeText.setText(item.getFile_size());
 
@@ -390,10 +391,12 @@ public class SimpleExoPlayerViewHolder extends RecyclerView.ViewHolder implement
             playerView.getVideoSurfaceView().setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent intent = new Intent(playerView.getContext(), PlayPostActivity.class);
-                    intent.putExtra("influencer_code", item.getProfile_influencer_code());
-                    intent.putExtra("post_id", item.getPost_id());
-                    playerView.getContext().startActivity(intent);
+                    if (!item.getFile_extension_type().equals("image")) {
+                        Intent intent = new Intent(playerView.getContext(), PlayPostActivity.class);
+                        intent.putExtra("influencer_code", item.getProfile_influencer_code());
+                        intent.putExtra("post_id", item.getPost_id());
+                        playerView.getContext().startActivity(intent);
+                    }
                 }
             });
 
@@ -480,7 +483,9 @@ public class SimpleExoPlayerViewHolder extends RecyclerView.ViewHolder implement
                                     intentEdt.putExtra("headline",item.getHeader());
                                     intentEdt.putExtra("subHeadline",item.getSubheader());
                                     intentEdt.putExtra("description",item.getDescription());
+                                    intentEdt.putExtra("thumbnail",item.getScreenshot());
                                     intentEdt.putExtra("position",position);
+                                    intentEdt.putExtra("getFile_extension_type",item.getFile_extension_type());
                                     context.startActivity(intentEdt);
                                     break;
                             }

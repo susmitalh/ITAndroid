@@ -1,9 +1,11 @@
 package com.locatocam.app.Activity
 
 import android.app.Dialog
+import android.content.Intent
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import android.view.View
 import android.widget.Toast
@@ -27,6 +29,10 @@ import com.locatocam.app.views.ViewMyPost.ViewMyPostFactory
 import com.locatocam.app.views.home.test.Follow
 import com.locatocam.app.views.home.test.SimpleEvents
 import kotlinx.android.synthetic.main.activity_view_my_post.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import pl.droidsonroids.gif.GifImageView
 
 class ViewMyPostActivity : AppCompatActivity() {
@@ -54,13 +60,59 @@ class ViewMyPostActivity : AppCompatActivity() {
         var layoutManager =
             GridLayoutManager(this, 3)
 
-        viewModel.MyPost(this)
+
+
+
+
+
+
+
+            viewModel.MyPost(this)
         setObserverts(layoutManager)
         OnClickListener(layoutManager)
 
     }
 
     private fun OnClickListener(layoutManager: GridLayoutManager) {
+
+        var shortVideo=intent.getStringExtra("shortVideo").toString()
+
+        if (shortVideo!="null") {
+
+            viewModel.my_id=SharedPrefEnc.getPref(application,"user_id")
+
+            Log.e("TAG", "OnClickListdsener: " + shortVideo)
+
+           /* title_text.setText("View Short Videos")
+            posts_text.setBackground(ContextCompat.getDrawable(this, R.drawable.button_rnd_red))
+            posts_text.setTextColor(ContextCompat.getColor(this, R.color.red))
+
+            short_video_text.setBackground(ContextCompat.getDrawable(this, R.drawable.button_rnd_red_filled))
+            short_video_text.setTextColor(Color.WHITE)
+
+            myPost=true
+            viewModel.offset=0
+            viewModel.post_id="0"
+            viewModel.myShort(this)
+            shortVideo(layoutManager)*/
+
+            title_text.setText("View Short Videos")
+            posts_text.setBackground(ContextCompat.getDrawable(this, R.drawable.button_rnd_red))
+            posts_text.setTextColor(ContextCompat.getColor(this, R.color.red))
+
+            short_video_text.setBackground(ContextCompat.getDrawable(this, R.drawable.button_rnd_red_filled))
+            short_video_text.setTextColor(Color.WHITE)
+
+
+            myPost=true
+            viewModel.offset=0
+            viewModel.post_id="0"
+            viewModel.myShort(this)
+            shortVideo(layoutManager)
+
+
+        }
+
         simpleEvents=object :SimpleEvents{
             override fun like(process: String, post_id: String) {
 

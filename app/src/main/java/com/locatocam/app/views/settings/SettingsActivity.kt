@@ -27,6 +27,7 @@ import com.karumi.dexter.listener.PermissionDeniedResponse
 import com.karumi.dexter.listener.PermissionGrantedResponse
 import com.karumi.dexter.listener.PermissionRequest
 import com.karumi.dexter.listener.single.PermissionListener
+import com.locatocam.app.Activity.OtherProfileWithFeedActivity
 import com.locatocam.app.R
 import com.locatocam.app.data.requests.ReqSendOtp
 import com.locatocam.app.data.responses.settings.companyPending.Detail
@@ -64,6 +65,8 @@ class SettingsActivity : AppCompatActivity(){
     private lateinit var userDetails : com.locatocam.app.data.responses.user_model.UserDetails
     private lateinit var companyDetails : com.locatocam.app.data.responses.company.UserDetails
     private lateinit var customerDetails : com.locatocam.app.data.responses.customer_model.UserDetails
+     var userId=""
+     var influencerCode=""
     private val req_code = 101
 
     private val startForProfileImageResult =
@@ -136,6 +139,8 @@ class SettingsActivity : AppCompatActivity(){
         // Inflate the layout for this fragment
         binding= SettingsFragmentBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        MainActivity.activity.finish()
 
         dialog = Dialog(this)
         loading = Dialog(this)
@@ -221,6 +226,8 @@ class SettingsActivity : AppCompatActivity(){
                 when(it.status){
 
                     Status.SUCCESS -> {
+                        userId=it.data!!.data.user_details.user_id!!
+                        influencerCode=it.data!!.data.user_details.influencer_code!!
                         binding.userName.text = it.data!!.data.user_details.name
                         binding.email.text = it.data!!.data.user_details.email
                         customerDetails = it.data.data.user_details
@@ -262,7 +269,8 @@ class SettingsActivity : AppCompatActivity(){
                 when(it.status){
 
                     Status.SUCCESS -> {
-
+                        userId=it.data!!.data.user_details.user_id!!
+                        influencerCode=it.data!!.data.user_details.influencer_code!!
                         binding.userName.text = it.data!!.data.user_details.name
                         binding.email.text = it.data!!.data.user_details.email
                         companyDetails = it.data.data.user_details
@@ -308,7 +316,8 @@ class SettingsActivity : AppCompatActivity(){
                 when(it.status){
 
                     Status.SUCCESS -> {
-
+                        userId=it.data!!.data.user_details.user_id
+                        influencerCode=it.data!!.data.user_details.influencer_code
                         binding.userName.text = it.data!!.data.user_details.name
                         binding.email.text = it.data!!.data.user_details.email
                         userDetails = it.data.data.user_details
@@ -388,6 +397,15 @@ class SettingsActivity : AppCompatActivity(){
     }
 
     fun setOnclickListeners(){
+
+        binding.linearMyPage.setOnClickListener {
+
+            val intent = Intent(this, OtherProfileWithFeedActivity::class.java)
+            intent.putExtra("user_id",userId)
+            intent.putExtra("inf_code",influencerCode)
+            startActivity(intent)
+
+        }
 
         binding.viewActivity.setOnClickListener {
             var intent=Intent(applicationContext,ViewActivity::class.java)
@@ -1029,6 +1047,12 @@ class SettingsActivity : AppCompatActivity(){
 //            binding.orderOnline.visibility=View.VISIBLE
         }
 
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        var intent=Intent(applicationContext,MainActivity::class.java)
+        startActivity(intent)
     }
 
 }

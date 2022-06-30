@@ -5,10 +5,7 @@ import com.locatocam.app.data.requests.*
 import com.locatocam.app.data.requests.reqUserProfile.ReqBlockedUser
 import com.locatocam.app.data.requests.reqUserProfile.ReqProfileData
 import com.locatocam.app.data.requests.reqUserProfile.ReqViewApproval
-import com.locatocam.app.data.requests.viewApproval.ReqApprove
-import com.locatocam.app.data.requests.viewApproval.ReqCompanyApprove
-import com.locatocam.app.data.requests.viewApproval.ReqCompanyReject
-import com.locatocam.app.data.requests.viewApproval.ReqReject
+import com.locatocam.app.data.requests.viewApproval.*
 import com.locatocam.app.data.responses.*
 import com.locatocam.app.data.responses.SearchModal.RespSearch
 import com.locatocam.app.data.responses.add_comments.RespComments
@@ -172,6 +169,18 @@ interface WebApi {
     @POST("App/add_address")
     suspend fun savetAddress(
         @Body reqSaveAddress: ReqSaveAddress
+    ): RespSaveAddress
+
+    @Headers("Accept: application/json")
+    @POST("App/edit_address")
+    suspend fun edtAddress(
+        @Body reqSaveAddress: ReqSaveAddress
+    ): RespSaveAddress
+
+    @Headers("Accept: application/json")
+    @POST("App/delete_address")
+    suspend fun deleteAdd(
+        @Body reqSaveAddress: ReqDeleteAddress
     ): RespSaveAddress
 
     @Headers("Accept: application/json")
@@ -366,6 +375,7 @@ interface WebApi {
     suspend fun getViewBlock(
         @Body reqSettings: ReqSettings
     ): ViewBlockUser
+
     @Headers("Accept: application/json")
     @POST("App/unblock_user")
     suspend fun postBlockedUser(
@@ -414,6 +424,7 @@ interface WebApi {
     suspend fun postReject(
         @Body reqReject: ReqReject
     ): StatusApproved
+
     @Headers("Accept: application/json")
     @POST("App/admin_post_rolls_approve")
     suspend fun postApprove(
@@ -433,14 +444,12 @@ interface WebApi {
     ): FAQ
 
 
-
-
-
     @Headers("Accept: application/json")
     @POST("App/brand_post_rolls_reject")
     suspend fun postCompanyReject(
         @Body reqCompanyReject: ReqCompanyReject
     ): StatusApproved
+
     @Headers("Accept: application/json")
     @POST("App/brand_post_rolls_approve")
     suspend fun postCompanyApprove(

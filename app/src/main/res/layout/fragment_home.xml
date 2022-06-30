@@ -222,10 +222,11 @@
                             android:layout_height="30dp"
                             android:layout_weight="4"
                             android:background="@drawable/edt_rnd_search"
-                            android:drawableLeft="@drawable/ic_search"
+                            android:drawableStart="@drawable/ic_search"
                             android:drawableTint="@color/search_icon"
                             android:hint=" Enter Location"
-                            android:paddingLeft="10dp"
+                            android:paddingStart="10dp"
+                            android:drawablePadding="@dimen/_5sdp"
                             android:textColor="@color/black"
                             android:textColorHint="@color/grey"
                             android:textSize="12sp" />

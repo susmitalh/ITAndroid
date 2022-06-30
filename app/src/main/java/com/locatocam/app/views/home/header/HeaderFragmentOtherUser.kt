@@ -322,7 +322,8 @@ companion object {
 
 //            var parnt = requireActivity() as OtherProfileWithFeedFragment
 //            parnt.showLocation()
-            OtherProfileWithFeedFragment.binding.locationView.visibility = View.VISIBLE
+//            OtherProfileWithFeedFragment.binding.locationView.visibility = View.VISIBLE
+           OtherProfileWithFeedFragment.instants.locationShow()
 
 
         }

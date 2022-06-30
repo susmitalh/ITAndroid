@@ -3,7 +3,8 @@ package com.locatocam.app.views.home
 
 import android.annotation.SuppressLint
 import android.app.Activity
-import android.app.Dialog
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.content.Intent
 import android.location.Address
 import android.location.Geocoder
@@ -17,6 +18,7 @@ import android.widget.PopupMenu
 import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -45,13 +47,13 @@ import com.locatocam.app.network.WebApi
 import com.locatocam.app.repositories.HomeRepository
 import com.locatocam.app.security.SharedPrefEnc
 import com.locatocam.app.services.PreCachingService
+import com.locatocam.app.utility.Loader
 import com.locatocam.app.utils.Constants
 import com.locatocam.app.viewmodels.HomeViewModel
 import com.locatocam.app.views.MainActivity
 import com.locatocam.app.views.ceratepost.UploadPostmanual
 import com.locatocam.app.views.chat.ChatActivity
 import com.locatocam.app.views.home.header.HeaderFragment
-import com.locatocam.app.views.home.header.IHeaderEvents
 import com.locatocam.app.views.home.test.Follow
 import com.locatocam.app.views.home.test.PostCountData
 import com.locatocam.app.views.home.test.SimpleAdapter
@@ -67,14 +69,13 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import net.minidev.json.JSONObject
-import pl.droidsonroids.gif.GifImageView
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.util.*
 
 
-    public class HomeFragment : Fragment(), FeedEvents, ClickEvents, SimpleEvents {
+public class HomeFragment : Fragment(), FeedEvents, ClickEvents, SimpleEvents {
 
     companion object {
         lateinit var instance: HomeFragment
@@ -87,12 +88,11 @@ import java.util.*
         var firstCall: Boolean = true
         var hideView: Boolean? = false
         lateinit var viewModel: HomeViewModel
-        var influencerCode=""
+        var influencerCode = ""
     }
 
-     var latLong:Double=0.00
-    var latlng:Double=0.00
-    lateinit var dialog: Dialog
+    var latLong: Double = 0.00
+    var latlng: Double = 0.00
     var lastCount: Int = -1
     lateinit var placesClient: PlacesClient
     private lateinit var fusedLocationClient: FusedLocationProviderClient
@@ -102,8 +102,7 @@ import java.util.*
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        showLoader()
-
+        Loader(context!!).showLoader()
 
 
         var layoutManager = LinearLayoutManager(requireActivity())
@@ -138,10 +137,10 @@ import java.util.*
 
         }
 
-        if (SharedPrefEnc.getPref(context,"user_type").equals("company")){
-            Log.e("TAG", "onCreafteView: "+SharedPrefEnc.getPref(context,"influencer_code") )
+        if (SharedPrefEnc.getPref(context, "user_type").equals("company")) {
+            Log.e("TAG", "onCreafteView: " + SharedPrefEnc.getPref(context, "influencer_code"))
 
-            influencerCode=SharedPrefEnc.getPref(context,"influencer_code")
+            influencerCode = SharedPrefEnc.getPref(context, "influencer_code")
             binding.profile.visibility = View.GONE
             binding.imgSetting.visibility = View.VISIBLE
             binding.rcTitleCompany.visibility = View.VISIBLE
@@ -149,7 +148,7 @@ import java.util.*
             binding.shareHeader.visibility = View.GONE
             binding.messages.visibility = View.GONE
             binding.imgCompanyInfo.visibility = View.VISIBLE
-        }else{
+        } else {
             binding.rcTitleCompany.visibility = View.GONE
             binding.imgTitle.visibility = View.VISIBLE
 
@@ -159,11 +158,12 @@ import java.util.*
 
 
         viewModel.feed_items.observe(viewLifecycleOwner, {
-            Log.e("TAG", "onCreateViewittt: "+it.size )
+            Log.e("TAG", "onCreateViewittt: " + it.size)
             viewModel.loading = false
             CoroutineScope(Dispatchers.Main).launch {
                 delay(2500)
-                hideLoader()
+//                hideLoader()
+                Loader(context!!).hideLoader()
             }
 
             binding.playerContainer.setLayoutManager(layoutManager)
@@ -233,15 +233,14 @@ import java.util.*
                             lastCount = index
                             Log.e("TAGScroll", "onItemIsFisssssrstVisibleItem: $lastCount")
                             val jsonObject = JSONObject()
-                            jsonObject["id"] =
-                                (binding.playerContainer.adapter as SimpleAdapter).mediaList.get(
-                                    index
-                                ).post_id
-                            jsonObject["view_type"] =
-                                (binding.playerContainer.adapter as SimpleAdapter).mediaList.get(
-                                    index
-                                ).type
-                            jsonObject["user_id"] = userid
+                           /* jsonObject["id"] = (binding.playerContainer.adapter as SimpleAdapter).mediaList.get(index).post_id
+                            jsonObject["view_type"] = (binding.playerContainer.adapter as SimpleAdapter).mediaList.get(index).type
+                            jsonObject["user_id"] = userid*/
+
+                           jsonObject.put("id",(binding.playerContainer.adapter as SimpleAdapter).mediaList.get(index).post_id)
+                           jsonObject.put("view_type",(binding.playerContainer.adapter as SimpleAdapter).mediaList.get(index).type)
+                           jsonObject.put("user_id",userid)
+
                             apiInterface.getAddView(jsonObject)!!
                                 .enqueue(object : Callback<AddView> {
                                     override fun onResponse(
@@ -253,9 +252,8 @@ import java.util.*
                                     index
                                 )*/
                                         if (binding.playerContainer.adapter != null) {
-                                            (binding.playerContainer.adapter as SimpleAdapter).mediaList.get(
-                                                index
-                                            ).views_count = response.body()?.data?.viewsCount
+                                            Log.e("TAG", "onRespfffonse: "+response.body()!!.data!!.viewsCount )
+                                            (binding.playerContainer.adapter as SimpleAdapter).mediaList.get(index).views_count = response.body()?.data?.viewsCount
                                             (binding.playerContainer.adapter as SimpleAdapter).notifyDataChanged()
                                         }
                                     }
@@ -289,11 +287,12 @@ import java.util.*
 
 
         viewModel.approvalCounts.observe(viewLifecycleOwner, {
-            Glide.with(context!!).load(it.data.profile_pic).apply(RequestOptions().override(200, 200)).into(binding.profile)
+
+
+            Glide.with(context!!).load(it.data.profile_pic)
+                .apply(RequestOptions().override(200, 200)).into(binding.profile)
 
 //            Picasso.with(context) .load(it.data.profile_pic).into(binding.profile)
-
-
             MainActivity.binding.orderOnline.visibility = View.VISIBLE
 
             if (it.data.approval_count.toInt() > 0) {
@@ -353,11 +352,11 @@ import java.util.*
         }
         binding.layoutProfile.setOnClickListener {
             //(activity as MainActivity).settingFragmentOpen()
-            var intent=Intent(requireActivity(), SettingsActivity::class.java)
+            var intent = Intent(requireActivity(), SettingsActivity::class.java)
             startActivity(intent)
         }
         binding.imgCompanyInfo.setOnClickListener {
-            var intent=Intent(requireActivity(),OnlineOrderingHelpActivity::class.java)
+            var intent = Intent(requireActivity(), OnlineOrderingHelpActivity::class.java)
             context?.startActivity(intent)
         }
 
@@ -392,9 +391,13 @@ import java.util.*
                                     "selected_lat"
                                 ) + " lng " + SharedPrefEnc.getPref(context, "selected_lng")
                             )
-                            latlng=act.viewModel.lat
-                            latLong=act.viewModel.lng
-                            viewModel.getAllFeeds(influencerCode, act.viewModel.lat, act.viewModel.lng)
+                            latlng = act.viewModel.lat
+                            latLong = act.viewModel.lng
+                            viewModel.getAllFeeds(
+                                influencerCode,
+                                act.viewModel.lat,
+                                act.viewModel.lng
+                            )
 
                         }
                     }
@@ -416,6 +419,7 @@ import java.util.*
 
         binding.close.setOnClickListener {
             binding.locationView.visibility = View.GONE
+            MainActivity.binding.layoutBNavigation.visibility=View.VISIBLE
         }
 
 
@@ -446,12 +450,21 @@ import java.util.*
 
         binding.createpost.setOnClickListener {
             var intent = Intent(requireActivity(), UploadPostmanual::class.java)
-            startActivity(intent)
+//            startActivity(intent)
+            startForCreatePostResult.launch(intent)
         }
         initAutoComplete()
 
         return binding.root
     }
+    val startForCreatePostResult =
+        this.registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                viewModel.getApprovalCounts(SharedPrefEnc.getPref(context, "selected_lat"), SharedPrefEnc.getPref(context, "selected_lng"))
+
+            }
+        }
+
 
     @SuppressLint("MissingPermission")
     fun initLocation() {
@@ -472,6 +485,13 @@ import java.util.*
 
                     val address: String =
                         addresses[0].getAddressLine(0) // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
+                    var intent = Intent(requireActivity(), MapsActivity::class.java)
+                    intent.putExtra("lat", location.latitude.toString())
+                    intent.putExtra("lng", location.longitude.toString())
+                    intent.putExtra("address", address)
+                    intent.putExtra("addressId", "`")
+                    startForResult.launch(intent)
+
 
                     /* val city: String = addresses[0].getLocality()
                      val state: String = addresses[0].getAdminArea()
@@ -479,7 +499,7 @@ import java.util.*
                      val postalCode: String = addresses[0].getPostalCode()
                      val knownName: String = addresses[0].getFeatureName()*/
 
-                    if (activity is MainActivity) {
+                   /* if (activity is MainActivity) {
                         var act = activity as MainActivity
                         act.viewModel.address_text.value = address
                         act.viewModel.lat = location.latitude
@@ -487,7 +507,9 @@ import java.util.*
                         binding.locationView.visibility = View.GONE
 
 
-                    }
+                    }*/
+
+
                 } else {
                     initLocation()
                 }
@@ -543,6 +565,7 @@ import java.util.*
     }
 
     fun showLocation() {
+        MainActivity.binding.layoutBNavigation.visibility=View.GONE
         binding.locationView.visibility = View.VISIBLE
         viewModel.getAddress(SharedPrefEnc.getPref(requireContext(), "mobile"))
     }
@@ -583,7 +606,6 @@ import java.util.*
     }
 
     override fun onClickLocationItem(locationitem: Locationitem) {
-
         binding.recyclerviewSearch.visibility = View.GONE
         var intent = Intent(requireActivity(), MapsActivity::class.java)
         intent.putExtra("address_text", locationitem.name)
@@ -595,12 +617,13 @@ import java.util.*
     override fun onClickAddress(data: com.locatocam.app.data.responses.address.Data) {
 
         firstCall = false
+        MainActivity.binding.layoutBNavigation.visibility=View.VISIBLE
         if (activity is MainActivity) {
-            viewModel.searchType="influencer"
-            HeaderFragment. userType="influencer"
-            HeaderFragment.infcode=""
+            viewModel.searchType = "influencer"
+            HeaderFragment.userType = "influencer"
+            HeaderFragment.infcode = ""
             var act = activity as MainActivity
-            showLoader()
+            Loader(context!!).showLoader()
             act.viewModel.address_text.value = data.customer_address
             act.viewModel.lat = data.latitude!!.toDouble()
             act.viewModel.lng = data.longitude!!.toDouble()
@@ -610,8 +633,8 @@ import java.util.*
             binding.locationView.visibility = View.GONE
             act.viewModel.add = data.customer_address.toString()
             add = data.customer_address.toString()
-            latlng=data.latitude.toDouble()
-            latLong=data.longitude.toDouble()
+            latlng = data.latitude.toDouble()
+            latLong = data.longitude.toDouble()
             viewModel.getAllFeeds(influencerCode, act.viewModel.lat, act.viewModel.lng)
             firstCall = true
             MainActivity.firstLoca = false
@@ -623,6 +646,7 @@ import java.util.*
     val startForResult =
         this.registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
             if (result.resultCode == Activity.RESULT_OK) {
+                Loader(context!!).showLoader()
                 val inte = result.data
                 Log.i("tr4444", inte?.getStringExtra("result_text").toString())
                 Log.i("tr4444", inte?.getDoubleExtra("result_lat", 0.0).toString())
@@ -651,8 +675,8 @@ import java.util.*
         super.onActivityCreated(savedInstanceState)
         if (activity is MainActivity) {
             var act = activity as MainActivity
-            latLong=act.viewModel.lat
-            latlng=act.viewModel.lng
+            latLong = act.viewModel.lat
+            latlng = act.viewModel.lng
             act.viewModel.address_text.observe(requireActivity(), {
                 binding.myLocation.text = it
                 add = it
@@ -676,10 +700,8 @@ import java.util.*
         }
 
     }
-    fun searchBrandHeader(){
 
-
-
+    fun searchBrandHeader() {
 
 
 /*
@@ -699,7 +721,7 @@ import java.util.*
     }
 
     override
-    fun showPopup(v: View) {
+    fun showPopup(v: View, data: com.locatocam.app.data.responses.address.Data, position: Int) {
         val popup = PopupMenu(requireActivity(), v)
         val inflater: MenuInflater = popup.getMenuInflater()
         inflater.inflate(R.menu.action_manu, popup.getMenu())
@@ -707,10 +729,42 @@ import java.util.*
 
             when (item!!.itemId) {
                 R.id.edit -> {
-                    //Toast.makeText(requireActivity(), item.title, Toast.LENGTH_SHORT).show()
+                    var intent = Intent(requireActivity(), MapsActivity::class.java)
+                    intent.putExtra("lat", data.latitude)
+                    intent.putExtra("lng", data.longitude)
+                    intent.putExtra("address", data.customer_address.toString())
+                    intent.putExtra("flateNo", data.door_no.toString())
+                    intent.putExtra("landmark", data.cust_landmark)
+                    intent.putExtra("addressId", data.c_address_id)
+                    intent.putExtra("address_save_as", data.address_save_as)
+                    startForResult.launch(intent)
                 }
                 R.id.delete -> {
                     //Toast.makeText(requireActivity(), item.title, Toast.LENGTH_SHORT).show()
+
+
+
+                    val dialogBuilder = AlertDialog.Builder(activity!!)
+                    dialogBuilder.setMessage("Are you sure to delete this address?")
+
+                        .setCancelable(false)
+                        .setPositiveButton("Yes", DialogInterface.OnClickListener { dialogInterface, i ->
+                            (binding.savedAddress.adapter as AdddressAdapter).items.removeAt(position)
+                            (binding.savedAddress.adapter as AdddressAdapter).notifyDataSetChanged()
+                            viewModel.deleteAddress(data.c_address_id!!)
+                            dialogInterface.dismiss()
+                        }).setNegativeButton("Cancel",
+                            DialogInterface.OnClickListener { dialogInterface, i ->
+                                dialogInterface.dismiss()
+                        })
+
+                    val alert = dialogBuilder.create()
+                    alert.setTitle("Delete Address")
+                    alert.show()
+                    alert.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(ContextCompat.getColor(context!!, R.color.black))
+                    alert.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(ContextCompat.getColor(context!!, R.color.black))
+
+
                 }
             }
 
@@ -743,7 +797,7 @@ import java.util.*
         Log.e("TAG", "isHeaderAddedc: ")
     }
 
-    fun showLoader() {
+    /*fun showLoader() {
         dialog = Dialog(requireContext(), R.style.AppTheme_Dialog)
         val view = View.inflate(requireContext(), R.layout.progressdialog_item, null)
         dialog?.setContentView(view)
@@ -756,13 +810,13 @@ import java.util.*
         if (dialog != null) {
             dialog?.dismiss()
         }
-    }
-    fun feedApi(){
+    }*/
+    fun feedApi() {
 //        var latLong: Double = SharedPrefEnc.getPref(context, "selected_lat").toDouble()
 //        var latlng: Double = SharedPrefEnc.getPref(context, "selected_lng").toDouble()
-        Log.e("TAG", "feedAfffpi: "+latLong+","+latlng )
+        Log.e("TAG", "feedAfffpi: " + latLong + "," + latlng)
 
-        viewModel.getAllFeeds(influencerCode, latlng , latLong)
+        viewModel.getAllFeeds(influencerCode, latlng, latLong)
 
 
     }

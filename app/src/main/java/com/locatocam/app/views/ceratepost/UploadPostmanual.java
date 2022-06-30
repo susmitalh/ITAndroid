@@ -12,6 +12,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.drawable.BitmapDrawable;
 import android.media.MediaMetadataRetriever;
@@ -59,6 +60,7 @@ import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.bumptech.glide.Glide;
+import com.google.firebase.crashlytics.buildtools.reloc.org.apache.http.util.ByteArrayBuffer;
 import com.locatocam.app.R;
 import com.locatocam.app.custom.VolleyMultipartRequest;
 import com.locatocam.app.custom.VolleySingleton;
@@ -75,13 +77,16 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -106,7 +111,7 @@ public class UploadPostmanual extends AppCompatActivity {
     Button submit;
     RelativeLayout progress;
 
-    String input_type = "",userId,postId;
+    String input_type = "", userId, postId, video, thumbnail;
     Uri upload_uri;
     ImageView upload_thuimb;
     VideoView videoview;
@@ -116,7 +121,7 @@ public class UploadPostmanual extends AppCompatActivity {
     ImageButton back;
     EditText paste_link;
     Button choose_file;
-    int IMAGE_PICKER_SELECT = 114,position;
+    int IMAGE_PICKER_SELECT = 114, position;
 
     ProgressBar og_loader;
     String mandatory = "0";
@@ -149,7 +154,7 @@ public class UploadPostmanual extends AppCompatActivity {
         choose_file = findViewById(R.id.choose_file);
         og_loader = findViewById(R.id.og_loader);
         pause_play = findViewById(R.id.pause_play);
-        storagePermission = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.READ_EXTERNAL_STORAGE};
+        storagePermission = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE};
 
         back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -158,6 +163,7 @@ public class UploadPostmanual extends AppCompatActivity {
             }
         });
     }
+
     @RequiresApi(api = Build.VERSION_CODES.M)
     private void requestStoragePermission() {
         requestPermissions(storagePermission, STORAGE_REQUEST);
@@ -165,8 +171,9 @@ public class UploadPostmanual extends AppCompatActivity {
 
     private Boolean checkCameraPermission() {
         boolean result = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == (PackageManager.PERMISSION_GRANTED);
-        return  result;
+        return result;
     }
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -191,14 +198,15 @@ public class UploadPostmanual extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        String video = getIntent().getStringExtra("video");
+        video = getIntent().getStringExtra("video");
+        thumbnail = getIntent().getStringExtra("thumbnail");
         String headlineTxt = getIntent().getStringExtra("headline");
         String subHeadlineTxt = getIntent().getStringExtra("subHeadline");
         String descriptionTxt = getIntent().getStringExtra("description");
         userId = getIntent().getStringExtra("userId");
         postId = getIntent().getStringExtra("postId");
-        position = getIntent().getIntExtra("position",0);
-
+        position = getIntent().getIntExtra("position", 0);
+        String getFile_extension_type = getIntent().getStringExtra("getFile_extension_type");
         String theme = "light";
         if (!theme.equals("dark")) {
             setContentView(R.layout.activity_upload_post_manuel_light);
@@ -215,41 +223,47 @@ public class UploadPostmanual extends AppCompatActivity {
         checkBrandMandatory();
         // Log.i("hbnntgnn1111",intent.getStringExtra(Intent.EXTRA_TEXT));
         // Log.i("hbnntgnn1111",intent.getParcelableExtra(Intent.EXTRA_STREAM));
-
         if (userId != null) {
+//            if (video.contains(".mp4")) {
+            if (!getFile_extension_type.equals("image")) {
 
-            videoview.setVideoURI(Uri.parse(video));
-            videoview.start();
-            og_loader.setVisibility(View.VISIBLE);
-            videowrapper.setVisibility(View.VISIBLE);
+                videoview.setVideoURI(Uri.parse(video));
+                videoview.start();
+                og_loader.setVisibility(View.VISIBLE);
+                videowrapper.setVisibility(View.VISIBLE);
 
-            videoview.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-                @Override
-                public void onPrepared(MediaPlayer mp) {
+                videoview.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+                    @Override
+                    public void onPrepared(MediaPlayer mp) {
 
-                    new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            og_loader.setVisibility(View.GONE);
-                            videoview.pause();
-                            pause_play.setImageResource(R.drawable.ic_play_arrow_dark_24dp);
+                        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                og_loader.setVisibility(View.GONE);
+                                videoview.pause();
+                                pause_play.setImageResource(R.drawable.ic_play_arrow_dark_24dp);
 
-                        }
-                    }, 100);
+                            }
+                        }, 100);
 
-                }
-            });
-//            Glide.with(this).load(thuimb).into(upload_thuimb);
+                    }
+                });
+
+            } else {
+
+            Glide.with(this).load(video).into(upload_thuimb);
+            upload_thuimb.setVisibility(View.VISIBLE);
+            }
+
             headline.setText(headlineTxt);
             sub_header.setText(subHeadlineTxt);
             description.setText(descriptionTxt);
 
 
-
         }
         if (videoview.isPlaying()) {
             pause_play.setImageResource(R.drawable.ic_pause_dark_24dp);
-        }else {
+        } else {
             pause_play.setImageResource(R.drawable.ic_play_arrow_dark_24dp);
         }
 
@@ -315,10 +329,13 @@ public class UploadPostmanual extends AppCompatActivity {
                     @Override
                     public void onAfterLoading(@NotNull LinkSourceContent linkSourceContent) {
                         Log.i("tgfff5555", linkSourceContent.getImages());
-                        Glide.with(UploadPostmanual.this)
+                        Log.e("TAG", "onAfterLoddading: "+linkSourceContent.getOgUrl() );
+                       /* Glide.with(UploadPostmanual.this)
                                 .load(linkSourceContent.getImages())
                                 .error(R.drawable.ic_facebook)
-                                .into(upload_thuimb);
+                                .into(upload_thuimb);*/
+                        videowrapper.setVisibility(View.VISIBLE);
+                        videoview.setVideoURI(Uri.parse(linkSourceContent.getOgUrl()));
 
                         Log.i("tgfff5555", "desc" + linkSourceContent.getOgDescription());
                         Log.i("tgfff5555", "site" + linkSourceContent.getOgSiteName());
@@ -353,7 +370,7 @@ public class UploadPostmanual extends AppCompatActivity {
                 link_open = sharedText;
                 og_loader.setVisibility(View.VISIBLE);
 
-                /*new OgTagParser().execute(paste_link.getText().toString(), new LinkViewCallback() {
+               /* new OgTagParser().execute(paste_link.getText().toString(), new LinkViewCallback() {
                     @Override
                     public void onBeforeLoading() {
 
@@ -367,7 +384,7 @@ public class UploadPostmanual extends AppCompatActivity {
                                 .error(R.drawable.ic_facebook)
                                 .into(upload_thuimb);
 
-                        Log.i("tgfff5555","desc"+linkSourceContent.getOgDescription());
+                        Log.i("tgfff5555","desc"+linkSourceContent.getOgUrl());
                         Log.i("tgfff5555","site"+linkSourceContent.getOgSiteName());
                         Log.i("tgfff5555","title"+linkSourceContent.getOgTitle());
                         sub_header.setText(linkSourceContent.getOgTitle());
@@ -595,12 +612,12 @@ public class UploadPostmanual extends AppCompatActivity {
         Log.i("errrrrrr", "start");
         progress.setVisibility(View.VISIBLE);
         String url;
-        if (userId!=null){
+        if (userId != null) {
             url = "https://loca-toca.com/App/edit_post";
-        }else {
-             url = "https://loca-toca.com/App/insert_post";
+        } else {
+            url = "https://loca-toca.com/App/insert_post";
         }
-        Log.e("TAG", "postFileUrl: "+url);
+        Log.e("TAG", "postFileUrl: " + url);
         VolleyMultipartRequest multipartRequest = new VolleyMultipartRequest(Request.Method.POST, url, new Response.Listener<NetworkResponse>() {
             @Override
             public void onResponse(NetworkResponse response) {
@@ -613,32 +630,40 @@ public class UploadPostmanual extends AppCompatActivity {
                     ((SimpleAdapter)(HomeFragment.Companion.getBinding().playerContainer.getAdapter())).mediaList.get(position).setScreenshot(getBase64());
                     ((SimpleAdapter)(HomeFragment.Companion.getBinding().playerContainer.getAdapter())).mediaList.get(position).setHeader(headline.getText().toString());
                     ((SimpleAdapter)(HomeFragment.Companion.getBinding().playerContainer.getAdapter())).notifyDataChanged();*/
+
+                    ((SimpleAdapter)(HomeFragment.Companion.getBinding().playerContainer.getAdapter())).mediaList.remove(position);
+                    ((SimpleAdapter)(HomeFragment.Companion.getBinding().playerContainer.getAdapter())).notifyItemRemoved(position);
                     Toast.makeText(getApplicationContext(), "Posted succesfully, will be live after approval", Toast.LENGTH_LONG).show();
+                    Intent data = new Intent();
+                    setResult(RESULT_OK,data);
                     finish();
                 }
 
 
-                    Log.i("errrrrrr", resultResponse);
-                    Toast.makeText(getApplicationContext(), "Posted succesfully, will be live after approval", Toast.LENGTH_LONG).show();
+                Log.i("errrrrrr", resultResponse);
+                Toast.makeText(getApplicationContext(), "Posted succesfully, will be live after approval", Toast.LENGTH_LONG).show();
                    /* Intent intent = new Intent(UploadPostmanual.this, UploadPostmanual.class);
                     startActivity(intent);*/
-                    finish();
-                    try {
-                        JSONObject result = new JSONObject(resultResponse);
+                Intent data = new Intent();
+                setResult(RESULT_OK,data);
+                finish();
+                try {
+                    JSONObject result = new JSONObject(resultResponse);
 
 
-                    } catch (JSONException e) {
+                } catch (JSONException e) {
 
 
-                        e.getMessage();
-                        e.printStackTrace();
-                    }
+                    e.getMessage();
+                    e.printStackTrace();
                 }
+            }
 
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 NetworkResponse networkResponse = error.networkResponse;
+                Log.e("TAG", "onErrorResponsedd: " + error.getMessage());
                 String errorMessage = "Unknown error";
                 if (networkResponse == null) {
                     if (error.getClass().equals(TimeoutError.class)) {
@@ -671,7 +696,8 @@ public class UploadPostmanual extends AppCompatActivity {
                     }
                 }
                 Log.i("errrrrrr", errorMessage);
-                Toast.makeText(getApplicationContext(), "Posted succesfully, will be live after approval", Toast.LENGTH_LONG).show();
+//                Toast.makeText(getApplicationContext(), "Posted succesfully, will be live after approval", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), ""+error.getMessage(), Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(UploadPostmanual.this, UploadPostmanual.class);
                 startActivity(intent);
                 finish();
@@ -684,7 +710,7 @@ public class UploadPostmanual extends AppCompatActivity {
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
                 String mobile = SharedPrefEnc.getPref(UploadPostmanual.this, "mobile");
-                if (userId!=null){
+                if (userId != null) {
 
                     params.put("user_id", userId);//4
                     params.put("post_id", postId);//1
@@ -701,8 +727,8 @@ public class UploadPostmanual extends AppCompatActivity {
                     params.put("social", _istext ? "1" : "0");//11
                     params.put("link", link_open);//9
                     Log.e("paramsxxxc", params.toString());
-                    Log.e("TAG", "getParams: "+headline.toString() );
-                }else {
+                    Log.e("TAG", "getParams: " + headline.toString());
+                } else {
 
                     params.put("phone", mobile);
                     params.put("screenshot", getBase64());
@@ -729,9 +755,9 @@ public class UploadPostmanual extends AppCompatActivity {
                 Map<String, DataPart> params = new HashMap<>();
 
                 try {
+
                     if (upload_uri != null) {
                         //InputStream iStream =   getContentResolver().openInputStream(upload_uri);
-
                         File myFile = new File(upload_uri.getPath());
                         FileInputStream inStream = new FileInputStream(myFile);
 
@@ -749,12 +775,48 @@ public class UploadPostmanual extends AppCompatActivity {
                                 params.put("file", new DataPart("image" + String.valueOf(nm) + ".jpeg", inputData, "image/jpeg"));
                             }
                         }
+                    } else {
+                        try {
+                            if (video.contains(".mp4")) {
+                                input_type = "video";
+                            } else {
+                                input_type = "image";
+                            }
+                            URL imageUrl = new URL(video);
+                            URLConnection ucon = imageUrl.openConnection();
+
+                            InputStream is = ucon.getInputStream();
+                            BufferedInputStream bis = new BufferedInputStream(is);
+
+                            ByteArrayBuffer baf = new ByteArrayBuffer(500);
+                            int current = 0;
+                            while ((current = bis.read()) != -1) {
+                                baf.append((byte) current);
+                            }
+                            byte[] inputData = baf.toByteArray();
+
+                            Random random = new Random();
+                            int nm = random.nextInt(100000);
+                            if (input_type.equals("video")) {
+                                params.put("file", new DataPart("video" + String.valueOf(nm) + ".mp4", inputData, "video/mp4"));
+                            } else {
+                                if (_istext) {
+                                    params.put("file", new DataPart("image" + String.valueOf(nm) + ".jpeg", AppHelper.getFileDataFromDrawable(getBaseContext(), upload_thuimb.getDrawable()), "image/jpeg"));
+
+                                } else {
+                                    params.put("file", new DataPart("image" + String.valueOf(nm) + ".jpeg", inputData, "image/jpeg"));
+                                }
+                            }
+                        } catch (Exception e) {
+                            Log.d("ImageManager", "Error: " + e.toString());
+                        }
                     }
 
                 } catch (IOException e) {
                     e.printStackTrace();
                     Log.i("errrrrrr", e.getMessage().toString());
                 }
+
 
                 return params;
             }
@@ -1057,17 +1119,37 @@ public class UploadPostmanual extends AppCompatActivity {
     }
 
     private String getBase64() {
+        String encodedImage="";
         BitmapDrawable drawable = (BitmapDrawable) upload_thuimb.getDrawable();
-        Bitmap bitmap = drawable.getBitmap();
-        //Bitmap bm = BitmapFactory.decodeFile("/path/to/image.jpg");
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos); // bm is the bitmap object
-        byte[] b = baos.toByteArray();
-        String encodedImage = Base64.encodeToString(b, Base64.DEFAULT);
+        if (drawable != null) {
+            Bitmap bitmap = drawable.getBitmap();
+            //Bitmap bm = BitmapFactory.decodeFile("/path/to/image.jpg");
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos); // bm is the bitmap object
+            byte[] b = baos.toByteArray();
+            encodedImage = Base64.encodeToString(b, Base64.DEFAULT);
 
-        Log.i("jhikkkk99", encodedImage);
+            Log.i("jhikkkk99", encodedImage);
+            return encodedImage;
+        } else {
+            try {
+                URL url = new URL(thumbnail);
+                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                connection.setDoInput(true);
+                connection.connect();
+                InputStream input = connection.getInputStream();
+                Bitmap bitmap = BitmapFactory.decodeStream(input);
+
+
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos); // bm is the bitmap object
+                byte[] b = baos.toByteArray();
+                encodedImage = Base64.encodeToString(b, Base64.DEFAULT);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
         return encodedImage;
-
     }
 
     private Bitmap getBase64Video() {

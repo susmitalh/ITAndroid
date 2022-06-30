@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/Users/Weapplinse/Desktop/ITAndroid/app/src/main/res/drawable-night/a.xml" value="0.1275" />
+        <entry key="..\:/Users/Weapplinse/Desktop/ITAndroid/app/src/main/res/drawable/a.xml" value="0.1275" />
+        <entry key="..\:/Users/Weapplinse/Desktop/ITAndroid/app/src/main/res/drawable/b.xml" value="0.1275" />
+        <entry key="..\:/Users/Weapplinse/Desktop/ITAndroid/app/src/main/res/drawable/rb_bg.xml" value="0.1275" />
+        <entry key="..\:/Users/Weapplinse/Desktop/ITAndroid/app/src/main/res/layout/activity_maps.xml" value="0.1265625" />
+        <entry key="..\:/Users/Weapplinse/Desktop/ITAndroid/app/src/main/res/layout/activity_rolls_exoplayer.xml" value="0.16197916666666667" />
+        <entry key="..\:/Users/Weapplinse/Desktop/ITAndroid/app/src/main/res/layout/activity_upload_post_manuel_light.xml" value="0.1265625" />
+        <entry key="..\:/Users/Weapplinse/Desktop/ITAndroid/app/src/main/res/layout/fragment_header.xml" value="0.1265625" />
+        <entry key="..\:/Users/Weapplinse/Desktop/ITAndroid/app/src/main/res/layout/popupuploadconfirm.xml" value="0.16197916666666667" />
+      </map>
+    </option>
+  </component>
+  <component name="ExternalStorageConfigurationManager" enabled="true" />
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" project-jdk-name="11" project-jdk-type="JavaSDK" />
+</project>
