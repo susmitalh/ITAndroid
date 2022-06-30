@@ -47,7 +47,7 @@ class TermsConditionActivity : AppCompatActivity() {
                             binding.webView.requestFocus()
                             binding.webView.getSettings().setJavaScriptEnabled(true)
                             val myPdfUrl =it.data?.data!!
-                            val url = "https://docs.google.com/viewer?embedded = true&url = $myPdfUrl"
+                            val url = "https://docs.google.com/viewer?url= $myPdfUrl"
                             binding.webView.loadUrl(url)
                         }
                         MainActivity.binding.loader.visibility= View.GONE
