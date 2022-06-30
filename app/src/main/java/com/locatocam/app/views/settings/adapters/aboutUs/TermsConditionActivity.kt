@@ -28,6 +28,8 @@ class TermsConditionActivity : AppCompatActivity() {
         binding= ActivityTermsConditionBinding.inflate(layoutInflater)
         setContentView(binding.root)
         viewModel= ViewModelProvider(this).get(SettingsViewModel::class.java)
+        getPricacyPolicy()
+        setOnClickListeners()
     }
     fun setOnClickListeners(){
         binding.close.setOnClickListener { finish()

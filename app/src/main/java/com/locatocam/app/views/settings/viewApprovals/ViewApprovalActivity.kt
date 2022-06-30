@@ -206,6 +206,35 @@ class ViewApprovalActivity : AppCompatActivity(),ApprovedClickEvents, PendingCli
             binding.post.setTextColor(Color.parseColor("#AC0000"))
             binding.rolls.setTextColor(Color.parseColor("#FFFFFFFF"))
         }
+        binding.brandPending.setOnClickListener {
+            isLoading = false
+            isLastPage = false
+            type = "brand_pending"
+            currentPage=0
+            currentPageNumber.clear()
+            binding.selectedType.text="List of Rolls Pending For Approval"
+            if(process=="pending") {
+                pendingPosts.clear()
+                initMyPendingRecyclerView()
+                //setdataPendingPost(type, process)
+            }
+            else if(process=="approved"){
+                appovedPosts.clear()
+                initMyApprovedRecyclerView()
+                //setdataApprovedPost(type,process)
+            }
+            else{
+                rejectPosts.clear()
+                initMyRejectRecyclerView()
+                //setdataRejectedPost(type,process)
+            }
+            binding.post.setBackgroundResource(R.drawable.oval_red_border)
+            binding.rolls.setBackgroundResource(R.drawable.oval_red_border)
+            binding.brandPending.setBackgroundResource(R.drawable.button_rnd_red_filled_oval)
+            binding.post.setTextColor(Color.parseColor("#AC0000"))
+            binding.rolls.setTextColor(Color.parseColor("#AC0000"))
+            binding.brandPending.setTextColor(Color.parseColor("#FFFFFFFF"))
+        }
         binding.home.setOnClickListener {
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
@@ -271,9 +300,9 @@ class ViewApprovalActivity : AppCompatActivity(),ApprovedClickEvents, PendingCli
                 when(it.status){
                     Status.SUCCESS -> {
                         var totalCount =0;
+                        MainActivity.binding.loader.visibility= View.GONE
                         if(type.equals("post")) {
                             lateinit var viewPendingLIst: DataX
-                            //MainActivity.binding.loader.visibility= View.GONE
                             viewPendingLIst =  it.data?.data ?: viewPendingLIst
                             totalCount = viewPendingLIst.post
                             pendingPosts.addAll(viewPendingLIst.details)
@@ -290,10 +319,11 @@ class ViewApprovalActivity : AppCompatActivity(),ApprovedClickEvents, PendingCli
                             binding.rejected.text="Rejected("+viewPendingLIst.rejected+")"
                             binding.post.text="Post("+viewPendingLIst.post+")"
                             binding.rolls.text="Rolls("+viewPendingLIst.rolls+")"
+                            binding.brandPending.text="Brand Pending("+viewPendingLIst.brand_pending+")"
                         }
                         else if(type.equals("rolls")){
                             lateinit var viewPendingLIst: DataX
-                            //MainActivity.binding.loader.visibility= View.GONE
+                            MainActivity.binding.loader.visibility= View.GONE
                             viewPendingLIst =  it.data?.data ?: viewPendingLIst
                             totalCount = viewPendingLIst.rolls
                             pendingPosts.addAll(viewPendingLIst.details)
@@ -310,6 +340,27 @@ class ViewApprovalActivity : AppCompatActivity(),ApprovedClickEvents, PendingCli
                             binding.rejected.text="Rejected("+viewPendingLIst.rejected+")"
                             binding.post.text="Post("+viewPendingLIst.post+")"
                             binding.rolls.text="Rolls("+viewPendingLIst.rolls+")"
+                            binding.brandPending.text="Brand Pending("+viewPendingLIst.brand_pending+")"
+                        }
+                        if(type.equals("brand_pending")) {
+                            /*lateinit var viewPendingLIst: DataX
+                            viewPendingLIst =  it.data?.data ?: viewPendingLIst
+                            totalCount = viewPendingLIst.brand_pending.toInt()
+                            pendingPosts.addAll(viewPendingLIst.details)
+                            val pendingApprovalAdapter = PendingPostViewApprovalAdapter(pendingPosts,
+                                applicationContext,this@ViewApprovalActivity)
+                            binding.Pendinglist.adapter = pendingApprovalAdapter
+                            pendingApprovalAdapter.notifyDataSetChanged()
+                            if(pageNumber>0) {
+                                val scrollPosition = pageNumber * 11
+                                binding.Pendinglist.scrollToPosition(scrollPosition)
+                            }
+                            binding.pending.text="Pending("+viewPendingLIst.pending+")"
+                            binding.approved.text="Approved("+viewPendingLIst.approved+")"
+                            binding.rejected.text="Rejected("+viewPendingLIst.rejected+")"
+                            binding.post.text="Post("+viewPendingLIst.post+")"
+                            binding.rolls.text="Rolls("+viewPendingLIst.rolls+")"
+                            binding.brandPending.text="Brand Pending("+viewPendingLIst.brand_pending+")"*/
                         }
                         pageDetails.totalPages = totalCount/pageSize
                         pageDetails.totalPages = if(totalCount%pageSize ==0) pageDetails.totalPages else pageDetails.totalPages +1
@@ -387,9 +438,9 @@ class ViewApprovalActivity : AppCompatActivity(),ApprovedClickEvents, PendingCli
                 when(it.status){
                     Status.SUCCESS -> {
                         var totalCount =0
+                        MainActivity.binding.loader.visibility= View.GONE
                         if(type.equals("post")) {
                             lateinit var viewRejectedLIst: Data
-                            MainActivity.binding.loader.visibility= View.GONE
                             viewRejectedLIst =  it.data?.data ?: viewRejectedLIst
                             totalCount = viewRejectedLIst.post
                             rejectPosts.addAll(viewRejectedLIst.details)
@@ -406,8 +457,9 @@ class ViewApprovalActivity : AppCompatActivity(),ApprovedClickEvents, PendingCli
                             binding.rejected.text="Rejected("+viewRejectedLIst.rejected+")"
                             binding.post.text="Post("+viewRejectedLIst.post+")"
                             binding.rolls.text="Rolls("+viewRejectedLIst.rolls+")"
+                            binding.brandPending.text="Brand Pending("+viewRejectedLIst.brand_pending+")"
                         }
-                        else {
+                        else if(type.equals("rolls")) {
                             lateinit var viewRejectedLIst: Data
                             MainActivity.binding.loader.visibility= View.GONE
                             viewRejectedLIst =  it.data?.data ?: viewRejectedLIst
@@ -426,6 +478,29 @@ class ViewApprovalActivity : AppCompatActivity(),ApprovedClickEvents, PendingCli
                             binding.rejected.text="Rejected("+viewRejectedLIst.rejected+")"
                             binding.post.text="Post("+viewRejectedLIst.post+")"
                             binding.rolls.text="Rolls("+viewRejectedLIst.rolls+")"
+                            binding.brandPending.text="Brand Pending("+viewRejectedLIst.brand_pending+")"
+
+                        }
+                        if(type.equals("brand_pending")) {
+                            /*lateinit var viewRejectedLIst: Data
+                            viewRejectedLIst =  it.data?.data ?: viewRejectedLIst
+                            totalCount = viewRejectedLIst.brand_pending
+                            rejectPosts.addAll(viewRejectedLIst.details)
+                            val rejectedPostApprovalsAdapter = RejectedPostApprovalsAdapter(rejectPosts,
+                                applicationContext,this@ViewApprovalActivity)
+                            binding.Rejectedlist.adapter = rejectedPostApprovalsAdapter
+                            rejectedPostApprovalsAdapter.notifyDataSetChanged()
+                            if(pageNumber>0) {
+                                val scrollPosition = pageNumber * 11
+                                binding.Rejectedlist.scrollToPosition(scrollPosition)
+                            }
+                            binding.pending.text="Pending("+viewRejectedLIst.pending+")"
+                            binding.approved.text="Approved("+viewRejectedLIst.approved+")"
+                            binding.rejected.text="Rejected("+viewRejectedLIst.rejected+")"
+                            binding.post.text="Post("+viewRejectedLIst.post+")"
+                            binding.rolls.text="Rolls("+viewRejectedLIst.rolls+")"
+                            binding.brandPending.text="Brand Pending("+viewRejectedLIst.brand_pending+")"*/
+
                         }
                         pageDetails.totalPages = totalCount/pageSize
                         pageDetails.totalPages = if(totalCount%pageSize ==0) pageDetails.totalPages else pageDetails.totalPages +1
@@ -800,9 +875,9 @@ class ViewApprovalActivity : AppCompatActivity(),ApprovedClickEvents, PendingCli
                 when(it.status){
                     Status.SUCCESS -> {
                         var totalCount =0
+                        MainActivity.binding.loader.visibility= View.GONE
                         if(type.equals("post")) {
                         lateinit var viewApprovedLIst: com.locatocam.app.data.responses.settings.Approved.DataX
-                        MainActivity.binding.loader.visibility= View.GONE
                         viewApprovedLIst =  it.data?.data ?: viewApprovedLIst
 
                             totalCount = viewApprovedLIst.post
@@ -821,10 +896,10 @@ class ViewApprovalActivity : AppCompatActivity(),ApprovedClickEvents, PendingCli
                             binding.rejected.text="Rejected("+viewApprovedLIst.rejected+")"
                             binding.post.text="Post("+viewApprovedLIst.post+")"
                             binding.rolls.text="Rolls("+viewApprovedLIst.rolls+")"
+                            binding.brandPending.text="Brand Pending("+viewApprovedLIst.brand_pending+")"
                         }
                         else{
                             lateinit var viewApprovedLIst: com.locatocam.app.data.responses.settings.Approved.DataX
-                            MainActivity.binding.loader.visibility= View.GONE
                             viewApprovedLIst =  it.data?.data ?: viewApprovedLIst
                             appovedPosts.addAll(viewApprovedLIst.details)
                             totalCount = viewApprovedLIst.rolls
@@ -840,7 +915,30 @@ class ViewApprovalActivity : AppCompatActivity(),ApprovedClickEvents, PendingCli
                             binding.rejected.text="Rejected("+viewApprovedLIst.rejected+")"
                             binding.post.text="Post("+viewApprovedLIst.post+")"
                             binding.rolls.text="Rolls("+viewApprovedLIst.rolls+")"
+                            binding.brandPending.text="Brand Pending("+viewApprovedLIst.brand_pending+")"
                            }
+                        if(type.equals("brand_pending")) {
+                            /*lateinit var viewApprovedLIst: com.locatocam.app.data.responses.settings.Approved.DataX
+                            viewApprovedLIst =  it.data?.data ?: viewApprovedLIst
+
+                            totalCount = viewApprovedLIst.post
+                            appovedPosts.addAll(viewApprovedLIst.details)
+
+                            var approvedPostApprovalsAdapter = ApprovedPostApprovalsAdapter(appovedPosts, applicationContext,this@ViewApprovalActivity)
+                            binding.Approvedlist.adapter = approvedPostApprovalsAdapter
+                            approvedPostApprovalsAdapter.notifyDataSetChanged()
+                            // approvedPostApprovalsAdapter.notifyItemChanged(approvedPostApprovalsAdapter.getDetails().size-size)
+                            if(pageNumber>0) {
+                                val scrollPosition = pageNumber * 11
+                                binding.Approvedlist.scrollToPosition(scrollPosition)
+                            }
+                            binding.pending.text="Pending("+viewApprovedLIst.pending+")"
+                            binding.approved.text="Approved("+viewApprovedLIst.approved+")"
+                            binding.rejected.text="Rejected("+viewApprovedLIst.rejected+")"
+                            binding.post.text="Post("+viewApprovedLIst.post+")"
+                            binding.rolls.text="Rolls("+viewApprovedLIst.rolls+")"
+                            binding.brandPending.text="Brand Pending("+viewApprovedLIst.brand_pending+")"*/
+                        }
                         pageDetails.totalPages = totalCount/pageSize
                         pageDetails.totalPages = if(totalCount%pageSize ==0) pageDetails.totalPages else pageDetails.totalPages +1
                         totalPages = pageDetails?.totalPages ?: 0

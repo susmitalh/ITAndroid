@@ -17,7 +17,6 @@ import android.widget.PopupMenu
 import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -355,9 +354,7 @@ import java.util.*
         binding.layoutProfile.setOnClickListener {
             //(activity as MainActivity).settingFragmentOpen()
             var intent=Intent(requireActivity(), SettingsActivity::class.java)
-            resultLauncher.launch(intent)
-            //startForResult(Activity.RESULT_OK,intent)
-            activity?.finish()
+            startActivity(intent)
         }
         binding.imgCompanyInfo.setOnClickListener {
             var intent=Intent(requireActivity(),OnlineOrderingHelpActivity::class.java)
@@ -769,13 +766,5 @@ import java.util.*
 
 
     }
-        var resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-            if (result.resultCode == Activity.RESULT_OK) {
-                // There are no request codes
-                val data: Intent? = result.data
-                //doSomeOperations()
-            }
-        }
 
-
-    }
+}

@@ -18,7 +18,9 @@
         tools:targetApi="m">
         <activity
             android:name=".views.settings.adapters.aboutUs.TermsConditionActivity"
-            android:exported="true" />
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/ThemeNoActionBar" />
         <activity
             android:name=".views.settings.adapters.aboutUs.PrivacyPolicyActivity"
             android:exported="false"

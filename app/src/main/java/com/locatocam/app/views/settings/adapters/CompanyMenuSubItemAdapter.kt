@@ -23,6 +23,7 @@ import com.locatocam.app.views.login.ActivityLogin
 import com.locatocam.app.views.settings.PostReelsApprovalActivity
 import com.locatocam.app.views.settings.SettingsActivity
 import com.locatocam.app.views.settings.adapters.aboutUs.PrivacyPolicyActivity
+import com.locatocam.app.views.settings.adapters.aboutUs.TermsConditionActivity
 import com.locatocam.app.views.settings.addressBook.MyAddressActivity
 import com.locatocam.app.views.settings.bookmark.BookMarkActivity
 import com.locatocam.app.views.settings.favOrders.FavouiteOrdersActivity
@@ -125,7 +126,7 @@ class CompanyMenuSubItemAdapter (private val list: List<SubItem>, private val co
                 context?.startActivity(intent)
             }
             else if(title.equals("Terms and Condition")){
-                var intent=Intent(context, PrivacyPolicyActivity::class.java)
+                var intent=Intent(context, TermsConditionActivity::class.java)
                 intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
                 context?.startActivity(intent)
             }
