@@ -51,7 +51,7 @@ class MyAddressAdapter(
 
             }
         holder.btn_remove.setOnClickListener {
-            clickEvents.Remove(holder.btn_remove,list[position])
+            clickEditAddress.Remove(list[position])
         }
     }
 
