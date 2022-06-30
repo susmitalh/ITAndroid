@@ -13,6 +13,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
+    <RelativeLayout
+        android:id="@+id/layoutOtherBNavigationview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/transparent"
+        android:visibility="visible">
+
+
     <com.locatocam.app.custom.CustomBottomNavigationView
         android:id="@+id/bttm_nav_other_user"
         android:layout_width="match_parent"
@@ -41,6 +49,7 @@
             android:layout_height="match_parent"
             android:src="@drawable/online_order_btn"
             android:visibility="visible" />
+    </RelativeLayout>
     </RelativeLayout>
 
 </RelativeLayout>

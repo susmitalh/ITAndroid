@@ -206,6 +206,7 @@ public class UploadPostmanual extends AppCompatActivity {
         userId = getIntent().getStringExtra("userId");
         postId = getIntent().getStringExtra("postId");
         position = getIntent().getIntExtra("position", 0);
+        String getFile_extension_type = getIntent().getStringExtra("getFile_extension_type");
         String theme = "light";
         if (!theme.equals("dark")) {
             setContentView(R.layout.activity_upload_post_manuel_light);
@@ -223,7 +224,8 @@ public class UploadPostmanual extends AppCompatActivity {
         // Log.i("hbnntgnn1111",intent.getStringExtra(Intent.EXTRA_TEXT));
         // Log.i("hbnntgnn1111",intent.getParcelableExtra(Intent.EXTRA_STREAM));
         if (userId != null) {
-            if (video.contains(".mp4")) {
+//            if (video.contains(".mp4")) {
+            if (!getFile_extension_type.equals("image")) {
 
                 videoview.setVideoURI(Uri.parse(video));
                 videoview.start();
@@ -632,6 +634,8 @@ public class UploadPostmanual extends AppCompatActivity {
                     ((SimpleAdapter)(HomeFragment.Companion.getBinding().playerContainer.getAdapter())).mediaList.remove(position);
                     ((SimpleAdapter)(HomeFragment.Companion.getBinding().playerContainer.getAdapter())).notifyItemRemoved(position);
                     Toast.makeText(getApplicationContext(), "Posted succesfully, will be live after approval", Toast.LENGTH_LONG).show();
+                    Intent data = new Intent();
+                    setResult(RESULT_OK,data);
                     finish();
                 }
 
@@ -640,6 +644,8 @@ public class UploadPostmanual extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "Posted succesfully, will be live after approval", Toast.LENGTH_LONG).show();
                    /* Intent intent = new Intent(UploadPostmanual.this, UploadPostmanual.class);
                     startActivity(intent);*/
+                Intent data = new Intent();
+                setResult(RESULT_OK,data);
                 finish();
                 try {
                     JSONObject result = new JSONObject(resultResponse);
@@ -690,7 +696,8 @@ public class UploadPostmanual extends AppCompatActivity {
                     }
                 }
                 Log.i("errrrrrr", errorMessage);
-                Toast.makeText(getApplicationContext(), "Posted succesfully, will be live after approval", Toast.LENGTH_LONG).show();
+//                Toast.makeText(getApplicationContext(), "Posted succesfully, will be live after approval", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), ""+error.getMessage(), Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(UploadPostmanual.this, UploadPostmanual.class);
                 startActivity(intent);
                 finish();

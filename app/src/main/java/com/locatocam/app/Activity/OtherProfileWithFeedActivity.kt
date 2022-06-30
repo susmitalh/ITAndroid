@@ -42,6 +42,7 @@ class OtherProfileWithFeedActivity : AppCompatActivity() {
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     companion object{
         lateinit var order_online_otherUser: RelativeLayout
+        lateinit var layoutOtherBNavigation:RelativeLayout
     }
 
 
@@ -56,6 +57,7 @@ class OtherProfileWithFeedActivity : AppCompatActivity() {
 
         viewModel= ViewModelProvider(this).get(ActivityMainViewModel::class.java)
         order_online_otherUser=order_online_other_user
+        layoutOtherBNavigation=layoutOtherBNavigationview
 
         bttm_nav_other_user.inflateMenu(com.locatocam.app.R.menu.nav_manu)
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)

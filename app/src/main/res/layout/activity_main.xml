@@ -20,6 +20,15 @@
             app:navGraph="@navigation/nav_graph" />
 
 
+        <RelativeLayout
+            android:id="@+id/layoutBNavigation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/transparent"
+            android:visibility="visible">
+
+
+
         <com.locatocam.app.custom.CustomBottomNavigationView
             android:id="@+id/bttm_nav"
             android:layout_width="match_parent"
@@ -49,7 +58,7 @@
                 android:src="@drawable/online_order_btn"
                 android:visibility="visible" />
         </RelativeLayout>
-
+        </RelativeLayout>
         <!--
                 <androidx.cardview.widget.CardView
                     android:id="@+id/order_online"

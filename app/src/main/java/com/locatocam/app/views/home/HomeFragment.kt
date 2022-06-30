@@ -3,7 +3,8 @@ package com.locatocam.app.views.home
 
 import android.annotation.SuppressLint
 import android.app.Activity
-import android.app.Dialog
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.content.Intent
 import android.location.Address
 import android.location.Geocoder
@@ -17,6 +18,7 @@ import android.widget.PopupMenu
 import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -91,7 +93,6 @@ public class HomeFragment : Fragment(), FeedEvents, ClickEvents, SimpleEvents {
 
     var latLong: Double = 0.00
     var latlng: Double = 0.00
-    lateinit var dialog: Dialog
     var lastCount: Int = -1
     lateinit var placesClient: PlacesClient
     private lateinit var fusedLocationClient: FusedLocationProviderClient
@@ -232,15 +233,14 @@ public class HomeFragment : Fragment(), FeedEvents, ClickEvents, SimpleEvents {
                             lastCount = index
                             Log.e("TAGScroll", "onItemIsFisssssrstVisibleItem: $lastCount")
                             val jsonObject = JSONObject()
-                            jsonObject["id"] =
-                                (binding.playerContainer.adapter as SimpleAdapter).mediaList.get(
-                                    index
-                                ).post_id
-                            jsonObject["view_type"] =
-                                (binding.playerContainer.adapter as SimpleAdapter).mediaList.get(
-                                    index
-                                ).type
-                            jsonObject["user_id"] = userid
+                           /* jsonObject["id"] = (binding.playerContainer.adapter as SimpleAdapter).mediaList.get(index).post_id
+                            jsonObject["view_type"] = (binding.playerContainer.adapter as SimpleAdapter).mediaList.get(index).type
+                            jsonObject["user_id"] = userid*/
+
+                           jsonObject.put("id",(binding.playerContainer.adapter as SimpleAdapter).mediaList.get(index).post_id)
+                           jsonObject.put("view_type",(binding.playerContainer.adapter as SimpleAdapter).mediaList.get(index).type)
+                           jsonObject.put("user_id",userid)
+
                             apiInterface.getAddView(jsonObject)!!
                                 .enqueue(object : Callback<AddView> {
                                     override fun onResponse(
@@ -252,9 +252,8 @@ public class HomeFragment : Fragment(), FeedEvents, ClickEvents, SimpleEvents {
                                     index
                                 )*/
                                         if (binding.playerContainer.adapter != null) {
-                                            (binding.playerContainer.adapter as SimpleAdapter).mediaList.get(
-                                                index
-                                            ).views_count = response.body()?.data?.viewsCount
+                                            Log.e("TAG", "onRespfffonse: "+response.body()!!.data!!.viewsCount )
+                                            (binding.playerContainer.adapter as SimpleAdapter).mediaList.get(index).views_count = response.body()?.data?.viewsCount
                                             (binding.playerContainer.adapter as SimpleAdapter).notifyDataChanged()
                                         }
                                     }
@@ -288,12 +287,12 @@ public class HomeFragment : Fragment(), FeedEvents, ClickEvents, SimpleEvents {
 
 
         viewModel.approvalCounts.observe(viewLifecycleOwner, {
+
+
             Glide.with(context!!).load(it.data.profile_pic)
                 .apply(RequestOptions().override(200, 200)).into(binding.profile)
 
 //            Picasso.with(context) .load(it.data.profile_pic).into(binding.profile)
-
-
             MainActivity.binding.orderOnline.visibility = View.VISIBLE
 
             if (it.data.approval_count.toInt() > 0) {
@@ -420,6 +419,7 @@ public class HomeFragment : Fragment(), FeedEvents, ClickEvents, SimpleEvents {
 
         binding.close.setOnClickListener {
             binding.locationView.visibility = View.GONE
+            MainActivity.binding.layoutBNavigation.visibility=View.VISIBLE
         }
 
 
@@ -450,12 +450,21 @@ public class HomeFragment : Fragment(), FeedEvents, ClickEvents, SimpleEvents {
 
         binding.createpost.setOnClickListener {
             var intent = Intent(requireActivity(), UploadPostmanual::class.java)
-            startActivity(intent)
+//            startActivity(intent)
+            startForCreatePostResult.launch(intent)
         }
         initAutoComplete()
 
         return binding.root
     }
+    val startForCreatePostResult =
+        this.registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                viewModel.getApprovalCounts(SharedPrefEnc.getPref(context, "selected_lat"), SharedPrefEnc.getPref(context, "selected_lng"))
+
+            }
+        }
+
 
     @SuppressLint("MissingPermission")
     fun initLocation() {
@@ -476,6 +485,13 @@ public class HomeFragment : Fragment(), FeedEvents, ClickEvents, SimpleEvents {
 
                     val address: String =
                         addresses[0].getAddressLine(0) // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
+                    var intent = Intent(requireActivity(), MapsActivity::class.java)
+                    intent.putExtra("lat", location.latitude.toString())
+                    intent.putExtra("lng", location.longitude.toString())
+                    intent.putExtra("address", address)
+                    intent.putExtra("addressId", "`")
+                    startForResult.launch(intent)
+
 
                     /* val city: String = addresses[0].getLocality()
                      val state: String = addresses[0].getAdminArea()
@@ -483,7 +499,7 @@ public class HomeFragment : Fragment(), FeedEvents, ClickEvents, SimpleEvents {
                      val postalCode: String = addresses[0].getPostalCode()
                      val knownName: String = addresses[0].getFeatureName()*/
 
-                    if (activity is MainActivity) {
+                   /* if (activity is MainActivity) {
                         var act = activity as MainActivity
                         act.viewModel.address_text.value = address
                         act.viewModel.lat = location.latitude
@@ -491,7 +507,9 @@ public class HomeFragment : Fragment(), FeedEvents, ClickEvents, SimpleEvents {
                         binding.locationView.visibility = View.GONE
 
 
-                    }
+                    }*/
+
+
                 } else {
                     initLocation()
                 }
@@ -547,6 +565,7 @@ public class HomeFragment : Fragment(), FeedEvents, ClickEvents, SimpleEvents {
     }
 
     fun showLocation() {
+        MainActivity.binding.layoutBNavigation.visibility=View.GONE
         binding.locationView.visibility = View.VISIBLE
         viewModel.getAddress(SharedPrefEnc.getPref(requireContext(), "mobile"))
     }
@@ -587,7 +606,6 @@ public class HomeFragment : Fragment(), FeedEvents, ClickEvents, SimpleEvents {
     }
 
     override fun onClickLocationItem(locationitem: Locationitem) {
-
         binding.recyclerviewSearch.visibility = View.GONE
         var intent = Intent(requireActivity(), MapsActivity::class.java)
         intent.putExtra("address_text", locationitem.name)
@@ -599,6 +617,7 @@ public class HomeFragment : Fragment(), FeedEvents, ClickEvents, SimpleEvents {
     override fun onClickAddress(data: com.locatocam.app.data.responses.address.Data) {
 
         firstCall = false
+        MainActivity.binding.layoutBNavigation.visibility=View.VISIBLE
         if (activity is MainActivity) {
             viewModel.searchType = "influencer"
             HeaderFragment.userType = "influencer"
@@ -718,15 +737,33 @@ public class HomeFragment : Fragment(), FeedEvents, ClickEvents, SimpleEvents {
                     intent.putExtra("landmark", data.cust_landmark)
                     intent.putExtra("addressId", data.c_address_id)
                     intent.putExtra("address_save_as", data.address_save_as)
-
                     startForResult.launch(intent)
                 }
                 R.id.delete -> {
-//                    Log.e(TAG, "showPopup: ", )
                     //Toast.makeText(requireActivity(), item.title, Toast.LENGTH_SHORT).show()
-                    (binding.savedAddress.adapter as AdddressAdapter).items.removeAt(position)
-                    (binding.savedAddress.adapter as AdddressAdapter).notifyDataSetChanged()
-                    viewModel.deleteAddress(data.c_address_id!!)
+
+
+
+                    val dialogBuilder = AlertDialog.Builder(activity!!)
+                    dialogBuilder.setMessage("Are you sure to delete this address?")
+
+                        .setCancelable(false)
+                        .setPositiveButton("Yes", DialogInterface.OnClickListener { dialogInterface, i ->
+                            (binding.savedAddress.adapter as AdddressAdapter).items.removeAt(position)
+                            (binding.savedAddress.adapter as AdddressAdapter).notifyDataSetChanged()
+                            viewModel.deleteAddress(data.c_address_id!!)
+                            dialogInterface.dismiss()
+                        }).setNegativeButton("Cancel",
+                            DialogInterface.OnClickListener { dialogInterface, i ->
+                                dialogInterface.dismiss()
+                        })
+
+                    val alert = dialogBuilder.create()
+                    alert.setTitle("Delete Address")
+                    alert.show()
+                    alert.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(ContextCompat.getColor(context!!, R.color.black))
+                    alert.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(ContextCompat.getColor(context!!, R.color.black))
+
 
                 }
             }

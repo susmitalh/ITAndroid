@@ -28,11 +28,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.gms.maps.model.Marker
 import com.google.android.libraries.places.api.model.AutocompleteSessionToken
 import com.google.android.libraries.places.api.net.*
+import com.locatocam.app.Activity.OtherProfileWithFeedActivity
 import com.locatocam.app.data.responses.address.Data
 import com.locatocam.app.repositories.MapRepository
 import com.locatocam.app.security.SharedPrefEnc
 import com.locatocam.app.utility.Loader
 import com.locatocam.app.viewmodels.MapsViewModel
+import com.locatocam.app.views.MainActivity
 import com.locatocam.app.views.home.HomeFragment
 import com.locatocam.app.views.home.header.HeaderFragment
 import com.locatocam.app.views.search.AdddressAdapter
@@ -69,6 +71,9 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback , GoogleMap.OnMapCl
 
         binding.recyclerviewSearchLoca.layoutManager = LinearLayoutManager(this)
         binding.savedAddress.layoutManager = LinearLayoutManager(this)
+        MainActivity.binding.layoutBNavigation.visibility=View.VISIBLE
+        OtherProfileWithFeedActivity.layoutOtherBNavigation.visibility=View.VISIBLE
+
 
         setclickListeners()
         setObservers()
@@ -81,6 +86,13 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback , GoogleMap.OnMapCl
         val mapFragment = supportFragmentManager
             .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        MainActivity.binding.layoutBNavigation.visibility=View.GONE
+        OtherProfileWithFeedActivity.layoutOtherBNavigation.visibility=View.GONE
+
     }
 
     fun setObservers(){
@@ -301,32 +313,35 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback , GoogleMap.OnMapCl
                     }
                 }
         }else{
-            var lat=intent.getStringExtra("lat")
-            var lng=intent.getStringExtra("lng")
-            var address=intent.getStringExtra("address")
-            var flateNo=intent.getStringExtra("flateNo")
-            var landmark=intent.getStringExtra("landmark")
+            val lat=intent.getStringExtra("lat")
+            val lng=intent.getStringExtra("lng")
+            val address=intent.getStringExtra("address")
+            val flateNo=intent.getStringExtra("flateNo")
+            val landmark=intent.getStringExtra("landmark")
             viewModel.address_id= intent.getStringExtra("addressId").toString()
-            var address_save_as= intent.getStringExtra("address_save_as").toString()
+            val address_save_as= intent.getStringExtra("address_save_as").toString()
 
-            if (address_save_as.equals("home")){
-                binding.home.isChecked=true
-                addressTag=false
-            }else if (address_save_as.equals("office")){
-                binding.office.isChecked=true
-                addressTag=false
-            }else{
-                binding.other.isChecked=true
-                binding.edtAddressTag.setText(address_save_as)
-                binding.txtAddressTag.visibility=View.VISIBLE
-                binding.edtAddressTag.visibility=View.VISIBLE
-                addressTag=true
+
+            if (!address_save_as.equals("null")) {
+                if (address_save_as.equals("home")) {
+                    binding.home.isChecked = true
+                    addressTag = false
+                } else if (address_save_as.equals("office")) {
+                    binding.office.isChecked = true
+                    addressTag = false
+                } else {
+                    binding.other.isChecked = true
+                    binding.edtAddressTag.setText(address_save_as)
+                    binding.txtAddressTag.visibility = View.VISIBLE
+                    binding.edtAddressTag.visibility = View.VISIBLE
+                    addressTag = true
+                }
             }
 
-            var addresses = geocoder.getFromLocation(lat!!.toDouble(), lng!!.toDouble(), 1)
-            viewModel.pin_code = addresses.get(0).postalCode
-            result_lat = lat.toDouble()
-            result_lng = lng.toDouble()
+          /*  var addresses = geocoder.getFromLocation(lat!!.toDouble(), lng!!.toDouble(), 1)
+            viewModel.pin_code = addresses.get(0).postalCode*/
+            result_lat = lat!!.toDouble()
+            result_lng = lng!!.toDouble()
             result_text = address.toString()
             binding.address.setText(address)
             binding.houseFlat.setText(flateNo)
@@ -338,7 +353,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback , GoogleMap.OnMapCl
             viewModel.lng = lng
 //                viewModel.place=place.address.toString()
 
-            val sydney = LatLng(lat!!.toDouble(), lng!!.toDouble())
+            val sydney = LatLng(lat.toDouble(), lng.toDouble())
             mMap.addMarker(MarkerOptions().position(sydney).title(address_text))
             val center = CameraUpdateFactory.newLatLng(sydney)
             val zoom = CameraUpdateFactory.zoomTo(18f)
@@ -445,11 +460,9 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback , GoogleMap.OnMapCl
 
 //                viewModel.place=place.address.toString()
 
-
-
     }
 
     override fun showPopup(v: View, item: Data, position: Int) {
-        TODO("Not yet implemented")
+
     }
 }
