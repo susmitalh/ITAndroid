@@ -62,6 +62,7 @@
     <string name="fb_login_protocol_scheme">fb1234</string>
     <string name="facebook_client_token">56789</string>
     <string name="approval_txt">Hi, Your Registration awaiting for approval. Once approved we will get back to you thanks.</string>
+    <string name="aboutUs">Our technology platform connects customers, restaurant partners and delivery partners, serving their multiple needs. Customers use our platform to search and discover restaurants, read and write customer generated reviews and view and upload photos, order food delivery, On the other hand, we provide restaurant partners with industry-specific marketing tools which enable them to engage and acquire customers to grow their business while also providing a reliable and efficient last mile delivery service. Using the Loca-Toca application customers can engage with other users by seeing the reels, short videos, chat etc, Loca-toca application works as a social media paltform also. We also provide our delivery partners with transparent and flexible earning opportunities.</string>
 </resources>
 
 

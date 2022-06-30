@@ -3,23 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.locatocam.app">
 
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-
-    <uses-feature
-        android:name="android.hardware.camera2.full"
-        android:required="false" />
-
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.RECORD_AUDIO" />
-    <uses-permission android:name="android.permission.RECORD_VIDEO" />
-    <uses-permission
-        android:name="android.permission.READ_EXTERNAL_STORAGE"
-        tools:node="remove" />
-
     <application
         android:name=".MyApp"
         android:allowBackup="true"
@@ -33,6 +16,19 @@
         android:theme="@style/Theme.LT_MVVM"
         android:usesCleartextTraffic="true"
         tools:targetApi="m">
+        <activity
+            android:name=".views.settings.adapters.aboutUs.TermsConditionActivity"
+            android:exported="true" />
+        <activity
+            android:name=".views.settings.adapters.aboutUs.PrivacyPolicyActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/ThemeNoActionBar" />
+        <activity
+            android:name=".views.settings.bookmark.BookMarkActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/ThemeNoActionBar" />
         <activity
             android:name=".views.settings.addressBook.MyAddressActivity"
             android:exported="false"
@@ -57,7 +53,7 @@
             android:name=".Activity.OnlineOrderingHelpActivity"
             android:exported="false"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.LT_MVVM_NoactionBar"/>
+            android:theme="@style/Theme.LT_MVVM_NoactionBar" />
         <activity
             android:name=".views.settings.SettingsActivity"
             android:exported="false"
@@ -115,7 +111,6 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar" />
-
         <activity
             android:name=".views.approvals.PendingActivity"
             android:exported="false"
@@ -274,35 +269,6 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.LT_MVVM_NoactionBar" />
-
-        <meta-data
-            android:name="com.google.android.gms.version"
-            android:value="@integer/google_play_services_version" />
-        <meta-data
-            android:name="com.google.android.geo.API_KEY"
-            android:value="@string/google_maps_key" />
-
-        <uses-library
-            android:name="org.apache.http.legacy"
-            android:required="false" />
-
-        <provider
-            android:name="androidx.core.content.FileProvider"
-            android:authorities="${applicationId}.provider"
-            android:exported="false"
-            android:grantUriPermissions="true">
-            <meta-data
-                android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/provider_paths" />
-        </provider>
-
-        <meta-data
-            android:name="com.facebook.sdk.ApplicationId"
-            android:value="@string/facebook_app_id" />
-        <meta-data
-            android:name="com.facebook.sdk.ClientToken"
-            android:value="@string/facebook_client_token" />
-
         <activity
             android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
@@ -319,19 +285,16 @@
                 <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".views.settings.ViewImageFileActivity"
             android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/ThemeNoActionBar" />
-
         <activity
             android:name=".views.settings.ViewFileActivity"
             android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/ThemeNoActionBar" />
-
         <activity
             android:name=".views.settings.PostReelsApprovalActivity"
             android:exported="false"
@@ -342,7 +305,6 @@
             android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/ThemeNoActionBar" />
-
         <activity
             android:name=".views.settings.influencerDashboard.ViewBlockUserActivity"
             android:exported="false"
@@ -358,6 +320,7 @@
             android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/ThemeNoActionBar" />
+
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
@@ -370,6 +333,28 @@
         <meta-data
             android:name="com.facebook.sdk.ClientToken"
             android:value="@string/facebook_client_token" />
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_maps_key" />
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id" />
+        <meta-data
+            android:name="com.facebook.sdk.ClientToken"
+            android:value="@string/facebook_client_token" />
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_paths" />
+        </provider>
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.provider"
@@ -392,15 +377,31 @@
         <uses-library
             android:name="org.apache.http.legacy"
             android:required="false" />
+        <uses-library
+            android:name="org.apache.http.legacy"
+            android:required="false" />
     </application>
+    <uses-feature
+        android:name="android.hardware.camera2.full"
+        android:required="false" />
+
     <uses-feature
         android:name="android.hardware.camera2.full"
         android:required="false" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-
     <uses-permission android:name="android.permission.INTERNET" />
-
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.RECORD_VIDEO" />
+    <uses-permission
+        android:name="android.permission.READ_EXTERNAL_STORAGE"
+        tools:node="remove" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />

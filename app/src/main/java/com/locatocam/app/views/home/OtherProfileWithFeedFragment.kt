@@ -263,7 +263,8 @@ class OtherProfileWithFeedFragment() : Fragment(), FeedEvents, ClickEvents, Simp
         binding.userImg.setOnClickListener {
             //(activity as OtherProfileWithFeedActivity).openSettingFragment()
             var intent=Intent(requireContext(), SettingsActivity::class.java)
-            startActivity(intent)
+            resultLauncher.launch(intent)
+            activity?.finish()
         }
         if (MainActivity.firstLoca==true){
             viewModel.getApprovalCounts(MainActivity.lat.toString(), MainActivity.lng.toString())
@@ -668,6 +669,13 @@ class OtherProfileWithFeedFragment() : Fragment(), FeedEvents, ClickEvents, Simp
     fun hideLoader() {
         if (dialog != null) {
             dialog?.dismiss()
+        }
+    }
+    var resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            // There are no request codes
+            val data: Intent? = result.data
+            //doSomeOperations()
         }
     }
 

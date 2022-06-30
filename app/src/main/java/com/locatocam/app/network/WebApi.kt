@@ -484,8 +484,19 @@ interface WebApi {
     ): ResFavOrder
 
     @Headers("Accept: application/json")
-    @POST("App/view_address")
-    suspend fun getMyAddress(
-        @Body reqAddress: ReqAddress
-    ): RespAddress
+    @POST("App/delete_address")
+    suspend fun postDeleteAddress(
+        @Body reqPostAddress: ReqPostAddress
+    ): ResBlockedUser
+    @Headers("Accept: application/json")
+    @POST("App/privacy_policy")
+    suspend fun getPrivacyPolicy(
+        @Body reqOrders: ReqOrders
+    ): ResPrivacyPolicy
+
+    @Headers("Accept: application/json")
+    @POST("App/terms_condition")
+    suspend fun getTermsCon(
+        @Body reqOrders: ReqOrders
+    ): ResTermsCon
 }

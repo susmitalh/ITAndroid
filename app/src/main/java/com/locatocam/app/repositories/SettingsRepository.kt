@@ -9,6 +9,8 @@ import com.locatocam.app.data.requests.viewApproval.ReqCompanyApprove
 import com.locatocam.app.data.requests.viewApproval.ReqCompanyReject
 import com.locatocam.app.data.requests.viewApproval.ReqReject
 import com.locatocam.app.data.responses.ResMyAddress
+import com.locatocam.app.data.responses.ResPrivacyPolicy
+import com.locatocam.app.data.responses.ResTermsCon
 import com.locatocam.app.data.responses.address.RespAddress
 import com.locatocam.app.data.responses.customer_model.Customer
 import com.locatocam.app.data.responses.favOrder.ResFavOrder
@@ -208,9 +210,15 @@ class SettingsRepository(val context: Context) {
             emit(res)
         }.flowOn(Dispatchers.IO)
     }
-    suspend fun getMyAddress(reqAddress: ReqAddress) : Flow<RespAddress> {
+    suspend fun getPrivacyPolicy(reqOrders: ReqOrders) : Flow<ResPrivacyPolicy> {
         return flow {
-            val res = retrofit.create(WebApi::class.java).getMyAddress(reqAddress)
+            val res = retrofit.create(WebApi::class.java).getPrivacyPolicy(reqOrders)
+            emit(res)
+        }.flowOn(Dispatchers.IO)
+    }
+    suspend fun getTermsCon(reqOrders: ReqOrders) : Flow<ResTermsCon> {
+        return flow {
+            val res = retrofit.create(WebApi::class.java).getTermsCon(reqOrders)
             emit(res)
         }.flowOn(Dispatchers.IO)
     }

@@ -9,6 +9,7 @@ import com.locatocam.app.data.responses.RespCounts
 import com.locatocam.app.data.responses.RespTrash
 import com.locatocam.app.data.responses.address.RespAddress
 import com.locatocam.app.data.responses.feed.Data
+import com.locatocam.app.data.responses.settings.ResBlockedUser
 import com.locatocam.app.repositories.HomeRepository
 import com.locatocam.app.views.home.HomeFragment
 import com.locatocam.app.views.home.HomeFragment.Companion.instance
@@ -29,6 +30,7 @@ companion object{
     var addressresp = MutableLiveData<RespAddress>()
     var approvalCounts = MutableLiveData<RespCounts>()
     var trash = MutableLiveData<RespTrash>()
+    var resDelete = MutableLiveData<ResBlockedUser>()
 
     var offset: Int
     var lastid: Int
@@ -173,6 +175,23 @@ companion object{
                 .collect {
                     Log.i("hnm777", it.message.toString())
                     trash.value = it
+                }
+        }
+    }
+    fun deleteAddress(addressId: Int?) {
+        var request = ReqPostAddress(addressId)
+        //repository.getAdress(request)
+
+        viewModelScope.launch {
+            repository.deleteAdress(request)
+                .catch {
+                    Log.e("address", it.message.toString())
+                }
+                .collect {
+                    try {
+                        resDelete.value = it
+                    } catch (e: Exception) {
+                    }
                 }
         }
     }

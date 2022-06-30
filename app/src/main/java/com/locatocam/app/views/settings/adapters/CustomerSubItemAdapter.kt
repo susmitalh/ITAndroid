@@ -10,14 +10,18 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.locatocam.app.Activity.OnlineOrderingHelpActivity
 import com.locatocam.app.R
 import com.locatocam.app.data.responses.customer_model.SubItem
 import com.locatocam.app.views.login.ActivityLogin
+import com.locatocam.app.views.settings.adapters.aboutUs.PrivacyPolicyActivity
 import com.locatocam.app.views.settings.addressBook.MyAddressActivity
+import com.locatocam.app.views.settings.bookmark.BookMarkActivity
 import com.locatocam.app.views.settings.favOrders.FavouiteOrdersActivity
 import com.locatocam.app.views.settings.influencerDashboard.ViewBlockUserActivity
 import com.locatocam.app.views.settings.myPostReelsApprovalPending.MyPostReelsApprovalPendingActivity
@@ -105,6 +109,29 @@ class CustomerSubItemAdapter (private val list: List<SubItem>, private val conte
                 intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
                 context.startActivity(intent)
             }
+            else if(title.equals("BookMark")){
+                var intent=Intent(context, BookMarkActivity::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
+                context?.startActivity(intent)
+            }
+            else if(title.equals("Onine Ordering Help")){
+                var intent=Intent(context, OnlineOrderingHelpActivity::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
+                context?.startActivity(intent)
+            }
+            else if(title.equals("About Us")){
+                aboutUs(holder.title.getRootView().getContext())
+            }
+            else if(title.equals("Privacy Policy")){
+                var intent=Intent(context, PrivacyPolicyActivity::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
+                context?.startActivity(intent)
+            }
+            else if(title.equals("Terms and Condition")){
+                var intent=Intent(context, PrivacyPolicyActivity::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
+                context?.startActivity(intent)
+            }
         }
         Log.e("MenuSubItemAdapter",list[position].Title)
     }
@@ -130,6 +157,17 @@ class CustomerSubItemAdapter (private val list: List<SubItem>, private val conte
             editor.apply()
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             context.startActivity(intent)
+            dialog.dismiss()
+        }
+        dialog.show()
+    }
+    fun aboutUs(context: Context) {
+        val dialog = Dialog(context)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setContentView(R.layout.popup_aboutus)
+        dialog.setCanceledOnTouchOutside(false)
+        val close = dialog.findViewById<View>(R.id.close) as ImageView
+        close.setOnClickListener {
             dialog.dismiss()
         }
         dialog.show()

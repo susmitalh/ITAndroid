@@ -12,7 +12,7 @@ import com.locatocam.app.data.responses.address.Data
 import com.locatocam.app.security.SharedPrefEnc
 
 
-class MyAddressAdapter (private val list:List<Data>, private val context: Context) : RecyclerView.Adapter<MyAddressAdapter.viewHolder>(){
+class MyAddressAdapter (private val list:List<Data>, private val context: Context,private val clickEvents: AddressClickEvents) : RecyclerView.Adapter<MyAddressAdapter.viewHolder>(){
     class viewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)  {
 
         val name = itemView.findViewById<TextView>(R.id.name)
@@ -39,17 +39,15 @@ class MyAddressAdapter (private val list:List<Data>, private val context: Contex
             var addressSave:String=list[position].address_save_as!!
             holder.hub.text=location+"("+addressSave+")"
             holder.address.text=list[position].customer_address
+            holder.btn_edit.setOnClickListener {
+
+            }
+        holder.btn_remove.setOnClickListener {
+            clickEvents.Remove(holder.btn_remove,list[position])
+        }
     }
 
     override fun getItemCount(): Int {
         return list.size
-    }
-    fun concat(vararg string: String): String {
-        val sb = StringBuilder()
-        for (s in string) {
-            sb.append(s)
-        }
-
-        return sb.toString()
     }
 }
