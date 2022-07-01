@@ -135,6 +135,10 @@ class ViewMyPostActivity : AppCompatActivity() {
                 TODO("Not yet implemented")
             }
 
+            override fun editPost(item: com.locatocam.app.data.responses.feed.Data, position: Int) {
+                TODO("Not yet implemented")
+            }
+
         }
 
         if (viewModel.my_id.equals(SharedPrefEnc.getPref(application,"user_id"))){
