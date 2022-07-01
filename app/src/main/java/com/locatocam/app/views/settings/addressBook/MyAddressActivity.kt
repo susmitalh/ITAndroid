@@ -1,6 +1,7 @@
 package com.locatocam.app.views.settings.addressBook
 
 import android.app.Activity
+import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -8,11 +9,18 @@ import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import android.view.View
+import android.view.Window
+import android.widget.Button
+import android.widget.TextView
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.locatocam.app.MyApp
 import com.locatocam.app.data.responses.address.Data
+import com.locatocam.app.R
 import com.locatocam.app.databinding.ActivityMyAddressBinding
 import com.locatocam.app.repositories.HomeRepository
 import com.locatocam.app.security.SharedPrefEnc
@@ -54,6 +62,17 @@ class MyAddressActivity : AppCompatActivity(), ClickEditAddress {
         }
     }
 
+    fun loaddata(){
+        viewModel.addressresp.observe(this, {
+            Log.e("address", it.message!!)
+            Log.e("address", it.data.toString())
+            val myAddressAdapter = MyAddressAdapter(it.data!!, this,this@MyAddressActivity)
+            binding.rec1.adapter = myAddressAdapter
+            viewModel.getAddress(SharedPrefEnc.getPref(application, "mobile"))
+            viewModel.getAddress(SharedPrefEnc.getPref(application, "mobile"))
+        })
+    }
+
     override fun edtAddressSetting(data: Data) {
         var intent = Intent(this, MapsActivity::class.java)
         intent.putExtra("lat", data.latitude)
@@ -75,4 +94,31 @@ class MyAddressActivity : AppCompatActivity(), ClickEditAddress {
         }
 
 
+
+    override fun Remove(data: Data) {
+        val dialog = Dialog(this)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setContentView(R.layout.popup_confirmation)
+        dialog.setCanceledOnTouchOutside(false)
+        val tittle = dialog.findViewById<View>(R.id.tittle) as TextView
+        val yes = dialog.findViewById<View>(R.id.yes) as Button
+        val no = dialog.findViewById<View>(R.id.no) as Button
+        tittle.text="Are you sure want to remove?"
+        no.setOnClickListener { dialog.dismiss() }
+        yes.setOnClickListener {
+            viewModel.resDelete.observe(this, {
+                Log.e("address", it.message!!)
+                val addressId:String?= data.c_address_id
+                val address:Int?=addressId?.toInt()
+                viewModel.deleteAddress(address)
+                if(it.message.equals("success")){
+                    loaddata()
+                }
+            })
+
+
+            dialog.dismiss()
+        }
+        dialog.show()
+    }
 }

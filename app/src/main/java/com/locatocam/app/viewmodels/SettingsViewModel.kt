@@ -77,7 +77,9 @@ class SettingsViewModel@Inject constructor(private val mainRepository: MainRepos
     var respApprovedStatus=MutableStateFlow<Resource<StatusApproved>>(Resource.loading(null))
     var resYourOrders = MutableStateFlow<Resource<ResYourOrder>>(Resource.loading(null))
     var resFavOrders = MutableStateFlow<Resource<ResFavOrder>>(Resource.loading(null))
-    var resMyAddress = MutableStateFlow<Resource<RespAddress>>(Resource.loading(null))
+    var resPrivacyPolicy= MutableStateFlow<Resource<ResPrivacyPolicy>>(Resource.loading(null))
+    var resTermsCon= MutableStateFlow<Resource<ResTermsCon>>(Resource.loading(null))
+
 
     fun getSettings(){
         var reqSettings=ReqSettings(settingsRepository.getUserID())
@@ -552,31 +554,32 @@ class SettingsViewModel@Inject constructor(private val mainRepository: MainRepos
         }
         return resFavOrders
     }
-   /* fun getMyAddressList(reqMyAddress: ReqAddress): MutableStateFlow<Resource<RespAddress>>{
+    fun getPrivacy(reqOrders: ReqOrders): MutableStateFlow<Resource<ResPrivacyPolicy>>{
         viewModelScope.launch {
-            settingsRepository.getMyAddress(reqMyAddress)
+            settingsRepository.getPrivacyPolicy(reqOrders)
                 .catch {
                     Log.i("uname",it.message.toString())
                 }
                 .collect {
-                    RespAddress.value=*//*it*//*Resource.success(it)
+                    resPrivacyPolicy.value=/*it*/Resource.success(it)
                     Log.i("uname",it.status.toString())
                 }
         }
-        return RespAddress
-    }*/
-   fun getMyAddressList(reqMyAddress: ReqAddress): MutableStateFlow<Resource<RespAddress>>{
-       viewModelScope.launch {
-           settingsRepository.getMyAddress(reqMyAddress)
-               .catch {
-                   Log.i("uname",it.message.toString())
-               }
-               .collect {
-                   resMyAddress.value=/*it*/Resource.success(it)
-                   Log.i("uname",it.status.toString())
-               }
-       }
-       return resMyAddress
-   }
+        return resPrivacyPolicy
+    }
+    fun getTermsCon(reqOrders: ReqOrders): MutableStateFlow<Resource<ResTermsCon>>{
+        viewModelScope.launch {
+            settingsRepository.getTermsCon(reqOrders)
+                .catch {
+                    Log.i("uname",it.message.toString())
+                }
+                .collect {
+                    resTermsCon.value=/*it*/Resource.success(it)
+                    Log.i("uname",it.status.toString())
+                }
+        }
+        return resTermsCon
+    }
+
 
 }

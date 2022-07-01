@@ -389,6 +389,12 @@ class SettingsActivity : AppCompatActivity(){
 
     }
 
+    override fun onBackPressed() {
+        super.onBackPressed()
+        var intent=Intent(applicationContext,MainActivity::class.java)
+        startActivity(intent)
+    }
+
     fun setOnclickListeners(){
 
         binding.linearMyPage.setOnClickListener {

@@ -11,6 +11,7 @@ import com.locatocam.app.data.responses.address.RespAddress
 import com.locatocam.app.data.responses.feed.Data
 import com.locatocam.app.data.responses.like.RespLike
 import com.locatocam.app.data.responses.saveaddress.RespSaveAddress
+import com.locatocam.app.data.responses.settings.ResBlockedUser
 import com.locatocam.app.di.DaggerAppComponent
 import com.locatocam.app.network.WebApi
 import com.locatocam.app.security.SharedPrefEnc
@@ -84,6 +85,12 @@ class HomeRepository constructor(val application: Application,val other_user_id:
 
         return flow {
             val res= retrofitService.create(WebApi::class.java).get_counts(reqGetCounts)
+            emit(res)
+        }.flowOn(Dispatchers.IO)
+    }
+    fun deleteAdress(reqPostAddress: ReqPostAddress):Flow<ResBlockedUser>{
+        return flow {
+            val res= retrofitService.create(WebApi::class.java).postDeleteAddress(reqPostAddress)
             emit(res)
         }.flowOn(Dispatchers.IO)
     }

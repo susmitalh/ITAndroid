@@ -178,6 +178,9 @@ dependencies {
     implementation 'com.github.mahimrocky:ShowMoreText:1.0.2'
     //SVG icon load
     implementation 'com.caverock:androidsvg-aar:1.4'
+    //pdf
+    implementation 'com.github.barteksc:android-pdf-viewer:2.8.2'
+    implementation 'com.mindorks.android:prdownloader:0.6.0'
 
 
 
