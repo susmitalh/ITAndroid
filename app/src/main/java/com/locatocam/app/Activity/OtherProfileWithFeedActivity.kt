@@ -39,10 +39,12 @@ class OtherProfileWithFeedActivity : AppCompatActivity() {
     lateinit var post_id:String
     lateinit var dialog:Dialog
     lateinit var viewModel: ActivityMainViewModel
+
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     companion object{
         lateinit var order_online_otherUser: RelativeLayout
         lateinit var layoutOtherBNavigation:RelativeLayout
+        lateinit var instanse:OtherProfileWithFeedActivity
     }
 
 
@@ -50,6 +52,7 @@ class OtherProfileWithFeedActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_other_profile_with_feed)
+        instanse=this
 
         userid=intent.getStringExtra("user_id").toString()
         inf_code=intent.getStringExtra("inf_code").toString()

@@ -141,7 +141,6 @@ class SettingsActivity : AppCompatActivity(){
         setContentView(binding.root)
 
         MainActivity.activity.finish()
-
         dialog = Dialog(this)
         loading = Dialog(this)
         binding.menuItemList.layoutManager = LinearLayoutManager(applicationContext)
@@ -1041,11 +1040,16 @@ class SettingsActivity : AppCompatActivity(){
 //            binding.orderOnline.visibility=View.VISIBLE
         }
 
+
     }
 
     override fun onBackPressed() {
         super.onBackPressed()
+        Log.e("TAG", "hideLoader: "+MainActivity.instances.viewModel.lat+","+MainActivity.instances.viewModel.lng)
         var intent=Intent(applicationContext,MainActivity::class.java)
+        intent.putExtra("lat",MainActivity.instances.viewModel.lat)
+        intent.putExtra("lng",MainActivity.instances.viewModel.lng)
+        intent.putExtra("address",MainActivity.instances.viewModel.add)
         startActivity(intent)
     }
 

@@ -125,8 +125,6 @@ public class SimpleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
         if (holder instanceof SimpleExoPlayerViewHolder) {
 
-
-
             ((SimpleExoPlayerViewHolder) holder).bind(mediaList.get(position), simpleEvents, position, postCountData, follow, context);
 
 

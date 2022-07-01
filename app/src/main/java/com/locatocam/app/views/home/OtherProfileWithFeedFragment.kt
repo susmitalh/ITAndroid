@@ -419,6 +419,7 @@ class OtherProfileWithFeedFragment() : Fragment(), FeedEvents, ClickEvents, Simp
                     intent.putExtra("lng", location.longitude.toString())
                     intent.putExtra("address", address)
                     intent.putExtra("addressId", "")
+                    intent.putExtra("Bhide","0")
                     startForResult.launch(intent)
 
                     /*if (activity is OtherProfileWithFeedActivity) {

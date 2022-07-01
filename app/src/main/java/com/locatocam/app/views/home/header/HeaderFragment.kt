@@ -372,6 +372,7 @@ class HeaderFragment : Fragment(), IHeaderEvents {
     fun check_permissions(): Boolean {
         val PERMISSIONS = arrayOf(
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.RECORD_AUDIO,
             Manifest.permission.CAMERA
         )

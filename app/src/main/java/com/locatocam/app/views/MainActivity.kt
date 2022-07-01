@@ -14,8 +14,6 @@ import android.os.Handler
 import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.os.bundleOf
-import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
@@ -23,14 +21,12 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.MemoryCategory
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
-import com.locatocam.app.R
 import com.locatocam.app.databinding.ActivityMainBinding
 import com.locatocam.app.security.SharedPrefEnc
 import com.locatocam.app.utils.Utils
 import com.locatocam.app.viewmodels.ActivityMainViewModel
 import com.locatocam.app.views.home.HomeFragment
 import com.locatocam.app.views.order_online.ActivityOrderOnline
-import com.locatocam.app.views.settings.SettingsActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -44,33 +40,41 @@ class MainActivity : AppCompatActivity() {
     companion object {
         lateinit var activity: MainActivity
         lateinit var binding: ActivityMainBinding
-        var lat:Double = 0.0
-        var lng:Double = 0.0
-        var firstLoca:Boolean=true
-        var isLoaded: Boolean = false
-
+        var lat: Double = 0.0
+        var lng: Double = 0.0
+        lateinit var addressMain:String
+        var firstLoca: Boolean = true
+        lateinit var instances:MainActivity
 
 
     }
-    lateinit var dialog:Dialog
+
     lateinit var viewModel: ActivityMainViewModel
-    lateinit var navHostFragment:NavHostFragment
+    lateinit var dialog: Dialog
+    lateinit var navHostFragment: NavHostFragment
     private lateinit var fusedLocationClient: FusedLocationProviderClient
+    var intentLat=0.0
+    var intentLng=0.0
+    var intentAdd=""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         //FacebookSdk.sdkInitialize(this)
-        binding= ActivityMainBinding.inflate(layoutInflater)
+        binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        viewModel=ViewModelProvider(this).get(ActivityMainViewModel::class.java)
-        firstLoca=true
+        viewModel = ViewModelProvider(this).get(ActivityMainViewModel::class.java)
+        firstLoca = true
+        instances=this
 
         binding.bttmNav.inflateMenu(com.locatocam.app.R.menu.nav_manu)
         setUpNavigation()
         Glide.get(this).setMemoryCategory(MemoryCategory.HIGH)
+        intentLat=intent.getDoubleExtra("lat",0.0)
+        intentLng=intent.getDoubleExtra("lng",0.0)
+        intentAdd=intent.getStringExtra("address").toString()
 
-        activity=this
+        activity = this
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
 
@@ -82,52 +86,52 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    fun setOnclickListeners(){
+    fun setOnclickListeners() {
 
         binding.orderOnline.setOnClickListener {
-            Log.i("kj8888","nmk")
-            var intent=Intent(this,ActivityOrderOnline::class.java)
+            Log.i("kj8888", "nmk")
+            var intent = Intent(this, ActivityOrderOnline::class.java)
             startActivity(intent)
         }
-       /* Handler().postDelayed({
-            var intent=Intent(this,ActivityOrderOnline::class.java)
-            startActivity(intent)
-            finish()
-        },3000)*/
+        /* Handler().postDelayed({
+             var intent=Intent(this,ActivityOrderOnline::class.java)
+             startActivity(intent)
+             finish()
+         },3000)*/
     }
 
     fun setUpNavigation() {
-         navHostFragment = (supportFragmentManager.findFragmentById(com.locatocam.app.R.id.nav_host_fragment) as NavHostFragment?)!!
+        navHostFragment =
+            (supportFragmentManager.findFragmentById(com.locatocam.app.R.id.nav_host_fragment) as NavHostFragment?)!!
         NavigationUI.setupWithNavController(
             binding.bttmNav,
             navHostFragment!!.navController
         )
     }
 
-    public fun hideLoader(){
+    public fun hideLoader() {
         CoroutineScope(Dispatchers.Main).launch {
             delay(1000)
-             Handler().postDelayed({
+            Handler().postDelayed({
 //                 binding.loader.visibility= View.GONE
 //                 binding.bttmNav.visibility=View.VISIBLE
 //                 binding.orderOnline.visibility=View.VISIBLE
-       },3000)
+            }, 3000)
         }
     }
 
-    public fun hideOrderBtn(){
-        binding.orderOnline.visibility=View.GONE
+    public fun hideOrderBtn() {
+        binding.orderOnline.visibility = View.GONE
     }
 
-    fun showLocationPopup(){
+    fun showLocationPopup() {
         val childFragments = navHostFragment.childFragmentManager.fragments
         childFragments.forEach { fragment ->
-            if(fragment is HomeFragment ){
+            if (fragment is HomeFragment) {
                 fragment.showLocation()
             }
         }
     }
-   
 
 
     fun check_permissions(): Boolean {
@@ -139,8 +143,14 @@ class MainActivity : AppCompatActivity() {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 requestPermissions(PERMISSIONS, 2)
             }
-        }else{
-            initLocation()
+        } else {
+            if (intentLat.equals(0.0)||intentLng.equals(0.0)) {
+                initLocation()
+            }else{
+                viewModel.lat=intentLat
+                viewModel.lng=intentLng
+                viewModel.address_text.value=intentAdd
+            }
         }
         return false
     }
@@ -152,48 +162,56 @@ class MainActivity : AppCompatActivity() {
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == 2) {
-            if(grantResults!=null) {
+            if (grantResults != null) {
                 if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    initLocation()
+                    if (intentLat.equals(0.0)||intentLng.equals(0.0)) {
+                        initLocation()
+                    }else{
+                        viewModel.lat=intentLat
+                        viewModel.lng=intentLng
+                        viewModel.address_text.value=intentAdd
+                    }
                 }
             }
         }
     }
+
     @SuppressLint("MissingPermission")
-    fun initLocation(){
+    fun initLocation() {
         fusedLocationClient.lastLocation
-            .addOnSuccessListener { location : Location? ->
-                if(location!=null){
+            .addOnSuccessListener { location: Location? ->
+                if (location != null) {
                     val geocoder: Geocoder
                     val addresses: List<Address>
                     geocoder = Geocoder(this, Locale.getDefault())
 
 
 
-                        addresses = geocoder.getFromLocation(
-                            location.latitude,
-                            location.longitude,
-                            1
-                        ) // Here 1 represent max location result to returned, by documents it recommended 1 to 5
+                    addresses = geocoder.getFromLocation(
+                        location.latitude,
+                        location.longitude,
+                        1
+                    ) // Here 1 represent max location result to returned, by documents it recommended 1 to 5
 
-                        lat = location.latitude
-                        lng = location.longitude
-
-
-                        val address: String =
-                            addresses[0].getAddressLine(0) // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
+                    lat = location.latitude
+                    lng = location.longitude
 
 
-                        viewModel.address_text.value = address
-                        viewModel.lat = location.latitude
+                    val address: String =
+                        addresses[0].getAddressLine(0) // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
+
+
+                    viewModel.address_text.value = address
+                    viewModel.add=address
+                    viewModel.lat = location.latitude
                     viewModel.lng = location.altitude
 
-                    Log.e("TAG", "initLocationff: "+location.altitude )
+                    Log.e("TAG", "initLocationff: " + location.altitude)
 
-                    SharedPrefEnc.setPref("selected_lat",location.latitude.toString(),this)
-                    SharedPrefEnc.setPref("selected_lng",  location.altitude.toString(), this)
+                    SharedPrefEnc.setPref("selected_lat", location.latitude.toString(), this)
+                    SharedPrefEnc.setPref("selected_lng", location.altitude.toString(), this)
 
-                }else{
+                } else {
                     //initLocation()
                 }
             }

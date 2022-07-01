@@ -54,10 +54,7 @@ import com.locatocam.app.views.MainActivity
 import com.locatocam.app.views.ceratepost.UploadPostmanual
 import com.locatocam.app.views.chat.ChatActivity
 import com.locatocam.app.views.home.header.HeaderFragment
-import com.locatocam.app.views.home.test.Follow
-import com.locatocam.app.views.home.test.PostCountData
-import com.locatocam.app.views.home.test.SimpleAdapter
-import com.locatocam.app.views.home.test.SimpleEvents
+import com.locatocam.app.views.home.test.*
 import com.locatocam.app.views.location.MapsActivity
 import com.locatocam.app.views.search.AdddressAdapter
 import com.locatocam.app.views.search.AutoCompleteAdapter
@@ -196,6 +193,7 @@ public class HomeFragment : Fragment(), FeedEvents, ClickEvents, SimpleEvents {
 
                 var adapter = SimpleAdapter(context, it, this, commet, follow)
                 binding.playerContainer.setAdapter(adapter)
+                binding.playerContainer.adapter
             } else {
                 if (binding.playerContainer.adapter != null) {
 
@@ -224,7 +222,6 @@ public class HomeFragment : Fragment(), FeedEvents, ClickEvents, SimpleEvents {
                     val apiInterface = getClient()!!.create(
                         WebApi::class.java
                     )
-                    Log.e("TAGScroll", "onItemIsFissrstVisibleItem: $index")
 
                     val userid = SharedPrefEnc.getPref(context, "user_id")
 
@@ -261,6 +258,11 @@ public class HomeFragment : Fragment(), FeedEvents, ClickEvents, SimpleEvents {
 
                                     override fun onFailure(call: Call<AddView>, t: Throwable) {}
                                 })
+                            if(lastCount>0){
+                                Log.e("TAGScroll", "onItemIsFirstVisibleItem: "+(lastCount-1 ))
+
+
+                            }
                         }
                     }
                 }

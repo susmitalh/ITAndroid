@@ -190,7 +190,7 @@ public class SimpleExoPlayerViewHolder extends RecyclerView.ViewHolder implement
 
     // called from Adapter to setup the media
     void bind(Data item, SimpleEvents simpleEvents, int position, PostCountData postCountData, com.locatocam.app.views.home.test.Follow follow, Context context) {
-
+        Log.e("TAG", "binds: "+position );
 
         if (item != null) {
 
@@ -575,6 +575,7 @@ public class SimpleExoPlayerViewHolder extends RecyclerView.ViewHolder implement
     public void initialize(@NonNull Container container, @Nullable PlaybackInfo playbackInfo) {
 
         if (helper == null) {
+            Log.e("TAG", "initializedd now: " );
             helper = new ExoPlayerViewHelper(this, mediaUri, null, app.getConfig());
 
 
@@ -681,6 +682,7 @@ public class SimpleExoPlayerViewHolder extends RecyclerView.ViewHolder implement
     @Override
     public void release() {
         if (helper != null) {
+
             helper.release();
             helper = null;
         }
@@ -689,6 +691,7 @@ public class SimpleExoPlayerViewHolder extends RecyclerView.ViewHolder implement
     @Override
     public void play() {
         if (helper != null) {
+            Log.e("TAG", "initializedd play: " );
             helper.play();
         }
 
@@ -698,6 +701,7 @@ public class SimpleExoPlayerViewHolder extends RecyclerView.ViewHolder implement
     @Override
     public void pause() {
         if (helper != null) {
+            Log.e("TAG", "initializedd pause: " );
             helper.pause();
             thumbnile.setVisibility(View.VISIBLE);
 

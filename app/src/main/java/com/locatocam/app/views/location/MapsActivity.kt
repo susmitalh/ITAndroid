@@ -56,6 +56,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback , GoogleMap.OnMapCl
     var result_lng=0.0
     var result_text=""
     var addressTag=false
+    var Bhide=""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -69,10 +70,14 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback , GoogleMap.OnMapCl
         viewModel= ViewModelProvider(this,factory).get(MapsViewModel::class.java)
         val apiKey ="AIzaSyD5-MyENcRZHlFaCYAUvb0gsyrCv5wVaV4"
 
+        Bhide= intent.getStringExtra("Bhide").toString()
+
         binding.recyclerviewSearchLoca.layoutManager = LinearLayoutManager(this)
         binding.savedAddress.layoutManager = LinearLayoutManager(this)
         MainActivity.binding.layoutBNavigation.visibility=View.VISIBLE
-        OtherProfileWithFeedActivity.layoutOtherBNavigation.visibility=View.VISIBLE
+        if (Bhide.equals("0"))
+            OtherProfileWithFeedActivity.layoutOtherBNavigation.visibility = View.VISIBLE
+
 
 
         setclickListeners()
@@ -91,7 +96,9 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback , GoogleMap.OnMapCl
     override fun onBackPressed() {
         super.onBackPressed()
         MainActivity.binding.layoutBNavigation.visibility=View.GONE
-        OtherProfileWithFeedActivity.layoutOtherBNavigation.visibility=View.GONE
+        if (Bhide.equals("")) {
+            OtherProfileWithFeedActivity.layoutOtherBNavigation.visibility = View.GONE
+        }
 
     }
 
@@ -320,6 +327,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback , GoogleMap.OnMapCl
             val landmark=intent.getStringExtra("landmark")
             viewModel.address_id= intent.getStringExtra("addressId").toString()
             val address_save_as= intent.getStringExtra("address_save_as").toString()
+
 
 
             if (!address_save_as.equals("null")) {

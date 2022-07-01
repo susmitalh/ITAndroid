@@ -196,7 +196,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="400dp"
                 android:layout_below="@+id/header_section"
-                android:minHeight="500dp"
+                app:keep_content_on_player_reset="true"
+                android:minHeight="400dp"
                 app:resize_mode="zoom"
                 app:surface_type="texture_view"
                 app:use_controller="false" />
