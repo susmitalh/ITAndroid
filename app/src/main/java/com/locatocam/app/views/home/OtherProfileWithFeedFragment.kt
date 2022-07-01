@@ -54,6 +54,7 @@ import com.locatocam.app.utility.Loader
 import com.locatocam.app.utils.Constants
 import com.locatocam.app.viewmodels.HomeViewModel
 import com.locatocam.app.views.MainActivity
+import com.locatocam.app.views.ceratepost.UploadPostmanual
 import com.locatocam.app.views.home.header.HeaderFragmentOtherUser
 import com.locatocam.app.views.home.test.*
 import com.locatocam.app.views.location.MapsActivity
@@ -261,6 +262,12 @@ class OtherProfileWithFeedFragment() : Fragment(), FeedEvents, ClickEvents, Simp
             Toast.makeText(context, "ddd", Toast.LENGTH_SHORT).show()
             var intent=Intent(context,OnlineOrderingHelpActivity::class.java)
             context?.startActivity(intent)
+        }
+
+        binding.createpost.setOnClickListener {
+            var intent = Intent(requireActivity(), UploadPostmanual::class.java)
+//            startActivity(intent)
+            startForCreatePostResult.launch(intent)
         }
 
         binding.home.setOnClickListener {
@@ -719,5 +726,27 @@ class OtherProfileWithFeedFragment() : Fragment(), FeedEvents, ClickEvents, Simp
         _isheader_added = false
     }
 
+    override fun editPost(item: com.locatocam.app.data.responses.feed.Data, position: Int) {
+        val intentEdt = Intent(context, UploadPostmanual::class.java)
+        intentEdt.putExtra("userId", item.user_id)
+        intentEdt.putExtra("postId", item.post_id)
+        intentEdt.putExtra("video", item.file)
+        intentEdt.putExtra("headline", item.header)
+        intentEdt.putExtra("subHeadline", item.subheader)
+        intentEdt.putExtra("description", item.description)
+        intentEdt.putExtra("thumbnail", item.screenshot)
+        intentEdt.putExtra("position", position)
+        intentEdt.putExtra("getFile_extension_type", item.file_extension_type)
+        intentEdt.putExtra("otherUser", "true")
+//        startActivity(intentEdt)
+        startForCreatePostResult.launch(intentEdt)
+    }
+    val startForCreatePostResult =
+        this.registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                viewModel.getApprovalCounts(SharedPrefEnc.getPref(context, "selected_lat"), SharedPrefEnc.getPref(context, "selected_lng"))
+
+            }
+        }
 
 }

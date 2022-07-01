@@ -475,18 +475,7 @@ public class SimpleExoPlayerViewHolder extends RecyclerView.ViewHolder implement
                                     break;
                                 case R.id.edit:
                                     Log.e("TAG", "onMenuItppostemClick: "+item.getPost_id() );
-                                    Intent intentEdt = new Intent(context, UploadPostmanual.class);
-
-                                    intentEdt.putExtra("userId",item.getUser_id());
-                                    intentEdt.putExtra("postId",item.getPost_id());
-                                    intentEdt.putExtra("video",item.getFile());
-                                    intentEdt.putExtra("headline",item.getHeader());
-                                    intentEdt.putExtra("subHeadline",item.getSubheader());
-                                    intentEdt.putExtra("description",item.getDescription());
-                                    intentEdt.putExtra("thumbnail",item.getScreenshot());
-                                    intentEdt.putExtra("position",position);
-                                    intentEdt.putExtra("getFile_extension_type",item.getFile_extension_type());
-                                    context.startActivity(intentEdt);
+                                    simpleEvents.editPost(item,position);
                                     break;
                             }
 

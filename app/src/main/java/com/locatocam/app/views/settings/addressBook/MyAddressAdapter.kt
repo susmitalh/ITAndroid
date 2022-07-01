@@ -47,9 +47,6 @@ class MyAddressAdapter(
         holder.btn_edit.setOnClickListener {
                 clickEditAddress.edtAddressSetting(list.get(position))
         }
-            holder.btn_edit.setOnClickListener {
-
-            }
         holder.btn_remove.setOnClickListener {
             clickEditAddress.Remove(list[position])
         }

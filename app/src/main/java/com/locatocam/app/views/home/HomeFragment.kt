@@ -799,6 +799,24 @@ public class HomeFragment : Fragment(), FeedEvents, ClickEvents, SimpleEvents {
         Log.e("TAG", "isHeaderAddedc: ")
     }
 
+    override fun editPost(item: com.locatocam.app.data.responses.feed.Data, position: Int) {
+        val intentEdt = Intent(context, UploadPostmanual::class.java)
+        intentEdt.putExtra("userId", item.user_id)
+        intentEdt.putExtra("postId", item.post_id)
+        intentEdt.putExtra("video", item.file)
+        intentEdt.putExtra("headline", item.header)
+        intentEdt.putExtra("subHeadline", item.subheader)
+        intentEdt.putExtra("description", item.description)
+        intentEdt.putExtra("thumbnail", item.screenshot)
+        intentEdt.putExtra("position", position)
+        intentEdt.putExtra("getFile_extension_type", item.file_extension_type)
+        intentEdt.putExtra("otherUser", "false")
+
+//        startActivity(intentEdt)
+        startForCreatePostResult.launch(intentEdt)
+    }
+
+
     /*fun showLoader() {
         dialog = Dialog(requireContext(), R.style.AppTheme_Dialog)
         val view = View.inflate(requireContext(), R.layout.progressdialog_item, null)

@@ -62,6 +62,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.bumptech.glide.Glide;
 import com.google.firebase.crashlytics.buildtools.reloc.org.apache.http.util.ByteArrayBuffer;
 import com.locatocam.app.R;
+import com.locatocam.app.adapter.OtherUserTitleAdapter;
 import com.locatocam.app.custom.VolleyMultipartRequest;
 import com.locatocam.app.custom.VolleySingleton;
 import com.locatocam.app.security.SharedPrefEnc;
@@ -70,7 +71,9 @@ import com.locatocam.app.utils.ItemData;
 import com.locatocam.app.views.custom.CustomSearchSpinner;
 import com.locatocam.app.views.custom.imageVideoPicker.ListGalleryImVdoActivity;
 import com.locatocam.app.views.home.HomeFragment;
+import com.locatocam.app.views.home.OtherProfileWithFeedFragment;
 import com.locatocam.app.views.home.test.SimpleAdapter;
+import com.locatocam.app.views.home.test.SimpleAdapterOtherprofile;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
@@ -121,6 +124,7 @@ public class UploadPostmanual extends AppCompatActivity {
     ImageButton back;
     EditText paste_link;
     Button choose_file;
+    String otherUser="";
     int IMAGE_PICKER_SELECT = 114, position;
 
     ProgressBar og_loader;
@@ -205,6 +209,7 @@ public class UploadPostmanual extends AppCompatActivity {
         String descriptionTxt = getIntent().getStringExtra("description");
         userId = getIntent().getStringExtra("userId");
         postId = getIntent().getStringExtra("postId");
+        otherUser = getIntent().getStringExtra("otherUser");
         position = getIntent().getIntExtra("position", 0);
         String getFile_extension_type = getIntent().getStringExtra("getFile_extension_type");
         String theme = "light";
@@ -631,8 +636,13 @@ public class UploadPostmanual extends AppCompatActivity {
                     ((SimpleAdapter)(HomeFragment.Companion.getBinding().playerContainer.getAdapter())).mediaList.get(position).setHeader(headline.getText().toString());
                     ((SimpleAdapter)(HomeFragment.Companion.getBinding().playerContainer.getAdapter())).notifyDataChanged();*/
 
-                    ((SimpleAdapter)(HomeFragment.Companion.getBinding().playerContainer.getAdapter())).mediaList.remove(position);
-                    ((SimpleAdapter)(HomeFragment.Companion.getBinding().playerContainer.getAdapter())).notifyItemRemoved(position);
+                    if (otherUser.equals("true")){
+                        ((SimpleAdapterOtherprofile)(OtherProfileWithFeedFragment.Companion.getBinding().playerContainer.getAdapter())).mediaList.remove(position);
+                        ((SimpleAdapterOtherprofile)(OtherProfileWithFeedFragment.Companion.getBinding().playerContainer.getAdapter())).notifyItemRemoved(position);
+                    }else {
+                        ((SimpleAdapter) (HomeFragment.Companion.getBinding().playerContainer.getAdapter())).mediaList.remove(position);
+                        ((SimpleAdapter) (HomeFragment.Companion.getBinding().playerContainer.getAdapter())).notifyItemRemoved(position);
+                    }
                     Toast.makeText(getApplicationContext(), "Posted succesfully, will be live after approval", Toast.LENGTH_LONG).show();
                     Intent data = new Intent();
                     setResult(RESULT_OK,data);
