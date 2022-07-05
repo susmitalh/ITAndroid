@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.RecyclerView
 
 abstract class RecyclerViewScrollListener : RecyclerView.OnScrollListener() {
     private var firstVisibleItem = 0
+    private var firstCompleteVisibleItem = 0
     private var visibleItemCount = 0
 
 
@@ -20,6 +21,8 @@ abstract class RecyclerViewScrollListener : RecyclerView.OnScrollListener() {
             visibleItemCount = mLayoutManager.childCount
             firstVisibleItem = mLayoutManager.findFirstVisibleItemPosition()
             onItemIsFirstVisibleItem(firstVisibleItem)
+            firstCompleteVisibleItem = mLayoutManager.findFirstCompletelyVisibleItemPosition()
+            onItemIsFirstCompleteVisibleItem(firstVisibleItem)
         }
     }
 
@@ -29,6 +32,7 @@ abstract class RecyclerViewScrollListener : RecyclerView.OnScrollListener() {
      * @param recyclerView - related recycler view.
      */
     abstract fun onItemIsFirstVisibleItem(index: Int)
+    abstract fun onItemIsFirstCompleteVisibleItem(index: Int)
     fun disableScrollListener() {
         mEnabled = false
     }

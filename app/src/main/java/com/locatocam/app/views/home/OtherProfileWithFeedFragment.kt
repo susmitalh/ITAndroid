@@ -51,6 +51,7 @@ import com.locatocam.app.repositories.HomeRepository
 import com.locatocam.app.security.SharedPrefEnc
 import com.locatocam.app.services.PreCachingService
 import com.locatocam.app.utility.Loader
+import com.locatocam.app.utility.PlayerViewAdapter
 import com.locatocam.app.utils.Constants
 import com.locatocam.app.viewmodels.HomeViewModel
 import com.locatocam.app.views.MainActivity
@@ -84,6 +85,7 @@ class OtherProfileWithFeedFragment() : Fragment(), FeedEvents, ClickEvents, Simp
     lateinit var placesClient: PlacesClient
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     lateinit var dialog: Dialog
+    private var videoPostIndex = -1
 
     companion object {
         var postCountData: PostCountData? = null
@@ -126,7 +128,7 @@ class OtherProfileWithFeedFragment() : Fragment(), FeedEvents, ClickEvents, Simp
         viewModel.feed_items.observe(viewLifecycleOwner, {
             Log.e("paggination", "onCrdsceateView: "+viewModel.get_post_id)
             viewModel.loading = false
-
+            PlayerViewAdapter.releaseAllPlayers()
             CoroutineScope(Dispatchers.Main).launch {
                 delay(2500)
                 try {
@@ -201,47 +203,19 @@ class OtherProfileWithFeedFragment() : Fragment(), FeedEvents, ClickEvents, Simp
 
 
 
-            binding.playerContainer.addOnScrollListener(object : RecyclerViewScrollListener() {
+           /* binding.playerContainer.addOnScrollListener(object : RecyclerViewScrollListener() {
                 override fun onItemIsFirstVisibleItem(index: Int) {
-                    val apiInterface = NetworkModule.getClient()!!.create(
-                        WebApi::class.java
-                    )
-                    Log.e("TAGScroll", "onItemIsFissrstVisibleItem: $index")
 
-                    val userid = SharedPrefEnc.getPref(context, "user_id")
-
-                    if (index > -1) {
-                        if (lastCount != index) {
-                            lastCount = index
-                            Log.e("TAGScroll", "onItemIsFisssssrstVisibleItem: $lastCount")
-                            val jsonObject = JSONObject()
-                            jsonObject["id"] = (binding.playerContainer.adapter as SimpleAdapterOtherprofile).mediaList.get(index).post_id
-                            jsonObject["view_type"] = (binding.playerContainer.adapter as SimpleAdapterOtherprofile).mediaList.get(index).type
-                            jsonObject["user_id"] = userid
-                            apiInterface.getAddView(jsonObject)!!.enqueue(object : Callback<AddView> {
-                                override fun onResponse(call: Call<AddView>, response: Response<AddView>) {
-                                        /*  commet.viewCount(
-                                    response.body()!!.data!!.viewsCount,
-                                    index
-                                )*/
-//                                    it.get(index).views_count= response.body()?.data?.viewsCount
-                                        (binding.playerContainer.adapter as SimpleAdapterOtherprofile).mediaList.get(index).views_count = response.body()?.data?.viewsCount
-                                        (binding.playerContainer.adapter as SimpleAdapterOtherprofile).notifyDataSetChanged()
-                                    }
-
-
-                                    override fun onFailure(call: Call<AddView>, t: Throwable) {}
-                                })
-                        }
-                    }
 
 
 
                 }
 
+                override fun onItemIsFirstCompleteVisibleItem(index: Int) {
+                }
 
 
-            })
+            })*/
 
 
             startPreCaching(it)
@@ -289,6 +263,8 @@ class OtherProfileWithFeedFragment() : Fragment(), FeedEvents, ClickEvents, Simp
         binding.playerContainer.addOnScrollListener(object :
             RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                var completeVisiblesItems = layoutManager.findFirstCompletelyVisibleItemPosition()
+//                    var pastVisiblesItems = layoutManager.findFirstVisibleItemPosition()
                 if (dy > 0) { //check for scroll down
                     var visibleItemCount = layoutManager.getChildCount()
                     var totalItemCount = layoutManager.getItemCount()
@@ -313,6 +289,59 @@ class OtherProfileWithFeedFragment() : Fragment(), FeedEvents, ClickEvents, Simp
                             viewModel.getAllFeeds(inf_code, latLong, latlng)
 
                         }
+                    }
+                }
+
+
+
+                //ViewCount
+                val apiInterface = NetworkModule.getClient()!!.create(WebApi::class.java)
+                Log.e("TAGScroll", "onItemIsFissrstVisibleItem: $completeVisiblesItems")
+
+                val userid = SharedPrefEnc.getPref(context, "user_id")
+
+                if (completeVisiblesItems > -1) {
+                    // play just visible item
+                    if (!(binding.playerContainer.adapter as SimpleAdapterOtherprofile).mediaList.isEmpty()) {
+                        videoPostIndex = completeVisiblesItems
+                        if (!(binding.playerContainer.adapter as SimpleAdapterOtherprofile).mediaList.get(
+                                completeVisiblesItems
+                            ).file_extension_type.equals("image")
+                        ) {
+
+                            PlayerViewAdapter.Companion.playIndexThenPausePreviousPlayer(
+                                completeVisiblesItems
+                            )
+                            Log.e("TAGScrollnew", "onScrolled = Video: ")
+                        } else {
+                            PlayerViewAdapter.Companion.pauseCurrentPlayingVideo()
+                            Log.e("TAGScrollnew", "onScrolled = Image: ")
+                        }
+                    }
+
+
+
+                    if (lastCount != completeVisiblesItems) {
+                        lastCount = completeVisiblesItems
+                        Log.e("TAGScroll", "onItemIsFisssssrstVisibleItem: $lastCount")
+                        val jsonObject = JSONObject()
+                        jsonObject["id"] = (binding.playerContainer.adapter as SimpleAdapterOtherprofile).mediaList.get(completeVisiblesItems).post_id
+                        jsonObject["view_type"] = (binding.playerContainer.adapter as SimpleAdapterOtherprofile).mediaList.get(completeVisiblesItems).type
+                        jsonObject["user_id"] = userid
+                        apiInterface.getAddView(jsonObject)!!.enqueue(object : Callback<AddView> {
+                            override fun onResponse(call: Call<AddView>, response: Response<AddView>) {
+                                /*  commet.viewCount(
+                            response.body()!!.data!!.viewsCount,
+                            index
+                        )*/
+//                                    it.get(index).views_count= response.body()?.data?.viewsCount
+                                (binding.playerContainer.adapter as SimpleAdapterOtherprofile).mediaList.get(completeVisiblesItems).views_count = response.body()?.data?.viewsCount
+                                (binding.playerContainer.adapter as SimpleAdapterOtherprofile).notifyDataSetChanged()
+                            }
+
+
+                            override fun onFailure(call: Call<AddView>, t: Throwable) {}
+                        })
                     }
                 }
             }
@@ -514,6 +543,7 @@ class OtherProfileWithFeedFragment() : Fragment(), FeedEvents, ClickEvents, Simp
         // if (binding.recMain != null) binding.recMain.releasePlayer()
         Log.e("TAG", "onDestroy: ")
         super.onDestroy()
+        PlayerViewAdapter.releaseAllPlayers()
     }
 
 
@@ -749,4 +779,40 @@ class OtherProfileWithFeedFragment() : Fragment(), FeedEvents, ClickEvents, Simp
             }
         }
 
+    override fun onResume() {
+        super.onResume()
+
+        if (binding.playerContainer.adapter != null) {
+            if ((binding.playerContainer.adapter as SimpleAdapterOtherprofile) != null) {
+                if (!(binding.playerContainer.adapter as SimpleAdapterOtherprofile).mediaList
+                        .isEmpty() && videoPostIndex != -1
+                ) {
+                    if (!(binding.playerContainer.adapter as SimpleAdapterOtherprofile).mediaList
+                            .get(videoPostIndex).file_extension_type
+                            .equals("image")
+                    ) {
+                        PlayerViewAdapter.resumeCurrentPlayingVideo()
+                    }
+                }
+            }
+        }
+    }
+
+    override fun onPause() {
+        if (binding.playerContainer.adapter != null) {
+            if ((binding.playerContainer.adapter as SimpleAdapterOtherprofile) != null) {
+                if (!(binding.playerContainer.adapter as SimpleAdapterOtherprofile).mediaList
+                        .isEmpty() && videoPostIndex != -1
+                ) {
+                    if (!(binding.playerContainer.adapter as SimpleAdapterOtherprofile).mediaList
+                            .get(videoPostIndex).file_extension_type
+                            .equals("image")
+                    ) {
+                        PlayerViewAdapter.pauseCurrentPlayingVideo()
+                    }
+                }
+            }
+        }
+        super.onPause()
+    }
 }

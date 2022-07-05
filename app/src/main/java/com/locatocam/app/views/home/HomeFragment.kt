@@ -27,7 +27,6 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.work.Data
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
-import com.app.kardder.util.RecyclerViewScrollListener
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.google.android.gms.common.api.ApiException
@@ -48,13 +47,17 @@ import com.locatocam.app.repositories.HomeRepository
 import com.locatocam.app.security.SharedPrefEnc
 import com.locatocam.app.services.PreCachingService
 import com.locatocam.app.utility.Loader
+import com.locatocam.app.utility.PlayerViewAdapter
 import com.locatocam.app.utils.Constants
 import com.locatocam.app.viewmodels.HomeViewModel
 import com.locatocam.app.views.MainActivity
 import com.locatocam.app.views.ceratepost.UploadPostmanual
 import com.locatocam.app.views.chat.ChatActivity
 import com.locatocam.app.views.home.header.HeaderFragment
-import com.locatocam.app.views.home.test.*
+import com.locatocam.app.views.home.test.Follow
+import com.locatocam.app.views.home.test.PostCountData
+import com.locatocam.app.views.home.test.SimpleAdapter
+import com.locatocam.app.views.home.test.SimpleEvents
 import com.locatocam.app.views.location.MapsActivity
 import com.locatocam.app.views.search.AdddressAdapter
 import com.locatocam.app.views.search.AutoCompleteAdapter
@@ -88,6 +91,7 @@ public class HomeFragment : Fragment(), FeedEvents, ClickEvents, SimpleEvents {
         var influencerCode = ""
     }
 
+    private var videoPostIndex = -1
     var latLong: Double = 0.00
     var latlng: Double = 0.00
     var lastCount: Int = -1
@@ -155,6 +159,7 @@ public class HomeFragment : Fragment(), FeedEvents, ClickEvents, SimpleEvents {
 
 
         viewModel.feed_items.observe(viewLifecycleOwner, {
+            PlayerViewAdapter.releaseAllPlayers()
             Log.e("TAG", "onCreateViewittt: " + it.size)
             viewModel.loading = false
             CoroutineScope(Dispatchers.Main).launch {
@@ -216,58 +221,18 @@ public class HomeFragment : Fragment(), FeedEvents, ClickEvents, SimpleEvents {
             }
 
 
+/*
             binding.playerContainer.addOnScrollListener(object : RecyclerViewScrollListener() {
                 override fun onItemIsFirstVisibleItem(index: Int) {
+                }
 
-                    val apiInterface = getClient()!!.create(
-                        WebApi::class.java
-                    )
-
-                    val userid = SharedPrefEnc.getPref(context, "user_id")
-
-                    if (index > -1) {
-                        if (lastCount != index) {
-                            lastCount = index
-                            Log.e("TAGScroll", "onItemIsFisssssrstVisibleItem: $lastCount")
-                            val jsonObject = JSONObject()
-                           /* jsonObject["id"] = (binding.playerContainer.adapter as SimpleAdapter).mediaList.get(index).post_id
-                            jsonObject["view_type"] = (binding.playerContainer.adapter as SimpleAdapter).mediaList.get(index).type
-                            jsonObject["user_id"] = userid*/
-
-                           jsonObject.put("id",(binding.playerContainer.adapter as SimpleAdapter).mediaList.get(index).post_id)
-                           jsonObject.put("view_type",(binding.playerContainer.adapter as SimpleAdapter).mediaList.get(index).type)
-                           jsonObject.put("user_id",userid)
-
-                            apiInterface.getAddView(jsonObject)!!
-                                .enqueue(object : Callback<AddView> {
-                                    override fun onResponse(
-                                        call: Call<AddView>,
-                                        response: Response<AddView>
-                                    ) {
-                                        /*  commet.viewCount(
-                                    response.body()!!.data!!.viewsCount,
-                                    index
-                                )*/
-                                        if (binding.playerContainer.adapter != null) {
-                                            Log.e("TAG", "onRespfffonse: "+response.body()!!.data!!.viewsCount )
-                                            (binding.playerContainer.adapter as SimpleAdapter).mediaList.get(index).views_count = response.body()?.data?.viewsCount
-                                            (binding.playerContainer.adapter as SimpleAdapter).notifyDataChanged()
-                                        }
-                                    }
+                override fun onItemIsFirstCompleteVisibleItem(index: Int) {
 
 
-                                    override fun onFailure(call: Call<AddView>, t: Throwable) {}
-                                })
-                            if(lastCount>0){
-                                Log.e("TAGScroll", "onItemIsFirstVisibleItem: "+(lastCount-1 ))
-
-
-                            }
-                        }
-                    }
                 }
 
             })
+*/
 
 
             startPreCaching(it)
@@ -365,21 +330,25 @@ public class HomeFragment : Fragment(), FeedEvents, ClickEvents, SimpleEvents {
         binding.playerContainer.addOnScrollListener(object :
             RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                var completeVisiblesItems = layoutManager.findFirstCompletelyVisibleItemPosition()
+//                    var pastVisiblesItems = layoutManager.findFirstVisibleItemPosition()
                 if (dy > 0) { //check for scroll down
                     var visibleItemCount = layoutManager.getChildCount()
                     var totalItemCount = layoutManager.getItemCount()
-                    var pastVisiblesItems = layoutManager.findFirstVisibleItemPosition()
+
+
+
                     if (!viewModel.loading) {
                         Log.e(
                             "paggination",
-                            "onScrolled: counts " + visibleItemCount + "," + totalItemCount + "," + pastVisiblesItems
+                            "onScrolled: counts " + visibleItemCount + "," + totalItemCount + "," + completeVisiblesItems
                         )
                         Log.e(
                             "paggination",
-                            "onScrolled: sum " + (visibleItemCount + pastVisiblesItems)
+                            "onScrolled: sum " + (visibleItemCount + completeVisiblesItems)
                         )
                         Log.e("paggination", "onScrolled: total " + totalItemCount.minus(2))
-                        if (visibleItemCount + pastVisiblesItems >= totalItemCount - 2) {
+                        if (visibleItemCount + completeVisiblesItems >= totalItemCount - 2) {
                             Log.v("gt66666", "Last Item Wow !")
                             var act = (requireActivity() as MainActivity)
                             Log.e(
@@ -404,6 +373,90 @@ public class HomeFragment : Fragment(), FeedEvents, ClickEvents, SimpleEvents {
                         }
                     }
                 }
+
+
+                // play just visible item
+                if (completeVisiblesItems != -1) {
+                    if (!(binding.playerContainer.adapter as SimpleAdapter).mediaList.isEmpty()) {
+                        videoPostIndex = completeVisiblesItems
+                        if (!(binding.playerContainer.adapter as SimpleAdapter).mediaList.get(
+                                completeVisiblesItems
+                            ).file_extension_type.equals("image")
+                        ) {
+
+                            PlayerViewAdapter.Companion.playIndexThenPausePreviousPlayer(
+                                completeVisiblesItems
+                            )
+                            Log.e("TAGScrollnew", "onScrolled = Video: ")
+                        } else {
+                            PlayerViewAdapter.Companion.pauseCurrentPlayingVideo()
+                            Log.e("TAGScrollnew", "onScrolled = Image: ")
+                        }
+                    }
+
+                    //viewCount
+                    val apiInterface = getClient()!!.create(
+                        WebApi::class.java
+                    )
+
+                    val userid = SharedPrefEnc.getPref(context, "user_id")
+                    if (completeVisiblesItems > -1) {
+                        if (lastCount != completeVisiblesItems) {
+                            lastCount = completeVisiblesItems
+                            Log.e("TAGScroll", "onItemIsFisssssrstVisibleItem: $lastCount")
+                            val jsonObject = JSONObject()
+                            /* jsonObject["id"] = (binding.playerContainer.adapter as SimpleAdapter).mediaList.get(index).post_id
+                             jsonObject["view_type"] = (binding.playerContainer.adapter as SimpleAdapter).mediaList.get(index).type
+                             jsonObject["user_id"] = userid*/
+
+                            jsonObject.put(
+                                "id",
+                                (binding.playerContainer.adapter as SimpleAdapter).mediaList.get(
+                                    completeVisiblesItems
+                                ).post_id
+                            )
+                            jsonObject.put(
+                                "view_type",
+                                (binding.playerContainer.adapter as SimpleAdapter).mediaList.get(
+                                    completeVisiblesItems
+                                ).type
+                            )
+                            jsonObject.put("user_id", userid)
+
+                            apiInterface.getAddView(jsonObject)!!
+                                .enqueue(object : Callback<AddView> {
+                                    override fun onResponse(
+                                        call: Call<AddView>,
+                                        response: Response<AddView>
+                                    ) {
+                                        /*  commet.viewCount(
+                                    response.body()!!.data!!.viewsCount,
+                                    pastVisiblesItems
+                                )*/
+                                        if (binding.playerContainer.adapter != null) {
+                                            Log.e(
+                                                "TAG",
+                                                "onRespfffonse: " + response.body()!!.data!!.viewsCount
+                                            )
+                                            (binding.playerContainer.adapter as SimpleAdapter).mediaList.get(
+                                                completeVisiblesItems
+                                            ).views_count = response.body()?.data?.viewsCount
+//                                                (binding.playerContainer.adapter as SimpleAdapter).notifyDataChanged()
+                                        }
+                                    }
+
+
+                                    override fun onFailure(call: Call<AddView>, t: Throwable) {}
+                                })
+                            if (lastCount > 0) {
+                                Log.e("TAGScroll", "onItemIsFirstVisibleItem: " + (lastCount - 1))
+
+
+                            }
+                        }
+                    }
+
+                }
             }
         })
         binding.shareHeader.setOnClickListener {
@@ -421,7 +474,7 @@ public class HomeFragment : Fragment(), FeedEvents, ClickEvents, SimpleEvents {
 
         binding.close.setOnClickListener {
             binding.locationView.visibility = View.GONE
-            MainActivity.binding.layoutBNavigation.visibility=View.VISIBLE
+            MainActivity.binding.layoutBNavigation.visibility = View.VISIBLE
         }
 
 
@@ -459,6 +512,7 @@ public class HomeFragment : Fragment(), FeedEvents, ClickEvents, SimpleEvents {
 
         return binding.root
     }
+
     val startForCreatePostResult =
         this.registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
             if (result.resultCode == Activity.RESULT_OK) {
@@ -501,15 +555,15 @@ public class HomeFragment : Fragment(), FeedEvents, ClickEvents, SimpleEvents {
                      val postalCode: String = addresses[0].getPostalCode()
                      val knownName: String = addresses[0].getFeatureName()*/
 
-                   /* if (activity is MainActivity) {
-                        var act = activity as MainActivity
-                        act.viewModel.address_text.value = address
-                        act.viewModel.lat = location.latitude
-                        act.viewModel.lng = location.altitude
-                        binding.locationView.visibility = View.GONE
+                    /* if (activity is MainActivity) {
+                         var act = activity as MainActivity
+                         act.viewModel.address_text.value = address
+                         act.viewModel.lat = location.latitude
+                         act.viewModel.lng = location.altitude
+                         binding.locationView.visibility = View.GONE
 
 
-                    }*/
+                     }*/
 
 
                 } else {
@@ -567,7 +621,7 @@ public class HomeFragment : Fragment(), FeedEvents, ClickEvents, SimpleEvents {
     }
 
     fun showLocation() {
-        MainActivity.binding.layoutBNavigation.visibility=View.GONE
+        MainActivity.binding.layoutBNavigation.visibility = View.GONE
         binding.locationView.visibility = View.VISIBLE
         viewModel.getAddress(SharedPrefEnc.getPref(requireContext(), "mobile"))
     }
@@ -619,7 +673,7 @@ public class HomeFragment : Fragment(), FeedEvents, ClickEvents, SimpleEvents {
     override fun onClickAddress(data: com.locatocam.app.data.responses.address.Data) {
 
         firstCall = false
-        MainActivity.binding.layoutBNavigation.visibility=View.VISIBLE
+        MainActivity.binding.layoutBNavigation.visibility = View.VISIBLE
         if (activity is MainActivity) {
             viewModel.searchType = "influencer"
             HeaderFragment.userType = "influencer"
@@ -714,11 +768,29 @@ public class HomeFragment : Fragment(), FeedEvents, ClickEvents, SimpleEvents {
 
     }
 
+    /*override fun onStop() {
+        super.onStop()
+        PlayerViewAdapter.releaseAllPlayers()
+    }*/
+
     override fun onResume() {
         Log.e("TAG", "onResume: ")
-
-
         super.onResume()
+        if (binding.playerContainer.adapter != null) {
+            if ((binding.playerContainer.adapter as SimpleAdapter) != null) {
+//                (binding.playerContainer.adapter as SimpleAdapter).notifyDataChanged()
+                if (!(binding.playerContainer.adapter as SimpleAdapter).mediaList
+                        .isEmpty() && videoPostIndex != -1
+                ) {
+                    if (!(binding.playerContainer.adapter as SimpleAdapter).mediaList
+                            .get(videoPostIndex).file_extension_type
+                            .equals("image")
+                    ) {
+                        PlayerViewAdapter.resumeCurrentPlayingVideo()
+                    }
+                }
+            }
+        }
         SimpleAdapter.userClick = true
     }
 
@@ -745,26 +817,31 @@ public class HomeFragment : Fragment(), FeedEvents, ClickEvents, SimpleEvents {
                     //Toast.makeText(requireActivity(), item.title, Toast.LENGTH_SHORT).show()
 
 
-
                     val dialogBuilder = AlertDialog.Builder(activity!!)
                     dialogBuilder.setMessage("Are you sure to delete this address?")
 
                         .setCancelable(false)
-                        .setPositiveButton("Yes", DialogInterface.OnClickListener { dialogInterface, i ->
-                            (binding.savedAddress.adapter as AdddressAdapter).items.removeAt(position)
-                            (binding.savedAddress.adapter as AdddressAdapter).notifyDataSetChanged()
-                            viewModel.deleteAddress(data.c_address_id!!)
-                            dialogInterface.dismiss()
-                        }).setNegativeButton("Cancel",
+                        .setPositiveButton(
+                            "Yes",
+                            DialogInterface.OnClickListener { dialogInterface, i ->
+                                (binding.savedAddress.adapter as AdddressAdapter).items.removeAt(
+                                    position
+                                )
+                                (binding.savedAddress.adapter as AdddressAdapter).notifyDataSetChanged()
+                                viewModel.deleteAddress(data.c_address_id!!)
+                                dialogInterface.dismiss()
+                            }).setNegativeButton("Cancel",
                             DialogInterface.OnClickListener { dialogInterface, i ->
                                 dialogInterface.dismiss()
-                        })
+                            })
 
                     val alert = dialogBuilder.create()
                     alert.setTitle("Delete Address")
                     alert.show()
-                    alert.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(ContextCompat.getColor(context!!, R.color.black))
-                    alert.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(ContextCompat.getColor(context!!, R.color.black))
+                    alert.getButton(AlertDialog.BUTTON_POSITIVE)
+                        .setTextColor(ContextCompat.getColor(context!!, R.color.black))
+                    alert.getButton(AlertDialog.BUTTON_NEGATIVE)
+                        .setTextColor(ContextCompat.getColor(context!!, R.color.black))
 
 
                 }
@@ -839,6 +916,29 @@ public class HomeFragment : Fragment(), FeedEvents, ClickEvents, SimpleEvents {
         viewModel.getAllFeeds(influencerCode, latlng, latLong)
 
 
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        PlayerViewAdapter.releaseAllPlayers()
+    }
+
+    override fun onPause() {
+        if (binding.playerContainer.adapter != null) {
+            if ((binding.playerContainer.adapter as SimpleAdapter) != null) {
+                if (!(binding.playerContainer.adapter as SimpleAdapter).mediaList
+                        .isEmpty() && videoPostIndex != -1
+                ) {
+                    if (!(binding.playerContainer.adapter as SimpleAdapter).mediaList
+                            .get(videoPostIndex).file_extension_type
+                            .equals("image")
+                    ) {
+                        PlayerViewAdapter.pauseCurrentPlayingVideo()
+                    }
+                }
+            }
+        }
+        super.onPause()
     }
 
 }
