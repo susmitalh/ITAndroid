@@ -11,6 +11,7 @@ import com.locatocam.app.data.responses.SearchModal.RespSearch
 import com.locatocam.app.data.responses.add_comments.RespComments
 import com.locatocam.app.data.responses.address.RespAddress
 import com.locatocam.app.data.responses.brand_list.BrandList
+import com.locatocam.app.data.responses.changeInfluencer.ResChangeInfluencer
 import com.locatocam.app.data.responses.comments.RespGetComments
 import com.locatocam.app.data.responses.customer_model.Customer
 import com.locatocam.app.data.responses.favOrder.ResFavOrder
@@ -508,4 +509,16 @@ interface WebApi {
     suspend fun getTermsCon(
         @Body reqOrders: ReqOrders
     ): ResTermsCon
+
+    @Headers("Accept: application/json")
+    @POST("App/change_influencer")
+    suspend fun getChangeInfluencer(
+        @Body reqOrders: ReqOrders
+    ): ResChangeInfluencer
+
+    @Headers("Accept: application/json")
+    @POST("App/request_change_influencer")
+    suspend fun reqChangeInfluencer(
+        @Body reqChInfluencer: ReqChInfluencer
+    ): ResBlockedUser
 }

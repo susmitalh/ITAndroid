@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.widget.AppCompatButton
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.locatocam.app.R
@@ -12,10 +13,10 @@ import com.locatocam.app.data.responses.followers.*
 import com.locatocam.app.views.followers.interfaceFollow.Follower
 import java.util.*
 
-class InfluencerFollowersAdapter(val data:List<Any>,private val click: Follower):
-    RecyclerView.Adapter<InfluencerFollowersAdapter.ItemViewHolder>() {
+class InfluencerFollowingAdapter(val data:List<Any>,private val click: Follower):
+    RecyclerView.Adapter<InfluencerFollowingAdapter.ItemViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
-        var view:View= LayoutInflater.from(parent.context).inflate(R.layout.row_layout_followers_1,parent,false,)
+        var view:View= LayoutInflater.from(parent.context).inflate(R.layout.row_layout_following,parent,false,)
 
         return ItemViewHolder(view)
     }
@@ -30,10 +31,6 @@ class InfluencerFollowersAdapter(val data:List<Any>,private val click: Follower)
                 .load(item.photo)
                 .centerCrop()
                 .into(holder.image);
-            holder.follow.text=item.follow_status
-            holder.follow.setOnClickListener {
-                click.follow("influencer","follow",item.user_id.toInt())
-            }
         }else if (item is InfluencerFollowing){
             holder.name.setText(item.name)
             holder.type.setText(item.user_type)
@@ -41,7 +38,10 @@ class InfluencerFollowersAdapter(val data:List<Any>,private val click: Follower)
             Glide.with(holder.itemView.context)
                 .load(item.photo)
                 .centerCrop()
-                .into(holder.image);
+                .into(holder.image)
+            holder.remove.setOnClickListener {
+                click.remove("influencer","unfollow",item.user_id.toInt())
+            }
         }else if (item is BrandFollower){
             holder.name.setText(item.name)
             holder.type.setText(item.user_type)
@@ -49,11 +49,7 @@ class InfluencerFollowersAdapter(val data:List<Any>,private val click: Follower)
             Glide.with(holder.itemView.context)
                 .load(item.photo)
                 .centerCrop()
-                .into(holder.image)
-            holder.follow.setOnClickListener {
-                click.follow("brand","follow",item.user_id.toInt())
-            }
-            holder.follow.text=item.follow_status
+                .into(holder.image);
         }else if (item is BrandFollowing){
             holder.name.setText(item.name)
             holder.type.setText(item.user_type)
@@ -61,7 +57,10 @@ class InfluencerFollowersAdapter(val data:List<Any>,private val click: Follower)
             Glide.with(holder.itemView.context)
                 .load(item.photo)
                 .centerCrop()
-                .into(holder.image);
+                .into(holder.image)
+            holder.remove.setOnClickListener {
+                click.remove("influencer","unfollow",item.user_id.toInt())
+            }
         }else if (item is PeopleFollower){
             holder.name.setText(item.name)
             holder.type.setText(item.user_type)
@@ -69,11 +68,7 @@ class InfluencerFollowersAdapter(val data:List<Any>,private val click: Follower)
             Glide.with(holder.itemView.context)
                 .load(item.photo)
                 .centerCrop()
-                .into(holder.image)
-            holder.follow.text=item.follow_status
-            holder.follow.setOnClickListener {
-                click.follow("people","follow",item.user_id.toInt())
-            }
+                .into(holder.image);
         }else if (item is PeopleFollowing){
             holder.name.setText(item.name)
             holder.type.setText(item.user_type)
@@ -81,7 +76,10 @@ class InfluencerFollowersAdapter(val data:List<Any>,private val click: Follower)
             Glide.with(holder.itemView.context)
                 .load(item.photo)
                 .centerCrop()
-                .into(holder.image);
+                .into(holder.image)
+            holder.remove.setOnClickListener {
+                click.remove("influencer","unfollow",item.user_id.toInt())
+            }
         }
 
 
@@ -96,7 +94,7 @@ class InfluencerFollowersAdapter(val data:List<Any>,private val click: Follower)
         var name:TextView=view.findViewById(R.id.name)
         var type:TextView=view.findViewById(R.id.type)
         var image:ImageView=view.findViewById(R.id.imageView)
-        var follow:TextView=view.findViewById(R.id.follow)
+        var remove:AppCompatButton=view.findViewById(R.id.remove)
 
     }
 }

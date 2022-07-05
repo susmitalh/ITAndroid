@@ -24,6 +24,7 @@ import com.locatocam.app.views.settings.adapters.aboutUs.TermsConditionActivity
 import com.locatocam.app.views.settings.addressBook.MyAddressActivity
 import com.locatocam.app.views.settings.bookmark.BookMarkActivity
 import com.locatocam.app.views.settings.favOrders.FavouiteOrdersActivity
+import com.locatocam.app.views.settings.influencerDashboard.ChangeInfluencerActivity
 import com.locatocam.app.views.settings.influencerDashboard.ViewBlockUserActivity
 import com.locatocam.app.views.settings.myPostReelsApprovalPending.MyPostReelsApprovalPendingActivity
 import com.locatocam.app.views.settings.viewApprovals.ViewApprovalActivity
@@ -130,6 +131,11 @@ class CustomerSubItemAdapter (private val list: List<SubItem>, private val conte
             }
             else if(title.equals("Terms and Condition")){
                 var intent=Intent(context, TermsConditionActivity::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
+                context?.startActivity(intent)
+            }
+            else if(title.equals("Change Influencer")){
+                var intent=Intent(context, ChangeInfluencerActivity::class.java)
                 intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
                 context?.startActivity(intent)
             }

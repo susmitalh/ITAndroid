@@ -4,9 +4,9 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.locatocam.app.data.requests.ReqFollowers
-import com.locatocam.app.data.requests.ReqItems
-import com.locatocam.app.data.requests.ReqSelectedBrand
+import com.locatocam.app.data.requests.*
+import com.locatocam.app.data.responses.RespFollow
+import com.locatocam.app.data.responses.favOrder.ResFavOrder
 import com.locatocam.app.data.responses.followers.RespFollowers
 import com.locatocam.app.data.responses.products.Data
 import com.locatocam.app.network.Resource
@@ -24,6 +24,7 @@ class FollowersViewModel(
     ):ViewModel() {
 
     val followers = MutableStateFlow<Resource<RespFollowers>>(Resource.loading(null))
+    val follow = MutableStateFlow<Resource<RespFollow>>(Resource.loading(null))
     var list_type=MutableLiveData<String>()
 
     var firsttab=0
@@ -67,6 +68,21 @@ class FollowersViewModel(
                 }
         }
     }
+   fun postFollow(follow_process: String,followtype: String,followerid: Int): MutableStateFlow<Resource<RespFollow>>{
+       var request =
+           ReqFollow(follow_process,followtype,followerid, repository.getUserID().toInt())
+       viewModelScope.launch {
+           repository.reqfollow(request)
+               .catch {
+                   Log.i("uname",it.message.toString())
+               }
+               .collect {
+                   follow.value=/*it*/Resource.success(it)
+                   Log.i("uname",it.status.toString())
+               }
+       }
+       return follow
+   }
 
 
 }

@@ -75,7 +75,7 @@ class ViewBlockUserActivity : AppCompatActivity(),SettingClickListener {
                         MainActivity.binding.loader.visibility= View.GONE
                         //showProgress(false,"")
                         viewBlockList = it.data?.data ?: viewBlockList
-                        val adapter= ViewBlockedUserAdapter(viewBlockList,applicationContext)
+                        val adapter= ViewBlockedUserAdapter(viewBlockList,applicationContext,this@ViewBlockUserActivity)
                         binding.recyclerview.adapter=adapter
                     }
                     Status.LOADING -> {
@@ -115,7 +115,7 @@ class ViewBlockUserActivity : AppCompatActivity(),SettingClickListener {
 
 
     }
-     fun showSaveAlert(userNmae: String,userId:Int) {
+    fun showSaveAlert(userNmae: String,userId:Int) {
 
         val alertDialogBuilder = AlertDialog.Builder(context)
 
@@ -130,8 +130,8 @@ class ViewBlockUserActivity : AppCompatActivity(),SettingClickListener {
 
     }
     fun sendReq(blockedUserId: Int){
-       val userId:String=SharedPrefEnc.getPref(context,"user_id")
-       val user_id:Int=userId.toInt()
+        val userId:String=SharedPrefEnc.getPref(context,"user_id")
+        val user_id:Int=userId.toInt()
         viewModel.postBlokedUser(
             ReqBlockedUser(
                 blockedUserId,
@@ -141,7 +141,6 @@ class ViewBlockUserActivity : AppCompatActivity(),SettingClickListener {
         lifecycleScope.launch {
             viewModel.respBlockedUser.collect {
                 when(it.status){
-
                     Status.SUCCESS -> {
                         MainActivity.binding.loader.visibility= View.GONE
                     }
@@ -160,8 +159,8 @@ class ViewBlockUserActivity : AppCompatActivity(),SettingClickListener {
         }
     }
 
-    override fun unblock() {
-        TODO("Not yet implemented")
+    override fun unblock(userNmae: String,userId: String) {
+        showSaveAlert(userNmae,userId.toInt())
     }
 
     /* override fun unblock() {

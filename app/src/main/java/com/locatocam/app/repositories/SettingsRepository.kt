@@ -8,10 +8,9 @@ import com.locatocam.app.data.requests.viewApproval.ReqApprove
 import com.locatocam.app.data.requests.viewApproval.ReqCompanyApprove
 import com.locatocam.app.data.requests.viewApproval.ReqCompanyReject
 import com.locatocam.app.data.requests.viewApproval.ReqReject
-import com.locatocam.app.data.responses.ResMyAddress
 import com.locatocam.app.data.responses.ResPrivacyPolicy
 import com.locatocam.app.data.responses.ResTermsCon
-import com.locatocam.app.data.responses.address.RespAddress
+import com.locatocam.app.data.responses.changeInfluencer.ResChangeInfluencer
 import com.locatocam.app.data.responses.customer_model.Customer
 import com.locatocam.app.data.responses.favOrder.ResFavOrder
 import com.locatocam.app.data.responses.settings.*
@@ -219,6 +218,18 @@ class SettingsRepository(val context: Context) {
     suspend fun getTermsCon(reqOrders: ReqOrders) : Flow<ResTermsCon> {
         return flow {
             val res = retrofit.create(WebApi::class.java).getTermsCon(reqOrders)
+            emit(res)
+        }.flowOn(Dispatchers.IO)
+    }
+    suspend fun getChangeInfluencer(reqOrders: ReqOrders) : Flow<ResChangeInfluencer> {
+        return flow {
+            val res = retrofit.create(WebApi::class.java).getChangeInfluencer(reqOrders)
+            emit(res)
+        }.flowOn(Dispatchers.IO)
+    }
+    suspend fun reqChangeInfluencer(reqChInfluencer: ReqChInfluencer) : Flow<ResBlockedUser> {
+        return flow {
+            val res = retrofit.create(WebApi::class.java).reqChangeInfluencer(reqChInfluencer)
             emit(res)
         }.flowOn(Dispatchers.IO)
     }

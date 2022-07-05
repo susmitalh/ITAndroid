@@ -2,6 +2,7 @@ package com.locatocam.app.repositories
 
 import android.app.Application
 import com.locatocam.app.data.requests.*
+import com.locatocam.app.data.responses.RespFollow
 import com.locatocam.app.data.responses.followers.RespFollowers
 import com.locatocam.app.data.responses.popular_brands.RespPopularBrands
 import com.locatocam.app.data.responses.products.RespProducts
@@ -35,5 +36,11 @@ class FollowersRepository(val application: Application)  {
 
     fun getUserID():String{
         return SharedPrefEnc.getPref(application,"user_id")
+    }
+    fun reqfollow(reqFollow: ReqFollow): Flow<RespFollow> {
+        return flow {
+            val res = retrofitService.create(WebApi::class.java).follow(reqFollow)
+            emit(res)
+        }.flowOn(Dispatchers.IO)
     }
 }
