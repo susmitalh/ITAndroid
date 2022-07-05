@@ -164,11 +164,13 @@ class FollowersActivity : AppCompatActivity(), Follower {
     }
 
     override fun follow(follow_type: String, follow_process: String, folloedId: Int) {
+        MainActivity.binding.loader.visibility= View.GONE
        postFollow(follow_process,follow_type,folloedId)
 
     }
 
     override fun remove(follow_type: String, follow_process: String, folloedId: Int) {
+        MainActivity.binding.loader.visibility= View.GONE
         postFollow(follow_process,follow_type,folloedId)
     }
      fun postFollow(follow_type: String, follow_process: String, folloedId: Int){
@@ -178,14 +180,14 @@ class FollowersActivity : AppCompatActivity(), Follower {
              viewmodel.follow.collect {
                  when (it.status) {
                      Status.SUCCESS -> {
+                         MainActivity.binding.loader.visibility= View.GONE
                          setList()
                      }
                      Status.LOADING -> {
-                         Log.i("ki999","Loading")
+                         MainActivity.binding.loader.visibility= View.VISIBLE
                      }
                      Status.ERROR -> {
-                         Log.i("ki999",it.message.toString())
-                         Toast.makeText(this@FollowersActivity,it.message,Toast.LENGTH_LONG).show()
+                         MainActivity.binding.loader.visibility= View.GONE
                      }
                  }
              }

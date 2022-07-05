@@ -70,7 +70,7 @@ class FollowersViewModel(
     }
    fun postFollow(follow_process: String,followtype: String,followerid: Int): MutableStateFlow<Resource<RespFollow>>{
        var request =
-           ReqFollow(follow_process,followtype,followerid, repository.getUserID().toInt())
+           ReqFollow(followtype,follow_process,followerid, repository.getUserID().toInt())
        viewModelScope.launch {
            repository.reqfollow(request)
                .catch {
