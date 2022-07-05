@@ -25,8 +25,11 @@ import com.locatocam.app.data.responses.feed.BestSeller;
 import com.locatocam.app.data.responses.feed.Data;
 import com.locatocam.app.data.responses.feed.OffersDetail;
 import com.locatocam.app.data.responses.feed.TopBrandDetail;
+import com.locatocam.app.utility.PlayerViewAdapter;
 import com.locatocam.app.views.home.OtherProfileWithFeedFragment;
 import com.locatocam.app.views.home.header.HeaderFragmentOtherUser;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
@@ -62,6 +65,14 @@ public class SimpleAdapterOtherprofile extends RecyclerView.Adapter<RecyclerView
     public void addAll(List<Data> newitems) {
         this.mediaList.addAll(newitems);
         notifyDataSetChanged();
+    }
+    @Override
+    public void onViewRecycled(@NonNull @NotNull RecyclerView.ViewHolder holder) {
+
+        int position = holder.getAbsoluteAdapterPosition();
+        PlayerViewAdapter.Companion.releaseRecycledPlayers(position);
+
+        super.onViewRecycled(holder);
     }
 
     @Override

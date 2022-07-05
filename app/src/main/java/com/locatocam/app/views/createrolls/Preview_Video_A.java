@@ -53,13 +53,14 @@ import com.daasuu.gpuv.player.GPUPlayerView;
 import com.daasuu.gpuv.player.PlayerScaleType;
 import com.divyanshu.colorseekbar.ColorSeekBar;
 import com.google.android.exoplayer2.ExoPlaybackException;
-import com.google.android.exoplayer2.ExoPlayerFactory;
+//import com.google.android.exoplayer2.ExoPlayerFactory;
 import com.google.android.exoplayer2.PlaybackParameters;
 import com.google.android.exoplayer2.Player;
 import com.google.android.exoplayer2.SimpleExoPlayer;
 import com.google.android.exoplayer2.Timeline;
-import com.google.android.exoplayer2.source.ExtractorMediaSource;
+//import com.google.android.exoplayer2.source.ExtractorMediaSource;
 import com.google.android.exoplayer2.source.MediaSource;
+import com.google.android.exoplayer2.source.ProgressiveMediaSource;
 import com.google.android.exoplayer2.source.TrackGroupArray;
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
 import com.google.android.exoplayer2.trackselection.TrackSelectionArray;
@@ -497,17 +498,22 @@ public class Preview_Video_A extends AppCompatActivity  implements Player.EventL
 
 
         DefaultTrackSelector trackSelector = new DefaultTrackSelector();
-         player = ExoPlayerFactory.newSimpleInstance(this, trackSelector);
+         player =  new SimpleExoPlayer.Builder(this).build();
+//         player = ExoPlayerFactory.newSimpleInstance(this, trackSelector);
         DataSource.Factory dataSourceFactory = new DefaultDataSourceFactory(this,
-                Util.getUserAgent(this, "LocaToka"));
+                Util.getUserAgent(this, String.valueOf(R.string.app_name)));
 
-        MediaSource videoSource = new ExtractorMediaSource.Factory(dataSourceFactory)
-                .createMediaSource(Uri.parse(path));
+//        MediaSource videoSource = new ExtractorMediaSource.Factory(dataSourceFactory)
+//                .createMediaSource(Uri.parse(path));
 
-        player.prepare(videoSource);
+        MediaSource videoSource =new
+                ProgressiveMediaSource.Factory(dataSourceFactory).createMediaSource(Uri.parse(path));
+
+        player.prepare(videoSource,true,true);
 
         player.setRepeatMode(Player.REPEAT_MODE_ALL);
         player.addListener(this);
+        player.setThrowsWhenUsingWrongThread(false);
         player.seekTo(trim_start);
 
         player.setPlayWhenReady(true);
@@ -861,10 +867,10 @@ public class Preview_Video_A extends AppCompatActivity  implements Player.EventL
         return Base64.encodeToString(byteArray, Base64.DEFAULT);
     }
     // Bottom all the function and the Call back listener of the Expo player
-    @Override
+/*    @Override
     public void onTimelineChanged(Timeline timeline, @Nullable Object manifest, int reason) {
 
-    }
+    }*/
 
     @Override
     public void onTracksChanged(TrackGroupArray trackGroups, TrackSelectionArray trackSelections) {
@@ -893,10 +899,10 @@ public class Preview_Video_A extends AppCompatActivity  implements Player.EventL
     }
 
 
-    @Override
+   /* @Override
     public void onPlayerError(ExoPlaybackException error) {
 
-    }
+    }*/
 
     @Override
     public void onPositionDiscontinuity(int reason) {

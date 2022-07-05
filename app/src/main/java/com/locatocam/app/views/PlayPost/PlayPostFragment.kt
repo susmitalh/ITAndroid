@@ -15,7 +15,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.google.android.exoplayer2.ExoPlayerFactory
+import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.Player
 import com.google.android.exoplayer2.SimpleExoPlayer
 import com.google.android.exoplayer2.source.ProgressiveMediaSource
@@ -38,10 +38,8 @@ import com.locatocam.app.security.SharedPrefEnc
 import com.locatocam.app.utils.Constants
 import com.locatocam.app.viewmodels.PlayPostViewModal
 import com.locatocam.app.views.comments.CommentsActivity
-import com.locatocam.app.views.home.test.SimpleExoPlayerViewHolder
 import com.skyhope.showmoretextview.ShowMoreTextView
 import de.hdodenhof.circleimageview.CircleImageView
-import im.ene.toro.exoplayer.ExoPlayerViewHelper
 import kotlinx.android.synthetic.main.activity_play_post.*
 import net.minidev.json.JSONObject
 import retrofit2.Call
@@ -191,7 +189,7 @@ class PlayPostFragment : Fragment(R.layout.layout_play_post_view) {
         }
 
 
-        player_view_story.getVideoSurfaceView().setOnClickListener {
+        player_view_story.getVideoSurfaceView()?.setOnClickListener {
             if (simplePlayer?.isPlaying!!) {
                 simplePlayer?.playWhenReady = false
             }else{
@@ -362,18 +360,16 @@ class PlayPostFragment : Fragment(R.layout.layout_play_post_view) {
 
         }
 
-        override fun onPlayerError(error: com.google.android.exoplayer2.ExoPlaybackException?) {
-            super.onPlayerError(error)
-        }
     }
 
     private fun prepareVideoPlayer() {
-        simplePlayer = ExoPlayerFactory.newSimpleInstance(context)
+        simplePlayer = SimpleExoPlayer.Builder(context!!).build()
+//        simplePlayer = ExoPlayer.newSimpleInstance(context)
         cacheDataSourceFactory = CacheDataSourceFactory(
-            simpleCache,
+            simpleCache!!,
             DefaultHttpDataSourceFactory(
                 Util.getUserAgent(
-                    context,
+                    context!!,
                     "exo"
                 )
             )
@@ -393,12 +389,12 @@ class PlayPostFragment : Fragment(R.layout.layout_play_post_view) {
         val uri = Uri.parse(linkUrl)
 
         val mediaSource =
-            ProgressiveMediaSource.Factory(cacheDataSourceFactory).createMediaSource(uri)
+            ProgressiveMediaSource.Factory(cacheDataSourceFactory!!).createMediaSource(uri)
 
         simplePlayer?.prepare(mediaSource, true, true)
         simplePlayer?.repeatMode = Player.REPEAT_MODE_ONE
         // simplePlayer?.playWhenReady = true
-        simplePlayer?.addListener(playerCallback)
+        simplePlayer?.addListener(playerCallback!!)
 
         toPlayVideoPosition = -1
     }

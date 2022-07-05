@@ -1,5 +1,22 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="model"
+            type="com.locatocam.app.data.responses.feed.Data" />
+        <variable
+            name="playCallback"
+            type="com.locatocam.app.utility.PlayerStateCallback" />
+
+        <variable
+            name="pos"
+            type="int" />
+    </data>
+<RelativeLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="@dimen/_8sdp">
@@ -39,6 +56,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
                         android:scaleType="centerCrop"
+                        app:placeholder="@{@drawable/pickup}"
                         android:src="@drawable/pickup" />
 
 
@@ -191,24 +209,40 @@
                 </LinearLayout>
             </LinearLayout>
 
-            <com.google.android.exoplayer2.ui.SimpleExoPlayerView
+            <com.google.android.exoplayer2.ui.PlayerView
                 android:id="@+id/player"
                 android:layout_width="match_parent"
-                android:layout_height="400dp"
+                android:layout_height="330dp"
                 android:layout_below="@+id/header_section"
-                android:minHeight="400dp"
+                android:layout_marginTop="0dp"
+                android:minHeight="330dp"
+                app:btnMuteUnmute="@{volume}"
+                app:item_index="@{pos}"
                 app:keep_content_on_player_reset="true"
+                app:on_state_change="@{playCallback}"
+                app:type="@{model.file_extension_type}"
                 app:resize_mode="zoom"
                 app:surface_type="texture_view"
-                app:use_controller="false" />
+                app:thumbnail="@{thumbnile}"
+                app:use_controller="false"
+                app:video_url="@{model.file}">
 
-            <ImageView
-                android:id="@+id/thumbnile"
+                <ImageView
+                    android:id="@+id/thumbnile"
+                    android:layout_width="match_parent"
+                    android:layout_height="330dp"
+                    android:scaleType="centerCrop"
+                    android:visibility="visible"
+                    app:thumbnail="@{model.screenshot}" />
+            </com.google.android.exoplayer2.ui.PlayerView>
+
+          <!--  <ImageView
+                android:id="@+id/feed_image"
                 android:layout_width="match_parent"
-                android:layout_height="400dp"
+                android:layout_height="330dp"
                 android:layout_below="@+id/header_section"
                 android:scaleType="centerCrop"
-                android:visibility="visible" />
+                android:visibility="gone"/>-->
 
             <TextView
                 android:id="@+id/file_size_text"
@@ -235,7 +269,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_marginTop="-50dp"
                 android:background="@null"
-                android:src="@drawable/ic_volume_up_grey_24dp"
+                android:src="@drawable/ic_volume_off_grey_24dp"
                 app:tint="#ADE8E6E6" />
 
             <LinearLayout
@@ -431,3 +465,4 @@
 
     </LinearLayout>
 </RelativeLayout>
+</layout>

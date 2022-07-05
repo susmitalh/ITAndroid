@@ -89,8 +89,11 @@ dependencies {
     kapt "com.github.bumptech.glide:compiler:$glide_version"
 
     // ExoPlayer
-    implementation "com.google.android.exoplayer:exoplayer:$exoPlayerVersion"
-    implementation "com.google.android.exoplayer:exoplayer-ui:$exoPlayerVersion"
+//    implementation "com.google.android.exoplayer:exoplayer:$exoPlayerVersion"
+//    implementation "com.google.android.exoplayer:exoplayer-ui:$exoPlayerVersion"
+    implementation 'com.google.android.exoplayer:exoplayer:2.15.0'
+    implementation 'com.google.android.exoplayer:exoplayer-core:2.15.0'
+    implementation 'com.google.android.exoplayer:exoplayer-ui:2.15.0'
     implementation "im.ene.toro3:toro:3.7.0.2010003"
     implementation "im.ene.toro3:toro-ext-exoplayer:3.7.0.2010003"
 

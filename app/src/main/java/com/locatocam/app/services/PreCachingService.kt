@@ -11,7 +11,7 @@ import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
 import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory
 import com.google.android.exoplayer2.upstream.cache.Cache
 import com.google.android.exoplayer2.upstream.cache.CacheDataSourceFactory
-import com.google.android.exoplayer2.upstream.cache.CacheUtil
+//import com.google.android.exoplayer2.upstream.cache.CacheUtil
 import com.google.android.exoplayer2.util.Util
 import com.locatocam.app.MyApp
 import com.locatocam.app.utils.Constants
@@ -29,7 +29,7 @@ class PreCachingService(appContext: Context, params: WorkerParameters) :
 
 
     override suspend fun doWork(): Result = coroutineScope {
-        cacheDataSourceFactory = CacheDataSourceFactory(simpleCache,
+        cacheDataSourceFactory = CacheDataSourceFactory(simpleCache!!,
             DefaultHttpDataSourceFactory(
                 Util.getUserAgent(applicationContext,
                     "exo"))
@@ -51,15 +51,15 @@ class PreCachingService(appContext: Context, params: WorkerParameters) :
                         )
                     ).createDataSource()
 
-                preloadVideo(dataSpec,
-                    simpleCache,
-                    dataSource,
-                    CacheUtil.ProgressListener { requestLength: Long, bytesCached: Long, newBytesCached: Long ->
-                        val downloadPercentage = (bytesCached * 100.0
-                                / requestLength)
-                        Log.d(TAG, "downloadPercentage: $downloadPercentage")
-                    }
-                )
+//                preloadVideo(dataSpec,
+//                    simpleCache,
+//                    dataSource,
+//                    CacheUtil.ProgressListener { requestLength: Long, bytesCached: Long, newBytesCached: Long ->
+//                        val downloadPercentage = (bytesCached * 100.0
+//                                / requestLength)
+//                        Log.d(TAG, "downloadPercentage: $downloadPercentage")
+//                    }
+//                )
             }
         }
         jobs?.joinAll()
@@ -70,18 +70,18 @@ class PreCachingService(appContext: Context, params: WorkerParameters) :
         dataSpec: DataSpec?,
         cache: Cache?,
         upstream: DataSource?,
-        progressListener: CacheUtil.ProgressListener?
+//        progressListener: CacheUtil.ProgressListener?
     ) {
         Log.d(TAG, "preloadVideo")
         try {
-            CacheUtil.cache(
-                dataSpec,
-                cache,
-                CacheUtil.DEFAULT_CACHE_KEY_FACTORY,
-                upstream,
-                progressListener,
-                null
-            )
+//            CacheUtil.cache(
+//                dataSpec,
+//                cache,
+//                CacheUtil.DEFAULT_CACHE_KEY_FACTORY,
+//                upstream,
+//                progressListener,
+//                null
+//            )
         } catch (e: Exception) {
             e.printStackTrace()
         }

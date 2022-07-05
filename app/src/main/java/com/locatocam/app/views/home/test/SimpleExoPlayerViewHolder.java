@@ -21,12 +21,16 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.google.android.exoplayer2.ExoPlaybackException;
+import com.google.android.exoplayer2.MediaItem;
 import com.google.android.exoplayer2.PlaybackParameters;
+import com.google.android.exoplayer2.Player;
+import com.google.android.exoplayer2.SimpleExoPlayer;
 import com.google.android.exoplayer2.Timeline;
 import com.google.android.exoplayer2.metadata.Metadata;
 import com.google.android.exoplayer2.source.TrackGroupArray;
@@ -44,10 +48,13 @@ import com.locatocam.app.ModalClass.Follow;
 import com.locatocam.app.MyApp;
 import com.locatocam.app.R;
 import com.locatocam.app.data.responses.feed.Data;
+import com.locatocam.app.databinding.ViewHolderExoplayerBasicBinding;
 import com.locatocam.app.di.module.NetworkModule;
 import com.locatocam.app.network.WebApi;
 import com.locatocam.app.reportpost.ReportPostActivity;
 import com.locatocam.app.security.SharedPrefEnc;
+import com.locatocam.app.utility.PlayerStateCallback;
+import com.locatocam.app.utility.PlayerViewAdapter;
 import com.locatocam.app.views.ceratepost.UploadPostmanual;
 import com.locatocam.app.views.comments.CommentsActivity;
 import com.locatocam.app.views.home.HomeFragment;
@@ -68,11 +75,11 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class SimpleExoPlayerViewHolder extends RecyclerView.ViewHolder implements ToroPlayer {
-
-
+public class SimpleExoPlayerViewHolder extends RecyclerView.ViewHolder {
+    public static Data item;
+    ViewHolderExoplayerBasicBinding binding;
     @Nullable
-    public static ExoPlayerViewHelper helper;
+    public static SimpleExoPlayer helper;
     @Nullable
     private Uri mediaUri;
     public static boolean volumeMute;
@@ -100,9 +107,9 @@ public class SimpleExoPlayerViewHolder extends RecyclerView.ViewHolder implement
     Cache simpleCache = MyApp.Companion.getSimpleCache();
     MyApp app = (MyApp) itemView.getContext().getApplicationContext();
 
-
     SimpleExoPlayerViewHolder(View itemView) {
         super(itemView);
+        binding = DataBindingUtil.bind(itemView);
 
 
         playerView = itemView.findViewById(R.id.player);
@@ -126,6 +133,7 @@ public class SimpleExoPlayerViewHolder extends RecyclerView.ViewHolder implement
         shares = itemView.findViewById(R.id.shares);
         msg_img = itemView.findViewById(R.id.msg_img);
         viewFeed = itemView.findViewById(R.id.tpgrey);
+//        feed_image = itemView.findViewById(R.id.feed_image);
 
 
 
@@ -166,7 +174,7 @@ public class SimpleExoPlayerViewHolder extends RecyclerView.ViewHolder implement
                 new DefaultHttpDataSourceFactory(Util.getUserAgent(shares.getContext(), "exo")));
 
 
-        volumebt.setOnClickListener(new View.OnClickListener() {
+        /*volumebt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (!volumeMute) {
@@ -183,7 +191,7 @@ public class SimpleExoPlayerViewHolder extends RecyclerView.ViewHolder implement
                     volumeMute = false;
                 }
             }
-        });
+        });*/
 
 
     }
@@ -191,8 +199,9 @@ public class SimpleExoPlayerViewHolder extends RecyclerView.ViewHolder implement
     // called from Adapter to setup the media
     void bind(Data item, SimpleEvents simpleEvents, int position, PostCountData postCountData, com.locatocam.app.views.home.test.Follow follow, Context context) {
         Log.e("TAG", "binds: "+position );
-
         if (item != null) {
+
+
 
             Log.e("TAG", "onResponseSS: res "+item.getScreenshot() );
 
@@ -200,8 +209,51 @@ public class SimpleExoPlayerViewHolder extends RecyclerView.ViewHolder implement
                 viewFeed.setVisibility(View.GONE);
                 HomeFragment.Companion.setHideView(false);
             }
+            if (item.getFile_extension_type().equals("image")){
+//                feed_image.setVisibility(View.VISIBLE);
+//                playerView.setVisibility(View.INVISIBLE);
+                Glide.with(context).load(item.getScreenshot()).into(thumbnile);
+            }
 
             mediaUri = Uri.parse(item.getFile());
+            PlayerStateCallback playerStateCallback=new PlayerStateCallback() {
+                @Override
+                public void onVideoDurationRetrieved(long duration, @NonNull Player player) {
+
+                }
+
+                @Override
+                public void onVideoBuffering(@NonNull Player player) {
+
+                }
+
+                @Override
+                public void onStartedPlaying(@NonNull Player player) {
+
+                }
+
+                @Override
+                public void onFinishedPlaying(@NonNull Player player) {
+
+                }
+            };
+            binding.setModel(item);
+            binding.setPlayCallback(playerStateCallback);
+//            binding.setCallback(callback);
+            binding.setPos(position);
+            binding.executePendingBindings();
+
+//            helper = new SimpleExoPlayer.Builder(context).build();
+//            playerView.setPlayer(helper);
+//            MediaItem mediaItem = MediaItem.fromUri(mediaUri);
+//            helper.addMediaItem(mediaItem);
+//            helper.prepare();
+//            helper.setPlayWhenReady(true);
+//            helper.setVolume(0);
+//            PlayerViewAdapter.Companion.loadVideo(playerView,item.getFile(),playerStateCallback,position,true,volumebt);
+
+
+
             // val uri = Uri.parse(linkUrl)
             userId = SharedPrefEnc.getPref(app, "user_id");
             apiInterface = NetworkModule.Companion.getClient().create(WebApi.class);
@@ -388,17 +440,21 @@ public class SimpleExoPlayerViewHolder extends RecyclerView.ViewHolder implement
             });
 
 
-            playerView.getVideoSurfaceView().setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (!item.getFile_extension_type().equals("image")) {
-                        Intent intent = new Intent(playerView.getContext(), PlayPostActivity.class);
-                        intent.putExtra("influencer_code", item.getProfile_influencer_code());
-                        intent.putExtra("post_id", item.getPost_id());
-                        playerView.getContext().startActivity(intent);
-                    }
+            playerView.getVideoSurfaceView().setOnClickListener(v->{
+                if (!item.getFile_extension_type().equals("image")) {
+                    Intent intent = new Intent(playerView.getContext(), PlayPostActivity.class);
+                    intent.putExtra("influencer_code", item.getProfile_influencer_code());
+                    intent.putExtra("post_id", item.getPost_id());
+                    playerView.getContext().startActivity(intent);
                 }
             });
+
+           /* playerView.getVideoSurfaceView().setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                }
+            });*/
 
 
             postShareText.setOnClickListener(v -> {
@@ -548,7 +604,7 @@ public class SimpleExoPlayerViewHolder extends RecyclerView.ViewHolder implement
         });
     }
 
-    @NonNull
+    /*@NonNull
     @Override
     public View getPlayerView() {
         return playerView;
@@ -569,9 +625,6 @@ public class SimpleExoPlayerViewHolder extends RecyclerView.ViewHolder implement
 
 
             helper.addEventListener(new Playable.EventListener() {
-                @Override
-                public void onTimelineChanged(Timeline timeline, @Nullable Object manifest, int reason) {
-                }
 
                 @Override
                 public void onTracksChanged(TrackGroupArray trackGroups, TrackSelectionArray trackSelections) {
@@ -623,10 +676,6 @@ public class SimpleExoPlayerViewHolder extends RecyclerView.ViewHolder implement
 
                 }
 
-                @Override
-                public void onPlayerError(ExoPlaybackException error) {
-
-                }
 
                 @Override
                 public void onPositionDiscontinuity(int reason) {
@@ -681,7 +730,7 @@ public class SimpleExoPlayerViewHolder extends RecyclerView.ViewHolder implement
     public void play() {
         if (helper != null) {
             Log.e("TAG", "initializedd play: " );
-            helper.play();
+//            helper.play();
         }
 
 
@@ -712,7 +761,7 @@ public class SimpleExoPlayerViewHolder extends RecyclerView.ViewHolder implement
     @Override
     public int getPlayerOrder() {
         return getAdapterPosition();
-    }
+    }*/
 
     public static void makeTextViewResizable(final TextView tv, final int maxLine, final String expandText, final boolean viewMore) {
 

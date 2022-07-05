@@ -14,7 +14,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.google.android.exoplayer2.ExoPlayerFactory
+//import com.google.android.exoplayer2.ExoPlayerFactory
 import com.google.android.exoplayer2.Player
 import com.google.android.exoplayer2.SimpleExoPlayer
 import com.google.android.exoplayer2.source.ProgressiveMediaSource
@@ -91,6 +91,7 @@ class StoryViewFragment : Fragment(R.layout.layout_story_view) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        android.util.Log.e("TAG", "onViewCreated: ", )
         var repository = RollsRepository(requireActivity().application)
         var factory = RollsViewModelFactory(repository)
         viewModel = ViewModelProvider(this, factory).get(RollsViewModel::class.java)
@@ -148,7 +149,7 @@ class StoryViewFragment : Fragment(R.layout.layout_story_view) {
             user_unfollows.visibility = View.VISIBLE
         }
 
-        player_view_story.getVideoSurfaceView().setOnClickListener {
+        player_view_story.getVideoSurfaceView()?.setOnClickListener {
             if (simplePlayer?.isPlaying!!) {
                 simplePlayer?.playWhenReady = false
             } else {
@@ -298,18 +299,16 @@ class StoryViewFragment : Fragment(R.layout.layout_story_view) {
 
         }
 
-        override fun onPlayerError(error: com.google.android.exoplayer2.ExoPlaybackException?) {
-            super.onPlayerError(error)
-        }
+
     }
 
     private fun prepareVideoPlayer() {
-        simplePlayer = ExoPlayerFactory.newSimpleInstance(context)
+        simplePlayer = SimpleExoPlayer.Builder(context!!).build()
         cacheDataSourceFactory = CacheDataSourceFactory(
-            simpleCache,
+            simpleCache!!,
             DefaultHttpDataSourceFactory(
                 Util.getUserAgent(
-                    context,
+                    context!!,
                     "exo"
                 )
             )
@@ -329,12 +328,12 @@ class StoryViewFragment : Fragment(R.layout.layout_story_view) {
         val uri = Uri.parse(linkUrl)
 
         val mediaSource =
-            ProgressiveMediaSource.Factory(cacheDataSourceFactory).createMediaSource(uri)
+            ProgressiveMediaSource.Factory(cacheDataSourceFactory!!).createMediaSource(uri)
 
         simplePlayer?.prepare(mediaSource, true, true)
         simplePlayer?.repeatMode = Player.REPEAT_MODE_ONE
         // simplePlayer?.playWhenReady = true
-        simplePlayer?.addListener(playerCallback)
+        simplePlayer?.addListener(playerCallback!!)
 
         toPlayVideoPosition = -1
     }

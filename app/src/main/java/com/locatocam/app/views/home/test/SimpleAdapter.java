@@ -17,6 +17,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
@@ -33,10 +34,13 @@ import com.locatocam.app.data.responses.feed.TopBrandDetail;
 import com.locatocam.app.di.module.NetworkModule;
 import com.locatocam.app.network.WebApi;
 import com.locatocam.app.security.SharedPrefEnc;
+import com.locatocam.app.utility.PlayerViewAdapter;
 import com.locatocam.app.views.home.HomeFragment;
 import com.locatocam.app.views.home.header.HeaderFragment;
 
 import net.minidev.json.JSONObject;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
@@ -84,6 +88,14 @@ public class SimpleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         this.mediaList.addAll(newitems);
         notifyDataSetChanged();
     }
+    @Override
+    public void onViewRecycled(@NonNull @NotNull RecyclerView.ViewHolder holder) {
+
+        int position = holder.getAbsoluteAdapterPosition();
+        PlayerViewAdapter.Companion.releaseRecycledPlayers(position);
+
+        super.onViewRecycled(holder);
+    }
 
     public void notifyDataChanged() {
         notifyDataSetChanged();
@@ -126,7 +138,6 @@ public class SimpleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         if (holder instanceof SimpleExoPlayerViewHolder) {
 
             ((SimpleExoPlayerViewHolder) holder).bind(mediaList.get(position), simpleEvents, position, postCountData, follow, context);
-
 
             String userid = SharedPrefEnc.getPref(context, "user_id");
             Log.e("TAGgg", "onBindViewHolder: " + userid);

@@ -10,6 +10,10 @@ class Constant {
         const val USER_TYPE = "user"
         const val COMPANY_TYPE = "company"
         const val CUSTOMER_TYPE = "customer"
+        var videoMute = true
+        var VOLUME = 0f
+
+
 
     }
 
