@@ -1,5 +1,5 @@
 package com.locatocam.app.views.settings.settingInterface
 
 interface SettingClickListener {
-    fun unblock()
+    fun unblock(userName:String,userId:String)
 }

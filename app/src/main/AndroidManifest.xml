@@ -17,6 +17,11 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="m">
         <activity
+            android:name=".views.settings.influencerDashboard.ChangeInfluencerActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/ThemeNoActionBar" />
+        <activity
             android:name=".views.settings.adapters.aboutUs.TermsConditionActivity"
             android:exported="false"
             android:screenOrientation="portrait"

@@ -22,7 +22,7 @@
             android:orientation="vertical"
             android:layout_marginLeft="5dp"
             android:layout_width="0dp"
-            android:layout_weight="1"
+            android:layout_weight="3"
             android:layout_height="match_parent">
 
             <TextView
@@ -42,15 +42,19 @@
                 android:textColor="@color/black"
                 android:textSize="12sp" />
         </LinearLayout>
-
-        <TextView
-            android:id="@+id/follow"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
+        <androidx.appcompat.widget.AppCompatButton
             android:layout_toRightOf="@+id/linearDetalis"
-            android:layout_weight="3"
+            android:id="@+id/remove"
+            android:layout_width="0dp"
+            android:layout_weight="0.6"
+            android:layout_height="25dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/button_rnd_red"
+            android:text="Remove"
             android:textColor="@color/red"
-            android:textSize="12sp"
-            app:backgroundTint="@null" />
+            android:textSize="8sp"
+            app:backgroundTint="@null"/>
     </LinearLayout>
 </RelativeLayout>

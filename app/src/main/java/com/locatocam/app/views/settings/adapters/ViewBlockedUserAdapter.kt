@@ -15,9 +15,12 @@ import com.bumptech.glide.Glide
 import com.locatocam.app.R
 import com.locatocam.app.data.responses.followers.*
 import com.locatocam.app.data.responses.settings.ViewBlockUserData
+import com.locatocam.app.views.settings.settingInterface.SettingClickListener
 import dagger.hilt.android.lifecycle.HiltViewModel
 import java.util.*
-class ViewBlockedUserAdapter(val data:List<ViewBlockUserData>,private val context: Context):
+class ViewBlockedUserAdapter(val data:List<ViewBlockUserData>,private val context: Context,
+                             private val click: SettingClickListener
+):
     RecyclerView.Adapter<ViewBlockedUserAdapter.ItemViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
         var view:View= LayoutInflater.from(parent.context).inflate(R.layout.row_layout_view_blocked_user,parent,false,)
@@ -27,15 +30,15 @@ class ViewBlockedUserAdapter(val data:List<ViewBlockUserData>,private val contex
 
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
         var item=data.get(position)
-            holder.name.setText(item.user_name)
-            holder.type.setText(item.last_active_on)
+        holder.name.setText(item.user_name)
+        holder.type.setText(item.last_active_on)
 
-            Glide.with(holder.itemView.context)
-                .load(item.user_photo)
-                .centerCrop()
-                .into(holder.image);
+        Glide.with(holder.itemView.context)
+            .load(item.user_photo)
+            .centerCrop()
+            .into(holder.image);
         holder.unblock.setOnClickListener {
-
+            click.unblock(item.user_name,item.user_id)
         }
 
     }

@@ -76,7 +76,6 @@ class MyPostReelsApprovalPendingActivity : AppCompatActivity(),CompanyPendingCli
             currentPageNumber.clear()
             pendingPosts.clear()
             initMyPendingRecyclerView()
-            //setdataPendingPost(type,process)
             binding.selectedType.text="List of Post Pending For Approval"
             binding.pending.setBackgroundResource(R.drawable.button_rnd_red_filled_oval)
             binding.approved.setBackgroundResource(R.drawable.oval_red_border)
@@ -90,6 +89,7 @@ class MyPostReelsApprovalPendingActivity : AppCompatActivity(),CompanyPendingCli
             binding.rolls.setTextColor(Color.parseColor("#AC0000"))
             binding.brandPending.setBackgroundResource(R.drawable.oval_red_border)
             binding.brandPending.setTextColor(Color.parseColor("#AC0000"))
+            binding.brandPending.visibility=View.VISIBLE
         }
         binding.approved.setOnClickListener {
             isLoading = false
@@ -115,6 +115,7 @@ class MyPostReelsApprovalPendingActivity : AppCompatActivity(),CompanyPendingCli
             binding.brandPending.setTextColor(Color.parseColor("#AC0000"))
             binding.brandPending.setBackgroundResource(R.drawable.oval_red_border)
             binding.brandPending.setTextColor(Color.parseColor("#AC0000"))
+            binding.brandPending.visibility=View.GONE
         }
         binding.rejected.setOnClickListener {
             isLoading = false
@@ -125,7 +126,6 @@ class MyPostReelsApprovalPendingActivity : AppCompatActivity(),CompanyPendingCli
             currentPageNumber.clear()
             rejectPosts.clear()
             initMyRejectRecyclerView()
-            //setdataRejectedPost(type,process)
             binding.selectedType.text="List of Post Pending For Approval"
             binding.pending.setBackgroundResource(R.drawable.oval_red_border)
             binding.approved.setBackgroundResource(R.drawable.oval_red_border)
@@ -140,6 +140,7 @@ class MyPostReelsApprovalPendingActivity : AppCompatActivity(),CompanyPendingCli
             binding.brandPending.setTextColor(Color.parseColor("#AC0000"))
             binding.brandPending.setBackgroundResource(R.drawable.oval_red_border)
             binding.brandPending.setTextColor(Color.parseColor("#AC0000"))
+            binding.brandPending.visibility=View.GONE
         }
         binding.post.setOnClickListener {
             isLoading = false
@@ -150,17 +151,14 @@ class MyPostReelsApprovalPendingActivity : AppCompatActivity(),CompanyPendingCli
             if(process=="pending") {
                 pendingPosts.clear()
                 initMyPendingRecyclerView()
-                //setdataPendingPost(type, process)
             }
             else if(process=="approved"){
                 appovedPosts.clear()
                 initMyApprovedRecyclerView()
-                // setdataApprovedPost(type,process)
             }
             else{
                 rejectPosts.clear()
                 initMyRejectRecyclerView()
-                //setdataRejectedPost(type,process)
             }
             binding.post.setBackgroundResource(R.drawable.button_rnd_red_filled_oval)
             binding.rolls.setBackgroundResource(R.drawable.oval_red_border)
@@ -180,17 +178,14 @@ class MyPostReelsApprovalPendingActivity : AppCompatActivity(),CompanyPendingCli
             if(process=="pending") {
                 pendingPosts.clear()
                 initMyPendingRecyclerView()
-                //setdataPendingPost(type, process)
             }
             else if(process=="approved"){
                 appovedPosts.clear()
                 initMyApprovedRecyclerView()
-                //setdataApprovedPost(type,process)
             }
             else{
                 rejectPosts.clear()
                 initMyRejectRecyclerView()
-                //setdataRejectedPost(type,process)
             }
             binding.brandPending.setBackgroundResource(R.drawable.oval_red_border)
             binding.post.setBackgroundResource(R.drawable.oval_red_border)
@@ -208,17 +203,6 @@ class MyPostReelsApprovalPendingActivity : AppCompatActivity(),CompanyPendingCli
             if(process=="pending") {
                 pendingPosts.clear()
                 initMyPendingRecyclerView()
-                //setdataPendingPost(type, process)
-            }
-            else if(process=="approved"){
-                appovedPosts.clear()
-                initMyApprovedRecyclerView()
-                // setdataApprovedPost(type,process)
-            }
-            else{
-                rejectPosts.clear()
-                initMyRejectRecyclerView()
-                //setdataRejectedPost(type,process)
             }
             binding.brandPending.setBackgroundResource(R.drawable.button_rnd_red_filled_oval)
             binding.rolls.setBackgroundResource(R.drawable.oval_red_border)
@@ -280,11 +264,21 @@ class MyPostReelsApprovalPendingActivity : AppCompatActivity(),CompanyPendingCli
         }
         pageDetails.currentPage = pageNumber
         currentPage = pageNumber
-        val reqViewApproval= ReqViewApproval(
-            pageNumber.toString(), process,
-            type,
-            user_id.toString()
-        )
+        var reqViewApproval:ReqViewApproval
+        if(type.equals("brand_pending")){
+            reqViewApproval=ReqViewApproval(
+                pageNumber.toString(), "brand_pending",
+                "post",
+                user_id.toString()
+            )
+        }
+        else {
+            reqViewApproval = ReqViewApproval(
+                pageNumber.toString(), process,
+                type,
+                user_id.toString()
+            )
+        }
         Log.i("egeegggg",process+":"+type)
         lifecycleScope.launch {
             viewModel.getMyPostReelsPendingList(reqViewApproval).collect {
@@ -296,7 +290,7 @@ class MyPostReelsApprovalPendingActivity : AppCompatActivity(),CompanyPendingCli
                             lateinit var viewPendingLIst: DataX
                             viewPendingLIst =  it.data?.data ?: viewPendingLIst
                             totalCount = viewPendingLIst.post
-                            pendingPosts.addAll(viewPendingLIst.details)
+                            pendingPosts.addAll(viewPendingLIst.details!!)
                             val pendingApprovalAdapter = CompanyPendingPostApprovalAdapter(
                                 pendingPosts,
                                 applicationContext,this@MyPostReelsApprovalPendingActivity)
@@ -317,7 +311,7 @@ class MyPostReelsApprovalPendingActivity : AppCompatActivity(),CompanyPendingCli
                             MainActivity.binding.loader.visibility= View.GONE
                             lateinit var viewPendingLIst: DataX
                             totalCount = viewPendingLIst.rolls
-                            pendingPosts.addAll(viewPendingLIst.details)
+                            pendingPosts.addAll(viewPendingLIst.details!!)
                             val pendingRollsApprovalAdapter = CompanyPendingRollsApprovalAdapter(pendingPosts,
                                 applicationContext,this@MyPostReelsApprovalPendingActivity)
                             binding.Pendinglist.adapter = pendingRollsApprovalAdapter
@@ -612,26 +606,26 @@ class MyPostReelsApprovalPendingActivity : AppCompatActivity(),CompanyPendingCli
                             binding.brandPending.text="Brand Pending("+viewRejectedLIst.brand_pending+")"
                         }
                         if(type.equals("brand_pending")) {
-                           /* lateinit var viewRejectedLIst: Data
-                            viewRejectedLIst =  it.data?.data ?: viewRejectedLIst
-                            totalCount = viewRejectedLIst.post
-                            rejectPosts.addAll(viewRejectedLIst.details)
-                            val rejectedPostApprovalsAdapter = CompanyRejectedPostApprovalsAdapter(
-                                rejectPosts,
-                                applicationContext,this@MyPostReelsApprovalPendingActivity
-                            )
-                            binding.Rejectedlist.adapter = rejectedPostApprovalsAdapter
-                            rejectedPostApprovalsAdapter.notifyDataSetChanged()
-                            if(pageNumber>0) {
-                                val scrollPosition = pageNumber * 11
-                                binding.Rejectedlist.scrollToPosition(scrollPosition)
-                            }
-                            binding.pending.text="Pending("+viewRejectedLIst.pending+")"
-                            binding.approved.text="Approved("+viewRejectedLIst.approved+")"
-                            binding.rejected.text="Rejected("+viewRejectedLIst.rejected+")"
-                            binding.post.text="Post("+viewRejectedLIst.post+")"
-                            binding.rolls.text="Rolls("+viewRejectedLIst.rolls+")"
-                            binding.brandPending.text="Brand Pending("+viewRejectedLIst.brand_pending+")"*/
+                            /* lateinit var viewRejectedLIst: Data
+                             viewRejectedLIst =  it.data?.data ?: viewRejectedLIst
+                             totalCount = viewRejectedLIst.post
+                             rejectPosts.addAll(viewRejectedLIst.details)
+                             val rejectedPostApprovalsAdapter = CompanyRejectedPostApprovalsAdapter(
+                                 rejectPosts,
+                                 applicationContext,this@MyPostReelsApprovalPendingActivity
+                             )
+                             binding.Rejectedlist.adapter = rejectedPostApprovalsAdapter
+                             rejectedPostApprovalsAdapter.notifyDataSetChanged()
+                             if(pageNumber>0) {
+                                 val scrollPosition = pageNumber * 11
+                                 binding.Rejectedlist.scrollToPosition(scrollPosition)
+                             }
+                             binding.pending.text="Pending("+viewRejectedLIst.pending+")"
+                             binding.approved.text="Approved("+viewRejectedLIst.approved+")"
+                             binding.rejected.text="Rejected("+viewRejectedLIst.rejected+")"
+                             binding.post.text="Post("+viewRejectedLIst.post+")"
+                             binding.rolls.text="Rolls("+viewRejectedLIst.rolls+")"
+                             binding.brandPending.text="Brand Pending("+viewRejectedLIst.brand_pending+")"*/
                         }
                         pageDetails.totalPages = totalCount/pageSize
                         pageDetails.totalPages = if(totalCount%pageSize ==0) pageDetails.totalPages else pageDetails.totalPages +1
