@@ -79,8 +79,8 @@ class FollowersActivity : AppCompatActivity(), Follower {
             when(it){
                 "influencer_followers"->{
                    val adapter=InfluencerFollowersAdapter(data!!?.influencer_followers,this@FollowersActivity)
-                   binding.recyclerview.adapter=adapter
-                    Log.i("typee","influencer_followers"+data!!?.influencer_followers_count)
+                     binding.recyclerview.adapter=adapter
+                      Log.i("typee","influencer_followers"+data!!?.influencer_followers_count)
                      followers= data!!?.influencer_followers_count
                      following= data!!?.influencer_following_count
                 }
