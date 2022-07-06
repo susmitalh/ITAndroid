@@ -15,7 +15,11 @@ import java.util.*
 class InfluencerFollowersAdapter(val data:List<Any>,private val click: Follower):
     RecyclerView.Adapter<InfluencerFollowersAdapter.ItemViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
-        var view:View= LayoutInflater.from(parent.context).inflate(R.layout.row_layout_followers_1,parent,false,)
+        var view:View= LayoutInflater.from(parent.context).inflate(
+            R.layout.row_layout_followers_1,
+            parent,
+            false
+        )
 
         return ItemViewHolder(view)
     }
@@ -100,3 +104,4 @@ class InfluencerFollowersAdapter(val data:List<Any>,private val click: Follower)
 
     }
 }
+

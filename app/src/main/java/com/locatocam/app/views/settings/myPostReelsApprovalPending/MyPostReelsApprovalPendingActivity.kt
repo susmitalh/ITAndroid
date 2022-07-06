@@ -206,7 +206,7 @@ class MyPostReelsApprovalPendingActivity : AppCompatActivity(),CompanyPendingCli
             }
             binding.brandPending.setBackgroundResource(R.drawable.button_rnd_red_filled_oval)
             binding.rolls.setBackgroundResource(R.drawable.oval_red_border)
-            binding.brandPending.setBackgroundResource(R.drawable.oval_red_border)
+            binding.post.setBackgroundResource(R.drawable.oval_red_border)
             binding.brandPending.setTextColor(Color.parseColor("#FFFFFFFF"))
             binding.rolls.setTextColor(Color.parseColor("#AC0000"))
             binding.post.setTextColor(Color.parseColor("#AC0000"))
@@ -310,6 +310,7 @@ class MyPostReelsApprovalPendingActivity : AppCompatActivity(),CompanyPendingCli
                         else if(type.equals("rolls")){
                             binding.loader.visibility= View.GONE
                             lateinit var viewPendingLIst: DataX
+                            viewPendingLIst =  it.data?.data ?: viewPendingLIst
                             totalCount = viewPendingLIst.rolls
                             pendingPosts.addAll(viewPendingLIst.details!!)
                             val pendingRollsApprovalAdapter = CompanyPendingRollsApprovalAdapter(pendingPosts,

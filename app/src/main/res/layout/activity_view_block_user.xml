@@ -30,6 +30,7 @@
                     android:textSize="10sp" />
 
                 <TextView
+                    android:text="View Block User"
                     android:id="@+id/tittle"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"

@@ -171,8 +171,10 @@ class ViewApprovalActivity : AppCompatActivity(),ApprovedClickEvents, PendingCli
             }
             binding.post.setBackgroundResource(R.drawable.button_rnd_red_filled_oval)
             binding.rolls.setBackgroundResource(R.drawable.oval_red_border)
+            binding.brandPending.setBackgroundResource(R.drawable.oval_red_border)
             binding.post.setTextColor(Color.parseColor("#FFFFFFFF"))
             binding.rolls.setTextColor(Color.parseColor("#AC0000"))
+            binding.brandPending.setTextColor(Color.parseColor("#AC0000"))
 
         }
         binding.rolls.setOnClickListener {
@@ -194,9 +196,11 @@ class ViewApprovalActivity : AppCompatActivity(),ApprovedClickEvents, PendingCli
                 rejectPosts.clear()
                 initMyRejectRecyclerView()
             }
+            binding.brandPending.setBackgroundResource(R.drawable.oval_red_border)
             binding.post.setBackgroundResource(R.drawable.oval_red_border)
             binding.rolls.setBackgroundResource(R.drawable.button_rnd_red_filled_oval)
             binding.post.setTextColor(Color.parseColor("#AC0000"))
+            binding.brandPending.setTextColor(Color.parseColor("#AC0000"))
             binding.rolls.setTextColor(Color.parseColor("#FFFFFFFF"))
         }
         binding.brandPending.setOnClickListener {

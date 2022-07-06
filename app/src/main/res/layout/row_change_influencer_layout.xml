@@ -8,11 +8,12 @@
     <LinearLayout
         android:layout_margin="@dimen/_5sdp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="30dp"
         android:background="@drawable/border_grey"
         android:orientation="vertical">
 
         <ImageView
+            android:layout_margin="@dimen/_5sdp"
             android:scaleType="centerCrop"
             android:id="@+id/imagview"
             android:layout_width="match_parent"
@@ -27,7 +28,7 @@
         <LinearLayout
             android:id="@+id/social_layout"
             android:layout_width="match_parent"
-            android:layout_height="30dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:gravity="center"
             android:orientation="horizontal">

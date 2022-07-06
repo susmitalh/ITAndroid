@@ -115,7 +115,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <androidx.appcompat.widget.AppCompatButton
-                    android:textSize="11sp"
+                    android:textSize="10sp"
                     android:visibility="visible"
                     android:id="@+id/brandPending"
                     android:layout_width="0dp"
@@ -129,7 +129,7 @@
                     android:textAllCaps="false"
                     android:textColor="@color/red" />
                 <androidx.appcompat.widget.AppCompatButton
-                    android:textSize="11sp"
+                    android:textSize="10sp"
                     android:id="@+id/post"
                     android:layout_width="0dp"
                     android:layout_weight="1"
@@ -142,7 +142,7 @@
                     android:textAllCaps="false"
                     android:textColor="@color/white" />
                 <androidx.appcompat.widget.AppCompatButton
-                    android:textSize="11sp"
+                    android:textSize="10sp"
                     android:id="@+id/rolls"
                     android:layout_width="0dp"
                     android:layout_weight="1"
