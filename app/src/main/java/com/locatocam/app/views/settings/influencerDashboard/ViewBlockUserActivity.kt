@@ -72,21 +72,21 @@ class ViewBlockUserActivity : AppCompatActivity(),SettingClickListener {
             viewModel.respViewBlockUSerList.collect {
                 when(it.status){
                     Status.SUCCESS -> {
-                        MainActivity.binding.loader.visibility= View.GONE
+                        binding.loader.visibility= View.GONE
                         //showProgress(false,"")
                         viewBlockList = it.data?.data ?: viewBlockList
                         val adapter= ViewBlockedUserAdapter(viewBlockList,applicationContext,this@ViewBlockUserActivity)
                         binding.recyclerview.adapter=adapter
                     }
                     Status.LOADING -> {
-                        MainActivity.binding.loader.visibility= View.VISIBLE
+                        binding.loader.visibility= View.VISIBLE
                         //showProgress(true,"Fetching Data")
 
 
                         Log.e("stateList", "Loading")
                     }
                     Status.ERROR -> {
-                        MainActivity.binding.loader.visibility= View.GONE
+                        binding.loader.visibility= View.GONE
                         //showProgress(false,"")
 
 
@@ -142,13 +142,13 @@ class ViewBlockUserActivity : AppCompatActivity(),SettingClickListener {
             viewModel.respBlockedUser.collect {
                 when(it.status){
                     Status.SUCCESS -> {
-                        MainActivity.binding.loader.visibility= View.GONE
+                        binding.loader.visibility= View.GONE
                     }
                     Status.LOADING -> {
-                        MainActivity.binding.loader.visibility= View.VISIBLE
+                        binding.loader.visibility= View.VISIBLE
                     }
                     Status.ERROR -> {
-                        MainActivity.binding.loader.visibility= View.GONE
+                        binding.loader.visibility= View.GONE
                         //showProgress(false,"")
 
                     }

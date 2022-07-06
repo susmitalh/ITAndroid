@@ -291,7 +291,7 @@ class ViewApprovalActivity : AppCompatActivity(),ApprovedClickEvents, PendingCli
                 when(it.status){
                     Status.SUCCESS -> {
                         var totalCount =0;
-                        MainActivity.binding.loader.visibility= View.GONE
+                        binding.loader.visibility= View.GONE
                         if(type.equals("post")) {
                             lateinit var viewPendingLIst: DataX
                             viewPendingLIst =  it.data?.data ?: viewPendingLIst
@@ -314,7 +314,7 @@ class ViewApprovalActivity : AppCompatActivity(),ApprovedClickEvents, PendingCli
                         }
                         else if(type.equals("rolls")){
                             lateinit var viewPendingLIst: DataX
-                            MainActivity.binding.loader.visibility= View.GONE
+                            binding.loader.visibility= View.GONE
                             viewPendingLIst =  it.data?.data ?: viewPendingLIst
                             totalCount = viewPendingLIst.rolls
                             pendingPosts.addAll(viewPendingLIst.details)
@@ -360,13 +360,13 @@ class ViewApprovalActivity : AppCompatActivity(),ApprovedClickEvents, PendingCli
                     }
                     Status.LOADING -> {
                         hideLoader()
-                        //MainActivity.binding.loader.visibility= View.VISIBLE
+                        binding.loader.visibility= View.VISIBLE
                         //showProgress(true,"Fetching Data")
                         Log.e("stateList", "Loading")
                     }
                     Status.ERROR -> {
                         hideLoader()
-                        MainActivity.binding.loader.visibility= View.GONE
+                        binding.loader.visibility= View.GONE
                         //showProgress(false,"")
                         Log.e("stateList", it.message.toString())
                     }
@@ -429,7 +429,7 @@ class ViewApprovalActivity : AppCompatActivity(),ApprovedClickEvents, PendingCli
                 when(it.status){
                     Status.SUCCESS -> {
                         var totalCount =0
-                        MainActivity.binding.loader.visibility= View.GONE
+                        binding.loader.visibility= View.GONE
                         if(type.equals("post")) {
                             lateinit var viewRejectedLIst: Data
                             viewRejectedLIst =  it.data?.data ?: viewRejectedLIst
@@ -451,7 +451,7 @@ class ViewApprovalActivity : AppCompatActivity(),ApprovedClickEvents, PendingCli
                         }
                         else if(type.equals("rolls")) {
                             lateinit var viewRejectedLIst: Data
-                            MainActivity.binding.loader.visibility= View.GONE
+                            binding.loader.visibility= View.GONE
                             viewRejectedLIst =  it.data?.data ?: viewRejectedLIst
                             totalCount = viewRejectedLIst.rolls
                             rejectPosts.addAll(viewRejectedLIst.details)
@@ -476,12 +476,12 @@ class ViewApprovalActivity : AppCompatActivity(),ApprovedClickEvents, PendingCli
                         isLastPage = pageNumber + 1 == totalPages
                     }
                     Status.LOADING -> {
-                        MainActivity.binding.loader.visibility= View.VISIBLE
+                        binding.loader.visibility= View.VISIBLE
                         //showProgress(true,"Fetching Data")
                         Log.e("stateList", "Loading")
                     }
                     Status.ERROR -> {
-                        MainActivity.binding.loader.visibility= View.GONE
+                        binding.loader.visibility= View.GONE
                         //showProgress(false,"")
                         Log.e("stateList", it.message.toString())
                     }
@@ -608,7 +608,7 @@ class ViewApprovalActivity : AppCompatActivity(),ApprovedClickEvents, PendingCli
             viewModel.postReject(reqReject).collect {
                 when(it.status){
                     Status.SUCCESS -> {
-                        MainActivity.binding.loader.visibility= View.GONE
+                        binding.loader.visibility= View.GONE
                         if(process.equals("pending")) {
                             isLoading = false
                             isLastPage = false
@@ -635,12 +635,12 @@ class ViewApprovalActivity : AppCompatActivity(),ApprovedClickEvents, PendingCli
                         }
                     }
                     Status.LOADING -> {
-                        MainActivity.binding.loader.visibility= View.VISIBLE
+                        binding.loader.visibility= View.VISIBLE
                         //showProgress(true,"Fetching Data")
                         Log.e("stateList", "Loading")
                     }
                     Status.ERROR -> {
-                        MainActivity.binding.loader.visibility= View.GONE
+                        binding.loader.visibility= View.GONE
                         //showProgress(false,"")
                         Log.e("stateList", it.message.toString())
                     }
@@ -676,7 +676,7 @@ class ViewApprovalActivity : AppCompatActivity(),ApprovedClickEvents, PendingCli
             viewModel.postApprove(reqApprove).collect {
                 when(it.status){
                     Status.SUCCESS -> {
-                        MainActivity.binding.loader.visibility= View.GONE
+                        binding.loader.visibility= View.GONE
                         if(process.equals("pending")) {
                             isLoading = false
                             isLastPage = false
@@ -703,12 +703,12 @@ class ViewApprovalActivity : AppCompatActivity(),ApprovedClickEvents, PendingCli
                         }
                     }
                     Status.LOADING -> {
-                        MainActivity.binding.loader.visibility= View.VISIBLE
+                        binding.loader.visibility= View.VISIBLE
                         //showProgress(true,"Fetching Data")
                         Log.e("stateList", "Loading")
                     }
                     Status.ERROR -> {
-                        MainActivity.binding.loader.visibility= View.GONE
+                        binding.loader.visibility= View.GONE
                         //showProgress(false,"")
                         Log.e("stateList", it.message.toString())
                     }
@@ -747,7 +747,7 @@ class ViewApprovalActivity : AppCompatActivity(),ApprovedClickEvents, PendingCli
             viewModel.postrepost(reqApprove).collect {
                 when(it.status){
                     Status.SUCCESS -> {
-                        MainActivity.binding.loader.visibility= View.GONE
+                        binding.loader.visibility= View.GONE
                         if(process.equals("pending")) {
                             isLoading = false
                             isLastPage = false
@@ -774,12 +774,12 @@ class ViewApprovalActivity : AppCompatActivity(),ApprovedClickEvents, PendingCli
                         }
                     }
                     Status.LOADING -> {
-                        MainActivity.binding.loader.visibility= View.VISIBLE
+                        binding.loader.visibility= View.VISIBLE
                         //showProgress(true,"Fetching Data")
                         Log.e("stateList", "Loading")
                     }
                     Status.ERROR -> {
-                        MainActivity.binding.loader.visibility= View.GONE
+                        binding.loader.visibility= View.GONE
                         //showProgress(false,"")
                         Log.e("stateList", it.message.toString())
                     }
@@ -843,7 +843,7 @@ class ViewApprovalActivity : AppCompatActivity(),ApprovedClickEvents, PendingCli
                 when(it.status){
                     Status.SUCCESS -> {
                         var totalCount =0
-                        MainActivity.binding.loader.visibility= View.GONE
+                        binding.loader.visibility= View.GONE
                         if(type.equals("post")) {
                             lateinit var viewApprovedLIst: com.locatocam.app.data.responses.settings.Approved.DataX
                             viewApprovedLIst =  it.data?.data ?: viewApprovedLIst
@@ -891,12 +891,12 @@ class ViewApprovalActivity : AppCompatActivity(),ApprovedClickEvents, PendingCli
 
                     }
                     Status.LOADING -> {
-                        MainActivity.binding.loader.visibility= View.VISIBLE
+                        binding.loader.visibility= View.VISIBLE
                         //showProgress(true,"Fetching Data")
                         Log.e("stateList", "Loading")
                     }
                     Status.ERROR -> {
-                        MainActivity.binding.loader.visibility= View.GONE
+                        binding.loader.visibility= View.GONE
                         //showProgress(false,"")
                         Log.e("stateList", it.message.toString())
                     }
@@ -910,7 +910,7 @@ class ViewApprovalActivity : AppCompatActivity(),ApprovedClickEvents, PendingCli
         CoroutineScope(Dispatchers.Main).launch {
             delay(1000)
             Handler().postDelayed({
-                MainActivity.binding.loader.visibility= View.GONE
+                binding.loader.visibility= View.GONE
             },3000)
 
             MainActivity.binding.bttmNav.visibility=View.VISIBLE

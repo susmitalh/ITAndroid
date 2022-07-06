@@ -50,13 +50,13 @@ class TermsConditionActivity : AppCompatActivity() {
                             val url = "https://docs.google.com/viewer?url= $myPdfUrl"
                             binding.webView.loadUrl(url)
                         }
-                        MainActivity.binding.loader.visibility= View.GONE
+                        binding.loader.visibility= View.GONE
                     }
                     Status.LOADING -> {
-                        MainActivity.binding.loader.visibility= View.VISIBLE
+                        binding.loader.visibility= View.VISIBLE
                     }
                     Status.ERROR -> {
-                        MainActivity.binding.loader.visibility= View.GONE
+                        binding.loader.visibility= View.GONE
 
                     }
 

@@ -59,16 +59,16 @@ class ChangeInfluencerActivity : AppCompatActivity(), ChangeInfluencer {
             viewModel.getChangeInfluencer(reqOrders).collect {
                 when(it.status){
                     Status.SUCCESS -> {
-                        MainActivity.binding.loader.visibility= View.VISIBLE
+                        binding.loader.visibility= View.VISIBLE
                         val changeInfluencerAdapter =  ChangeInfluencerAdapter(it.data!!.data,application,this@ChangeInfluencerActivity)
                         binding.rec1.adapter = changeInfluencerAdapter
-                        MainActivity.binding.loader.visibility= View.GONE
+                        binding.loader.visibility= View.GONE
                     }
                     Status.LOADING -> {
-                        MainActivity.binding.loader.visibility= View.VISIBLE
+                        binding.loader.visibility= View.VISIBLE
                     }
                     Status.ERROR -> {
-                        MainActivity.binding.loader.visibility= View.GONE
+                        binding.loader.visibility= View.GONE
 
                     }
 
@@ -107,16 +107,16 @@ class ChangeInfluencerActivity : AppCompatActivity(), ChangeInfluencer {
             viewModel.reqChangeInfluencer(req).collect {
                 when(it.status){
                     Status.SUCCESS -> {
-                        MainActivity.binding.loader.visibility= View.GONE
+                        binding.loader.visibility= View.GONE
                         getYourOrdersList()
                     }
                     Status.LOADING -> {
-                        MainActivity.binding.loader.visibility= View.VISIBLE
+                        binding.loader.visibility= View.VISIBLE
                         //showProgress(true,"Fetching Data")
                         Log.e("stateList", "Loading")
                     }
                     Status.ERROR -> {
-                        MainActivity.binding.loader.visibility= View.GONE
+                        binding.loader.visibility= View.GONE
                         //showProgress(false,"")
                         Log.e("stateList", it.message.toString())
                     }

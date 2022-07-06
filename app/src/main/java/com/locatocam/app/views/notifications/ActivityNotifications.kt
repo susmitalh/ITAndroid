@@ -9,6 +9,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -111,6 +112,7 @@ class ActivityNotifications : AppCompatActivity() {
             viewmodel.mynotification.collect {
                 when (it.status) {
                     Status.SUCCESS -> {
+                        binding.loader.visibility= View.GONE
                         var totalCount =0;
                         totalCount = it.data!!?.data.size
                         pendingPosts.addAll(it.data!!?.data)
@@ -127,9 +129,11 @@ class ActivityNotifications : AppCompatActivity() {
                         isLastPage = pageNumber + 1 == totalPages
                     }
                     Status.LOADING -> {
+                        binding.loader.visibility= View.VISIBLE
                         Log.i("ki999","Loading")
                     }
                     Status.ERROR -> {
+                        binding.loader.visibility= View.GONE
                         Log.i("ki999",it.message.toString())
                         Toast.makeText(this@ActivityNotifications,it.message, Toast.LENGTH_LONG).show()
                     }

@@ -47,13 +47,13 @@ class PrivacyPolicyActivity : AppCompatActivity() {
                         } else {
                             binding.textview.text=Html.fromHtml(it.data?.data)
                         }
-                        MainActivity.binding.loader.visibility= View.GONE
+                        binding.loader.visibility= View.GONE
                     }
                     Status.LOADING -> {
-                        MainActivity.binding.loader.visibility= View.VISIBLE
+                        binding.loader.visibility= View.VISIBLE
                     }
                     Status.ERROR -> {
-                        MainActivity.binding.loader.visibility= View.GONE
+                        binding.loader.visibility= View.GONE
 
                     }
 

@@ -190,7 +190,7 @@ class PostReelsApprovalActivity : AppCompatActivity(),CompanyPendingClickEvents,
                         if(type.equals("post")) {
                             var totalCount =0
                             lateinit var viewPendingLIst: com.locatocam.app.data.responses.settings.companyPending.Data
-                            MainActivity.binding.loader.visibility= View.GONE
+                            binding.loader.visibility= View.GONE
                             viewPendingLIst =  it.data?.data ?: viewPendingLIst
                             totalCount = viewPendingLIst.pending
                             pendingPosts.addAll(viewPendingLIst.details)
@@ -213,12 +213,12 @@ class PostReelsApprovalActivity : AppCompatActivity(),CompanyPendingClickEvents,
 
                     }
                     Status.LOADING -> {
-                        MainActivity.binding.loader.visibility= View.VISIBLE
+                        binding.loader.visibility= View.VISIBLE
                         //showProgress(true,"Fetching Data")
                         Log.e("stateList", "Loading")
                     }
                     Status.ERROR -> {
-                        MainActivity.binding.loader.visibility= View.GONE
+                        binding.loader.visibility= View.GONE
                         //showProgress(false,"")
                         Log.e("stateList", it.message.toString())
                     }
@@ -280,7 +280,7 @@ class PostReelsApprovalActivity : AppCompatActivity(),CompanyPendingClickEvents,
                     Status.SUCCESS -> {
                         var totalCount =0
                             lateinit var viewApprovedLIst: com.locatocam.app.data.responses.settings.companyApproved.Data
-                            MainActivity.binding.loader.visibility= View.GONE
+                            binding.loader.visibility= View.GONE
                             viewApprovedLIst =  it.data?.data ?: viewApprovedLIst
                             totalCount = viewApprovedLIst.approved
                             appovedPosts.addAll(viewApprovedLIst.details)
@@ -301,12 +301,12 @@ class PostReelsApprovalActivity : AppCompatActivity(),CompanyPendingClickEvents,
                             isLastPage = pageNumber + 1 == totalPages
                     }
                     Status.LOADING -> {
-                        MainActivity.binding.loader.visibility= View.VISIBLE
+                        binding.loader.visibility= View.VISIBLE
                         //showProgress(true,"Fetching Data")
                         Log.e("stateList", "Loading")
                     }
                     Status.ERROR -> {
-                        MainActivity.binding.loader.visibility= View.GONE
+                        binding.loader.visibility= View.GONE
                         //showProgress(false,"")
                         Log.e("stateList", it.message.toString())
                     }
@@ -367,7 +367,7 @@ class PostReelsApprovalActivity : AppCompatActivity(),CompanyPendingClickEvents,
                     Status.SUCCESS -> {
                         var totalCount =0
                             lateinit var viewRejectedLIst: com.locatocam.app.data.responses.settings.companyRejected.Data
-                            MainActivity.binding.loader.visibility= View.GONE
+                            binding.loader.visibility= View.GONE
                             viewRejectedLIst =  it.data?.data ?: viewRejectedLIst
                             totalCount = viewRejectedLIst.rejected
                             rejectPosts.addAll(viewRejectedLIst.details)
@@ -392,12 +392,12 @@ class PostReelsApprovalActivity : AppCompatActivity(),CompanyPendingClickEvents,
 
                     }
                     Status.LOADING -> {
-                        MainActivity.binding.loader.visibility= View.VISIBLE
+                        binding.loader.visibility= View.VISIBLE
                         //showProgress(true,"Fetching Data")
                         Log.e("stateList", "Loading")
                     }
                     Status.ERROR -> {
-                        MainActivity.binding.loader.visibility= View.GONE
+                        binding.loader.visibility= View.GONE
                         //showProgress(false,"")
                         Log.e("stateList", it.message.toString())
                     }
@@ -439,7 +439,7 @@ class PostReelsApprovalActivity : AppCompatActivity(),CompanyPendingClickEvents,
             viewModel.postReject(reqReject).collect {
                 when(it.status){
                     Status.SUCCESS -> {
-                        MainActivity.binding.loader.visibility= View.GONE
+                        binding.loader.visibility= View.GONE
                         if(process=="pending") {
                             setComapanyPendingPost(type, process)
                         }
@@ -451,12 +451,12 @@ class PostReelsApprovalActivity : AppCompatActivity(),CompanyPendingClickEvents,
                         }
                     }
                     Status.LOADING -> {
-                        MainActivity.binding.loader.visibility= View.VISIBLE
+                        binding.loader.visibility= View.VISIBLE
                         //showProgress(true,"Fetching Data")
                         Log.e("stateList", "Loading")
                     }
                     Status.ERROR -> {
-                        MainActivity.binding.loader.visibility= View.GONE
+                        binding.loader.visibility= View.GONE
                         //showProgress(false,"")
                         Log.e("stateList", it.message.toString())
                     }
@@ -564,7 +564,7 @@ class PostReelsApprovalActivity : AppCompatActivity(),CompanyPendingClickEvents,
             viewModel.postCompanyReject(reqCompanyReject).collect {
                 when(it.status){
                     Status.SUCCESS -> {
-                        MainActivity.binding.loader.visibility= View.GONE
+                        binding.loader.visibility= View.GONE
                         if(process=="pending") {
                             isLoading = false
                             isLastPage = false
@@ -588,12 +588,12 @@ class PostReelsApprovalActivity : AppCompatActivity(),CompanyPendingClickEvents,
                         }
                     }
                     Status.LOADING -> {
-                        MainActivity.binding.loader.visibility= View.VISIBLE
+                        binding.loader.visibility= View.VISIBLE
                         //showProgress(true,"Fetching Data")
                         Log.e("stateList", "Loading")
                     }
                     Status.ERROR -> {
-                        MainActivity.binding.loader.visibility= View.GONE
+                        binding.loader.visibility= View.GONE
                         //showProgress(false,"")
                         Log.e("stateList", it.message.toString())
                     }
@@ -628,7 +628,7 @@ class PostReelsApprovalActivity : AppCompatActivity(),CompanyPendingClickEvents,
             viewModel.postCompanyApprove(reqApprove).collect {
                 when(it.status){
                     Status.SUCCESS -> {
-                        MainActivity.binding.loader.visibility= View.GONE
+                        binding.loader.visibility= View.GONE
                         if(process=="pending") {
                             isLoading = false
                             isLastPage = false
@@ -652,12 +652,12 @@ class PostReelsApprovalActivity : AppCompatActivity(),CompanyPendingClickEvents,
                         }
                     }
                     Status.LOADING -> {
-                        MainActivity.binding.loader.visibility= View.VISIBLE
+                        binding.loader.visibility= View.VISIBLE
                         //showProgress(true,"Fetching Data")
                         Log.e("stateList", "Loading")
                     }
                     Status.ERROR -> {
-                        MainActivity.binding.loader.visibility= View.GONE
+                        binding.loader.visibility= View.GONE
                         //showProgress(false,"")
                         Log.e("stateList", it.message.toString())
                     }
@@ -695,7 +695,7 @@ class PostReelsApprovalActivity : AppCompatActivity(),CompanyPendingClickEvents,
             viewModel.postCompanyRepost(reqApprove).collect {
                 when(it.status){
                     Status.SUCCESS -> {
-                        MainActivity.binding.loader.visibility= View.GONE
+                        binding.loader.visibility= View.GONE
                         if(process.equals("pending")) {
                             setComapanyPendingPost(type, process)
                         }
@@ -707,12 +707,12 @@ class PostReelsApprovalActivity : AppCompatActivity(),CompanyPendingClickEvents,
                         }
                     }
                     Status.LOADING -> {
-                        MainActivity.binding.loader.visibility= View.VISIBLE
+                        binding.loader.visibility= View.VISIBLE
                         //showProgress(true,"Fetching Data")
                         Log.e("stateList", "Loading")
                     }
                     Status.ERROR -> {
-                        MainActivity.binding.loader.visibility= View.GONE
+                        binding.loader.visibility= View.GONE
                         //showProgress(false,"")
                         Log.e("stateList", it.message.toString())
                     }

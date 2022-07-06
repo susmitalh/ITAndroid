@@ -50,16 +50,16 @@ class FavouiteOrdersActivity : AppCompatActivity() {
             viewmodel.getYourFavsList(reqOrders).collect {
                 when(it.status){
                     Status.SUCCESS -> {
-                        MainActivity.binding.loader.visibility= View.VISIBLE
+                        binding.loader.visibility= View.VISIBLE
                         val favouirteOrdersAdapter =  FavouirteOrdersAdapter(it.data!!.data,application)
                         binding.rec1.adapter = favouirteOrdersAdapter
-                        MainActivity.binding.loader.visibility= View.GONE
+                        binding.loader.visibility= View.GONE
                     }
                     Status.LOADING -> {
-                        MainActivity.binding.loader.visibility= View.VISIBLE
+                        binding.loader.visibility= View.VISIBLE
                     }
                     Status.ERROR -> {
-                        MainActivity.binding.loader.visibility= View.GONE
+                        binding.loader.visibility= View.GONE
 
                     }
 

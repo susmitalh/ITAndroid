@@ -285,7 +285,7 @@ class MyPostReelsApprovalPendingActivity : AppCompatActivity(),CompanyPendingCli
                 when(it.status){
                     Status.SUCCESS -> {
                         var totalCount =0
-                        MainActivity.binding.loader.visibility= View.GONE
+                        binding.loader.visibility= View.GONE
                         if(type.equals("post")) {
                             lateinit var viewPendingLIst: DataX
                             viewPendingLIst =  it.data?.data ?: viewPendingLIst
@@ -308,7 +308,7 @@ class MyPostReelsApprovalPendingActivity : AppCompatActivity(),CompanyPendingCli
                             binding.brandPending.text="Brand Pending("+viewPendingLIst.brand_pending+")"
                         }
                         else if(type.equals("rolls")){
-                            MainActivity.binding.loader.visibility= View.GONE
+                            binding.loader.visibility= View.GONE
                             lateinit var viewPendingLIst: DataX
                             totalCount = viewPendingLIst.rolls
                             pendingPosts.addAll(viewPendingLIst.details!!)
@@ -355,12 +355,12 @@ class MyPostReelsApprovalPendingActivity : AppCompatActivity(),CompanyPendingCli
 
                     }
                     Status.LOADING -> {
-                        MainActivity.binding.loader.visibility= View.VISIBLE
+                        binding.loader.visibility= View.VISIBLE
                         //showProgress(true,"Fetching Data")
                         Log.e("stateList", "Loading")
                     }
                     Status.ERROR -> {
-                        MainActivity.binding.loader.visibility= View.GONE
+                        binding.loader.visibility= View.GONE
                         //showProgress(false,"")
                         Log.e("stateList", it.message.toString())
                     }
@@ -421,7 +421,7 @@ class MyPostReelsApprovalPendingActivity : AppCompatActivity(),CompanyPendingCli
                 when(it.status){
                     Status.SUCCESS -> {
                         var totalCount =0
-                        MainActivity.binding.loader.visibility= View.GONE
+                        binding.loader.visibility= View.GONE
                         if(type.equals("post")) {
                             lateinit var viewApprovedLIst: com.locatocam.app.data.responses.settings.Approved.DataX
                             viewApprovedLIst =  it.data?.data ?: viewApprovedLIst
@@ -494,12 +494,12 @@ class MyPostReelsApprovalPendingActivity : AppCompatActivity(),CompanyPendingCli
 
                     }
                     Status.LOADING -> {
-                        MainActivity.binding.loader.visibility= View.VISIBLE
+                        binding.loader.visibility= View.VISIBLE
                         //showProgress(true,"Fetching Data")
                         Log.e("stateList", "Loading")
                     }
                     Status.ERROR -> {
-                        MainActivity.binding.loader.visibility= View.GONE
+                        binding.loader.visibility= View.GONE
                         //showProgress(false,"")
                         Log.e("stateList", it.message.toString())
                     }
@@ -560,7 +560,7 @@ class MyPostReelsApprovalPendingActivity : AppCompatActivity(),CompanyPendingCli
                 when(it.status){
                     Status.SUCCESS -> {
                         var totalCount =0
-                        MainActivity.binding.loader.visibility= View.GONE
+                        binding.loader.visibility= View.GONE
                         if(type.equals("post")) {
                             lateinit var viewRejectedLIst: Data
                             viewRejectedLIst =  it.data?.data ?: viewRejectedLIst
@@ -634,12 +634,12 @@ class MyPostReelsApprovalPendingActivity : AppCompatActivity(),CompanyPendingCli
 
                     }
                     Status.LOADING -> {
-                        MainActivity.binding.loader.visibility= View.VISIBLE
+                        binding.loader.visibility= View.VISIBLE
                         //showProgress(true,"Fetching Data")
                         Log.e("stateList", "Loading")
                     }
                     Status.ERROR -> {
-                        MainActivity.binding.loader.visibility= View.GONE
+                        binding.loader.visibility= View.GONE
                         //showProgress(false,"")
                         Log.e("stateList", it.message.toString())
                     }
