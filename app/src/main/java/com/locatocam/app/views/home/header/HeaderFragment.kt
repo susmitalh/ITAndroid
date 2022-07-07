@@ -449,7 +449,7 @@ class HeaderFragment : Fragment(), IHeaderEvents {
 
 
         HomeFragment.viewModel.searchType=searchId!!
-        (HomeFragment.binding.playerContainer.adapter as SimpleAdapter).mediaList.clear()
+        (HomeFragment.binding.playerContainer?.adapter as SimpleAdapter).mediaList.clear()
         HomeFragment.viewModel.offset=0
         HomeFragment.viewModel.lastid=0
         HomeFragment.influencerCode=influencerCode!!

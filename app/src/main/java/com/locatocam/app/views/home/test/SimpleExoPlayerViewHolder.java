@@ -170,8 +170,8 @@ public class SimpleExoPlayerViewHolder extends RecyclerView.ViewHolder {
             postShareBtn.setVisibility(View.VISIBLE);
         }
 
-        cacheDataSourceFactory = new CacheDataSourceFactory(simpleCache,
-                new DefaultHttpDataSourceFactory(Util.getUserAgent(shares.getContext(), "exo")));
+//        cacheDataSourceFactory = new CacheDataSourceFactory(simpleCache,
+//                new DefaultHttpDataSourceFactory(Util.getUserAgent(shares.getContext(), "exo")));
 
 
         /*volumebt.setOnClickListener(new View.OnClickListener() {
@@ -202,6 +202,12 @@ public class SimpleExoPlayerViewHolder extends RecyclerView.ViewHolder {
         if (item != null) {
 
 
+            feed_description.setText(item.getDescription());
+//            int a = feed_description.getLineCount();
+
+//            if (a >= 3) {
+                makeTextViewResizable(feed_description, 3, "Read More" + "", true);
+//            }
 
             Log.e("TAG", "onResponseSS: res "+item.getScreenshot() );
 
@@ -209,11 +215,11 @@ public class SimpleExoPlayerViewHolder extends RecyclerView.ViewHolder {
                 viewFeed.setVisibility(View.GONE);
                 HomeFragment.Companion.setHideView(false);
             }
-            if (item.getFile_extension_type().equals("image")){
+           /* if (item.getFile_extension_type().equals("image")){
 //                feed_image.setVisibility(View.VISIBLE);
 //                playerView.setVisibility(View.INVISIBLE);
                 Glide.with(context).load(item.getScreenshot()).into(thumbnile);
-            }
+            }*/
 
             mediaUri = Uri.parse(item.getFile());
             PlayerStateCallback playerStateCallback=new PlayerStateCallback() {
@@ -243,18 +249,8 @@ public class SimpleExoPlayerViewHolder extends RecyclerView.ViewHolder {
             binding.setPos(position);
             binding.executePendingBindings();
 
-//            helper = new SimpleExoPlayer.Builder(context).build();
-//            playerView.setPlayer(helper);
-//            MediaItem mediaItem = MediaItem.fromUri(mediaUri);
-//            helper.addMediaItem(mediaItem);
-//            helper.prepare();
-//            helper.setPlayWhenReady(true);
-//            helper.setVolume(0);
-//            PlayerViewAdapter.Companion.loadVideo(playerView,item.getFile(),playerStateCallback,position,true,volumebt);
 
 
-
-            // val uri = Uri.parse(linkUrl)
             userId = SharedPrefEnc.getPref(app, "user_id");
             apiInterface = NetworkModule.Companion.getClient().create(WebApi.class);
 
@@ -304,37 +300,20 @@ public class SimpleExoPlayerViewHolder extends RecyclerView.ViewHolder {
                 context.startActivity(intent);
             });
 
-            Glide.with(thumbnile.getContext())
+          /*  Glide.with(thumbnile.getContext())
                     .load(item.getScreenshot())
                     .thumbnail(0.1f)
                     .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
-                    .into(thumbnile);
+                    .into(thumbnile);*/
 
 
             datetime.setText(item.getPost_date_time());
             name.setText(item.getProfile_name());
             profile_follow_count.setText("  " + item.getProfile_follow_count());
 
-            String description = item.getDescription();
-            feed_description.setText(description);
-            int a = feed_description.getLineCount();
-
-            Log.e("TAG", "bindfffffff: " + description);
-            if (a >= 3) {
-                makeTextViewResizable(feed_description, 3, "Read More" +
-                        "", true);
-            }
-            Log.e("TAG", "bindd: " + a);
 
 
 
-/*
-            description.setShowingLine(3);
-            description.addShowMoreText("Read More");
-            description.setShowMoreColor(Color.BLACK);
-            description.setShowLessTextColor(Color.BLACK);
-            description.addShowMoreText("Read Less");
-*/
             Log.e("TAG", "binddddsd: "+item.getShares_count()+" viewCount "+item.getViews_count() );
 
             sub_header.setText(item.getSubheader());
@@ -441,6 +420,8 @@ public class SimpleExoPlayerViewHolder extends RecyclerView.ViewHolder {
 
 
             playerView.getVideoSurfaceView().setOnClickListener(v->{
+                Log.e("TAG", "binfgfbhd: "+item.getPost_id()+" , "+item.getFile_extension_type()+ " , "+item.getFile() );
+//                Toast.makeText(context, ""+item.getPost_id()+" , "+item.getFile_extension_type()+ " , "+item.getFile(), Toast.LENGTH_SHORT).show();
                 if (!item.getFile_extension_type().equals("image")) {
                     Intent intent = new Intent(playerView.getContext(), PlayPostActivity.class);
                     intent.putExtra("influencer_code", item.getProfile_influencer_code());

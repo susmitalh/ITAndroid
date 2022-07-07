@@ -102,7 +102,7 @@
             </RelativeLayout>
         </androidx.cardview.widget.CardView>
 
-        <im.ene.toro.widget.Container xmlns:android="http://schemas.android.com/apk/res/android"
+        <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/player_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

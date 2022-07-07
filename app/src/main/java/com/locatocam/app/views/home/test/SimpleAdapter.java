@@ -69,10 +69,10 @@ public class SimpleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     public SimpleAdapter(Context context, List<Data> mediaList, SimpleEvents simpleEvents, PostCountData postCountData, Follow follow) {
         this.mediaList = mediaList;
         this.simpleEvents = simpleEvents;
-        notifyDataSetChanged();
         this.context = context;
         this.postCountData = postCountData;
         this.follow = follow;
+        notifyDataSetChanged();
 
         Log.e("TAG", "SimpleAdaptcxxer: " );
 
@@ -132,15 +132,10 @@ public class SimpleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        Log.e("TAG", "onBindVbhjggiewlder "+mediaList.get(position).getType());
-        Log.e("TAG", "onBindVbhjggiewlder "+mediaList.size());
 
         if (holder instanceof SimpleExoPlayerViewHolder) {
 
             ((SimpleExoPlayerViewHolder) holder).bind(mediaList.get(position), simpleEvents, position, postCountData, follow, context);
-
-            String userid = SharedPrefEnc.getPref(context, "user_id");
-            Log.e("TAGgg", "onBindViewHolder: " + userid);
 
            /* WebApi apiInterface = NetworkModule.Companion.getClient().create(WebApi.class);
             Log.e("TAGScroll", "onItemIsFissrstVisibleItem: "+position);

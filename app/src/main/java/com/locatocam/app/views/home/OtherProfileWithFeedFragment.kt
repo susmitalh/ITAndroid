@@ -7,6 +7,7 @@ import android.app.AlertDialog
 import android.app.Dialog
 import android.content.DialogInterface
 import android.content.Intent
+import android.graphics.Rect
 import android.location.Address
 import android.location.Geocoder
 import android.location.Location
@@ -271,9 +272,7 @@ class OtherProfileWithFeedFragment() : Fragment(), FeedEvents, ClickEvents, Simp
                     var pastVisiblesItems = layoutManager.findFirstVisibleItemPosition()
                     Log.e("paggination", "onScrolled: "+ viewModel.loading)
                     if (!viewModel.loading) {
-                        Log.e("paggination", "onScrolled: counts "+visibleItemCount+","+ totalItemCount+","+pastVisiblesItems)
-                        Log.e("paggination", "onScrolled: sum "+(visibleItemCount + pastVisiblesItems) )
-                        Log.e("paggination", "onScrolled: total "+totalItemCount.minus(2) )
+
                         if (visibleItemCount + pastVisiblesItems >= totalItemCount - 2) {
                             Log.v("gt66666", "Last Item Wow !")
                             var act = (requireActivity() as OtherProfileWithFeedActivity)
@@ -292,6 +291,48 @@ class OtherProfileWithFeedFragment() : Fragment(), FeedEvents, ClickEvents, Simp
                     }
                 }
 
+                var position: Int = layoutManager.findLastVisibleItemPosition()
+                var positionLast: Int = layoutManager.findFirstVisibleItemPosition()
+                val rect = Rect()
+                layoutManager.findViewByPosition(position)?.getGlobalVisibleRect(rect)
+
+                if (dy>0) {
+
+                    if (rect.height()>=900) {
+
+                        if (!(binding.playerContainer.adapter as SimpleAdapterOtherprofile).mediaList.isEmpty()) {
+
+                            videoPostIndex = position
+                            Log.e("TAG", "onScrodlled: "+videoPostIndex )
+//                            if (!(binding.playerContainer?.adapter as SimpleAdapter).mediaList.get(videoPostIndex).file_extension_type.equals("image")) {
+                            PlayerViewAdapter.playIndexThenPausePreviousPlayer(videoPostIndex)
+//                            } else {
+//                                PlayerViewAdapter.pauseCurrentPlayingVideo()
+//                            }
+                        }
+                    }
+                }else{
+
+
+                    if (rect.height()<=400) {
+                        Log.e("TAG", "onScrolledPositionb: "+position+" , "+positionLast )
+                        if (!(binding.playerContainer.adapter as SimpleAdapterOtherprofile).mediaList.isEmpty()) {
+                            if (position!=0)
+                                videoPostIndex = position-1
+//                            if (!(binding.playerContainer?.adapter as SimpleAdapter).mediaList.get(videoPostIndex).file_extension_type.equals("image")) {
+
+                            PlayerViewAdapter.playIndexThenPausePreviousPlayer(videoPostIndex)
+                            Log.e("TAGScrollnew", "onScrolled = Video: ")
+//                            } else {
+//                                PlayerViewAdapter.pauseCurrentPlayingVideo()
+//                                Log.e("TAGScrollnew", "onScrolled = Image: ")
+//                            }
+                        }
+                    }
+
+                }
+
+
 
 
                 //ViewCount
@@ -302,7 +343,7 @@ class OtherProfileWithFeedFragment() : Fragment(), FeedEvents, ClickEvents, Simp
 
                 if (completeVisiblesItems > -1) {
                     // play just visible item
-                    if (!(binding.playerContainer.adapter as SimpleAdapterOtherprofile).mediaList.isEmpty()) {
+                  /*  if (!(binding.playerContainer.adapter as SimpleAdapterOtherprofile).mediaList.isEmpty()) {
                         videoPostIndex = completeVisiblesItems
                         if (!(binding.playerContainer.adapter as SimpleAdapterOtherprofile).mediaList.get(
                                 completeVisiblesItems
@@ -317,7 +358,7 @@ class OtherProfileWithFeedFragment() : Fragment(), FeedEvents, ClickEvents, Simp
                             PlayerViewAdapter.Companion.pauseCurrentPlayingVideo()
                             Log.e("TAGScrollnew", "onScrolled = Image: ")
                         }
-                    }
+                    }*/
 
 
 
@@ -336,7 +377,7 @@ class OtherProfileWithFeedFragment() : Fragment(), FeedEvents, ClickEvents, Simp
                         )*/
 //                                    it.get(index).views_count= response.body()?.data?.viewsCount
                                 (binding.playerContainer.adapter as SimpleAdapterOtherprofile).mediaList.get(completeVisiblesItems).views_count = response.body()?.data?.viewsCount
-                                (binding.playerContainer.adapter as SimpleAdapterOtherprofile).notifyDataSetChanged()
+//                                (binding.playerContainer.adapter as SimpleAdapterOtherprofile).notifyDataSetChanged()
                             }
 
 
@@ -543,6 +584,11 @@ class OtherProfileWithFeedFragment() : Fragment(), FeedEvents, ClickEvents, Simp
         // if (binding.recMain != null) binding.recMain.releasePlayer()
         Log.e("TAG", "onDestroy: ")
         super.onDestroy()
+        PlayerViewAdapter.releaseAllPlayers()
+    }
+
+    override fun onStop() {
+        super.onStop()
         PlayerViewAdapter.releaseAllPlayers()
     }
 

@@ -11,7 +11,6 @@ import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
 import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory
 import com.google.android.exoplayer2.upstream.cache.Cache
 import com.google.android.exoplayer2.upstream.cache.CacheDataSourceFactory
-//import com.google.android.exoplayer2.upstream.cache.CacheUtil
 import com.google.android.exoplayer2.util.Util
 import com.locatocam.app.MyApp
 import com.locatocam.app.utils.Constants
