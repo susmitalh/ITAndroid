@@ -26,21 +26,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.google.android.exoplayer2.ExoPlaybackException;
-import com.google.android.exoplayer2.MediaItem;
-import com.google.android.exoplayer2.PlaybackParameters;
 import com.google.android.exoplayer2.Player;
 import com.google.android.exoplayer2.SimpleExoPlayer;
-import com.google.android.exoplayer2.Timeline;
-import com.google.android.exoplayer2.metadata.Metadata;
-import com.google.android.exoplayer2.source.TrackGroupArray;
-import com.google.android.exoplayer2.text.Cue;
-import com.google.android.exoplayer2.trackselection.TrackSelectionArray;
 import com.google.android.exoplayer2.ui.PlayerView;
-import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory;
 import com.google.android.exoplayer2.upstream.cache.Cache;
 import com.google.android.exoplayer2.upstream.cache.CacheDataSourceFactory;
-import com.google.android.exoplayer2.util.Util;
 import com.locatocam.app.Activity.OtherProfileWithFeedActivity;
 import com.locatocam.app.Activity.PlayPostActivity;
 import com.locatocam.app.ModalClass.AddShare;
@@ -48,6 +38,7 @@ import com.locatocam.app.ModalClass.Follow;
 import com.locatocam.app.MyApp;
 import com.locatocam.app.R;
 import com.locatocam.app.data.responses.feed.Data;
+import com.locatocam.app.databinding.OtherProfileViewHolderExoplayerBasicBinding;
 import com.locatocam.app.databinding.ViewHolderExoplayerBasicBinding;
 import com.locatocam.app.di.module.NetworkModule;
 import com.locatocam.app.network.WebApi;
@@ -60,16 +51,19 @@ import com.locatocam.app.views.home.header.HeaderFragment;
 
 import net.minidev.json.JSONObject;
 
-
 import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class SimpleExoPlayerViewHolder extends RecyclerView.ViewHolder {
+public class OtherProfileSimpleExoPlayerViewHolder extends RecyclerView.ViewHolder {
     public static Data item;
-    ViewHolderExoplayerBasicBinding binding;
+    OtherProfileViewHolderExoplayerBasicBinding binding;
+    @Nullable
+    public static SimpleExoPlayer helper;
+    @Nullable
     private Uri mediaUri;
+    public static boolean volumeMute;
     public static TextView postShareBtn;
     String userId;
     WebApi apiInterface;
@@ -90,11 +84,11 @@ public class SimpleExoPlayerViewHolder extends RecyclerView.ViewHolder {
     ImageView thumbnile, brandFollow, profileFollow, imgBrandLocation;
     RelativeLayout profile_follow_layout, brand_follow_layout;
     View viewFeed;
-//    CacheDataSourceFactory cacheDataSourceFactory;
-//    Cache simpleCache = MyApp.Companion.getSimpleCache();
+    CacheDataSourceFactory cacheDataSourceFactory;
+    Cache simpleCache = MyApp.Companion.getSimpleCache();
     MyApp app = (MyApp) itemView.getContext().getApplicationContext();
 
-    SimpleExoPlayerViewHolder(View itemView) {
+    OtherProfileSimpleExoPlayerViewHolder(View itemView) {
         super(itemView);
         binding = DataBindingUtil.bind(itemView);
 
@@ -282,7 +276,7 @@ public class SimpleExoPlayerViewHolder extends RecyclerView.ViewHolder {
                 Log.e("TAG", "bindLocation: " + item.getBrand_lat() + " , " + item.getBrand_long());
 
                 String strUri = "http://maps.google.com/maps?q=loc:" + item.getBrand_lat() + "," + item.getBrand_long() + " (" + "Label which you want" + ")";
-                Intent intent = new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(strUri));
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(strUri));
                 intent.setClassName("com.google.android.apps.maps", "com.google.android.maps.MapsActivity");
                 context.startActivity(intent);
             });

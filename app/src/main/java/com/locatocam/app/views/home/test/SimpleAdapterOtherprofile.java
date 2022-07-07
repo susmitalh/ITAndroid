@@ -25,7 +25,7 @@ import com.locatocam.app.data.responses.feed.BestSeller;
 import com.locatocam.app.data.responses.feed.Data;
 import com.locatocam.app.data.responses.feed.OffersDetail;
 import com.locatocam.app.data.responses.feed.TopBrandDetail;
-import com.locatocam.app.utility.PlayerViewAdapter;
+import com.locatocam.app.utility.OtherProfilePlayerViewAdapter;
 import com.locatocam.app.views.home.OtherProfileWithFeedFragment;
 import com.locatocam.app.views.home.header.HeaderFragmentOtherUser;
 
@@ -70,7 +70,7 @@ public class SimpleAdapterOtherprofile extends RecyclerView.Adapter<RecyclerView
     public void onViewRecycled(@NonNull @NotNull RecyclerView.ViewHolder holder) {
 
         int position = holder.getAbsoluteAdapterPosition();
-        PlayerViewAdapter.Companion.releaseRecycledPlayers(position);
+        OtherProfilePlayerViewAdapter.Companion.releaseRecycledPlayers(position);
 
         super.onViewRecycled(holder);
     }
@@ -78,8 +78,8 @@ public class SimpleAdapterOtherprofile extends RecyclerView.Adapter<RecyclerView
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (viewType == TYPE_VIDEO) {
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.view_holder_exoplayer_basic, parent, false);
-            return new SimpleExoPlayerViewHolder(view);
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.other_profile_view_holder_exoplayer_basic, parent, false);
+            return new OtherProfileSimpleExoPlayerViewHolder(view);
         } else if (viewType == TYPE_BANNER) {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.view_holder_banner, parent, false);
             return new VHBanner(view);
@@ -106,9 +106,9 @@ public class SimpleAdapterOtherprofile extends RecyclerView.Adapter<RecyclerView
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
 
-        if (holder instanceof SimpleExoPlayerViewHolder) {
+        if (holder instanceof OtherProfileSimpleExoPlayerViewHolder) {
             SimpleAdapter.userClick=false;
-            ((SimpleExoPlayerViewHolder) holder).bind(mediaList.get(position), simpleEvents, position, postCountData, follow, context);
+            ((OtherProfileSimpleExoPlayerViewHolder) holder).bind(mediaList.get(position), simpleEvents, position, postCountData, follow, context);
         } else if (holder instanceof VHBanner) {
             Data item = mediaList.get(position);
             Glide.with(((VHBanner) holder).thumbnile.getContext())

@@ -52,7 +52,7 @@ import com.locatocam.app.repositories.HomeRepository
 import com.locatocam.app.security.SharedPrefEnc
 import com.locatocam.app.services.PreCachingService
 import com.locatocam.app.utility.Loader
-import com.locatocam.app.utility.PlayerViewAdapter
+import com.locatocam.app.utility.OtherProfilePlayerViewAdapter
 import com.locatocam.app.utils.Constants
 import com.locatocam.app.viewmodels.HomeViewModel
 import com.locatocam.app.views.MainActivity
@@ -110,7 +110,7 @@ class OtherProfileWithFeedFragment() : Fragment(), FeedEvents, ClickEvents, Simp
 
         viewModel = ViewModelProvider(this, factory).get(HomeViewModel::class.java)
 
-
+        
         userid = arguments?.getString("user_id").toString()
         inf_code = arguments?.getString("inf_code").toString()
 
@@ -129,7 +129,7 @@ class OtherProfileWithFeedFragment() : Fragment(), FeedEvents, ClickEvents, Simp
         viewModel.feed_items.observe(viewLifecycleOwner, {
             Log.e("paggination", "onCrdsceateView: "+viewModel.get_post_id)
             viewModel.loading = false
-            PlayerViewAdapter.releaseAllPlayers()
+            OtherProfilePlayerViewAdapter.releaseAllPlayers()
             CoroutineScope(Dispatchers.Main).launch {
                 delay(2500)
                 try {
@@ -305,7 +305,7 @@ class OtherProfileWithFeedFragment() : Fragment(), FeedEvents, ClickEvents, Simp
                             videoPostIndex = position
                             Log.e("TAG", "onScrodlled: "+videoPostIndex )
 //                            if (!(binding.playerContainer?.adapter as SimpleAdapter).mediaList.get(videoPostIndex).file_extension_type.equals("image")) {
-                            PlayerViewAdapter.playIndexThenPausePreviousPlayer(videoPostIndex)
+                            OtherProfilePlayerViewAdapter.playIndexThenPausePreviousPlayer(videoPostIndex)
 //                            } else {
 //                                PlayerViewAdapter.pauseCurrentPlayingVideo()
 //                            }
@@ -321,7 +321,7 @@ class OtherProfileWithFeedFragment() : Fragment(), FeedEvents, ClickEvents, Simp
                                 videoPostIndex = position-1
 //                            if (!(binding.playerContainer?.adapter as SimpleAdapter).mediaList.get(videoPostIndex).file_extension_type.equals("image")) {
 
-                            PlayerViewAdapter.playIndexThenPausePreviousPlayer(videoPostIndex)
+                            OtherProfilePlayerViewAdapter.playIndexThenPausePreviousPlayer(videoPostIndex)
                             Log.e("TAGScrollnew", "onScrolled = Video: ")
 //                            } else {
 //                                PlayerViewAdapter.pauseCurrentPlayingVideo()
@@ -584,12 +584,12 @@ class OtherProfileWithFeedFragment() : Fragment(), FeedEvents, ClickEvents, Simp
         // if (binding.recMain != null) binding.recMain.releasePlayer()
         Log.e("TAG", "onDestroy: ")
         super.onDestroy()
-        PlayerViewAdapter.releaseAllPlayers()
+        OtherProfilePlayerViewAdapter.releaseAllPlayers()
     }
 
     override fun onStop() {
         super.onStop()
-        PlayerViewAdapter.releaseAllPlayers()
+        OtherProfilePlayerViewAdapter.releaseAllPlayers()
     }
 
 
@@ -837,7 +837,7 @@ class OtherProfileWithFeedFragment() : Fragment(), FeedEvents, ClickEvents, Simp
                             .get(videoPostIndex).file_extension_type
                             .equals("image")
                     ) {
-                        PlayerViewAdapter.resumeCurrentPlayingVideo()
+                        OtherProfilePlayerViewAdapter.resumeCurrentPlayingVideo()
                     }
                 }
             }
@@ -854,7 +854,7 @@ class OtherProfileWithFeedFragment() : Fragment(), FeedEvents, ClickEvents, Simp
                             .get(videoPostIndex).file_extension_type
                             .equals("image")
                     ) {
-                        PlayerViewAdapter.pauseCurrentPlayingVideo()
+                        OtherProfilePlayerViewAdapter.pauseCurrentPlayingVideo()
                     }
                 }
             }

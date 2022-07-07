@@ -64,7 +64,6 @@ class PlayerViewAdapter {
 
 
       fun playIndexThenPausePreviousPlayer(index: Int) {
-          Log.e("TAG", "playIndexThenPausePreviousPlayer: release " +index)
           if (playersMap[index]?.playWhenReady == false) {
               pauseCurrentPlayingVideo()
               playersMap[index]?.playWhenReady = true
@@ -106,8 +105,6 @@ class PlayerViewAdapter {
 //          isMutedVideo: String
       ) {
           if (url == null) return
-          Log.e("TAG", "loadVideo: "+playersMap.toString() )
-          Log.e("TAG", "loadVideo: "+currentPlayingVideo.toString() )
           val mediaItem: MediaItem = MediaItem.fromUri(Uri.parse(url))
           val httpDataSourceFactory = DefaultHttpDataSource.Factory().setAllowCrossProtocolRedirects(true)
           val defaultDataSourceFactory: DataSource.Factory = DefaultDataSourceFactory(context, httpDataSourceFactory)
@@ -261,11 +258,9 @@ class PlayerViewAdapter {
 
 //                      if (type.equals("image")){
                       if (type.equals("image")){
-                          Log.e("TAG", "onPlayerStateChdddanged: image "+type )
                           thumbnail.visibility = View.VISIBLE
                       }else {
                           thumbnail.visibility = View.GONE
-                          Log.e("TAG", "onPlayerStateChdddanged: video "+type +" , "+url)
                       }
 //                      btnVideoClick.visibility = View.VISIBLE
 
