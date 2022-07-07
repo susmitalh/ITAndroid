@@ -72,6 +72,7 @@ class PlayPostFragment : Fragment(R.layout.layout_play_post_view) {
     lateinit var share: LinearLayout
     lateinit var description: ShowMoreTextView
     lateinit var like_count: TextView
+    lateinit var imgThumbnile: ImageView
 
 
 
@@ -118,6 +119,7 @@ class PlayPostFragment : Fragment(R.layout.layout_play_post_view) {
         like_count = view.findViewById(R.id.txt_like_count)
         comment_count = view.findViewById(R.id.txt_comment_count)
         like_icon = view.findViewById(R.id.like_icon_img)
+        imgThumbnile = view.findViewById(R.id.imgThumbnile)
         description.addShowLessText("Read Less")
         description.addShowMoreText("Read More")
         description.setShowingLine(2)
@@ -137,6 +139,12 @@ class PlayPostFragment : Fragment(R.layout.layout_play_post_view) {
             .placeholder(R.drawable.ic_placeholder)
             .into(userimage)
 
+
+        Glide.with(context!!)
+            .load(storiesDataModel?.screenshot)
+            .placeholder(R.drawable.video_placeholder)
+            .into(imgThumbnile)
+
         name.setText(storiesDataModel?.influencer_name)
         description.setText(storiesDataModel?.headline + ", " + storiesDataModel?.content)
         like_count.setText(storiesDataModel?.like_count)
@@ -144,8 +152,6 @@ class PlayPostFragment : Fragment(R.layout.layout_play_post_view) {
 
         val simplePlayer = getPlayer()
         player_view_story.player = simplePlayer
-
-
         (activity as PlayPostActivity).volume_playPost.setOnClickListener {
 
 
@@ -153,14 +159,14 @@ class PlayPostFragment : Fragment(R.layout.layout_play_post_view) {
 
                 (activity as PlayPostActivity).volume_playPost.setImageResource(R.drawable.ic_volume_up_grey_24dp)
                 if (simplePlayer != null)
-                    simplePlayer!!.volume =
+                    simplePlayer.volume =
                     1.0f
                 volumeMute = true
             } else {
 
                 (activity as PlayPostActivity).volume_playPost.setImageResource(R.drawable.ic_volume_off_grey_24dp)
                 if (simplePlayer != null)
-                    simplePlayer!!.volume =
+                    simplePlayer.volume =
                     0.0f
                 volumeMute = false
             }
@@ -191,9 +197,9 @@ class PlayPostFragment : Fragment(R.layout.layout_play_post_view) {
 
         player_view_story.getVideoSurfaceView()?.setOnClickListener {
             if (simplePlayer?.isPlaying!!) {
-                simplePlayer?.playWhenReady = false
+                simplePlayer.playWhenReady = false
             }else{
-                simplePlayer?.playWhenReady = true
+                simplePlayer.playWhenReady = true
             }
 
         }
@@ -339,9 +345,13 @@ class PlayPostFragment : Fragment(R.layout.layout_play_post_view) {
 //                Handler().postDelayed(Runnable {
                 (activity as PlayPostActivity).hideLoader()
 //                }, 1500)
-
+            }
                 /* (activity as PlayPostActivity).loadersh.stopShimmer()
                  (activity as PlayPostActivity).loadersh.visibility=View.GONE*/
+
+                if (playbackState == Player.STATE_READY){
+                imgThumbnile.visibility=View.GONE
+                }
 
                 if (simplePlayer != null) {
                     try {
@@ -356,7 +366,7 @@ class PlayPostFragment : Fragment(R.layout.layout_play_post_view) {
                         e.printStackTrace()
                     }
                 }
-            }
+
 
         }
 

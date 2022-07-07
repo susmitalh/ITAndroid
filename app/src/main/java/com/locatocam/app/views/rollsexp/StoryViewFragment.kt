@@ -75,6 +75,8 @@ class StoryViewFragment : Fragment(R.layout.layout_story_view) {
     lateinit var user_unfollows: TextView
     lateinit var followStatus: String
     lateinit var updateDatas: UpdateData
+    lateinit var imgThumbnile: ImageView
+
 
     companion object {
         fun newInstance(storiesDataModel: RollsData, updateData: UpdateData) = StoryViewFragment()
@@ -111,6 +113,8 @@ class StoryViewFragment : Fragment(R.layout.layout_story_view) {
         like_icon = view.findViewById(R.id.like_icon)
         user_unfollows = view.findViewById(R.id.rolls_unfollow)
         follow = view.findViewById(R.id.rolls_follow)
+        imgThumbnile = view.findViewById(R.id.imgThumbnile)
+
 
 
         storiesDataModel = arguments?.getParcelable(Constants.KEY_STORY_DATA)
@@ -122,6 +126,11 @@ class StoryViewFragment : Fragment(R.layout.layout_story_view) {
             .load(storiesDataModel?.influencer_logo)
             .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
             .into(userimage)
+
+        Glide.with(context!!)
+            .load(storiesDataModel?.screenshot)
+            .placeholder(R.drawable.video_placeholder)
+            .into(imgThumbnile)
 
         name.setText(storiesDataModel?.influencer_name)
         description.setText(storiesDataModel?.video_desc)
@@ -280,6 +289,9 @@ class StoryViewFragment : Fragment(R.layout.layout_story_view) {
             if (playbackState >= 2) {
                 (activity as RollsExoplayerActivity).loadersh.stopShimmer()
                 (activity as RollsExoplayerActivity).loadersh.visibility = View.GONE
+            }
+            if (playbackState == Player.STATE_READY){
+                imgThumbnile.visibility=View.GONE
             }
 
                 if (simplePlayer != null) {

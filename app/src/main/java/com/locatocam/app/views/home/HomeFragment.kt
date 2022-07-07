@@ -6,6 +6,7 @@ import android.app.Activity
 import android.app.AlertDialog
 import android.content.DialogInterface
 import android.content.Intent
+import android.graphics.Rect
 import android.location.Address
 import android.location.Geocoder
 import android.location.Location
@@ -64,6 +65,7 @@ import com.locatocam.app.views.search.AutoCompleteAdapter
 import com.locatocam.app.views.search.ClickEvents
 import com.locatocam.app.views.search.Locationitem
 import com.locatocam.app.views.settings.SettingsActivity
+import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -78,8 +80,8 @@ import java.util.*
 public class HomeFragment : Fragment(), FeedEvents, ClickEvents, SimpleEvents {
 
     companion object {
-        lateinit var instance: HomeFragment
         lateinit var binding: FragmentHomeBinding
+        lateinit var instance: HomeFragment
         var add: String = ""
         var order_visiblity: Boolean = false
         var orderType: Boolean = false
@@ -89,8 +91,11 @@ public class HomeFragment : Fragment(), FeedEvents, ClickEvents, SimpleEvents {
         var hideView: Boolean? = false
         lateinit var viewModel: HomeViewModel
         var influencerCode = ""
+        lateinit var simpleAdapter: SimpleAdapter
     }
 
+
+    lateinit var recyclerView:RecyclerView
     private var videoPostIndex = -1
     var latLong: Double = 0.00
     var latlng: Double = 0.00
@@ -103,17 +108,17 @@ public class HomeFragment : Fragment(), FeedEvents, ClickEvents, SimpleEvents {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        binding = FragmentHomeBinding.inflate(layoutInflater)
         Loader(context!!).showLoader()
 
 
-        var layoutManager = LinearLayoutManager(requireActivity())
 //        if (!MainActivity.isLoaded) {
-        binding = FragmentHomeBinding.inflate(layoutInflater)
         var repository = HomeRepository(requireActivity().application, "")
         var factory = HomeViewModelFactory(repository)
         instance = HomeFragment()
         viewModel = ViewModelProvider(this, factory).get(HomeViewModel::class.java)
 
+        var layoutManager = LinearLayoutManager(requireActivity(),LinearLayoutManager.VERTICAL,false)
         binding.recyclerviewSearch.layoutManager = LinearLayoutManager(requireActivity())
         binding.savedAddress.layoutManager = LinearLayoutManager(requireActivity())
 
@@ -126,6 +131,8 @@ public class HomeFragment : Fragment(), FeedEvents, ClickEvents, SimpleEvents {
              var adapter = SimpleAdapter(context, it, this, commet, follow)
              binding.playerContainer.setAdapter(adapter)
          }*/
+        binding.playerContainer?.adapter
+        binding.createpost
 
         if (SharedPrefEnc.getPref(requireActivity().application, "user_type") == "poc" ||
             SharedPrefEnc.getPref(requireActivity().application, "user_type") == "customer"
@@ -168,7 +175,6 @@ public class HomeFragment : Fragment(), FeedEvents, ClickEvents, SimpleEvents {
                 Loader(context!!).hideLoader()
             }
 
-            binding.playerContainer.setLayoutManager(layoutManager)
             follow = object : Follow {
                 override fun follow(position: Int, followStatus: String) {
                     it.get(position).profile_follow = followStatus
@@ -182,35 +188,36 @@ public class HomeFragment : Fragment(), FeedEvents, ClickEvents, SimpleEvents {
                         var count: Int =
                             (it.get(position).profile_follow_count?.toInt()) as Int - 1
                         it.get(position).profile_follow_count = count.toString()
+
                     }
                     (binding.playerContainer.adapter as SimpleAdapter)!!.notifyDataSetChanged()
                 }
 
                 override fun brandFollow(position: Int, followStatus: String) {
                     it.get(position).brand_follow = followStatus
-                    (binding.playerContainer.adapter as SimpleAdapter)!!.notifyDataSetChanged()
+                    (binding.playerContainer?.adapter as SimpleAdapter)!!.notifyDataSetChanged()
                 }
 
             }
 
 //            if (viewModel.offset == 0 && binding.playerContainer.adapter == null) {
             if (viewModel.offset == 0) {
-
-                var adapter = SimpleAdapter(context, it, this, commet, follow)
-                binding.playerContainer.setAdapter(adapter)
-                binding.playerContainer.adapter
+                simpleAdapter = SimpleAdapter(context, it, this, commet, follow)
+                binding.playerContainer!!.layoutManager=layoutManager
+//                binding.playerContainer?.setAdapter(adapter)
+                binding.playerContainer!!.adapter=simpleAdapter
             } else {
-                if (binding.playerContainer.adapter != null) {
+                if (simpleAdapter != null) {
 
-                    (binding.playerContainer.adapter as SimpleAdapter).addAll(it)
-                    (binding.playerContainer.adapter as SimpleAdapter).notifyDataSetChanged()
+                   simpleAdapter.addAll(it)
+                   simpleAdapter.notifyDataSetChanged()
                 }
             }
             commet = object : PostCountData {
                 override fun commentCount(commentCount: String, position: Int) {
-                    (binding.playerContainer.adapter as SimpleAdapter).mediaList.get(position).comments_count =
+                    (binding.playerContainer?.adapter as SimpleAdapter).mediaList.get(position).comments_count =
                         commentCount
-                    (binding.playerContainer.adapter as SimpleAdapter)!!.notifyDataSetChanged()
+                    (binding.playerContainer?.adapter as SimpleAdapter)!!.notifyDataSetChanged()
 //                    Log.e("TAG", "commentCount: "+it.get(position).comments_count )
                 }
 
@@ -327,12 +334,15 @@ public class HomeFragment : Fragment(), FeedEvents, ClickEvents, SimpleEvents {
             context?.startActivity(intent)
         }
 
-        binding.playerContainer.addOnScrollListener(object :
+        binding.playerContainer?.addOnScrollListener(object :
             RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 var completeVisiblesItems = layoutManager.findFirstCompletelyVisibleItemPosition()
-//                    var pastVisiblesItems = layoutManager.findFirstVisibleItemPosition()
-                if (dy > 0) { //check for scroll down
+
+
+
+                if (dy > 0) {
+                    //check for scroll down
                     var visibleItemCount = layoutManager.getChildCount()
                     var totalItemCount = layoutManager.getItemCount()
 
@@ -373,10 +383,52 @@ public class HomeFragment : Fragment(), FeedEvents, ClickEvents, SimpleEvents {
                         }
                     }
                 }
+                var position: Int = layoutManager.findLastVisibleItemPosition()
+                var positionLast: Int = layoutManager.findFirstVisibleItemPosition()
+                val rect = Rect()
+                layoutManager.findViewByPosition(position)?.getGlobalVisibleRect(rect)
 
 
+
+
+                if (dy>0) {
+
+                    if (rect.height()>=900) {
+
+                        if (!(binding.playerContainer?.adapter as SimpleAdapter).mediaList.isEmpty()) {
+
+                            videoPostIndex = position
+                            Log.e("TAG", "onScrodlled: "+videoPostIndex )
+//                            if (!(binding.playerContainer?.adapter as SimpleAdapter).mediaList.get(videoPostIndex).file_extension_type.equals("image")) {
+                                PlayerViewAdapter.playIndexThenPausePreviousPlayer(videoPostIndex)
+//                            } else {
+//                                PlayerViewAdapter.pauseCurrentPlayingVideo()
+//                            }
+                        }
+                    }
+                }else{
+
+
+                    if (rect.height()<=400) {
+                        Log.e("TAG", "onScrolledPositionb: "+position+" , "+positionLast )
+                        if (!(binding.playerContainer?.adapter as SimpleAdapter).mediaList.isEmpty()) {
+                            if (position!=0)
+                            videoPostIndex = position-1
+//                            if (!(binding.playerContainer?.adapter as SimpleAdapter).mediaList.get(videoPostIndex).file_extension_type.equals("image")) {
+
+                                PlayerViewAdapter.playIndexThenPausePreviousPlayer(videoPostIndex)
+                                Log.e("TAGScrollnew", "onScrolled = Video: ")
+//                            } else {
+//                                PlayerViewAdapter.pauseCurrentPlayingVideo()
+//                                Log.e("TAGScrollnew", "onScrolled = Image: ")
+//                            }
+                        }
+                    }
+
+                }
                 // play just visible item
                 if (completeVisiblesItems != -1) {
+/*
                     if (!(binding.playerContainer.adapter as SimpleAdapter).mediaList.isEmpty()) {
                         videoPostIndex = completeVisiblesItems
                         if (!(binding.playerContainer.adapter as SimpleAdapter).mediaList.get(
@@ -393,54 +445,32 @@ public class HomeFragment : Fragment(), FeedEvents, ClickEvents, SimpleEvents {
                             Log.e("TAGScrollnew", "onScrolled = Image: ")
                         }
                     }
+*/
+
+
 
                     //viewCount
-                    val apiInterface = getClient()!!.create(
-                        WebApi::class.java
-                    )
-
+                    val apiInterface = getClient()!!.create(WebApi::class.java)
                     val userid = SharedPrefEnc.getPref(context, "user_id")
                     if (completeVisiblesItems > -1) {
                         if (lastCount != completeVisiblesItems) {
                             lastCount = completeVisiblesItems
                             Log.e("TAGScroll", "onItemIsFisssssrstVisibleItem: $lastCount")
                             val jsonObject = JSONObject()
-                            /* jsonObject["id"] = (binding.playerContainer.adapter as SimpleAdapter).mediaList.get(index).post_id
-                             jsonObject["view_type"] = (binding.playerContainer.adapter as SimpleAdapter).mediaList.get(index).type
-                             jsonObject["user_id"] = userid*/
 
-                            jsonObject.put(
-                                "id",
-                                (binding.playerContainer.adapter as SimpleAdapter).mediaList.get(
-                                    completeVisiblesItems
-                                ).post_id
-                            )
-                            jsonObject.put(
-                                "view_type",
-                                (binding.playerContainer.adapter as SimpleAdapter).mediaList.get(
-                                    completeVisiblesItems
-                                ).type
-                            )
+                            jsonObject.put("id", (binding.playerContainer?.adapter as SimpleAdapter).mediaList.get(completeVisiblesItems).post_id)
+                            jsonObject.put("view_type", (binding.playerContainer?.adapter as SimpleAdapter).mediaList.get(completeVisiblesItems).type)
                             jsonObject.put("user_id", userid)
 
-                            apiInterface.getAddView(jsonObject)!!
-                                .enqueue(object : Callback<AddView> {
-                                    override fun onResponse(
-                                        call: Call<AddView>,
-                                        response: Response<AddView>
-                                    ) {
+                            apiInterface.getAddView(jsonObject)!!.enqueue(object : Callback<AddView> {
+                                    override fun onResponse(call: Call<AddView>, response: Response<AddView>) {
                                         /*  commet.viewCount(
                                     response.body()!!.data!!.viewsCount,
                                     pastVisiblesItems
                                 )*/
-                                        if (binding.playerContainer.adapter != null) {
-                                            Log.e(
-                                                "TAG",
-                                                "onRespfffonse: " + response.body()!!.data!!.viewsCount
-                                            )
-                                            (binding.playerContainer.adapter as SimpleAdapter).mediaList.get(
-                                                completeVisiblesItems
-                                            ).views_count = response.body()?.data?.viewsCount
+                                        if (binding.playerContainer?.adapter != null) {
+                                            Log.e("TAG", "onRespfffonse: " + response.body()!!.data!!.viewsCount)
+                                            (binding.playerContainer?.adapter as SimpleAdapter).mediaList.get(completeVisiblesItems).views_count = response.body()?.data?.viewsCount
 //                                                (binding.playerContainer.adapter as SimpleAdapter).notifyDataChanged()
                                         }
                                     }
@@ -448,11 +478,7 @@ public class HomeFragment : Fragment(), FeedEvents, ClickEvents, SimpleEvents {
 
                                     override fun onFailure(call: Call<AddView>, t: Throwable) {}
                                 })
-                            if (lastCount > 0) {
-                                Log.e("TAGScroll", "onItemIsFirstVisibleItem: " + (lastCount - 1))
 
-
-                            }
                         }
                     }
 
@@ -768,21 +794,21 @@ public class HomeFragment : Fragment(), FeedEvents, ClickEvents, SimpleEvents {
 
     }
 
-    /*override fun onStop() {
+    override fun onStop() {
         super.onStop()
         PlayerViewAdapter.releaseAllPlayers()
-    }*/
+    }
 
     override fun onResume() {
         Log.e("TAG", "onResume: ")
         super.onResume()
-        if (binding.playerContainer.adapter != null) {
-            if ((binding.playerContainer.adapter as SimpleAdapter) != null) {
-//                (binding.playerContainer.adapter as SimpleAdapter).notifyDataChanged()
-                if (!(binding.playerContainer.adapter as SimpleAdapter).mediaList
+        if (binding.playerContainer?.adapter != null) {
+            if ((binding.playerContainer?.adapter as SimpleAdapter) != null) {
+                (binding.playerContainer?.adapter as SimpleAdapter).notifyDataChanged()
+                if (!(binding.playerContainer?.adapter as SimpleAdapter).mediaList
                         .isEmpty() && videoPostIndex != -1
                 ) {
-                    if (!(binding.playerContainer.adapter as SimpleAdapter).mediaList
+                    if (!(binding.playerContainer?.adapter as SimpleAdapter).mediaList
                             .get(videoPostIndex).file_extension_type
                             .equals("image")
                     ) {
@@ -858,8 +884,8 @@ public class HomeFragment : Fragment(), FeedEvents, ClickEvents, SimpleEvents {
 
     override fun trash(post_id: String, position: Int) {
         viewModel.trash(post_id.toInt())
-        (binding.playerContainer.adapter as SimpleAdapter).mediaList.removeAt(position)
-        (binding.playerContainer.adapter as SimpleAdapter).notifyDataChanged()
+        (binding.playerContainer?.adapter as SimpleAdapter).mediaList.removeAt(position)
+        (binding.playerContainer?.adapter as SimpleAdapter).notifyDataChanged()
         viewModel.trash.observe(viewLifecycleOwner, {
             Toast.makeText(context, "" + it.message, Toast.LENGTH_SHORT).show()
         })
@@ -924,12 +950,12 @@ public class HomeFragment : Fragment(), FeedEvents, ClickEvents, SimpleEvents {
     }
 
     override fun onPause() {
-        if (binding.playerContainer.adapter != null) {
-            if ((binding.playerContainer.adapter as SimpleAdapter) != null) {
-                if (!(binding.playerContainer.adapter as SimpleAdapter).mediaList
+        if (binding.playerContainer?.adapter != null) {
+            if ((binding.playerContainer?.adapter as SimpleAdapter) != null) {
+                if (!(binding.playerContainer?.adapter as SimpleAdapter).mediaList
                         .isEmpty() && videoPostIndex != -1
                 ) {
-                    if (!(binding.playerContainer.adapter as SimpleAdapter).mediaList
+                    if (!(binding.playerContainer?.adapter as SimpleAdapter).mediaList
                             .get(videoPostIndex).file_extension_type
                             .equals("image")
                     ) {

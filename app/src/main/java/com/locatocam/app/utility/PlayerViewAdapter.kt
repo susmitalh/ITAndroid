@@ -35,7 +35,7 @@ class PlayerViewAdapter {
 
   companion object {
 
-      private var playersMap: MutableMap<Int, SimpleExoPlayer>  = mutableMapOf()
+      var playersMap: MutableMap<Int, SimpleExoPlayer>  = mutableMapOf()
 
       private var currentPlayingVideo: Pair<Int, SimpleExoPlayer>? = null
       fun releaseAllPlayers(){
@@ -64,7 +64,7 @@ class PlayerViewAdapter {
 
 
       fun playIndexThenPausePreviousPlayer(index: Int) {
-
+          Log.e("TAG", "playIndexThenPausePreviousPlayer: release " +index)
           if (playersMap[index]?.playWhenReady == false) {
               pauseCurrentPlayingVideo()
               playersMap[index]?.playWhenReady = true
@@ -106,7 +106,8 @@ class PlayerViewAdapter {
 //          isMutedVideo: String
       ) {
           if (url == null) return
-
+          Log.e("TAG", "loadVideo: "+playersMap.toString() )
+          Log.e("TAG", "loadVideo: "+currentPlayingVideo.toString() )
           val mediaItem: MediaItem = MediaItem.fromUri(Uri.parse(url))
           val httpDataSourceFactory = DefaultHttpDataSource.Factory().setAllowCrossProtocolRedirects(true)
           val defaultDataSourceFactory: DataSource.Factory = DefaultDataSourceFactory(context, httpDataSourceFactory)
@@ -179,6 +180,8 @@ class PlayerViewAdapter {
 
 
                   if (playWhenReady && playbackState == Player.STATE_READY) {
+                      Log.e("TAG", "onPlayerStateChanged: STATE Ready" )
+
                       // media actually playing
                   } else if (playWhenReady) {
                       // might be idle (plays after prepare()),
@@ -215,6 +218,8 @@ class PlayerViewAdapter {
 
 
                   if (playbackState == Player.STATE_BUFFERING) {
+                      Log.e("TAG", "onPlayerStateChanged: STATE_BUFFERING" )
+
                       callback.onVideoBuffering(player)
                       // Buffering..
                       // set progress bar visible here
@@ -248,14 +253,19 @@ class PlayerViewAdapter {
                   }
 
                   if (playbackState == Player.STATE_READY) {
+                      Log.e("TAG", "onPlayerStateChanged: STATE" )
+
                       // [PlayerView] has fetched the video duration so this is the block to hide the buffering progress bar
 //                      progressbar.visibility = View.GONE
                       // set thumbnail gone
-                      Log.e("TAG", "onPlayerStateChdddanged: "+type )
+
+//                      if (type.equals("image")){
                       if (type.equals("image")){
+                          Log.e("TAG", "onPlayerStateChdddanged: image "+type )
                           thumbnail.visibility = View.VISIBLE
                       }else {
                           thumbnail.visibility = View.GONE
+                          Log.e("TAG", "onPlayerStateChdddanged: video "+type +" , "+url)
                       }
 //                      btnVideoClick.visibility = View.VISIBLE
 
@@ -287,6 +297,7 @@ class PlayerViewAdapter {
                   }
 
                   if (playbackState == Player.STATE_READY && player.playWhenReady) {
+                      Log.e("TAG", "onPlayerStateChanged: STATE_READY" )
                       // [PlayerView] has started playing/resumed the video
                       callback.onStartedPlaying(player)
                   }
