@@ -33,6 +33,7 @@ import com.locatocam.app.viewmodels.SettingsViewModel
 import com.locatocam.app.views.MainActivity
 import com.locatocam.app.views.settings.*
 import com.locatocam.app.views.settings.adapters.*
+import com.locatocam.app.views.settings.adapters.aboutUs.PendingBrandPendingApprovalAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.popup_rejected.view.*
 import kotlinx.coroutines.CoroutineScope
@@ -342,7 +343,7 @@ class ViewApprovalActivity : AppCompatActivity(),ApprovedClickEvents, PendingCli
                             viewPendingLIst =  it.data?.data ?: viewPendingLIst
                             totalCount = viewPendingLIst.brand_pending.toInt()
                             pendingPosts.addAll(viewPendingLIst.details)
-                            val pendingApprovalAdapter = PendingPostViewApprovalAdapter(pendingPosts,
+                            val pendingApprovalAdapter = PendingBrandPendingApprovalAdapter(pendingPosts,
                                 applicationContext,this@ViewApprovalActivity)
                             binding.Pendinglist.adapter = pendingApprovalAdapter
                             pendingApprovalAdapter.notifyDataSetChanged()

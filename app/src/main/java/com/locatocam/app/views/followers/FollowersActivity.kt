@@ -11,6 +11,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.libraries.places.internal.it
 import com.google.android.material.tabs.TabLayout
 import com.locatocam.app.MyApp
+import com.locatocam.app.data.responses.followers.Data
+import com.locatocam.app.data.responses.followers.InfluencerFollower
+import com.locatocam.app.data.responses.settings.pendingPost.DataX
 import com.locatocam.app.databinding.ActivityFollowersBinding
 import com.locatocam.app.network.Status
 import com.locatocam.app.repositories.FollowersRepository
@@ -35,6 +38,8 @@ class FollowersActivity : AppCompatActivity(), Follower {
     var people_following:Int=0
     var followers:Int = 0
     var following:Int=0
+    private var list: MutableList<Any> = ArrayList()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding= ActivityFollowersBinding.inflate(layoutInflater)
@@ -58,57 +63,22 @@ class FollowersActivity : AppCompatActivity(), Follower {
                     Status.SUCCESS -> {
                          following=it.data!!?.data!!?.influencer_following_count
                         followers=it.data!!?.data!!?.influencer_followers_count
-                        setStatePageFollowingAdapter()
+                        people_followers=it.data!!?.data!!?.people_followers_count
+                        people_following=it.data!!?.data!!?.people_following_count
+                        brand_followers=it.data!!?.data!!?.brand_followers_count
+                        brand_following=it.data!!?.data!!?.brand_following_count
+                        if(binding.tabLayout.selectedTabPosition==0){
+                            setStatePageFollowingAdapter1()
+                        }
+                        /*else if(binding.tabLayout.selectedTabPosition==1){
+                            setStatePageFollowingAdapter2()
+                        }
+                        else{
+                            setStatePageFollowingAdapter3()
+                        }*/
+                        //setStatePageFollowingAdapter1()
                         viewmodel.makerequest()
                         binding.loader.visibility = View.GONE
-                        /*var firsttab: Int = binding.tabLayout.selectedTabPosition
-                        //var secondtab: Int = binding.tabLayout1.selectedTabPosition
-                        if (firsttab == 0) {
-                            binding.tabLayout1.removeAllTabs()
-                            followers = it.data!!?.data!!?.brand_followers_count
-                            following = it.data!!?.data!!?.brand_following_count
-                            setStatePageAdapter()
-                           *//* binding.tabLayout1.addTab(binding.tabLayout1.newTab().setText("Followers "+followers))
-                            binding.tabLayout1.addTab(binding.tabLayout1.newTab().setText("Following "+following))
- *//*                           *//*if (secondtab == 0) {
-                                following = it.data!!?.data!!?.influencer_following_count
-                                following = it.data!!?.data!!?.influencer_followers_count
-                            } else {
-                                following = it.data!!?.data!!?.influencer_following_count
-                                following = it.data!!?.data!!?.influencer_followers_count
-                            }*//*
-                        } else if (firsttab == 1) {
-                            binding.tabLayout1.removeAllTabs()
-                            followers = it.data!!?.data!!?.brand_followers_count
-                            following = it.data!!?.data!!?.brand_following_count
-                            binding.tabLayout1.addTab(binding.tabLayout1.newTab().setText("Followers "+followers))
-                            binding.tabLayout1.addTab(binding.tabLayout1.newTab().setText("Following "+following))
-
-                            *//*if (secondtab == 0) {
-                                followers = it.data!!?.data!!?.brand_followers_count
-                                following = it.data!!?.data!!?.brand_following_count
-                            } else {
-                                followers = it.data!!?.data!!?.brand_followers_count
-                                following = it.data!!?.data!!?.brand_following_count
-                            }*//*
-                        } else {
-                            binding.tabLayout1.removeAllTabs()
-                            followers = it.data!!?.data!!?.people_followers_count
-                            following = it.data!!?.data!!?.people_following_count
-                            binding.tabLayout1.addTab(binding.tabLayout1.newTab().setText("Followers "+followers))
-                            binding.tabLayout1.addTab(binding.tabLayout1.newTab().setText("Following "+following))
-
-                            *//*if (secondtab == 0) {
-                                followers = it.data!!?.data!!?.people_followers_count
-                                following = it.data!!?.data!!?.people_following_count
-                            } else {
-                                followers = it.data!!?.data!!?.people_followers_count
-                                following = it.data!!?.data!!?.people_following_count
-                            }*//*
-                        }
-                        //setStatePageAdapter()
-                        viewmodel.makerequest()
-                        setList()*/
                     }
                     Status.LOADING -> {
                         binding.loader.visibility= View.VISIBLE
@@ -129,45 +99,66 @@ class FollowersActivity : AppCompatActivity(), Follower {
         binding.recyclerview.setLayoutManager(layoutManager)
         viewmodel.list_type.observe(this,{
             Log.i("thbb66","bvn")
-
             var data= viewmodel.followers.value.data?.data
             when(it){
                 "influencer_followers"->{
-                   val adapter=InfluencerFollowersAdapter(data!!?.influencer_followers,this@FollowersActivity)
+                     list.clear()
+                     list.addAll(data!!?.influencer_followers)
+                     val adapter=InfluencerFollowersAdapter(list,this@FollowersActivity)
                      binding.recyclerview.adapter=adapter
                       Log.i("typee","influencer_followers"+data!!?.influencer_followers_count)
                      influencer_followers= data!!?.influencer_followers_count
                      influencer_following= data!!?.influencer_following_count
                 }
                 "influencer_following"->{
-                    val adapter=InfluencerFollowingAdapter(data!!?.influencer_following,this@FollowersActivity)
+                    list.clear()
+                    list.addAll(data!!?.influencer_following)
+                    val adapter=InfluencerFollowingAdapter(list,this@FollowersActivity)
                     binding.recyclerview.adapter=adapter
                 }
                 "brand_followers"->{
-                    val adapter=InfluencerFollowersAdapter(data!!?.brand_followers,this@FollowersActivity)
+                    list.clear()
+                    list.addAll(data!!?.brand_followers)
+                    val adapter=InfluencerFollowersAdapter(list,this@FollowersActivity)
                     binding.recyclerview.adapter=adapter
                     brand_followers=data!!?.brand_followers_count
                     brand_following=data!!?.brand_following_count
                 }
                 "brand_following"->{
-                    val adapter= InfluencerFollowingAdapter(data!!?.brand_following,this@FollowersActivity)
+                    list.clear()
+                    list.addAll(data!!?.brand_following)
+                    val adapter= InfluencerFollowingAdapter(list,this@FollowersActivity)
                     binding.recyclerview.adapter=adapter
                     brand_followers=data!!?.brand_followers_count
                     brand_following=data!!?.brand_following_count
                 }
                 "people_followers"->{
-                    val adapter=InfluencerFollowersAdapter(data!!?.people_followers,this@FollowersActivity)
+                    list.clear()
+                    list.addAll(data!!?.people_followers)
+                    val adapter=InfluencerFollowersAdapter(list,this@FollowersActivity)
                     binding.recyclerview.adapter=adapter
                     people_followers=data!!?.people_followers_count
                     people_following=data!!?.people_following_count
                 }
                 "people_following"->{
-                    val adapter=InfluencerFollowingAdapter(data!!?.people_following,this@FollowersActivity)
+                    list.addAll(data!!?.people_following)
+                    val adapter=InfluencerFollowingAdapter(list,this@FollowersActivity)
                     binding.recyclerview.adapter=adapter
                     people_followers=data!!?.people_followers_count
                     people_following=data!!?.people_following_count
                 }
+
             }
+            /*if(binding.tabLayout.selectedTabPosition==0){
+                setStatePageFollowingAdapter1()
+            }
+            else if(binding.tabLayout.selectedTabPosition==1){
+                setStatePageFollowingAdapter2()
+            }
+            else{
+                setStatePageFollowingAdapter3()
+            }*/
+
         })
 
     }
@@ -180,12 +171,31 @@ class FollowersActivity : AppCompatActivity(), Follower {
         binding.tabLayout.addTab(binding.tabLayout.newTab().setText("People"))
 
     }
-    fun setStatePageFollowingAdapter(){
+    fun setStatePageFollowingAdapter1(){
      /*   val followingTabAdapter: FollowingTabAdapter = FollowingTabAdapter(supportFragmentManager)
         followingTabAdapter.addFragment(InfluncerFragment(),"Followers 0")
         followingTabAdapter.addFragment(BrandFragment(),"Following 0")*/
+        binding.tabLayout1.removeAllTabs()
         binding.tabLayout1.addTab(binding.tabLayout1.newTab().setText("Followers "+followers))
         binding.tabLayout1.addTab(binding.tabLayout1.newTab().setText("Following "+following))
+
+    }
+    fun setStatePageFollowingAdapter2(){
+        /*   val followingTabAdapter: FollowingTabAdapter = FollowingTabAdapter(supportFragmentManager)
+           followingTabAdapter.addFragment(InfluncerFragment(),"Followers 0")
+           followingTabAdapter.addFragment(BrandFragment(),"Following 0")*/
+        binding.tabLayout1.removeAllTabs()
+        binding.tabLayout1.addTab(binding.tabLayout1.newTab().setText("Followers "+brand_followers))
+        binding.tabLayout1.addTab(binding.tabLayout1.newTab().setText("Following "+brand_following))
+
+    }
+    fun setStatePageFollowingAdapter3(){
+        /*   val followingTabAdapter: FollowingTabAdapter = FollowingTabAdapter(supportFragmentManager)
+           followingTabAdapter.addFragment(InfluncerFragment(),"Followers 0")
+           followingTabAdapter.addFragment(BrandFragment(),"Following 0")*/
+        binding.tabLayout1.removeAllTabs()
+        binding.tabLayout1.addTab(binding.tabLayout1.newTab().setText("Followers "+people_followers))
+        binding.tabLayout1.addTab(binding.tabLayout1.newTab().setText("Following "+people_following))
 
     }
 
@@ -196,8 +206,17 @@ class FollowersActivity : AppCompatActivity(), Follower {
        binding.tabLayout.addOnTabSelectedListener(object:TabLayout.OnTabSelectedListener{
            override fun onTabSelected(tab: TabLayout.Tab?) {
                viewmodel.firsttab=binding.tabLayout.selectedTabPosition
-               setBrand()
-               //viewmodel.makerequest()
+               //setBrand()
+               if(binding.tabLayout.selectedTabPosition==0){
+                   setStatePageFollowingAdapter1()
+               }
+               else if(binding.tabLayout.selectedTabPosition==1){
+                   setStatePageFollowingAdapter2()
+               }
+               else{
+                   setStatePageFollowingAdapter3()
+               }
+               viewmodel.makerequest()
 
            }
 
@@ -210,8 +229,8 @@ class FollowersActivity : AppCompatActivity(), Follower {
        binding.tabLayout1.addOnTabSelectedListener(object:TabLayout.OnTabSelectedListener{
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 viewmodel.secondtab=binding.tabLayout1.selectedTabPosition
-                setBrand()
-                //viewmodel.makerequest()
+                //setBrand()
+                viewmodel.makerequest()
             }
 
             override fun onTabUnselected(tab: TabLayout.Tab?) {
@@ -222,26 +241,34 @@ class FollowersActivity : AppCompatActivity(), Follower {
         })
     }
 
-    override fun follow(follow_type: String, follow_process: String, folloedId: Int) {
+    override fun follow(follow_type: String, follow_process: String, folloedId: Int,poition:Int) {
         binding.loader.visibility= View.VISIBLE
-       postFollow(follow_process,follow_type,folloedId)
+       postFollow(follow_process,follow_type,folloedId,poition)
 
     }
 
-    override fun remove(follow_type: String, follow_process: String, folloedId: Int) {
+    override fun remove(follow_type: String, follow_process: String, folloedId: Int,poition:Int) {
         binding.loader.visibility= View.VISIBLE
-        postFollow(follow_process,follow_type,folloedId)
+        postFollow(follow_process,follow_type,folloedId,poition)
     }
-     fun postFollow(follow_type: String, follow_process: String, folloedId: Int){
+     fun postFollow(follow_type: String, follow_process: String, folloedId: Int,poition:Int){
          lifecycleScope.launch {
              viewmodel.postFollow(follow_process,follow_type,folloedId)
 
              viewmodel.follow.collect {
                  when (it.status) {
                      Status.SUCCESS -> {
-                         //(binding.recyclerview.getAdapter() as InfluencerFollowersAdapter).removeItem(position)
+                         if(binding.tabLayout1.selectedTabPosition==0) {
+                             //(binding.recyclerview.getAdapter() as InfluencerFollowersAdapter).remove(poition)
+                             setObservables()
+                         }
+                         else {
+                             //(binding.recyclerview.getAdapter() as InfluencerFollowingAdapter).remove(poition)
+                             setObservables()
+                         }
                          binding.loader.visibility= View.GONE
-                         setList()
+
+                         //setList()
                      }
                      Status.LOADING -> {
                          binding.loader.visibility= View.VISIBLE
@@ -261,31 +288,6 @@ class FollowersActivity : AppCompatActivity(), Follower {
             viewmodel.followers.collect {
                 when (it.status) {
                     Status.SUCCESS -> {
-                       /* var firsttab:Int=binding.tabLayout.selectedTabPosition
-                        var secondtab:Int=binding.tabLayout1.selectedTabPosition
-                        if (firsttab==0){
-                            if (secondtab==0){
-                                following=it.data!!?.data!!?.influencer_following_count
-                                following=it.data!!?.data!!?.influencer_followers_count
-                            }else{
-                                following=it.data!!?.data!!?.influencer_following_count
-                                following=it.data!!?.data!!?.influencer_followers_count
-                            }
-                        }else if (firsttab==1){
-                            if (secondtab==0){
-                                followers=it.data!!?.data!!?.brand_followers_count
-                            }else{
-                                following=it.data!!?.data!!?.brand_following_count
-                            }
-                        }else{
-                            if (secondtab==0){
-                                followers=it.data!!?.data!!?.people_followers_count
-                                following=it.data!!?.data!!?.people_following_count
-                            }else{
-                                followers=it.data!!?.data!!?.people_followers_count
-                                following=it.data!!?.data!!?.people_following_count
-                            }
-                        }*/
                         viewmodel.makerequest()
                         binding.loader.visibility= View.GONE
                     }

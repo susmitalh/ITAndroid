@@ -12,7 +12,7 @@ import com.locatocam.app.data.responses.followers.*
 import com.locatocam.app.views.followers.interfaceFollow.Follower
 import java.util.*
 
-class InfluencerFollowersAdapter(val data:List<Any>,private val click: Follower):
+class InfluencerFollowersAdapter(val data:MutableList<Any>,private val click: Follower):
     RecyclerView.Adapter<InfluencerFollowersAdapter.ItemViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
         var view:View= LayoutInflater.from(parent.context).inflate(
@@ -36,7 +36,7 @@ class InfluencerFollowersAdapter(val data:List<Any>,private val click: Follower)
                 .into(holder.image);
             holder.follow.text=item.follow_status
             holder.follow.setOnClickListener {
-                click.follow("influencer","follow",item.user_id.toInt())
+                click.follow("influencer","follow",item.user_id.toInt(),position)
             }
         }else if (item is InfluencerFollowing){
             holder.name.setText(item.name)
@@ -55,7 +55,7 @@ class InfluencerFollowersAdapter(val data:List<Any>,private val click: Follower)
                 .centerCrop()
                 .into(holder.image)
             holder.follow.setOnClickListener {
-                click.follow("brand","follow",item.user_id.toInt())
+                click.follow("brand","follow",item.user_id.toInt(),position)
             }
             holder.follow.text=item.follow_status
         }else if (item is BrandFollowing){
@@ -76,7 +76,7 @@ class InfluencerFollowersAdapter(val data:List<Any>,private val click: Follower)
                 .into(holder.image)
             holder.follow.text=item.follow_status
             holder.follow.setOnClickListener {
-                click.follow("people","follow",item.user_id.toInt())
+                click.follow("people","follow",item.user_id.toInt(),position)
             }
         }else if (item is PeopleFollowing){
             holder.name.setText(item.name)
@@ -102,6 +102,10 @@ class InfluencerFollowersAdapter(val data:List<Any>,private val click: Follower)
         var image:ImageView=view.findViewById(R.id.imageView)
         var follow:TextView=view.findViewById(R.id.follow)
 
+    }
+    fun remove(position: Int){
+        data.removeAt(position)
+        notifyDataSetChanged()
     }
 }
 

@@ -58,6 +58,7 @@ class FollowersViewModel(
         Log.i("looo9dv","$firsttab --- $secondtab")
     }
     fun getFollowers(){
+        //val followers = MutableStateFlow<Resource<RespFollowers>>(Resource.loading(null))
         var request= ReqFollowers(repository.getUserID().toInt())
         viewModelScope.launch {
             repository.getFollowers(request)

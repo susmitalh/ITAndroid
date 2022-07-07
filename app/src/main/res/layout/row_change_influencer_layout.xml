@@ -8,7 +8,7 @@
     <LinearLayout
         android:layout_margin="@dimen/_5sdp"
         android:layout_width="match_parent"
-        android:layout_height="30dp"
+        android:layout_height="wrap_content"
         android:background="@drawable/border_grey"
         android:orientation="vertical">
 
@@ -28,7 +28,7 @@
         <LinearLayout
             android:id="@+id/social_layout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="30dp"
             android:layout_marginTop="5dp"
             android:gravity="center"
             android:orientation="horizontal">
@@ -49,9 +49,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/black"
-                    android:layout_gravity="center"
+                    android:gravity="center"
                     android:layout_marginEnd="@dimen/_10sdp"
-                    android:textSize="12sp" />
+                    android:textSize="10sp" />
             </LinearLayout>
 
             <LinearLayout
@@ -68,10 +68,10 @@
                     android:id="@+id/instagram"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
+                    android:gravity="center"
                     android:layout_marginEnd="@dimen/_10sdp"
                     android:textColor="@color/black"
-                    android:textSize="12sp" />
+                    android:textSize="10sp" />
             </LinearLayout>
 
             <LinearLayout
@@ -89,9 +89,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/black"
-                    android:layout_gravity="center"
+                    android:gravity="center"
                     android:layout_marginEnd="@dimen/_10sdp"
-                    android:textSize="12sp" />
+                    android:textSize="10sp" />
             </LinearLayout>
 
             <LinearLayout
@@ -108,16 +108,16 @@
                     android:id="@+id/twitter"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
+                    android:gravity="center"
                     android:layout_marginEnd="@dimen/_10sdp"
                     android:textColor="@color/black"
-                    android:textSize="12sp" />
+                    android:textSize="10sp" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:visibility="gone"
+                android:visibility="visible"
                 android:id="@+id/layoutLinkedin">
 
                 <ImageView
@@ -127,9 +127,9 @@
 
                 <TextView
                     android:id="@+id/linkedin"
-                    android:textSize="12sp"
+                    android:textSize="10sp"
                     android:textColor="@color/black"
-                    android:layout_gravity="center"
+                    android:gravity="center"
                     android:layout_marginEnd="@dimen/_10sdp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />

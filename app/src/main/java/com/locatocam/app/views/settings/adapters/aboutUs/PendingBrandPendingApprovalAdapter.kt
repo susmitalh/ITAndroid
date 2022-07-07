@@ -1,22 +1,21 @@
-package com.locatocam.app.views.settings.adapters
+package com.locatocam.app.views.settings.adapters.aboutUs
 
 import android.content.Context
 import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.widget.AppCompatButton
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.locatocam.app.R
-import com.locatocam.app.data.responses.settings.Approved.Detail
+import com.locatocam.app.data.responses.settings.pendingPost.Detail
+import com.locatocam.app.views.settings.PendingClickEvents
 
-class ApprovedPostApprovalsAdapter (private val list: MutableList<Detail>, private val context: Context,
-                                    private val clickEvents: com.locatocam.app.views.settings.ApprovedClickEvents) : RecyclerView.Adapter<ApprovedPostApprovalsAdapter.viewHolder>() {
-
-
+class PendingBrandPendingApprovalAdapter (private val list: MutableList<Detail>, private val context: Context,
+                                          private val click:PendingClickEvents) : RecyclerView.Adapter<PendingBrandPendingApprovalAdapter.viewHolder>() {
     class viewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         var textPostedBy: TextView = itemView.findViewById(R.id.textPostedBy)
@@ -27,17 +26,15 @@ class ApprovedPostApprovalsAdapter (private val list: MutableList<Detail>, priva
         var textBrand: TextView = itemView.findViewById(R.id.textBrand)
         var textContent: TextView = itemView.findViewById(R.id.textContent)
         var imagePostedFile: ImageView = itemView.findViewById(R.id.imagePostedFile)
-        var textapprovedBy:TextView=itemView.findViewById(R.id.textapprovedBy)
-        var textappirovedTime:TextView=itemView.findViewById(R.id.textappirovedTime)
-        var textBrandStatus:TextView=itemView.findViewById(R.id.textBrandStatus)
-        var btn_reject:Button=itemView.findViewById(R.id.btn_reject);
-        var btn_view:Button=itemView.findViewById(R.id.btn_view);
+        var btn_Reject:AppCompatButton=itemView.findViewById(R.id.btn_Reject)
+        var btn_View:AppCompatButton=itemView.findViewById(R.id.btn_View)
+        var btn_approve:AppCompatButton=itemView.findViewById(R.id.btn_approve)
 
 
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): viewHolder {
-        val view: View = LayoutInflater.from(parent.context).inflate(R.layout.approved_item_layout, parent, false)
+        val view: View = LayoutInflater.from(parent.context).inflate(R.layout.pending_item_layout, parent, false)
 
         return viewHolder(view)
     }
@@ -51,19 +48,20 @@ class ApprovedPostApprovalsAdapter (private val list: MutableList<Detail>, priva
         holder.textHeadline.text = list[position].header
         holder.textSubHeader.text = list[position].sub_header
         holder.textContent.text = list[position].description
-        holder.textapprovedBy.text=list[position].approved_by
-        holder.textappirovedTime.text=list[position].approved_time
-        holder.textBrandStatus.text=list[position].brand_status
         Glide.with(context)
             .load(Uri.parse(list[position].file))
-            .into(holder.imagePostedFile);
-
-        holder.btn_reject.setOnClickListener {
-            clickEvents.ApprovedReject(holder.btn_reject,list[position],"approved","post")
+            .into(holder.imagePostedFile)
+        holder.btn_Reject.setOnClickListener {
+            click.PendingReject(holder.btn_Reject,list[position],"pending","post")
         }
-        holder.btn_view.setOnClickListener {
-            clickEvents.Approvedview(holder.btn_view,list[position],"approved","post")
+        holder.btn_View.setOnClickListener {
+            click.Pendingview(holder.btn_View,list[position],"pending","post")
         }
+        holder.btn_approve.setOnClickListener {
+            click.PendingApprove(holder.btn_View,list[position],"pending","post")
+        }
+        holder.btn_Reject.visibility=View.GONE
+        holder.btn_approve.visibility=View.GONE
     }
 
     override fun getItemCount(): Int {

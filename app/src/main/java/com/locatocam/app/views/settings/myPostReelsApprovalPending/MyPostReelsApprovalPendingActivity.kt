@@ -329,9 +329,9 @@ class MyPostReelsApprovalPendingActivity : AppCompatActivity(),CompanyPendingCli
                             binding.brandPending.text="Brand Pending("+viewPendingLIst.brand_pending+")"
                         }
                         if(type.equals("brand_pending")) {
-                            /*lateinit var viewPendingLIst: DataX
+                            lateinit var viewPendingLIst: DataX
                             viewPendingLIst =  it.data?.data ?: viewPendingLIst
-                            totalCount = viewPendingLIst.post
+                            totalCount = viewPendingLIst.brand_pending.toInt()
                             pendingPosts.addAll(viewPendingLIst.details)
                             val pendingApprovalAdapter = CompanyPendingPostApprovalAdapter(
                                 pendingPosts,
@@ -347,7 +347,7 @@ class MyPostReelsApprovalPendingActivity : AppCompatActivity(),CompanyPendingCli
                             binding.rejected.text="Rejected("+viewPendingLIst.rejected+")"
                             binding.post.text="Post("+viewPendingLIst.post+")"
                             binding.rolls.text="Rolls("+viewPendingLIst.rolls+")"
-                            binding.brandPending.text="Brand Pending("+viewPendingLIst.brand_pending+")"*/
+                            binding.brandPending.text="Brand Pending("+viewPendingLIst.brand_pending+")"
                         }
                         pageDetails.totalPages = totalCount/pageSize
                         pageDetails.totalPages = if(totalCount%pageSize ==0) pageDetails.totalPages else pageDetails.totalPages +1

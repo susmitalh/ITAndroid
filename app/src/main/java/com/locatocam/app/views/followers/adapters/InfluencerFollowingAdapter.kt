@@ -13,7 +13,7 @@ import com.locatocam.app.data.responses.followers.*
 import com.locatocam.app.views.followers.interfaceFollow.Follower
 import java.util.*
 
-class InfluencerFollowingAdapter(val data:List<Any>,private val click: Follower):
+class InfluencerFollowingAdapter(val data:MutableList<Any>,private val click: Follower):
     RecyclerView.Adapter<InfluencerFollowingAdapter.ItemViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
         var view:View= LayoutInflater.from(parent.context).inflate(R.layout.row_layout_following,parent,false,)
@@ -40,7 +40,7 @@ class InfluencerFollowingAdapter(val data:List<Any>,private val click: Follower)
                 .centerCrop()
                 .into(holder.image)
             holder.remove.setOnClickListener {
-                click.remove("influencer","unfollow",item.user_id.toInt())
+                click.remove("influencer","unfollow",item.user_id.toInt(),position)
             }
         }else if (item is BrandFollower){
             holder.name.setText(item.name)
@@ -59,7 +59,7 @@ class InfluencerFollowingAdapter(val data:List<Any>,private val click: Follower)
                 .centerCrop()
                 .into(holder.image)
             holder.remove.setOnClickListener {
-                click.remove("influencer","unfollow",item.user_id.toInt())
+                click.remove("influencer","unfollow",item.user_id.toInt(),position)
             }
         }else if (item is PeopleFollower){
             holder.name.setText(item.name)
@@ -78,7 +78,7 @@ class InfluencerFollowingAdapter(val data:List<Any>,private val click: Follower)
                 .centerCrop()
                 .into(holder.image)
             holder.remove.setOnClickListener {
-                click.remove("influencer","unfollow",item.user_id.toInt())
+                click.remove("influencer","unfollow",item.user_id.toInt(),position)
             }
         }
 
@@ -96,5 +96,9 @@ class InfluencerFollowingAdapter(val data:List<Any>,private val click: Follower)
         var image:ImageView=view.findViewById(R.id.imageView)
         var remove:AppCompatButton=view.findViewById(R.id.remove)
 
+    }
+    fun remove(position: Int){
+        data.removeAt(position)
+        notifyDataSetChanged()
     }
 }

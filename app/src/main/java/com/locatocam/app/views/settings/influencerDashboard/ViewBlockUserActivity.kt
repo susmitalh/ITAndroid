@@ -79,7 +79,7 @@ class ViewBlockUserActivity : AppCompatActivity(),SettingClickListener {
                         binding.recyclerview.adapter=adapter
                     }
                     Status.LOADING -> {
-                        binding.loader.visibility= View.VISIBLE
+                        binding.loader.visibility= View.GONE
                         //showProgress(true,"Fetching Data")
 
 

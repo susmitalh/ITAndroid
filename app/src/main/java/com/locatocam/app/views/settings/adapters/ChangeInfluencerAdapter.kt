@@ -54,55 +54,71 @@ class ChangeInfluencerAdapter (private val list: List<Data>, private val context
     }
 
     override fun onBindViewHolder(holder: ChangeInfluencerAdapter.viewHolder, position: Int) {
-           holder.name.text=list[position].inf_name
-           holder.emailId.text=list[position].inf_email
+        var data=list[position]
+        holder.name.text=data.inf_name
+           holder.emailId.text=data.inf_email
            Glide.with(context)
-            .load(Uri.parse(list[position].inf_photo))
+            .load(Uri.parse(data.inf_photo))
             .into(holder.imagview)
-            list[position].inf_social_details?.forEach { that ->
-            when (that.social_name) {
-                "Facebook" -> {
-                    val svg = SVG.getFromString(that.icon)
-                    val drawable = PictureDrawable(svg.renderToPicture())
-                    Glide.with(context).load(drawable).into(holder.imgFacebook)
-                    holder.facebook.text = " " + that.follower
-                }
-                "Instagram" -> {
-                    val svg = SVG.getFromString(that.icon)
-                    val drawable = PictureDrawable(svg.renderToPicture())
-                    Glide.with(context).load(drawable).into(holder.imgInstagram)
+             if(data.inf_social_details==null){
+                  holder.layoutFacebook.visibility=View.GONE
+                  holder.layoutInstagram.visibility=View.GONE
+                 holder.layoutYoutube.visibility=View.GONE
+                 holder.layoutTwitter.visibility=View.GONE
+                 holder.layoutLinkedin.visibility=View.GONE
+             }
+        else{
+                 holder.layoutFacebook.visibility=View.VISIBLE
+                 holder.layoutInstagram.visibility=View.VISIBLE
+                 holder.layoutYoutube.visibility=View.VISIBLE
+                 holder.layoutTwitter.visibility=View.VISIBLE
+                 holder.layoutLinkedin.visibility=View.VISIBLE
+                 data.inf_social_details?.forEach { that ->
+                     when (that.social_name) {
+                         "Facebook" -> {
+                             val svg = SVG.getFromString(that.icon)
+                             val drawable = PictureDrawable(svg.renderToPicture())
+                             Glide.with(context).load(drawable).into(holder.imgFacebook)
+                             holder.facebook.text = " " + that.follower
+                         }
+                         "Instagram" -> {
+                             val svg = SVG.getFromString(that.icon)
+                             val drawable = PictureDrawable(svg.renderToPicture())
+                             Glide.with(context).load(drawable).into(holder.imgInstagram)
 
-                    holder.instagram.text = " " + that.follower
-                }
-                "Youtube" -> {
-                    val svg = SVG.getFromString(that.icon)
-                    val drawable = PictureDrawable(svg.renderToPicture())
-                    Glide.with(context).load(drawable).into(holder.imgYoutube)
-                    holder.youtube.text = " " + that.follower
-                }
-                "Twitter" -> {
-                    val svg = SVG.getFromString(that.icon)
-                    val drawable = PictureDrawable(svg.renderToPicture())
-                    Glide.with(context).load(drawable).into(holder.imgtwitter)
-                    holder.twitter.text = " " + that.follower
+                             holder.instagram.text = " " + that.follower
+                         }
+                         "Youtube" -> {
+                             val svg = SVG.getFromString(that.icon)
+                             val drawable = PictureDrawable(svg.renderToPicture())
+                             Glide.with(context).load(drawable).into(holder.imgYoutube)
+                             holder.youtube.text = " " + that.follower
+                         }
+                         "Twitter" -> {
+                             val svg = SVG.getFromString(that.icon)
+                             val drawable = PictureDrawable(svg.renderToPicture())
+                             Glide.with(context).load(drawable).into(holder.imgtwitter)
+                             holder.twitter.text = " " + that.follower
 
-                }
-                "linkedin"->{
-                    if (that.icon!=null) {
-                        val svg = SVG.getFromString(that.icon)
-                        val drawable = PictureDrawable(svg.renderToPicture())
-                        Glide.with(context).load(drawable).into(holder.imglinkedin)
-                    }
-                    if (that.follower.equals("")||that.follower.equals(null)){
-                        holder.layoutLinkedin.visibility=View.GONE
-                    }else {
-                        holder.layoutLinkedin.visibility=View.VISIBLE
-                        holder.linkedin.text = " " + that.follower
-                    }
+                         }
+                         "linkedin"->{
+                             if (that.icon!=null) {
+                                 val svg = SVG.getFromString(that.icon)
+                                 val drawable = PictureDrawable(svg.renderToPicture())
+                                 Glide.with(context).load(drawable).into(holder.imglinkedin)
+                             }
+                             if (that.follower.equals("")||that.follower.equals(null)){
+                                 holder.layoutLinkedin.visibility=View.GONE
+                             }else {
+                                 holder.layoutLinkedin.visibility=View.VISIBLE
+                                 holder.linkedin.text = " " + that.follower
+                             }
 
-                }
-            }
+                         }
+                     }
+                 }
         }
+
         holder.btn_changeInfluencer.setOnClickListener {
             click.changeInfluencer(list[position].inf_code)
         }
