@@ -58,7 +58,7 @@ companion object {
             parent?.removeView(view)
         }*/
         binding = FragmentHeaderOtherProfileBinding.inflate(layoutInflater)
-
+        MainActivity.activity.finish()
 
         var repository = HeaderRepository(userid, requireActivity().application)
         var factory = HeaderViewModelFactory(repository)

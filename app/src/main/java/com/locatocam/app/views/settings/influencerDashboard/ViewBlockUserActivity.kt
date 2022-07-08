@@ -117,7 +117,7 @@ class ViewBlockUserActivity : AppCompatActivity(),SettingClickListener {
     }
     fun showSaveAlert(userNmae: String,userId:Int) {
 
-        val alertDialogBuilder = AlertDialog.Builder(context)
+        val alertDialogBuilder = AlertDialog.Builder(this)
 
         alertDialogBuilder.setTitle("Are you sure to unblock "+userNmae +" ?")
         alertDialogBuilder.setPositiveButton("Yes", DialogInterface.OnClickListener { dialogInterface, i ->
@@ -132,8 +132,7 @@ class ViewBlockUserActivity : AppCompatActivity(),SettingClickListener {
     fun sendReq(blockedUserId: Int){
         val userId:String=SharedPrefEnc.getPref(context,"user_id")
         val user_id:Int=userId.toInt()
-        viewModel.postBlokedUser(
-            ReqBlockedUser(
+        viewModel.postBlokedUser(ReqBlockedUser(
                 blockedUserId,
                 user_id
             ))
@@ -143,6 +142,7 @@ class ViewBlockUserActivity : AppCompatActivity(),SettingClickListener {
                 when(it.status){
                     Status.SUCCESS -> {
                         binding.loader.visibility= View.GONE
+                        setdata()
                     }
                     Status.LOADING -> {
                         binding.loader.visibility= View.VISIBLE
@@ -159,7 +159,7 @@ class ViewBlockUserActivity : AppCompatActivity(),SettingClickListener {
         }
     }
 
-    override fun unblock(userNmae: String,userId: String) {
+    override fun unblock(view: View,userNmae: String,userId: String) {
         showSaveAlert(userNmae,userId.toInt())
     }
 

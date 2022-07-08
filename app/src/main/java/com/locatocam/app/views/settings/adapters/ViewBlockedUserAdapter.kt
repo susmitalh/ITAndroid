@@ -38,7 +38,7 @@ class ViewBlockedUserAdapter(val data:List<ViewBlockUserData>,private val contex
             .centerCrop()
             .into(holder.image);
         holder.unblock.setOnClickListener {
-            click.unblock(item.user_name,item.user_id)
+            click.unblock(holder.unblock,item.user_name,item.user_id)
         }
 
     }
