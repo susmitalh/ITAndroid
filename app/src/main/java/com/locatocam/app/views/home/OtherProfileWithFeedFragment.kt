@@ -266,7 +266,16 @@ class OtherProfileWithFeedFragment() : Fragment(), FeedEvents, ClickEvents, Simp
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 var completeVisiblesItems = layoutManager.findFirstCompletelyVisibleItemPosition()
 //                    var pastVisiblesItems = layoutManager.findFirstVisibleItemPosition()
-                if (dy > 0) { //check for scroll down
+
+                var position: Int = layoutManager.findLastVisibleItemPosition()
+                var positionLast: Int = layoutManager.findFirstVisibleItemPosition()
+                val rect = Rect()
+                layoutManager.findViewByPosition(position)?.getGlobalVisibleRect(rect)
+
+                if (dy>0) {
+
+
+                    //check for scroll down
                     var visibleItemCount = layoutManager.getChildCount()
                     var totalItemCount = layoutManager.getItemCount()
                     var pastVisiblesItems = layoutManager.findFirstVisibleItemPosition()
@@ -274,11 +283,7 @@ class OtherProfileWithFeedFragment() : Fragment(), FeedEvents, ClickEvents, Simp
                     if (!viewModel.loading) {
 
                         if (visibleItemCount + pastVisiblesItems >= totalItemCount - 2) {
-                            Log.v("gt66666", "Last Item Wow !")
                             var act = (requireActivity() as OtherProfileWithFeedActivity)
-                            Log.e("TAG location", "onClickAddressNat: " + act.viewModel.lat + "," + act.viewModel.lng
-
-                            )
                             Log.e("TAG", "onClickAddressNat: "+SharedPrefEnc.getPref(context,"selected_lat")+" lng "+SharedPrefEnc.getPref(context,"selected_lng") )
 
                             var latLong:Double=SharedPrefEnc.getPref(context,"selected_lat").toDouble()
@@ -289,14 +294,6 @@ class OtherProfileWithFeedFragment() : Fragment(), FeedEvents, ClickEvents, Simp
 
                         }
                     }
-                }
-
-                var position: Int = layoutManager.findLastVisibleItemPosition()
-                var positionLast: Int = layoutManager.findFirstVisibleItemPosition()
-                val rect = Rect()
-                layoutManager.findViewByPosition(position)?.getGlobalVisibleRect(rect)
-
-                if (dy>0) {
 
                     if (rect.height()>=900) {
 

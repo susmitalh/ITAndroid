@@ -340,38 +340,24 @@ public class HomeFragment : Fragment(), FeedEvents, ClickEvents, SimpleEvents {
                 var completeVisiblesItems = layoutManager.findFirstCompletelyVisibleItemPosition()
 
 
+                var position: Int = layoutManager.findLastVisibleItemPosition()
+                var positionLast: Int = layoutManager.findFirstVisibleItemPosition()
+                val rect = Rect()
+                layoutManager.findViewByPosition(position)?.getGlobalVisibleRect(rect)
 
-                if (dy > 0) {
-                    //check for scroll down
+
+
+
+                if (dy>0) {
+
                     var visibleItemCount = layoutManager.getChildCount()
                     var totalItemCount = layoutManager.getItemCount()
 
 
 
                     if (!viewModel.loading) {
-                        Log.e(
-                            "paggination",
-                            "onScrolled: counts " + visibleItemCount + "," + totalItemCount + "," + completeVisiblesItems
-                        )
-                        Log.e(
-                            "paggination",
-                            "onScrolled: sum " + (visibleItemCount + completeVisiblesItems)
-                        )
-                        Log.e("paggination", "onScrolled: total " + totalItemCount.minus(2))
                         if (visibleItemCount + completeVisiblesItems >= totalItemCount - 2) {
-                            Log.v("gt66666", "Last Item Wow !")
                             var act = (requireActivity() as MainActivity)
-                            Log.e(
-                                "TAG location",
-                                "onScrolled: " + act.viewModel.lat + "," + act.viewModel.lng
-                            )
-                            Log.e(
-                                "TAG",
-                                "onClickAddressNewLaat: " + SharedPrefEnc.getPref(
-                                    context,
-                                    "selected_lat"
-                                ) + " lng " + SharedPrefEnc.getPref(context, "selected_lng")
-                            )
                             latlng = act.viewModel.lat
                             latLong = act.viewModel.lng
                             viewModel.getAllFeeds(
@@ -382,16 +368,6 @@ public class HomeFragment : Fragment(), FeedEvents, ClickEvents, SimpleEvents {
 
                         }
                     }
-                }
-                var position: Int = layoutManager.findLastVisibleItemPosition()
-                var positionLast: Int = layoutManager.findFirstVisibleItemPosition()
-                val rect = Rect()
-                layoutManager.findViewByPosition(position)?.getGlobalVisibleRect(rect)
-
-
-
-
-                if (dy>0) {
 
                     if (rect.height()>=900) {
 

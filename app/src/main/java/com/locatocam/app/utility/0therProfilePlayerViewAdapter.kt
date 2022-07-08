@@ -71,7 +71,7 @@ class OtherProfilePlayerViewAdapter {
       }
 
       @JvmStatic
-      @BindingAdapter(value = ["thumbnail", "error"], requireAll = false)
+      @BindingAdapter(value = ["thumbnail_other", "error_other"], requireAll = false)
       fun loadImage(view: ImageView, profileImage: String?, error: Int) {
           if (!profileImage.isNullOrEmpty()) {
               Glide.with(view.context)
