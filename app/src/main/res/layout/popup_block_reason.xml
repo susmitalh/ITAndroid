@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="350dp"
+    android:layout_height="wrap_content"
+    android:background="@drawable/border"
+    android:orientation="vertical"
+    android:padding="10dp">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="Block This User"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+ <RadioGroup
+     android:id="@+id/radioGroup"
+     android:layout_width="wrap_content"
+     android:layout_height="match_parent"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/greylight1" />
+
+    <LinearLayout
+        android:layout_gravity="end"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
+
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:textAllCaps="false"
+            android:id="@+id/no"
+            android:background="@null"
+            android:layout_marginLeft="2dp"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:textSize="12sp"
+            android:textColor="@color/black"
+            android:text="Cancel"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:textAllCaps="false"
+            android:id="@+id/yes"
+            android:background="@drawable/oval_red_border"
+            android:layout_marginLeft="2dp"
+            android:layout_width="55dp"
+            android:layout_height="30dp"
+            android:textSize="12sp"
+            android:textColor="@color/red"
+            android:text="Block"/>
+
+    </LinearLayout>
+</LinearLayout>

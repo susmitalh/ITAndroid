@@ -214,7 +214,10 @@ class MyPostReelsApprovalPendingActivity : AppCompatActivity(),CompanyPendingCli
         }
 
         binding.home.setOnClickListener {
-            val intent = Intent(this, MainActivity::class.java)
+            var intent= Intent(applicationContext,MainActivity::class.java)
+            intent.putExtra("lat",MainActivity.instances.viewModel.lat)
+            intent.putExtra("lng",MainActivity.instances.viewModel.lng)
+            intent.putExtra("address",MainActivity.instances.viewModel.add)
             startActivity(intent)
         }
         binding.back.setOnClickListener {

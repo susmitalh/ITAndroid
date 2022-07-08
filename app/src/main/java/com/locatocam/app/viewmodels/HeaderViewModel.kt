@@ -4,13 +4,12 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.locatocam.app.data.requests.ReqFollow
-import com.locatocam.app.data.requests.ReqMostPopularVideos
-import com.locatocam.app.data.requests.ReqRollsAndShortVideos
-import com.locatocam.app.data.requests.ReqUserDetails
+import com.locatocam.app.data.requests.*
 import com.locatocam.app.data.responses.SearchModal.DataSeach
 import com.locatocam.app.data.responses.top_influencers.Data
 import com.locatocam.app.data.responses.user_details.RespUserDetails
+import com.locatocam.app.data.responses.userblock_reasons.ResAddUserBlock
+import com.locatocam.app.data.responses.userblock_reasons.ResBlockUserReason
 import com.locatocam.app.repositories.HeaderRepository
 import com.locatocam.app.views.home.header.HeaderFragment
 import kotlinx.coroutines.flow.catch
@@ -29,6 +28,8 @@ class HeaderViewModel(
         MutableLiveData<List<com.locatocam.app.data.responses.rolls_and_short_videos.Data>>()
     var userDetails = MutableLiveData<RespUserDetails>()
     lateinit var filter: String
+    var userBlockReason = MutableLiveData<List<com.locatocam.app.data.responses.userblock_reasons.Data>>()
+    var addUserBlock = MutableLiveData<ResAddUserBlock>()
 
 
     fun getTopInfluencersV(userid: String, type: String) {
@@ -168,6 +169,30 @@ class HeaderViewModel(
         }
         return searchDataList
     }
+    fun getblockUserReasons() {
+        viewModelScope.launch {
+            repository.getUserBlockReason().catch {
+            }
+                .collect {
+                    try {
+                        userBlockReason.value = it
+                    } catch (e: Exception) {
+                    }
+                }
+        }
+    }
 
+    fun addblockUserReasons(request:ReqAddUserBlock) {
+        viewModelScope.launch {
+            repository.addUserBlock(request).catch {
+            }
+                .collect {
+                    try {
+                        addUserBlock.value = it
+                    } catch (e: Exception) {
+                    }
+                }
+        }
+    }
 
 }

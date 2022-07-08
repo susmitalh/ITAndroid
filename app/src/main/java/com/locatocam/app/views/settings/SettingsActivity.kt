@@ -413,7 +413,17 @@ class SettingsActivity : AppCompatActivity(){
         }
 
         binding.back.setOnClickListener {
-            var intent=Intent(applicationContext,MainActivity::class.java)
+            var intent= Intent(applicationContext,MainActivity::class.java)
+            intent.putExtra("lat",MainActivity.instances.viewModel.lat)
+            intent.putExtra("lng",MainActivity.instances.viewModel.lng)
+            intent.putExtra("address",MainActivity.instances.viewModel.add)
+            startActivity(intent)
+        }
+        binding.home.setOnClickListener {
+            var intent= Intent(applicationContext,MainActivity::class.java)
+            intent.putExtra("lat",MainActivity.instances.viewModel.lat)
+            intent.putExtra("lng",MainActivity.instances.viewModel.lng)
+            intent.putExtra("address",MainActivity.instances.viewModel.add)
             startActivity(intent)
         }
 
@@ -424,12 +434,6 @@ class SettingsActivity : AppCompatActivity(){
             startActivity(intent)
 
         })
-        binding.home.setOnClickListener {
-            var intent=Intent(applicationContext,MainActivity::class.java)
-            startActivity(intent)
-        }
-
-
     }
 
     fun sendOtp(){

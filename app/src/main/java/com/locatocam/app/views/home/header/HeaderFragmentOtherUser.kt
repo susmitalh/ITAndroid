@@ -1,12 +1,13 @@
 package com.locatocam.app.views.home.header
 
+import android.app.Dialog
 import android.content.Intent
 import android.graphics.drawable.PictureDrawable
 import android.net.Uri
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.util.Log
+import android.view.*
+import android.widget.*
 import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -14,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.caverock.androidsvg.SVG
 import com.locatocam.app.Activity.OtherProfileWithFeedActivity
+import com.locatocam.app.R
 import com.locatocam.app.adapter.InfluencerProfileBannerAdapter
 import com.locatocam.app.adapter.OtherUserTitleAdapter
 import com.locatocam.app.databinding.FragmentHeaderOtherProfileBinding
@@ -26,6 +28,13 @@ import com.locatocam.app.views.home.HomeFragment
 import com.locatocam.app.views.home.OtherProfileWithFeedFragment
 import com.locatocam.app.views.rollsexp.RollsExoplayerActivity
 
+import android.widget.RadioButton
+import kotlinx.android.synthetic.main.row_layout_userblock_reason.*
+import android.widget.RadioGroup
+import com.locatocam.app.MyApp
+import com.locatocam.app.data.requests.ReqAddUserBlock
+import com.locatocam.app.views.MainActivity
+
 
 class HeaderFragmentOtherUser(val userid: String) : Fragment(), IHeaderEvents {
 
@@ -33,6 +42,7 @@ companion object {
     lateinit var binding: FragmentHeaderOtherProfileBinding
 }
     lateinit var viewModel: HeaderViewModel
+    lateinit var  dialog:Dialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -353,6 +363,9 @@ companion object {
         binding.follow.setOnClickListener {
 
         }
+        binding.blockpopup.setOnClickListener {
+            showPopup(binding.blockpopup)
+        }
     }
 
 
@@ -391,5 +404,101 @@ companion object {
         TODO("Not yet implemented")
     }
 
+    fun showPopup(v:View) {
+        val popup = PopupMenu(requireActivity(),v)
+        val inflater: MenuInflater = popup.getMenuInflater()
+        inflater.inflate(R.menu.user_block_manu, popup.getMenu())
+        popup.setOnMenuItemClickListener(PopupMenu.OnMenuItemClickListener { item: MenuItem? ->
+
+            when (item!!.itemId) {
+                R.id.block -> {
+                    repostConfirmApproval()
+                }
+            }
+
+            true
+        })
+        popup.show()
+    }
+
+    fun repostConfirmApproval() {
+        dialog = Dialog(requireActivity())
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setContentView(R.layout.popup_block_reason)
+        dialog.setCanceledOnTouchOutside(false)
+        val yes = dialog.findViewById<View>(R.id.yes) as Button
+        val no = dialog.findViewById<View>(R.id.no) as Button
+        val radioGroup=dialog.findViewById<View>(R.id.radioGroup) as RadioGroup
+        viewModel.getblockUserReasons()
+        viewModel.userBlockReason.observe(viewLifecycleOwner, {
+            radioGroup.removeAllViews()
+            for(item in it){
+                val linearLayout = dialog.findViewById<LinearLayout>(R.id.container)
+                val radioButton1 = RadioButton(requireActivity())
+                radioButton1.layoutParams= LinearLayout.LayoutParams(
+                    ViewGroup.LayoutParams.WRAP_CONTENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT)
+                radioButton1.text=item.reason
+                radioButton1.id =item.id.toInt()
+                println(item.reason)
+                radioGroup.addView(radioButton1)
+            }
+
+        })
+        var text: String=""
+        radioGroup.setOnCheckedChangeListener(RadioGroup.OnCheckedChangeListener { rg, checkedId ->
+            for (i in 0 until rg.childCount) {
+                val btn = rg.getChildAt(i) as RadioButton
+                if (btn.id == checkedId) {
+                   text=btn.id.toString()
+                    // do something with text
+                    return@OnCheckedChangeListener
+                }
+            }
+        })
+
+        no.setOnClickListener { dialog.dismiss() }
+        yes.setOnClickListener {
+            confirmation(text.toInt())
+            Log.i("mcmmmcm",text)
+            //dialog.dismiss()
+        }
+        dialog.show()
+    }
+    fun confirmation(reasonId:Int) {
+        val dialog1 = Dialog(requireActivity())
+        dialog1.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog1.setContentView(R.layout.popup_confirmation)
+        dialog1.setCanceledOnTouchOutside(false)
+        val tittle = dialog1.findViewById<View>(R.id.tittle) as TextView
+        val yes = dialog1.findViewById<View>(R.id.yes) as Button
+        val no = dialog1.findViewById<View>(R.id.no) as Button
+        tittle.text="Are you sure want to block this user?"
+        no.setOnClickListener { dialog1.dismiss() }
+        yes.setOnClickListener {
+            val userId:String=SharedPrefEnc.getPref(MyApp.context,"user_id")
+            var request = ReqAddUserBlock(
+                userid.toInt(), reasonId,
+                userId.toInt())
+            viewModel.addblockUserReasons(request)
+            viewModel.addUserBlock.observe(viewLifecycleOwner, {
+                if(it.message.equals("User blocked.")) {
+                    var intent = Intent(requireActivity(), MainActivity::class.java)
+                    intent.putExtra("lat", MainActivity.instances.viewModel.lat)
+                    intent.putExtra("lng", MainActivity.instances.viewModel.lng)
+                    intent.putExtra("address", MainActivity.instances.viewModel.add)
+                    startActivity(intent)
+                    dialog1.dismiss()
+                    dialog.dismiss()
+                }
+            })
+        }
+        dialog1.show()
+    }
+    fun getUserBlockReasonList(){
+        viewModel.userBlockReason.observe(viewLifecycleOwner, {
+
+        })
+    }
 
 }

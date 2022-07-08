@@ -1,5 +1,6 @@
 package com.locatocam.app.views.followers
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -203,6 +204,10 @@ class FollowersActivity : AppCompatActivity(), Follower {
         binding.back.setOnClickListener {
             finish()
         }
+        binding.home.setOnClickListener {
+            var intent= Intent(applicationContext,MainActivity::class.java)
+            startActivity(intent)
+        }
        binding.tabLayout.addOnTabSelectedListener(object:TabLayout.OnTabSelectedListener{
            override fun onTabSelected(tab: TabLayout.Tab?) {
                viewmodel.firsttab=binding.tabLayout.selectedTabPosition
@@ -304,5 +309,13 @@ class FollowersActivity : AppCompatActivity(), Follower {
             }
         }
     }
-
+    override fun onBackPressed() {
+        super.onBackPressed()
+        Log.e("TAG", "hideLoader: "+MainActivity.instances.viewModel.lat+","+MainActivity.instances.viewModel.lng)
+        var intent= Intent(applicationContext,MainActivity::class.java)
+        intent.putExtra("lat",MainActivity.instances.viewModel.lat)
+        intent.putExtra("lng",MainActivity.instances.viewModel.lng)
+        intent.putExtra("address",MainActivity.instances.viewModel.add)
+        startActivity(intent)
+    }
 }

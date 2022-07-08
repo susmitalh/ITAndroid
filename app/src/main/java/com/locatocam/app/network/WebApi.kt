@@ -42,6 +42,8 @@ import com.locatocam.app.data.responses.top_influencers.TopInfluencer
 import com.locatocam.app.data.responses.top_pics.RespTopPics
 import com.locatocam.app.data.responses.user_details.RespUserDetails
 import com.locatocam.app.data.responses.user_model.User
+import com.locatocam.app.data.responses.userblock_reasons.ResAddUserBlock
+import com.locatocam.app.data.responses.userblock_reasons.ResBlockUserReason
 import com.locatocam.app.data.responses.verify_ptp.RespVerifyOTP
 import com.locatocam.app.data.responses.webaudio.RespWebAudio
 import com.locatocam.app.data.responses.yourOrder.ResYourOrder
@@ -521,4 +523,14 @@ interface WebApi {
     suspend fun reqChangeInfluencer(
         @Body reqChInfluencer: ReqChInfluencer
     ): ResBlockedUser
+
+    @Headers("Accept: application/json")
+    @POST("App/get_block_user_reasons")
+    suspend fun getUserBlockReason(): ResBlockUserReason
+
+    @Headers("Accept: application/json")
+    @POST("App/add_user_block")
+    suspend fun addUserBlock(
+        @Body request:ReqAddUserBlock
+    ): ResAddUserBlock
 }

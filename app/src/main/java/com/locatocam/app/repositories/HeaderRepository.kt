@@ -4,8 +4,11 @@ import android.app.Application
 import com.locatocam.app.data.requests.*
 import com.locatocam.app.data.responses.RespFollow
 import com.locatocam.app.data.responses.SearchModal.RespSearch
+import com.locatocam.app.data.responses.settings.InfluencerSop
 import com.locatocam.app.data.responses.top_influencers.Data
 import com.locatocam.app.data.responses.user_details.RespUserDetails
+import com.locatocam.app.data.responses.userblock_reasons.ResAddUserBlock
+import com.locatocam.app.data.responses.userblock_reasons.ResBlockUserReason
 import com.locatocam.app.di.DaggerAppComponent
 import com.locatocam.app.network.WebApi
 import com.locatocam.app.security.SharedPrefEnc
@@ -76,4 +79,18 @@ class HeaderRepository(var userid: String, val application: Application) {
         }.flowOn(Dispatchers.IO)
 
     }
+
+    fun getUserBlockReason(): Flow<List<com.locatocam.app.data.responses.userblock_reasons.Data>?> {
+        return flow {
+            val res = retrofitService.create(WebApi::class.java).getUserBlockReason()
+            emit(res.data)
+        }.flowOn(Dispatchers.IO)
+    }
+    fun addUserBlock(request:ReqAddUserBlock): Flow<ResAddUserBlock> {
+        return flow {
+            val res = retrofitService.create(WebApi::class.java).addUserBlock(request)
+            emit(res)
+        }.flowOn(Dispatchers.IO)
+    }
+
 }
