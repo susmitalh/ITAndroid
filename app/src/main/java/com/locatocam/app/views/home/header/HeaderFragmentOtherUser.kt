@@ -1,9 +1,12 @@
 package com.locatocam.app.views.home.header
 
+import android.Manifest
 import android.app.Dialog
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.drawable.PictureDrawable
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.*
@@ -31,9 +34,12 @@ import com.locatocam.app.views.rollsexp.RollsExoplayerActivity
 import android.widget.RadioButton
 import kotlinx.android.synthetic.main.row_layout_userblock_reason.*
 import android.widget.RadioGroup
+import com.locatocam.app.Activity.ViewMyPostActivity
 import com.locatocam.app.MyApp
 import com.locatocam.app.data.requests.ReqAddUserBlock
+import com.locatocam.app.utils.Utils
 import com.locatocam.app.views.MainActivity
+import com.locatocam.app.views.createrolls.VideoRecorder
 
 
 class HeaderFragmentOtherUser(val userid: String) : Fragment(), IHeaderEvents {
@@ -68,6 +74,10 @@ companion object {
         setObsevers()
         setClickListeners()
         refreshAll()
+        val userId:String=SharedPrefEnc.getPref(MyApp.context,"user_id")
+        if(userid.equals(userId)){
+            binding.blockpopup.visibility=View.GONE
+        }
 
         return binding.root
     }
@@ -366,6 +376,50 @@ companion object {
         binding.blockpopup.setOnClickListener {
             showPopup(binding.blockpopup)
         }
+        binding.createRolls.setOnClickListener {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                check_permissions()
+            } else {
+                val intent = Intent(requireActivity(), VideoRecorder::class.java)
+                startActivity(intent)
+            }
+        }
+        binding.myShortVideos.setOnClickListener {
+            var intent=Intent(context, ViewMyPostActivity::class.java)
+            intent.putExtra("shortVideo","shortVideo")
+            context?.startActivity(intent)
+        }
+    }
+    fun check_permissions(): Boolean {
+        val PERMISSIONS = arrayOf(
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.RECORD_AUDIO,
+            Manifest.permission.CAMERA
+        )
+        if (!Utils.hasPermissions(requireContext(), PERMISSIONS)) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                requestPermissions(PERMISSIONS, 2)
+            }
+        } else {
+            val intent = Intent(requireActivity(), VideoRecorder::class.java)
+            startActivity(intent)
+            return true
+        }
+        return false
+    }
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == 2) {
+            if (grantResults[2] == PackageManager.PERMISSION_GRANTED) {
+                val intent = Intent(requireContext(), VideoRecorder::class.java)
+                startActivity(intent)
+            }
+        }
     }
 
 
@@ -380,6 +434,7 @@ companion object {
         }
 
     }
+
 
     override fun onItemClick(user_id: String, inf_code: String) {
     }
